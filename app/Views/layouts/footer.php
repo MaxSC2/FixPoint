@@ -28,7 +28,7 @@ declare(strict_types=1);
             <h2>Клиентам</h2>
             <a href="/register">Создать аккаунт</a>
             <a href="/login">Войти в кабинет</a>
-            <a href="/requests/create">Оставить заявку</a>
+            <a href="/register">Оставить заявку</a>
         </div>
 
         <div class="site-footer__column">
