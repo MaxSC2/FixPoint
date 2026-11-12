@@ -204,22 +204,9 @@ final class Seeder
                  :estimated_cost, :final_cost, :estimated_ready_at, :customer_contact,
                  :created_at, :updated_at, :completed_at)
              ON DUPLICATE KEY UPDATE
-                customer_id = VALUES(customer_id),
-                technician_id = VALUES(technician_id),
-                service_id = VALUES(service_id),
-                status = VALUES(status),
-                priority = VALUES(priority),
-                device_type = VALUES(device_type),
-                device_brand = VALUES(device_brand),
-                device_model = VALUES(device_model),
-                problem_description = VALUES(problem_description),
-                diagnostic_result = VALUES(diagnostic_result),
-                estimated_cost = VALUES(estimated_cost),
-                final_cost = VALUES(final_cost),
-                estimated_ready_at = VALUES(estimated_ready_at),
-                customer_contact = VALUES(customer_contact),
-                updated_at = VALUES(updated_at),
-                completed_at = VALUES(completed_at)'
+                -- A seed is additive for existing requests: never reset a request
+                -- that a developer or user has already changed in the application.
+                public_number = VALUES(public_number)'
         );
 
         $ids = [];
