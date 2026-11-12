@@ -18,7 +18,7 @@
 | --color-danger | #B91C1C | Errors |
 | --radius-card | 16px | Cards |
 | --radius-control | 10px | Inputs/buttons |
-| --content-width | 1180px | Public content |
+| --content-width | 1200px | Public content |
 
 Fonts: system stack Inter/ui-sans/system-ui; no CDN dependency.
 
@@ -39,9 +39,10 @@ Assigned request queue and filters, device/problem details, diagnosis form, esti
 KPI from real DB values, request list/filter/technician assignment, CRUD users/services/categories, statistics from actual DB.
 
 ## Responsive breakpoints
-- ≥1024 px: full nav, desktop work tables and side nav.
-- 768–1023 px: compact grids, tables may become cards.
-- <768 px: single column, mobile navigation, full-width actions, no horizontal scrolling.
+- >1100 px: full desktop layout and navigation.
+- 901–1100 px: compact grids and adjusted navigation spacing.
+- ≤900 px: collapsible mobile/tablet navigation and stacked primary layouts.
+- ≤640 px: single-column cards/forms, full-width primary actions and compact mobile spacing.
 - Minimum test width: 360px.
 
 ## Content integrity
