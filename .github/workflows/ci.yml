@@ -1,0 +1,100 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - develop
+      - main
+      - 'feature/**'
+  pull_request:
+    branches:
+      - develop
+      - main
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  backend:
+    name: PHP 8.3 + MySQL 8
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root_ci_password
+          MYSQL_DATABASE: fixpoint
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -proot_ci_password --silent"
+          --health-interval=5s
+          --health-timeout=5s
+          --health-retries=30
+          --health-start-period=20s
+
+    env:
+      APP_NAME: FixPoint
+      APP_ENV: testing
+      APP_DEBUG: 'true'
+      APP_URL: http://127.0.0.1:8080
+      APP_TIMEZONE: Asia/Almaty
+      DB_HOST: 127.0.0.1
+      DB_PORT: 3306
+      DB_DATABASE: fixpoint
+      DB_USERNAME: root
+      DB_PASSWORD: root_ci_password
+      SEED_PASSWORD: FixPoint!Dev1
+      SESSION_SECURE: 'false'
+      SESSION_SAMESITE: Lax
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: mbstring, pdo_mysql, curl
+          coverage: none
+
+      - name: Show versions
+        run: |
+          php -v
+          php -m | grep -E 'PDO|pdo_mysql|mbstring'
+
+      - name: Validate composer.json
+        run: composer validate --no-check-publish
+
+      - name: Lint PHP
+        run: php tests/lint.php
+
+      - name: Migrate and seed application database
+        run: |
+          php database/migrate.php --fresh
+          php database/seed.php
+          php database/migrate.php --status
+
+      - name: Unit and integration tests
+        env:
+          DB_DATABASE: fixpoint_test
+        run: php tests/run.php
+
+      - name: HTTP smoke test
+        env:
+          DB_DATABASE: fixpoint
+        run: php tests/smoke.php
+
+      - name: Migrations and seed are repeatable
+        run: |
+          php database/migrate.php | tee /tmp/migrate.txt
+          grep -q "Nothing to migrate" /tmp/migrate.txt
+          php database/seed.php | tee /tmp/seed.txt
+          grep -q "history: 0" /tmp/seed.txt
+          grep -q "comments: 0" /tmp/seed.txt
