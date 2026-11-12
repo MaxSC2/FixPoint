@@ -196,8 +196,8 @@ tests/                   # unit, integration, lint, smoke
 ## Тесты и проверки
 
 ```bash
-php tests/lint.php          # php -l по всем 70 файлам проекта
-php tests/run.php           # unit + integration, 73 теста
+php tests/lint.php          # php -l по всем PHP-файлам проекта
+php tests/run.php           # unit + integration tests
 php tests/smoke.php         # реальный HTTP через встроенный сервер
 ```
 
@@ -223,8 +223,7 @@ DB_DATABASE=fixpoint_test APP_ENV=testing php tests/run.php
 Smoke-тест требует уже применённые миграции и seed в рабочей БД; порт
 переопределяется `SMOKE_PORT` (по умолчанию `8091`).
 
-Текущий результат на MySQL 8.4.6: линтер — 70/70 файлов, тесты — 73 passed,
-0 failed, 332 assertions, smoke — 20/20 проверок.
+Актуальные результаты линтера, unit/integration и HTTP smoke-тестов публикуются в GitHub Actions для каждого коммита. Отдельная CI-задача проверяет реальную сборку и запуск Docker Compose с MySQL, включая публичные HTTP-маршруты.
 
 ## Безопасность
 
