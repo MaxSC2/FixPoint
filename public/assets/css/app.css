@@ -487,3 +487,18 @@ h3 { font-size: 1.15rem; font-weight: 700; }
     .table-wrap { border-radius: 11px; }
     .data-table th, .data-table td { padding: 11px 12px; white-space: nowrap; }
 }
+
+
+.button:disabled, .button[aria-disabled="true"] { opacity: .55; cursor: not-allowed; pointer-events: none; transform: none; box-shadow: none; }
+.loading-state { display: flex; align-items: center; justify-content: center; gap: 11px; min-height: 130px; padding: 26px; color: var(--color-muted); font-size: .86rem; }
+.loading-state__spinner { width: 20px; height: 20px; flex: 0 0 20px; border: 2px solid #dce5f5; border-top-color: var(--color-primary); border-radius: 50%; animation: fixpoint-spin .75s linear infinite; }
+.skeleton { position: relative; overflow: hidden; min-height: 13px; border-radius: 7px; background: #edf1f7; }
+.skeleton::after { position: absolute; inset: 0; background: linear-gradient(90deg, transparent, rgba(255,255,255,.75), transparent); content: ""; transform: translateX(-100%); animation: fixpoint-shimmer 1.4s ease-in-out infinite; }
+.skeleton--title { width: min(260px, 70%); min-height: 21px; }
+.skeleton--text { width: 100%; }
+.skeleton--short { width: 58%; }
+@keyframes fixpoint-spin { to { transform: rotate(360deg); } }
+@keyframes fixpoint-shimmer { to { transform: translateX(100%); } }
+@media (prefers-reduced-motion: reduce) {
+    .loading-state__spinner, .skeleton::after { animation: none; }
+}
