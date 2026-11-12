@@ -544,6 +544,77 @@ final class UiTemplateContractTest extends TestCase
         }
     }
 
+
+    public function testAdminStatisticsViewRendersEmptyAndDatabaseBackedAggregates(): void
+    {
+        $renderer = new ViewRenderer(app()->config());
+        $shared = [
+            'pageTitle' => 'Statistics test',
+            'activeNav' => 'admin',
+            'authUser' => ['id' => 1, 'full_name' => 'Администратор', 'role' => 'admin'],
+            'flash' => null,
+            'errors' => [],
+            'old' => [],
+            'csrfToken' => 'test-csrf-token',
+        ];
+
+        $empty = $renderer->renderPage('pages/admin/statistics', array_merge($shared, [
+            'summary' => [],
+            'statusBreakdown' => [],
+            'monthlyRequests' => [],
+            'topServices' => [],
+            'filters' => ['from' => '', 'to' => ''],
+        ]));
+        $this->assertSame(200, $empty->status());
+        $this->assertContains('Нет данных по статусам', $empty->body());
+        $this->assertContains('Пока нет динамики', $empty->body());
+
+        $populated = $renderer->renderPage('pages/admin/statistics', array_merge($shared, [
+            'summary' => [
+                'total_requests' => 12,
+                'requests_completed' => 7,
+                'requests_in_progress' => 3,
+                'requests_waiting_approval' => 1,
+                'requests_rejected' => 1,
+            ],
+            'statusBreakdown' => [
+                ['status' => 'completed', 'request_count' => 7],
+                ['status' => 'repairing', 'request_count' => 3],
+                ['status' => 'awaiting_customer_approval', 'request_count' => 1],
+                ['status' => 'rejected', 'request_count' => 1],
+            ],
+            'monthlyRequests' => [
+                ['month_label' => 'Окт', 'request_count' => 5],
+                ['month_label' => 'Ноя', 'request_count' => 7],
+            ],
+            'topServices' => [
+                ['name' => 'Чистка ноутбука', 'request_count' => 6],
+                ['name' => 'Замена накопителя', 'request_count' => 3],
+            ],
+            'filters' => ['from' => '2026-10-01', 'to' => '2026-11-30'],
+        ]));
+        $this->assertSame(200, $populated->status());
+        $this->assertContains('12', $populated->body());
+        $this->assertContains('58,3%', $populated->body());
+        $this->assertContains('Чистка ноутбука', $populated->body());
+        $this->assertContains('Ноя', $populated->body());
+    }
+
+    public function testAdminStatisticsUsesValidatedGetPeriodAndNoFakeCounters(): void
+    {
+        $view = $this->read('app/Views/pages/admin/statistics.php');
+
+        $this->assertContains('method="get"', $view);
+        $this->assertContains('name="from"', $view);
+        $this->assertContains('name="to"', $view);
+        $this->assertContains("$summary", $view);
+        $this->assertContains("$statusBreakdown", $view);
+        $this->assertContains("$monthlyRequests", $view);
+        $this->assertContains("$topServices", $view);
+        $this->assertNotContains('37%', $view);
+        $this->assertNotContains('1 248', $view);
+    }
+
     private function read(string $relativePath): string
     {
         $path = $this->root . '/' . $relativePath;
