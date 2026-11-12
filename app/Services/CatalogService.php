@@ -110,6 +110,7 @@ final class CatalogService
             'short_description' => $row['short_description'] === null ? null : (string) $row['short_description'],
             'price_from' => $row['price_from'] === null ? null : (float) $row['price_from'],
             'estimated_minutes' => $row['estimated_minutes'] === null ? null : (int) $row['estimated_minutes'],
+            'category_name' => (string) $row['category_name'],
             'category' => [
                 'id' => isset($row['category_id']) ? (int) $row['category_id'] : null,
                 'name' => (string) $row['category_name'],
