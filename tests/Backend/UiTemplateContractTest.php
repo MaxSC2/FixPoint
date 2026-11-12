@@ -607,10 +607,10 @@ final class UiTemplateContractTest extends TestCase
         $this->assertContains('method="get"', $view);
         $this->assertContains('name="from"', $view);
         $this->assertContains('name="to"', $view);
-        $this->assertContains("$summary", $view);
-        $this->assertContains("$statusBreakdown", $view);
-        $this->assertContains("$monthlyRequests", $view);
-        $this->assertContains("$topServices", $view);
+        $this->assertContains('$summary', $view);
+        $this->assertContains('$statusBreakdown', $view);
+        $this->assertContains('$monthlyRequests', $view);
+        $this->assertContains('$topServices', $view);
         $this->assertNotContains('37%', $view);
         $this->assertNotContains('1 248', $view);
     }
