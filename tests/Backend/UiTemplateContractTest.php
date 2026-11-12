@@ -282,7 +282,7 @@ final class UiTemplateContractTest extends TestCase
             ['pages/admin/requests/index', ['requestList' => $emptyList]],
         ];
 
-        foreach ($views as [$viewName, $viewData]) {
+        foreach ($views as [$viewName, $viewData, $expectedContent]) {
             $response = $renderer->renderPage($viewName, array_merge($shared, $viewData));
             $body = $response->body();
 
@@ -347,16 +347,16 @@ final class UiTemplateContractTest extends TestCase
         ];
 
         $views = [
-            ['pages/customer/dashboard', ['recentRequests' => [$request]]],
-            ['pages/customer/requests/index', ['requestList' => $requestList]],
-            ['pages/customer/requests/create', ['services' => [['id' => 2, 'name' => 'Обслуживание системы охлаждения']]]],
+            ['pages/customer/dashboard', ['recentRequests' => [$request]], 'FP-TEST-000015'],
+            ['pages/customer/requests/index', ['requestList' => $requestList], 'FP-TEST-000015'],
+            ['pages/customer/requests/create', ['services' => [['id' => 2, 'name' => 'Обслуживание системы охлаждения']]], 'Создать заявку'],
             ['pages/customer/requests/show', [
                 'request' => $request,
                 'history' => $history,
                 'comments' => $comments,
                 'permissions' => ['can_comment' => true, 'can_decide_estimate' => true],
-            ]],
-            ['pages/technician/requests/index', ['requestList' => $requestList]],
+            ], 'FP-TEST-000015'],
+            ['pages/technician/requests/index', ['requestList' => $requestList], 'FP-TEST-000015'],
             ['pages/technician/requests/show', [
                 'request' => $request,
                 'history' => $history,
@@ -370,7 +370,7 @@ final class UiTemplateContractTest extends TestCase
                 ]]),
                 'permissions' => ['can_edit_diagnosis' => true, 'can_change_status' => true, 'can_comment' => true],
                 'allowedTransitions' => ['repairing', 'awaiting_parts'],
-            ]],
+            ], 'FP-TEST-000015'],
             ['pages/admin/dashboard', [
                 'stats' => [
                     'total_requests' => 1,
@@ -382,8 +382,8 @@ final class UiTemplateContractTest extends TestCase
                     'active_technicians' => 1,
                 ],
                 'recentRequests' => [$request],
-            ]],
-            ['pages/admin/requests/index', ['requestList' => $requestList]],
+            ], 'FP-TEST-000015'],
+            ['pages/admin/requests/index', ['requestList' => $requestList], 'FP-TEST-000015'],
         ];
 
         foreach ($views as [$viewName, $viewData]) {
@@ -391,7 +391,7 @@ final class UiTemplateContractTest extends TestCase
             $body = $response->body();
 
             $this->assertSame(200, $response->status(), 'Unexpected status for ' . $viewName);
-            $this->assertContains('FP-TEST-000015', $body, 'Request model missing from ' . $viewName);
+            $this->assertContains($expectedContent, $body, 'Expected content missing from ' . $viewName);
             $this->assertContains('FixPoint', $body, 'Brand shell missing for ' . $viewName);
         }
     }
