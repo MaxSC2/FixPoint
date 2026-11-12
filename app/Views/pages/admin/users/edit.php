@@ -5,7 +5,7 @@ $user = isset($user) && is_array($user) ? $user : [];
 $errors = isset($errors) && is_array($errors) ? $errors : [];
 $old = isset($old) && is_array($old) ? $old : [];
 $userId = (string) ($user['id'] ?? '');
-$userName = (string) ($old['full_name'] ?? $user['full_name'] ?? '');
+$editUserName = (string) ($old['full_name'] ?? $user['full_name'] ?? '');
 $email = (string) ($old['email'] ?? $user['email'] ?? '');
 $phone = (string) ($old['phone'] ?? $user['phone'] ?? '');
 $selectedRole = (string) ($old['role'] ?? $user['role'] ?? 'customer');
@@ -24,11 +24,11 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
 
         <div class="admin-edit-layout">
             <section class="request-form-panel" data-reveal>
-                <div class="request-form-panel__head"><span class="eyebrow">Параметры доступа</span><h2><?= e($userName !== '' ? $userName : 'Пользователь') ?></h2><p>Изменения роли и активности влияют на доступ к разделам системы.</p></div>
+                <div class="request-form-panel__head"><span class="eyebrow">Параметры доступа</span><h2><?= e($editUserName !== '' ? $editUserName : 'Пользователь') ?></h2><p>Изменения роли и активности влияют на доступ к разделам системы.</p></div>
                 <?php if (isset($errors['general'])): ?><div class="alert alert--error" role="alert"><span class="alert__marker" aria-hidden="true"></span><p><?= e((string) $errors['general']) ?></p></div><?php endif; ?>
                 <form class="admin-record-form" method="post" action="/admin/users/<?= e(rawurlencode($userId)) ?>/edit">
                     <input type="hidden" name="_token" value="<?= e($csrfToken ?? '') ?>">
-                    <label class="field<?= isset($errors['full_name']) ? ' field--invalid' : '' ?>" for="edit-user-name"><span class="field__label">Имя и фамилия</span><input id="edit-user-name" type="text" name="full_name" value="<?= e($userName) ?>" maxlength="160" required><?php if (isset($errors['full_name'])): ?><small class="field__error"><?= e((string) $errors['full_name']) ?></small><?php endif; ?></label>
+                    <label class="field<?= isset($errors['full_name']) ? ' field--invalid' : '' ?>" for="edit-user-name"><span class="field__label">Имя и фамилия</span><input id="edit-user-name" type="text" name="full_name" value="<?= e($editUserName) ?>" maxlength="160" required><?php if (isset($errors['full_name'])): ?><small class="field__error"><?= e((string) $errors['full_name']) ?></small><?php endif; ?></label>
                     <label class="field<?= isset($errors['email']) ? ' field--invalid' : '' ?>" for="edit-user-email"><span class="field__label">Электронная почта</span><input id="edit-user-email" type="email" name="email" value="<?= e($email) ?>" maxlength="190" required><?php if (isset($errors['email'])): ?><small class="field__error"><?= e((string) $errors['email']) ?></small><?php endif; ?></label>
                     <label class="field" for="edit-user-phone"><span class="field__label">Телефон</span><input id="edit-user-phone" type="tel" name="phone" value="<?= e($phone) ?>" maxlength="32"></label>
                     <label class="field<?= isset($errors['role']) ? ' field--invalid' : '' ?>" for="edit-user-role"><span class="field__label">Роль</span><select id="edit-user-role" name="role" required><?php foreach ($roles as $value => $label): ?><option value="<?= e($value) ?>" <?= $selectedRole === $value ? 'selected' : '' ?>><?= e($label) ?></option><?php endforeach; ?></select><?php if (isset($errors['role'])): ?><small class="field__error"><?= e((string) $errors['role']) ?></small><?php endif; ?></label>
