@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-$pageTitle = 'Услуга';
-$activeNav = 'services';
 $service = isset($service) && is_array($service) ? $service : [];
 $serviceName = (string) ($service['name'] ?? 'Услуга');
+$pageTitle = $serviceName;
+$activeNav = 'services';
 $serviceDescription = (string) ($service['description'] ?? '');
 $shortDescription = (string) ($service['short_description'] ?? '');
 $priceFrom = $service['price_from'] ?? null;
