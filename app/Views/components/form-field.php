@@ -10,14 +10,14 @@ declare(strict_types=1);
 $fieldName = isset($name) ? (string) $name : '';
 $fieldLabel = isset($label) ? (string) $label : '';
 $fieldType = isset($type) ? (string) $type : 'text';
-$allowedTypes = ['text', 'email', 'tel', 'password', 'number', 'date', 'search', 'url'];
+$allowedTypes = ['text', 'email', 'tel', 'password', 'number', 'date', 'search', 'url', 'file'];
 if (!in_array($fieldType, $allowedTypes, true)) {
     $fieldType = 'text';
 }
 $fieldId = isset($id) && is_string($id)
     ? $id
     : (preg_replace('/[^a-zA-Z0-9_-]/', '-', $fieldName) ?: 'form-field');
-$fieldValue = $fieldType === 'password' ? '' : (string) ($value ?? '');
+$fieldValue = in_array($fieldType, ['password', 'file'], true) ? '' : (string) ($value ?? '');
 $fieldPlaceholder = isset($placeholder) ? (string) $placeholder : '';
 $fieldHelp = isset($help) ? (string) $help : '';
 $fieldError = isset($error) ? (string) $error : '';
@@ -53,7 +53,7 @@ if ($fieldError !== '') {
             id="<?= e($fieldId) ?>"
             type="<?= e($fieldType) ?>"
             name="<?= e($fieldName) ?>"
-            value="<?= e($fieldValue) ?>"
+            <?= $fieldType !== 'file' ? 'value="' . e($fieldValue) . '"' : '' ?>
             placeholder="<?= e($fieldPlaceholder) ?>"
             <?= $fieldAutocomplete !== '' ? 'autocomplete="' . e($fieldAutocomplete) . '"' : '' ?>
             <?= $fieldRequired ? 'required' : '' ?>
