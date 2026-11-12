@@ -37,8 +37,10 @@ These values are provisional. Keep them as CSS custom properties so the palette 
 ## Typography
 
 - Use a system sans-serif stack initially; avoid loading remote fonts before performance and licensing are checked.
-- Page title: 28–32 px desktop, 24–28 px mobile.
-- Section title: 18–22 px.
+- Landing hero title: 48–69 px desktop, 36–50 px mobile.
+- Secondary page title: 38–58 px desktop, 34–45 px mobile.
+- Section title: 28–45 px desktop, 26–36 px mobile.
+- Card/component title: 16–20 px.
 - Body: 14–16 px, line-height 1.45–1.6.
 - Metadata: 12–13 px; never use tiny text for critical status or form help.
 
@@ -49,7 +51,8 @@ These values are provisional. Keep them as CSS custom properties so the palette 
 - Spacing scale: 4, 8, 12, 16, 24, 32, 40, 48 px.
 - Cards: 12–16 px radius, 1 px border, restrained shadow only where elevation clarifies hierarchy.
 - Buttons and inputs: minimum 44 px touch height on mobile.
-- Breakpoints: 640 px, 768 px, 1024 px, 1280 px.
+- Breakpoints used by the current stylesheet: 640 px, 900 px, 1100 px.
+- At 900 px and below, public navigation collapses; at 640 px and below, primary page grids become single-column.
 
 ## Components required for UI-001
 
@@ -71,7 +74,7 @@ These values are provisional. Keep them as CSS custom properties so the palette 
 | accepted | Accepted by service centre | info |
 | diagnostics | Device is being diagnosed | info |
 | awaiting_customer_approval | Customer decision required | warning |
-| waiting_parts | Waiting for required parts | warning |
+| awaiting_parts | Waiting for required parts | warning |
 | repairing | Repair work in progress | info |
 | ready_for_pickup | Ready for collection | success |
 | completed | Work completed and handed over | success |
