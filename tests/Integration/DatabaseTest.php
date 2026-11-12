@@ -17,7 +17,8 @@ final class DatabaseTest extends IntegrationTestCase
         $this->assertSame('utf8mb4', $pdo->query('SELECT @@character_set_connection')->fetchColumn());
         $this->assertSame('+00:00', $pdo->query('SELECT @@session.time_zone')->fetchColumn());
         $this->assertSame(\PDO::ERRMODE_EXCEPTION, $pdo->getAttribute(\PDO::ATTR_ERRMODE));
-        $this->assertSame(false, $pdo->getAttribute(\PDO::ATTR_EMULATE_PREPARES));
+        // PHP returns bool on some builds and int 0/1 on others.
+        $this->assertSame(0, (int) $pdo->getAttribute(\PDO::ATTR_EMULATE_PREPARES));
     }
 
     public function testCoreTablesExist(): void
