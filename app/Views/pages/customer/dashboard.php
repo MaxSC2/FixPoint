@@ -6,7 +6,8 @@ $activeNav = 'requests';
 $authUser = isset($authUser) && is_array($authUser) ? $authUser : [];
 $recentRequests = isset($recentRequests) && is_array($recentRequests) ? array_values(array_filter($recentRequests, 'is_array')) : [];
 $userName = trim((string) ($authUser['full_name'] ?? ''));
-$firstName = $userName !== '' ? preg_split('/\s+/u', $userName)[0] : 'клиент';
+$nameParts = $userName !== '' ? (preg_split('/\\s+/u', $userName) ?: []) : [];
+$firstName = (string) ($nameParts[0] ?? 'клиент');
 require dirname(__DIR__, 2) . '/layouts/header.php';
 ?>
 <section class="workspace-page">
