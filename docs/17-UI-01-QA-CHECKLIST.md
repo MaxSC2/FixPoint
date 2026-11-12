@@ -48,3 +48,12 @@
 - [ ] Run the project's route smoke tests.
 - [ ] Render all four public pages using empty and populated view models.
 - [ ] Verify CSS mobile-navigation rules parse as separate selectors.
+## UI-03 customer workspace
+- [ ] Customer overview renders only controller-provided recent requests and has a useful empty state.
+- [ ] Request list uses the backend-scoped list model, filters and pagination.
+- [ ] Request creation submits all documented fields with POST + CSRF.
+- [ ] Request detail displays only customer-visible comments and history.
+- [ ] Estimate approve/reject controls are shown only for the provided presentation permission and the expected status; backend still enforces authorization.
+- [ ] Comment form is shown only when can_comment is true and submits POST + CSRF.
+- [ ] No sample request numbers, fabricated statuses, costs or dates appear in empty states.
+- [ ] Request list, create and detail pages are usable at 390px and 360px.
