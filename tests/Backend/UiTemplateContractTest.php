@@ -462,7 +462,7 @@ final class UiTemplateContractTest extends TestCase
         $this->assertContains('name="phone"', $create);
         $this->assertContains('name="role"', $create);
         $this->assertContains('name="password"', $create);
-        $this->assertNotContains("$old" . "['password']", $create);
+        $this->assertNotContains('$old' . "['password']", $create);
 
         $this->assertContains('method="post"', $edit);
         $this->assertContains('name="_token"', $edit);
