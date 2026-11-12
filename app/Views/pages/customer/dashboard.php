@@ -36,7 +36,7 @@ require dirname(__DIR__, 2) . '/layouts/header.php';
             <?php if ($recentRequests !== []): ?>
                 <div class="request-card-list">
                     <?php foreach (array_slice($recentRequests, 0, 4) as $request): ?>
-                        <?php require dirname(__DIR__, 3) . '/components/request-card.php'; ?>
+                        <?php require dirname(__DIR__, 2) . '/components/request-card.php'; ?>
                     <?php endforeach; ?>
                 </div>
             <?php else: ?>
@@ -45,7 +45,7 @@ require dirname(__DIR__, 2) . '/layouts/header.php';
                 $description = 'Когда вы отправите обращение, его номер, статус и дальнейшие события появятся в этом разделе.';
                 $actionLabel = 'Создать первую заявку';
                 $actionHref = '/requests/create';
-                require dirname(__DIR__, 3) . '/components/empty-state.php';
+                require dirname(__DIR__, 2) . '/components/empty-state.php';
                 ?>
             <?php endif; ?>
         </section>
