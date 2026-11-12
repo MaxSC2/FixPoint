@@ -411,3 +411,79 @@ h3 { font-size: 1.15rem; font-weight: 700; }
     .service-detail h2, .service-detail-aside h2 { font-size: 1.45rem; }
     .service-detail-aside { padding: 25px 21px; }
 }
+
+
+/* Shared workspace components — ready for authenticated views. */
+.status-badge {
+    display: inline-flex; align-items: center; gap: 7px; min-height: 26px; padding: 4px 10px;
+    border: 1px solid transparent; border-radius: 999px; font-size: .72rem; font-weight: 760; line-height: 1.2; white-space: nowrap;
+}
+.status-badge::before { width: 6px; height: 6px; border-radius: 50%; background: currentColor; content: ""; }
+.status-badge--info { background: var(--color-info-bg); border-color: #d9e5ff; color: var(--color-info); }
+.status-badge--success { background: var(--color-success-bg); border-color: #ccebd9; color: var(--color-success); }
+.status-badge--warning { background: var(--color-warning-bg); border-color: #f4dfbd; color: var(--color-warning); }
+.status-badge--danger { background: var(--color-danger-bg); border-color: #f5d2d6; color: var(--color-danger); }
+.status-badge--neutral { background: #f0f2f6; border-color: #e1e5ec; color: #687386; }
+
+.form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+.form-grid__full { grid-column: 1 / -1; }
+.field__label { display: inline-flex; align-items: center; gap: 5px; color: var(--color-ink-soft); font-size: .84rem; font-weight: 680; }
+.field__required { color: var(--color-danger); }
+.field input:not([type="checkbox"]):not([type="radio"]), .field select, .field textarea {
+    width: 100%; min-height: 46px; padding: 11px 13px; border: 1px solid #dce3ee; border-radius: var(--radius-control);
+    outline: 0; background: #fff; color: var(--color-ink); font-size: .9rem; font-weight: 450;
+    transition: border-color .15s ease, box-shadow .15s ease;
+}
+.field textarea { min-height: 128px; resize: vertical; line-height: 1.55; }
+.field input::placeholder, .field textarea::placeholder { color: #9aa6b8; }
+.field input:focus, .field select:focus, .field textarea:focus { border-color: #8ca6ee; box-shadow: 0 0 0 3px rgba(49,87,213,.1); }
+.field--invalid input, .field--invalid select, .field--invalid textarea { border-color: #d77983; }
+.field__help { margin: -1px 0 0; color: var(--color-muted); font-size: .76rem; font-weight: 450; }
+.field__error { margin: -1px 0 0; color: var(--color-danger); font-size: .78rem; font-weight: 600; }
+.checkbox-field { display: inline-flex; align-items: flex-start; gap: 9px; color: var(--color-ink-soft); font-size: .84rem; }
+.checkbox-field input { width: 17px; height: 17px; flex: 0 0 17px; margin: 2px 0 0; accent-color: var(--color-primary); }
+
+.table-wrap { overflow-x: auto; border: 1px solid var(--color-border); border-radius: 14px; background: #fff; }
+.data-table { width: 100%; border-collapse: collapse; text-align: left; }
+.data-table th, .data-table td { padding: 14px 16px; border-bottom: 1px solid #edf0f5; font-size: .84rem; vertical-align: middle; }
+.data-table th { background: #f8faff; color: #69778d; font-size: .72rem; font-weight: 760; letter-spacing: .04em; text-transform: uppercase; white-space: nowrap; }
+.data-table td { color: var(--color-ink-soft); }
+.data-table tr:last-child td { border-bottom: 0; }
+.data-table tbody tr:hover { background: #fbfcff; }
+.data-table__primary { color: var(--color-ink); font-weight: 700; }
+.data-table__meta { display: block; margin-top: 3px; color: var(--color-muted); font-size: .75rem; }
+
+.stat-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 15px; }
+.stat-card { padding: 21px; border: 1px solid var(--color-border); border-radius: 15px; background: #fff; box-shadow: var(--shadow-card); }
+.stat-card__label { display: block; margin-bottom: 13px; color: var(--color-muted); font-size: .78rem; font-weight: 620; }
+.stat-card__value { display: block; color: var(--color-ink); font-size: 1.8rem; font-weight: 780; letter-spacing: -.05em; line-height: 1.1; }
+.stat-card__note { display: block; margin-top: 9px; color: var(--color-muted); font-size: .74rem; }
+
+.request-timeline { position: relative; display: grid; gap: 0; padding-left: 7px; }
+.request-timeline::before { position: absolute; top: 13px; bottom: 20px; left: 17px; width: 1px; background: #dfe6f1; content: ""; }
+.timeline-item { position: relative; display: flex; gap: 15px; padding: 0 0 22px; }
+.timeline-item__marker { position: relative; z-index: 1; width: 22px; height: 22px; flex: 0 0 22px; border: 5px solid #edf2ff; border-radius: 50%; background: #8aa3e8; }
+.timeline-item--current .timeline-item__marker { border-color: #dce6ff; background: var(--color-primary); box-shadow: 0 0 0 3px #f1f5ff; }
+.timeline-item--complete .timeline-item__marker { border-color: #d9f1e4; background: var(--color-success); }
+.timeline-item__content { min-width: 0; padding-top: 1px; }
+.timeline-item__content strong { display: block; color: var(--color-ink); font-size: .86rem; }
+.timeline-item__content small { display: block; margin-top: 3px; color: var(--color-muted); font-size: .75rem; }
+
+.pagination { display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 23px; }
+.pagination__link { display: grid; min-width: 37px; height: 37px; padding: 0 10px; place-items: center; border: 1px solid var(--color-border); border-radius: 9px; background: #fff; color: var(--color-ink-soft); font-size: .82rem; font-weight: 650; }
+.pagination__link:hover { border-color: #c6d4f7; background: var(--color-primary-soft); color: var(--color-primary); }
+.pagination__link[aria-current="page"] { border-color: var(--color-primary); background: var(--color-primary); color: #fff; }
+.pagination__link[aria-disabled="true"] { opacity: .45; pointer-events: none; }
+
+@media (max-width: 900px) {
+    .stat-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 640px) {
+    .form-grid { grid-template-columns: 1fr; }
+    .form-grid__full { grid-column: auto; }
+    .stat-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+    .stat-card { padding: 16px; }
+    .stat-card__value { font-size: 1.5rem; }
+    .table-wrap { border-radius: 11px; }
+    .data-table th, .data-table td { padding: 11px 12px; white-space: nowrap; }
+}
