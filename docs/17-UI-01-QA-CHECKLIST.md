@@ -65,3 +65,12 @@
 - [ ] Admin metrics render supplied database values only; missing values render as unavailable, never as invented zeroes.
 - [ ] Admin request registry displays client, technician, status and priority from real request view models.
 - [ ] Technician and admin screens are readable at 1024, 768, 390 and 360 px.
+## UI-05 admin CRUD
+- [ ] Admin user list supports active/inactive state and role labels.
+- [ ] User creation posts full_name/email/phone/role/password with CSRF; password is never reflected in old input.
+- [ ] User editing posts identity, role and active flag; no password is rendered or overwritten.
+- [ ] Service list/create/edit use real category rows and service fields from the database.
+- [ ] Category list/create/edit use unique slug, sort order and active flag.
+- [ ] Empty states do not include fake users, services or categories.
+- [ ] All admin CRUD forms show server validation errors and remain usable at 390px and 360px.
+- [ ] Backend enforces role changes, slug uniqueness, category references and active/inactive constraints.
