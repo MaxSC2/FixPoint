@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 590" fill="none" role="img" aria-labelledby="title desc">
+  <title id="title">Разобранный ноутбук на рабочем столе FixPoint</title>
+  <desc id="desc">Авторская инженерная иллюстрация ноутбука с открытой крышкой корпуса, материнской платой, системой охлаждения и инструментами.</desc>
+  <defs>
+    <linearGradient id="canvas" x1="30" y1="24" x2="721" y2="576" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#263A40"/>
+      <stop offset="1" stop-color="#15262D"/>
+    </linearGradient>
+    <linearGradient id="metal" x1="116" y1="125" x2="570" y2="451" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F4F0E4"/>
+      <stop offset=".52" stop-color="#D4D7CD"/>
+      <stop offset="1" stop-color="#AEB9B2"/>
+    </linearGradient>
+    <linearGradient id="board" x1="283" y1="153" x2="555" y2="338" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#527C70"/>
+      <stop offset="1" stop-color="#31574F"/>
+    </linearGradient>
+    <linearGradient id="screen" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#DCEBDF"/>
+      <stop offset="1" stop-color="#AFC8BC"/>
+    </linearGradient>
+    <pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse">
+      <path d="M30 0H0V30" stroke="#B5D2C4" stroke-opacity=".08"/>
+    </pattern>
+    <pattern id="micro" width="7" height="7" patternUnits="userSpaceOnUse">
+      <circle cx="1" cy="1" r=".8" fill="#D9ED74" fill-opacity=".34"/>
+    </pattern>
+    <filter id="shadow" x="54" y="57" width="657" height="491" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse">
+      <feGaussianBlur stdDeviation="18"/>
+    </filter>
+  </defs>
+
+  <rect width="760" height="590" rx="28" fill="url(#canvas)"/>
+  <rect width="760" height="590" rx="28" fill="url(#grid)"/>
+  <circle cx="620" cy="112" r="150" fill="#D9ED74" fill-opacity=".09"/>
+  <circle cx="620" cy="112" r="108" stroke="#D9ED74" stroke-opacity=".18" stroke-dasharray="3 8"/>
+  <path d="M38 472H722" stroke="#B5D2C4" stroke-opacity=".18"/>
+  <path d="M38 492H180" stroke="#B5D2C4" stroke-opacity=".11"/>
+  <text x="42" y="51" fill="#B5D2C4" fill-opacity=".76" font-family="Arial, sans-serif" font-size="10" font-weight="700" letter-spacing="2.8">FIXPOINT / REPAIR LAB</text>
+  <text x="718" y="51" text-anchor="end" fill="#D9ED74" font-family="Arial, sans-serif" font-size="10" font-weight="700" letter-spacing="1.8">FIELD NOTE 001</text>
+
+  <ellipse cx="372" cy="405" rx="248" ry="82" fill="#061318" fill-opacity=".62" filter="url(#shadow)"/>
+
+  <g transform="translate(62 52) rotate(-7 300 270)">
+    <path d="M123 98C123 83 135 71 150 71H553C568 71 580 83 580 98V397C580 413 568 425 553 425H150C135 425 123 413 123 397V98Z" fill="url(#metal)" stroke="#F7F4E9" stroke-width="2"/>
+    <path d="M141 91H562V398H141V91Z" fill="#263B40" stroke="#879B91" stroke-width="1.5"/>
+    <path d="M151 101H552V388H151V101Z" fill="#172A30"/>
+
+    <rect x="165" y="119" width="105" height="248" rx="10" fill="#E6E5D8" stroke="#BECAC0"/>
+    <text x="182" y="145" fill="#566C66" font-family="Arial, sans-serif" font-size="9" font-weight="700" letter-spacing="1.2">BATTERY</text>
+    <path d="M180 163H255M180 174H255M180 185H255" stroke="#A8B5AC" stroke-width="2" stroke-linecap="round"/>
+    <path d="M180 222H255M180 233H255M180 244H255" stroke="#C1C9BE" stroke-width="2" stroke-linecap="round"/>
+    <rect x="180" y="273" width="75" height="57" rx="6" fill="#CFD4C9"/>
+    <path d="M191 284H244M191 294H244M191 304H244M191 314H230" stroke="#A4B2A7" stroke-width="1.6" stroke-linecap="round"/>
+
+    <rect x="286" y="119" width="249" height="177" rx="9" fill="url(#board)" stroke="#8DAB91" stroke-width="1.2"/>
+    <rect x="286" y="119" width="249" height="177" rx="9" fill="url(#micro)"/>
+    <path d="M302 143H341V166H379M302 156H326V187H348M414 133V157H451V181H497M393 273V248H425V222H475M511 205H531V244H497" stroke="#C7DE9B" stroke-opacity=".76" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M302 207H327V232H357V258H380M466 139H489V159H518" stroke="#C7DE9B" stroke-opacity=".48" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <rect x="365" y="161" width="73" height="67" rx="5" fill="#182C31" stroke="#D2E0B9" stroke-width="1.4"/>
+    <rect x="376" y="172" width="51" height="45" rx="2" fill="#263B3E" stroke="#8DAA89"/>
+    <path d="M372 154V161M383 154V161M394 154V161M405 154V161M416 154V161M427 154V161M372 228V235M383 228V235M394 228V235M405 228V235M416 228V235M427 228V235" stroke="#D6E4C0" stroke-width="2" stroke-linecap="round"/>
+    <text x="401.5" y="199" text-anchor="middle" fill="#D9ED74" font-family="Arial, sans-serif" font-size="9" font-weight="700" letter-spacing="1">CPU</text>
+
+    <rect x="461" y="165" width="55" height="24" rx="3" fill="#1C3134" stroke="#B3C9A5"/>
+    <rect x="461" y="199" width="55" height="24" rx="3" fill="#1C3134" stroke="#B3C9A5"/>
+    <path d="M468 177H508M468 211H508" stroke="#90AB8D" stroke-width="2" stroke-linecap="round"/>
+    <rect x="301" y="252" width="48" height="27" rx="3" fill="#1C3134" stroke="#B3C9A5"/>
+    <rect x="457" y="250" width="58" height="28" rx="3" fill="#1C3134" stroke="#B3C9A5"/>
+    <path d="M309 260H341M309 269H341M465 259H506M465 269H506" stroke="#9AB69A" stroke-width="1.5" stroke-linecap="round"/>
+
+    <circle cx="324" cy="347" r="43" fill="#D6D9CF" stroke="#A8B6AB" stroke-width="2"/>
+    <circle cx="324" cy="347" r="34" fill="#344D4B" stroke="#708D7C"/>
+    <circle cx="324" cy="347" r="8" fill="#D9ED74"/>
+    <g fill="#B6C5B8" opacity=".92">
+      <path d="M324 315C334 321 338 331 331 341L324 347L319 338C316 330 317 322 324 315Z"/>
+      <path d="M356 347C350 357 340 361 330 354L324 347L333 342C341 339 349 340 356 347Z"/>
+      <path d="M324 379C314 373 310 363 317 353L324 347L329 356C332 364 331 372 324 379Z"/>
+      <path d="M292 347C298 337 308 333 318 340L324 347L315 352C307 355 299 354 292 347Z"/>
+    </g>
+
+    <circle cx="493" cy="347" r="43" fill="#D6D9CF" stroke="#A8B6AB" stroke-width="2"/>
+    <circle cx="493" cy="347" r="34" fill="#344D4B" stroke="#708D7C"/>
+    <circle cx="493" cy="347" r="8" fill="#D9ED74"/>
+    <g fill="#B6C5B8" opacity=".92">
+      <path d="M493 315C503 321 507 331 500 341L493 347L488 338C485 330 486 322 493 315Z"/>
+      <path d="M525 347C519 357 509 361 499 354L493 347L502 342C510 339 518 340 525 347Z"/>
+      <path d="M493 379C483 373 479 363 486 353L493 347L498 356C501 364 500 372 493 379Z"/>
+      <path d="M461 347C467 337 477 333 487 340L493 347L484 352C476 355 468 354 461 347Z"/>
+    </g>
+
+    <path d="M270 311H285M270 321H295M270 331H285" stroke="#D6E2D0" stroke-opacity=".65" stroke-width="2" stroke-linecap="round"/>
+    <rect x="363" y="315" width="89" height="42" rx="5" fill="#DDE0D4" stroke="#A9B7AA"/>
+    <path d="M377 327H438M377 337H426M377 347H415" stroke="#91A69A" stroke-width="2" stroke-linecap="round"/>
+
+    <path d="M151 398H552" stroke="#F6F2E6" stroke-opacity=".8" stroke-width="2"/>
+    <path d="M171 413H531" stroke="#758B84" stroke-width="2"/>
+    <g fill="#526C63">
+      <circle cx="143" cy="112" r="3"/><circle cx="560" cy="112" r="3"/>
+      <circle cx="143" cy="381" r="3"/><circle cx="560" cy="381" r="3"/>
+    </g>
+    <g fill="#D6E0D3">
+      <circle cx="143" cy="112" r="1"/><circle cx="560" cy="112" r="1"/>
+      <circle cx="143" cy="381" r="1"/><circle cx="560" cy="381" r="1"/>
+    </g>
+  </g>
+
+  <g transform="translate(620 262) rotate(28)">
+    <rect x="-12" y="-69" width="24" height="107" rx="11" fill="#D9ED74"/>
+    <path d="M-12 -42H12M-12 -35H12" stroke="#8CA24D" stroke-width="2"/>
+    <path d="M0 38V111" stroke="#BECAC1" stroke-width="7" stroke-linecap="round"/>
+    <path d="M0 109V132" stroke="#E9E8D9" stroke-width="3" stroke-linecap="round"/>
+    <circle cy="-55" r="4" fill="#F4F2E9"/>
+  </g>
+
+  <g>
+    <path d="M112 142H76V171" stroke="#D9ED74" stroke-width="1.4"/>
+    <circle cx="112" cy="142" r="3" fill="#D9ED74"/>
+    <rect x="35" y="171" width="122" height="38" rx="7" fill="#F4F0E4"/>
+    <text x="49" y="186" fill="#64756D" font-family="Arial, sans-serif" font-size="8" font-weight="700" letter-spacing="1">01 / ОСМОТР</text>
+    <text x="49" y="199" fill="#1E3539" font-family="Arial, sans-serif" font-size="10" font-weight="700">Корпус открыт</text>
+  </g>
+
+  <g>
+    <path d="M548 415H646V443" stroke="#D9ED74" stroke-width="1.4"/>
+    <circle cx="548" cy="415" r="3" fill="#D9ED74"/>
+    <rect x="568" y="443" width="155" height="52" rx="8" fill="#F4F0E4"/>
+    <circle cx="585" cy="461" r="4" fill="#6B966A"/>
+    <text x="598" y="464" fill="#1E3539" font-family="Arial, sans-serif" font-size="10" font-weight="700">Смета согласована</text>
+    <text x="585" y="480" fill="#64756D" font-family="Arial, sans-serif" font-size="8" letter-spacing=".7">ПРЕЖДЕ ЧЕМ НАЧАТЬ РЕМОНТ</text>
+  </g>
+
+  <text x="42" y="550" fill="#B5C9BE" fill-opacity=".8" font-family="Arial, sans-serif" font-size="9" letter-spacing="1.6">ДИАГНОСТИКА  /  ТОЧНОСТЬ  /  ПРОЗРАЧНОСТЬ</text>
+  <circle cx="714" cy="545" r="5" fill="#D9ED74"/>
+</svg>
