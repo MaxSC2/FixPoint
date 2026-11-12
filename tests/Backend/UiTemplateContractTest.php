@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FixPoint\Tests\Backend;
 
+use FixPoint\Core\ViewRenderer;
 use FixPoint\Tests\TestCase;
 
 final class UiTemplateContractTest extends TestCase
