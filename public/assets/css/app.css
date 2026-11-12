@@ -292,7 +292,7 @@ h3 { font-size: 1.15rem; font-weight: 700; }
     .nav-toggle { display: block; order: 3; margin-left: auto; }
     .site-header__actions { order: 2; margin-left: auto; }
     .site-nav { display: none; order: 4; width: 100%; flex-direction: column; align-items: stretch; gap: 2px; padding: 8px 0 4px; }
-    .js .site-nav { display: none; }
+    .no-js .site-nav { display: flex; }\n    .js .site-nav { display: none; }
     .js .site-nav.is-open { display: flex; }
     .site-nav__link { padding: 12px 14px; }
     .hero__grid, .page-hero__grid { grid-template-columns: 1fr; }
