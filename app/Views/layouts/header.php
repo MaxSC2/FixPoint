@@ -53,7 +53,7 @@ $userName = is_array($authUser) ? (string) ($authUser['full_name'] ?? 'Акка�
         </a>
 
         <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-navigation" data-nav-toggle>
-            <span class="sr-only">Открыть меню</span>
+            <span class="sr-only" data-nav-label>Открыть меню</span>
             <span class="nav-toggle__line"></span>
             <span class="nav-toggle__line"></span>
             <span class="nav-toggle__line"></span>
