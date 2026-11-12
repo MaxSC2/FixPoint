@@ -57,3 +57,11 @@
 - [ ] Comment form is shown only when can_comment is true and submits POST + CSRF.
 - [ ] No sample request numbers, fabricated statuses, costs or dates appear in empty states.
 - [ ] Request list, create and detail pages are usable at 390px and 360px.
+## UI-04 technician and admin workspaces
+- [ ] Technician queue renders only server-assigned requests and supports q/status/priority/sort filters.
+- [ ] Technician diagnosis form posts diagnostic_result, estimated_cost and estimated_ready_at with CSRF.
+- [ ] Technician status select contains only backend-provided allowedTransitions.
+- [ ] Internal notes are visually distinguished in staff views and excluded from customer views.
+- [ ] Admin metrics render supplied database values only; missing values render as unavailable, never as invented zeroes.
+- [ ] Admin request registry displays client, technician, status and priority from real request view models.
+- [ ] Technician and admin screens are readable at 1024, 768, 390 and 360 px.
