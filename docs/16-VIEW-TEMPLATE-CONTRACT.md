@@ -216,3 +216,22 @@ The admin request registry uses the generic list model. Items include request fi
 
 `technicians[]` contains active technician user rows with id, full_name and optional email. The form sends `technician_id` plus `_token` via POST. The controller must validate that the selected user is active and has technician role, and must verify that the request can be assigned. An empty technician list is an explicit state, not a reason to add hardcoded users.
 
+## Administrator user management templates
+
+| Route | Logical view | Required view-model keys |
+|---|---|---|
+| GET/POST /admin/users | pages/admin/users/index | `users[]`, `old`, `errors`, `csrfToken` |
+| GET/POST /admin/users/{id}/edit | pages/admin/users/edit | `user`, `old`, `errors`, `csrfToken` |
+
+The user list contains id, full_name, email, phone, role and is_active. The create form submits:
+- `full_name`
+- `email`
+- `phone` (optional)
+- `role` (customer, technician or admin)
+- `password`
+- `_token`
+
+The create form must never populate or retain password in `old`. The backend must hash the submitted password and validate uniqueness and role.
+
+The edit view receives one user row with id, full_name, email, phone, role and is_active. It submits full_name, email, phone, role and is_active (0/1) plus `_token`. It intentionally does not edit passwords. The backend must protect against privilege escalation and unsafe self-demotion/deactivation.
+
