@@ -1,0 +1,27 @@
+{
+    "name": "fixpoint/fixpoint",
+    "description": "FixPoint — система управления заявками сервисного центра (PHP 8.3 + MySQL 8)",
+    "type": "project",
+    "license": "proprietary",
+    "require": {
+        "php": ">=8.3",
+        "ext-mbstring": "*",
+        "ext-pdo": "*",
+        "ext-pdo_mysql": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "FixPoint\\": "app/"
+        }
+    },
+    "scripts": {
+        "lint": "php tests/lint.php",
+        "test": "php tests/run.php",
+        "smoke": "php tests/smoke.php",
+        "migrate": "php database/migrate.php",
+        "seed": "php database/seed.php"
+    },
+    "config": {
+        "sort-packages": true
+    }
+}

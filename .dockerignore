@@ -1,0 +1,16 @@
+.git
+.gitignore
+.env
+.env.*
+!.env.example
+vendor
+node_modules
+storage/logs/*
+storage/sessions/*
+storage/cache/*
+tests
+docs
+design
+prototype
+assignment
+source
