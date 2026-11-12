@@ -57,6 +57,7 @@ if ($fieldError !== '') {
             placeholder="<?= e($fieldPlaceholder) ?>"
             <?= $fieldAutocomplete !== '' ? 'autocomplete="' . e($fieldAutocomplete) . '"' : '' ?>
             <?= $fieldRequired ? 'required' : '' ?>
+            <?= $fieldError !== '' ? 'aria-invalid="true"' : '' ?>
             <?= $describedBy !== [] ? 'aria-describedby="' . e(implode(' ', $describedBy)) . '"' : '' ?>
         >
     <?php endif; ?>
