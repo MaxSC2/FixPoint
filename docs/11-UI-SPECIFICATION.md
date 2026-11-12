@@ -7,16 +7,16 @@
 | Token | Value | Usage |
 |---|---|---|
 | --color-ink | #172033 | Main text |
-| --color-muted | #687386 | Secondary |
-| --color-primary | #3157D5 | Actions/links |
-| --color-primary-dark | #2444B3 | Hover |
+| --color-muted | #64748B | Secondary |
+| --color-primary | #2563EB | Actions/links |
+| --color-primary-dark | #1D4ED8 | Hover |
 | --color-bg | #F5F7FB | App background |
 | --color-surface | #FFFFFF | Cards |
-| --color-border | #E4E9F1 | Borders |
-| --color-success | #16845B | Success |
-| --color-warning | #B7791F | Waiting |
-| --color-danger | #C2414B | Errors |
-| --radius-card | 18px | Cards |
+| --color-border | #E2E8F0 | Borders |
+| --color-success | #15803D | Success |
+| --color-warning | #B45309 | Waiting |
+| --color-danger | #B91C1C | Errors |
+| --radius-card | 16px | Cards |
 | --radius-control | 10px | Inputs/buttons |
 | --content-width | 1180px | Public content |
 
