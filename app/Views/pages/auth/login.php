@@ -55,8 +55,8 @@ require dirname(__DIR__, 2) . '/layouts/header.php';
                     <?php if ($emailError !== ''): ?><small class="field__error" id="login-email-error"><?= e($emailError) ?></small><?php endif; ?>
                 </label>
 
-                <label class="field<?= $passwordError !== '' ? ' field--invalid' : '' ?>" for="login-password">
-                    <span class="field__label">Пароль</span>
+                <div class="field<?= $passwordError !== '' ? ' field--invalid' : '' ?>">
+                    <label class="field__label" for="login-password">Пароль</label>
                     <span class="auth-password">
                         <input
                             id="login-password"
@@ -72,7 +72,7 @@ require dirname(__DIR__, 2) . '/layouts/header.php';
                         </button>
                     </span>
                     <?php if ($passwordError !== ''): ?><small class="field__error" id="login-password-error"><?= e($passwordError) ?></small><?php endif; ?>
-                </label>
+                </div>
 
                 <button class="button button--primary button--large auth-form__submit" type="submit">Войти в кабинет <span aria-hidden="true">↗</span></button>
             </form>
