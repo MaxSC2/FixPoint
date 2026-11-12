@@ -234,4 +234,15 @@ The user list contains id, full_name, email, phone, role and is_active. The crea
 The create form must never populate or retain password in `old`. The backend must hash the submitted password and validate uniqueness and role.
 
 The edit view receives one user row with id, full_name, email, phone, role and is_active. It submits full_name, email, phone, role and is_active (0/1) plus `_token`. It intentionally does not edit passwords. The backend must protect against privilege escalation and unsafe self-demotion/deactivation.
+## Administrator service and category management templates
 
+| Route | Logical view | Required view-model keys |
+|---|---|---|
+| GET/POST /admin/services | pages/admin/services/index | services[], categories[], old, errors, csrfToken |
+| GET/POST /admin/services/{id}/edit | pages/admin/services/edit | service, categories[], old, errors, csrfToken |
+| GET/POST /admin/categories | pages/admin/categories/index | categories[], old, errors, csrfToken |
+| GET/POST /admin/categories/{id}/edit | pages/admin/categories/edit | category, old, errors, csrfToken |
+
+Service rows contain id, category_id, category_name, name, slug, short_description, description, price_from, estimated_minutes and is_active. Create/edit forms submit category_id, name, slug, short_description, description, price_from, estimated_minutes, is_active and _token. Prices use non-negative decimal values; blank prices/time remain null. The backend checks category existence, active state, unique slug and valid amounts.
+
+Category rows contain id, name, slug, description, sort_order and is_active. Create/edit forms submit name, slug, description, sort_order, is_active and _token. The backend checks unique slug and validates ordering. Do not hard-delete categories that still have service references; use an inactive state or an explicit safe archival workflow.
