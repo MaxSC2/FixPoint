@@ -108,7 +108,7 @@ final class UiTemplateContractTest extends TestCase
     {
         $list = $this->read('app/Views/pages/customer/requests/index.php');
 
-        $this->assertContains('$requestList' . "['items']", $list);
+        $this->assertContains('$requestList[\'items\']', $list);
         $this->assertContains('method="get"', $list);
         $this->assertContains('name="status"', $list);
         $this->assertContains('name="sort"', $list);
@@ -138,14 +138,14 @@ final class UiTemplateContractTest extends TestCase
         $detail = $this->read('app/Views/pages/customer/requests/show.php');
 
         $this->assertContains('permissions', $detail);
-        $this->assertContains('$permissions' . "['can_decide_estimate']", $detail);
-        $this->assertContains('$permissions' . "['can_comment']", $detail);
+        $this->assertContains('$permissions[\'can_decide_estimate\']', $detail);
+        $this->assertContains('$permissions[\'can_comment\']', $detail);
         $this->assertContains('action="/requests/<?= e(rawurlencode($requestId)) ?>/estimate-decision"', $detail);
         $this->assertContains('action="/requests/<?= e(rawurlencode($requestId)) ?>/comments"', $detail);
         $this->assertContains('name="_token"', $detail);
         $this->assertContains('value="approve"', $detail);
         $this->assertContains('value="reject"', $detail);
-        $this->assertContains('empty($comment' . "['is_internal'])", $detail);
+        $this->assertContains('empty($comment[\'is_internal\'])', $detail);
     }
 
     public function testReusableRequestCardUsesStatusComponentAndRequestIdentifier(): void
