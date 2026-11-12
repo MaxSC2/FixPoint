@@ -55,3 +55,26 @@ KPI, заявки, фильтры, пользователи/мастера, CRUD
 3. Следующий frontend deliverable — `feature/ui-01-design-system`: структура шаблонов, общий layout и базовые компоненты.
 4. Production views не должны притворяться подключёнными к backend; контрактные fixtures допустимы только в прототипах и тестах.
 5. Новые маршруты и view variables согласовываются через integration contract и GitHub Issue.
+
+## Implementation status — 2026-11-12
+
+### UI-01 in progress
+Working branch: feature/ui-01-design-system  
+Draft PR: https://github.com/MaxSC2/FixPoint/pull/8  
+Issue: https://github.com/MaxSC2/FixPoint/issues/7
+
+Implemented in this branch:
+- Shared PHP page header/footer and flash component.
+- Service card and repair status badge.
+- Public home, services catalogue, service detail, about and contacts views.
+- Responsive CSS design system and progressive-enhancement mobile navigation.
+- View template contract and UI QA checklist.
+- Reference library policy and moodboard brief.
+
+Not yet complete:
+- PNG/JPG reference pack is still pending; no binary reference images are committed.
+- PHP lint has not been executed against a clean checkout.
+- Desktop/mobile browser screenshots and rendered visual QA are pending.
+- Backend ViewRenderer integration awaits TASK-001.
+
+Do not close UI-01 until those checks are completed and the PR is reviewed.
