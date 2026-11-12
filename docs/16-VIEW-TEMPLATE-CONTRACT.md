@@ -246,3 +246,16 @@ The edit view receives one user row with id, full_name, email, phone, role and i
 Service rows contain id, category_id, category_name, name, slug, short_description, description, price_from, estimated_minutes and is_active. Create/edit forms submit category_id, name, slug, short_description, description, price_from, estimated_minutes, is_active and _token. Prices use non-negative decimal values; blank prices/time remain null. The backend checks category existence, active state, unique slug and valid amounts.
 
 Category rows contain id, name, slug, description, sort_order and is_active. Create/edit forms submit name, slug, description, sort_order, is_active and _token. The backend checks unique slug and validates ordering. Do not hard-delete categories that still have service references; use an inactive state or an explicit safe archival workflow.
+## Administrator statistics template
+
+| Route | Logical view | Required view-model keys |
+|---|---|---|
+| GET /admin/statistics | pages/admin/statistics | summary, statusBreakdown[], monthlyRequests[], topServices[], filters |
+
+- summary: total_requests, requests_completed, requests_in_progress, requests_waiting_approval, requests_rejected. Counts are non-negative integers derived from the selected period.
+- statusBreakdown[]: status and request_count.
+- monthlyRequests[]: month_label and request_count, ordered chronologically.
+- topServices[]: name and request_count, ordered by request count descending.
+- filters: from and to date strings (YYYY-MM-DD) reflecting the applied period.
+
+The template calculates completion share from supplied counts only and guards division by zero. Empty aggregate arrays render explanatory empty states. The controller validates date ranges and computes every aggregate from database records; no chart data is hardcoded.
