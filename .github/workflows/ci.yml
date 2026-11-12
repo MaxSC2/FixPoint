@@ -120,7 +120,7 @@ jobs:
         run: docker compose up --detach
 
       - name: Verify PHP runtime extensions
-        run: docker compose exec --no-TTY app php -m | grep -i '^mbstring
+        run: docker compose exec --no-TTY app php -m | grep -iq mbstring
 
       - name: Wait for application health and smoke-test public routes
         shell: bash
