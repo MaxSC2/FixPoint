@@ -316,7 +316,7 @@ h3 { font-size: 1.15rem; font-weight: 700; }
     .brand__word { font-size: 1.2rem; }
     .site-header__actions { gap: 3px; }
     .header-account { margin: 0; }
-    .header-account__name, .header-logout { display: none; }
+    .header-account__name { display: none; }
     .header-register { display: none; }
     .nav-toggle { width: 40px; height: 40px; }
     .hero { padding: 54px 0 55px; }
