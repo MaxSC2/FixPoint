@@ -33,6 +33,40 @@ final class RepositoryTest extends IntegrationTestCase
         $this->assertNull($repository->findActiveBySlug('missing-service'));
     }
 
+    public function testCountAllActiveExcludesServicesInDisabledCategories(): void
+    {
+        $pdo = app()->database()->connection();
+        $repository = new ServiceRepository(app()->database());
+
+        $category = $pdo->query(
+            "SELECT id FROM service_categories WHERE slug = 'computers-laptops' LIMIT 1"
+        )->fetch();
+        $this->assertNotSame(false, $category);
+        $categoryId = (int) $category['id'];
+
+        $count = $pdo->prepare(
+            'SELECT COUNT(*) FROM services WHERE category_id = :category_id AND is_active = 1'
+        );
+        $count->execute(['category_id' => $categoryId]);
+        $categoryServices = (int) $count->fetchColumn();
+        $this->assertGreaterThan(0, $categoryServices);
+
+        $before = $repository->countAllActive();
+        $disable = $pdo->prepare(
+            'UPDATE service_categories SET is_active = 0 WHERE id = :id'
+        );
+        $enable = $pdo->prepare(
+            'UPDATE service_categories SET is_active = 1 WHERE id = :id'
+        );
+
+        $disable->execute(['id' => $categoryId]);
+        try {
+            $this->assertSame($before - $categoryServices, $repository->countAllActive());
+        } finally {
+            $enable->execute(['id' => $categoryId]);
+        }
+    }
+
     public function testCategoryRepositoryReturnsActiveCategoriesInOrder(): void
     {
         $categories = (new ServiceCategoryRepository(app()->database()))->allActive();
@@ -74,6 +108,7 @@ final class RepositoryTest extends IntegrationTestCase
         $detail = $catalog->findBySlug('laptop-cleaning');
         $this->assertNotNull($detail);
         $this->assertSame('computers-laptops', $detail['category']['slug']);
+        $this->assertSame('Компьютеры и ноутбуки', $detail['category_name']);
         $this->assertSame(7000.0, $detail['price_from']);
         $this->assertArrayHasKey('description', $detail);
 
