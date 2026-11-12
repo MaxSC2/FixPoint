@@ -1430,3 +1430,23 @@ h1 { font-weight: 760; }
     .admin-secondary-metrics > div { padding: 12px 14px; }
     .admin-record-count { width: 100%; }
 }
+
+
+.admin-assign-layout { display: grid; grid-template-columns: minmax(0,1fr) 310px; align-items: start; gap: 18px; }
+.admin-assign-form { display: grid; gap: 22px; }
+.admin-assign-form .field { gap: 7px; }
+.admin-assign-form select {
+    width: 100%; min-height: 48px; padding: 11px 13px; border: 1px solid #d7ddd3;
+    border-radius: 7px; background: #fff; color: var(--color-ink); font-size: .85rem;
+}
+.admin-assign-form select:focus { border-color: #6f8fd3; outline: 0; box-shadow: 0 0 0 3px rgba(49,95,193,.1); }
+.admin-row-actions { display: flex; align-items: center; gap: 9px; }
+.admin-row-actions > a:last-child { color: var(--color-primary); font-size: .66rem; font-weight: 720; }
+.admin-row-actions > a:last-child:hover { color: var(--color-primary-dark); text-decoration: underline; }
+@media (max-width: 900px) {
+    .admin-assign-layout { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+    .admin-assign-form .request-form__actions { flex-direction: column-reverse; }
+    .admin-assign-form .request-form__actions .button { width: 100%; }
+}
