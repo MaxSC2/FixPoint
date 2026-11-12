@@ -396,6 +396,20 @@ final class UiTemplateContractTest extends TestCase
         }
     }
 
+
+    public function testAdminAssignmentUsesProvidedTechniciansAndCsrf(): void
+    {
+        $assign = $this->read('app/Views/pages/admin/requests/assign.php');
+        $registry = $this->read('app/Views/pages/admin/requests/index.php');
+
+        $this->assertContains('method="post"', $assign);
+        $this->assertContains('name="_token"', $assign);
+        $this->assertContains('name="technician_id"', $assign);
+        $this->assertContains('$technicians', $assign);
+        $this->assertContains('/assign"', $registry);
+        $this->assertNotContains('Иванов Иван', $assign);
+    }
+
     private function read(string $relativePath): string
     {
         $path = $this->root . '/' . $relativePath;
