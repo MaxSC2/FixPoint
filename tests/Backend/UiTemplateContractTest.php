@@ -220,6 +220,77 @@ final class UiTemplateContractTest extends TestCase
     }
 
 
+
+    public function testCustomerTechnicianAndAdminWorkspaceViewsRenderTheirEmptyStates(): void
+    {
+        $renderer = new ViewRenderer(app()->config());
+        $shared = [
+            'pageTitle' => 'UI contract test',
+            'activeNav' => '',
+            'authUser' => ['id' => 7, 'full_name' => 'Тестовый пользователь', 'role' => 'admin'],
+            'flash' => null,
+            'errors' => [],
+            'old' => [],
+            'csrfToken' => 'test-csrf-token',
+        ];
+        $emptyList = [
+            'items' => [],
+            'pagination' => ['current_page' => 1, 'last_page' => 1, 'per_page' => 10, 'total' => 0],
+            'filters' => ['q' => '', 'status' => '', 'priority' => '', 'sort' => 'newest'],
+        ];
+        $request = [
+            'id' => 15,
+            'public_number' => 'FP-TEST-000015',
+            'status' => 'new',
+            'priority' => 'normal',
+            'device_type' => 'Ноутбук',
+            'device_brand' => 'Test',
+            'device_model' => 'Model',
+            'problem_description' => 'Тестовое описание неисправности',
+            'customer_contact' => '+70000000000',
+            'diagnostic_result' => null,
+            'estimated_cost' => null,
+            'final_cost' => null,
+            'estimated_ready_at' => null,
+            'created_at' => '2026-11-13T10:00:00+05:00',
+            'updated_at' => '2026-11-13T10:00:00+05:00',
+            'customer' => ['id' => 7, 'full_name' => 'Тестовый клиент'],
+            'technician' => null,
+            'service' => null,
+        ];
+
+        $views = [
+            ['pages/customer/dashboard', ['recentRequests' => []]],
+            ['pages/customer/requests/index', ['requestList' => $emptyList]],
+            ['pages/customer/requests/create', ['services' => []]],
+            ['pages/customer/requests/show', [
+                'request' => $request,
+                'history' => [],
+                'comments' => [],
+                'permissions' => [],
+            ]],
+            ['pages/technician/requests/index', ['requestList' => $emptyList]],
+            ['pages/technician/requests/show', [
+                'request' => $request,
+                'history' => [],
+                'comments' => [],
+                'permissions' => [],
+                'allowedTransitions' => [],
+            ]],
+            ['pages/admin/dashboard', ['stats' => [], 'recentRequests' => []]],
+            ['pages/admin/requests/index', ['requestList' => $emptyList]],
+        ];
+
+        foreach ($views as [$viewName, $viewData]) {
+            $response = $renderer->renderPage($viewName, array_merge($shared, $viewData));
+            $body = $response->body();
+
+            $this->assertSame(200, $response->status(), 'Unexpected status for ' . $viewName);
+            $this->assertContains('<!doctype html>', strtolower($body), 'Document shell missing for ' . $viewName);
+            $this->assertContains('FixPoint', $body, 'Brand shell missing for ' . $viewName);
+        }
+    }
+
     private function read(string $relativePath): string
     {
         $path = $this->root . '/' . $relativePath;
