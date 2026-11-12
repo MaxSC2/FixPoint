@@ -57,14 +57,14 @@ require dirname(__DIR__, 2) . '/layouts/header.php';
                     <?php if (isset($errors['phone'])): ?><small class="field__error" id="register-phone-error"><?= e((string) $errors['phone']) ?></small><?php endif; ?>
                 </label>
 
-                <label class="field<?= isset($errors['password']) ? ' field--invalid' : '' ?>" for="register-password">
-                    <span class="field__label">Пароль</span>
+                <div class="field<?= isset($errors['password']) ? ' field--invalid' : '' ?>">
+                    <label class="field__label" for="register-password">Пароль</label>
                     <span class="auth-password">
                         <input id="register-password" type="password" name="password" autocomplete="new-password" placeholder="Придумайте пароль" required <?= isset($errors['password']) ? 'aria-invalid="true" aria-describedby="register-password-error"' : '' ?>>
                         <button class="auth-password__toggle" type="button" data-password-toggle aria-controls="register-password" aria-pressed="false" aria-label="Показать пароль"><span data-password-toggle-label>Показать</span></button>
                     </span>
                     <?php if (isset($errors['password'])): ?><small class="field__error" id="register-password-error"><?= e((string) $errors['password']) ?></small><?php else: ?><small class="field__help">Не используйте пароль от других сервисов.</small><?php endif; ?>
-                </label>
+                </div>
 
                 <label class="field<?= isset($errors['password_confirmation']) ? ' field--invalid' : '' ?>" for="register-password-confirmation">
                     <span class="field__label">Повторите пароль</span>
