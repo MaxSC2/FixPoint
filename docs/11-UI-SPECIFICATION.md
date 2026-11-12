@@ -74,3 +74,11 @@ The exact status codes and labels are governed by `docs/10-INTEGRATION-CONTRACT.
 ## Content integrity
 
 No fake testimonials, phone numbers, addresses, awards, turnaround promises or live-looking demo KPIs. Prices must come from service data and be labelled as indicative where applicable. Any illustrative request record must be explicitly labelled as an example. Each list needs populated, empty and error states.
+## Клиентское пространство UI-03
+
+- Обзор: приветствие по имени, последние заявки и переход к созданию обращения. Никаких выдуманных счётчиков или фиктивных «активных ремонтов».
+- Мои заявки: поиск, фильтр по статусу, сортировка, пагинация и честное пустое состояние.
+- Создание заявки: устройство, производитель, модель, необязательная услуга, описание симптомов и контакт.
+- Карточка ремонта: текущий статус, описание, диагностика, смета, решение клиента, хронология и публичные комментарии.
+
+Формы отправляют POST с CSRF-токеном. Клиентский JavaScript отвечает только за визуальные улучшения. Доступ к заявкам и переходы статусов проверяются сервером.
