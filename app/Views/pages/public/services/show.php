@@ -13,7 +13,7 @@ $categoryName = (string) ($service['category_name'] ?? '');
 require dirname(__DIR__, 3) . '/layouts/header.php';
 ?>
 <section class="page-hero page-hero--compact">
-    <div class="container">
+    <div class="container" data-reveal>
         <span class="eyebrow"><?= $categoryName !== '' ? e($categoryName) : 'Услуги FixPoint' ?></span>
         <h1><?= e($serviceName) ?></h1>
         <p><?= e($shortDescription !== '' ? $shortDescription : 'Диагностика и ремонт с предварительным согласованием стоимости.') ?></p>
@@ -23,7 +23,7 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
 
 <section class="section">
     <div class="container service-detail-layout">
-        <article class="service-detail">
+        <article class="service-detail" data-reveal>
             <span class="eyebrow">Описание услуги</span>
             <h2>Что входит в обслуживание</h2>
             <?php if ($serviceDescription !== ''): ?>
@@ -37,7 +37,7 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
                 <div><span>03</span><p><strong>Выполнение работ</strong><small>Начнём ремонт после подтверждения сметы.</small></p></div>
             </div>
         </article>
-        <aside class="service-detail-aside">
+        <aside class="service-detail-aside" data-reveal>
             <span class="eyebrow eyebrow--light">Условия</span>
             <h2>Ориентиры по услуге</h2>
             <div class="service-detail-aside__item"><small>Стоимость</small><strong><?php if (is_numeric($priceFrom) && (float) $priceFrom > 0): ?>от <?= e(number_format((float) $priceFrom, 0, ',', ' ')) ?> ₸<?php else: ?>После диагностики<?php endif; ?></strong></div>
