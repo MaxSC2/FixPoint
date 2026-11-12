@@ -30,7 +30,7 @@ $appName = (string) config('app.name');
     <div class="fp-shell">
         <p class="fp-meta"><a href="/services">← Все услуги</a></p>
         <h1><?= e($service['name']) ?></h1>
-        <p><span class="fp-badge"><?= e($service['category']['name']) ?></span></p>
+        <p><span class="fp-badge"><?= e($service['category_name']) ?></span></p>
 
         <?php if ($service['description'] !== null): ?>
             <div class="fp-card">
