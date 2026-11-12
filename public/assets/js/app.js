@@ -48,6 +48,22 @@
         });
     }
 
+    // Password visibility is an explicit, reversible control.
+    document.querySelectorAll('[data-password-toggle]').forEach((button) => {
+        const targetId = button.getAttribute('aria-controls');
+        const input = targetId ? document.getElementById(targetId) : null;
+        const label = button.querySelector('[data-password-toggle-label]');
+        if (!(input instanceof HTMLInputElement)) return;
+
+        button.addEventListener('click', () => {
+            const shouldShow = input.type === 'password';
+            input.type = shouldShow ? 'text' : 'password';
+            button.setAttribute('aria-pressed', String(shouldShow));
+            button.setAttribute('aria-label', shouldShow ? 'Скрыть пароль' : 'Показать пароль');
+            if (label) label.textContent = shouldShow ? 'Скрыть' : 'Показать';
+        });
+    });
+
     // Reveal content as it enters the viewport. The page remains fully readable
     // when JavaScript, IntersectionObserver, or motion preferences require fallback.
     const revealTargets = Array.from(document.querySelectorAll('[data-reveal]'));
