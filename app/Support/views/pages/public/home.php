@@ -68,7 +68,7 @@ $appName = (string) config('app.name');
             <div class="fp-empty">Активных услуг пока нет. Запустите seed или добавьте данные в админке.</div>
         <?php else: ?>
             <ul class="fp-list">
-                <?php foreach ($popular_services as $service): ?>
+                <?php foreach ($featuredServices as $service): ?>
                     <li>
                         <h3><a href="/services/<?= e($service['slug']) ?>"><?= e($service['name']) ?></a></h3>
                         <p class="fp-meta">
