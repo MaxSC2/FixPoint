@@ -10,7 +10,7 @@ $featuredServices = isset($featuredServices) && is_array($featuredServices) ? $f
 <section class="atelier-hero">
     <div class="container atelier-hero__grid">
         <div class="atelier-hero__copy" data-reveal>
-            <span class="atelier-kicker"><span class="atelier-kicker__signal" aria-hidden="true"></span> Сервис техники · FixPoint</span>
+            <span class="atelier-kicker"><span class="atelier-kicker__signal" aria-hidden="true"></span> Сервисный центр FixPoint · мастерская техники</span>
             <h1>Вернём технике <em>рабочий ритм.</em><span>А ремонт сделаем понятным.</span></h1>
             <p class="atelier-hero__lead">От первой заявки до выдачи устройства — вы видите, что уже сделано, что происходит сейчас и какое решение нужно принять дальше.</p>
             <div class="atelier-hero__actions">
