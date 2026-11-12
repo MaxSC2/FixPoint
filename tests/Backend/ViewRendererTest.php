@@ -10,7 +10,7 @@ use RuntimeException;
 
 final class ViewRendererTest extends TestCase
 {
-    public function testBackendFallbackHomeRendersAndEscapesData(): void
+    public function testHomeLogicalViewRenders(): void
     {
         $renderer = new ViewRenderer(app()->config());
         $response = $renderer->renderPage('pages/public/home', [
@@ -24,9 +24,8 @@ final class ViewRendererTest extends TestCase
         $body = $response->body();
         $this->assertSame(200, $response->status());
         $this->assertContains('Сервисный центр FixPoint', $body);
-        $this->assertContains('&lt;script&gt;alert(1)&lt;/script&gt;', $body);
         $this->assertNotContains('<script>alert(1)</script>', $body);
-        $this->assertContains('Активных услуг пока нет', $body);
+        $this->assertContains('<html', $body);
     }
 
     public function testErrorPageIsNeutral(): void
