@@ -5,7 +5,7 @@
  *
  * @var array{type: string, message: string}|null $flash
  * @var list<array<string, mixed>> $categories
- * @var list<array<string, mixed>> $items
+ * @var list<array<string, mixed>> $services
  * @var array{current_page: int, last_page: int, per_page: int, total: int} $pagination
  * @var array{q: string, category: string} $filters
  */
@@ -79,7 +79,7 @@ $pageUrl = static function (int $page) use ($filters): string {
                     <li>
                         <h3><a href="/services/<?= e($service['slug']) ?>"><?= e($service['name']) ?></a></h3>
                         <p class="fp-meta">
-                            <span class="fp-badge"><?= e($service['category']['name']) ?></span>
+                            <span class="fp-badge"><?= e($service['category_name']) ?></span>
                             <?php if ($service['short_description'] !== null): ?>
                                 <?= e($service['short_description']) ?>
                             <?php endif; ?>
