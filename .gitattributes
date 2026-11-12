@@ -1,0 +1,6 @@
+* text=auto
+
+# Linux containers must receive LF, including when the host is Windows.
+*.sh text eol=lf
+Dockerfile text eol=lf
+docker/** text eol=lf

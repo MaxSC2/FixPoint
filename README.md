@@ -35,18 +35,229 @@ FixPoint — учебное веб-приложение для сервисно�
 | [Прототип](prototype/README.md) | Статус и назначение UI-референса |
 | [Источник оригинального задания](source/ORIGINAL-ASSIGNMENT-SOURCE.md) | Происхождение DOCX |
 
-## Scope
-
-Роли: гость, клиент, мастер и администратор.
-
-Основные модули: публичный сайт и каталог услуг; авторизация; кабинет клиента и заявки; рабочее место мастера; CRUD-панель администратора; история статусов и комментарии; поиск/фильтрация/пагинация; аналитика; безопасность; тесты и развёртывание.
-
 ## Stack
 
-PHP 8.3+, MySQL 8, PDO, HTML5, CSS3, JavaScript. Предпочтителен серверный PHP-монолит с progressive enhancement и Docker Compose.
+- PHP 8.3+ (`pdo_mysql`, `mbstring`), серверный PHP-монолит без фреймворка.
+- MySQL 8.0+, InnoDB, `utf8mb4_unicode_ci`, PDO с native prepared statements.
+- PHP views, HTML5, CSS3, progressive enhancement JavaScript.
+- Docker Compose для PHP + MySQL; альтернативный запуск на хосте.
 
-## Current state
+## Быстрый старт: Docker Compose
 
-На данном этапе в репозитории находятся спецификация, схема БД, правила команды, интеграционный контракт и оригинальный DOCX задания. Производственная реализация приложения ещё не создана. Первая задача coding agent — TASK-001 (backend foundation), первая UI-задача — UI-01.
+Требуются Docker Desktop / Docker Engine с Compose v2.
 
-Функция считается завершённой только после проверки полного сценария с реальной БД. Не допускаются фиктивные обработчики успешной отправки, клиентская безопасность вместо серверной или hardcoded production-данные.
+```bash
+cp .env.example .env
+```
+
+В `.env` задайте локальные значения:
+
+```dotenv
+DB_DATABASE=fixpoint
+DB_USERNAME=fixpoint
+DB_PASSWORD=change_me_locally
+DB_ROOT_PASSWORD=change_me_root_locally
+SEED_PASSWORD=FixPoint!Dev1
+```
+
+Запуск:
+
+```bash
+docker compose up --build
+```
+
+- Приложение: http://localhost:8080
+- Проверка состояния: http://localhost:8080/health
+- MySQL доступен только внутри compose-сети; данные хранятся в volume `db_data`.
+- Контейнер приложения ждёт healthcheck БД, выполняет миграции, затем seed
+  (`RUN_MIGRATIONS=true`, `SEED_DATABASE=true`).
+- Порт приложения переопределяется через `APP_PORT` (по умолчанию `8080`).
+
+Остановка:
+
+```bash
+docker compose down          # сохранить данные
+docker compose down -v       # удалить БД и начать заново
+```
+
+## Запуск без Docker
+
+Требования: PHP 8.3+ с расширениями `pdo_mysql` и `mbstring`, MySQL 8.0+.
+
+1. Создайте базу и пользователя (пример):
+
+   ```sql
+   CREATE DATABASE fixpoint CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+   CREATE USER 'fixpoint'@'localhost' IDENTIFIED BY 'change_me_locally';
+   GRANT ALL PRIVILEGES ON fixpoint.* TO 'fixpoint'@'localhost';
+   FLUSH PRIVILEGES;
+   ```
+
+2. Скопируйте `.env.example` в `.env` и укажите параметры подключения.
+   Для локального MySQL обычно нужны `DB_HOST=127.0.0.1`, `DB_PORT=3306`.
+
+3. Установите зависимости и примените схему:
+
+   ```bash
+   php database/migrate.php
+   php database/seed.php
+   ```
+
+4. Запустите встроенный сервер:
+
+   ```bash
+   php -S 127.0.0.1:8080 -t public public/index.php
+   ```
+
+   Откройте http://localhost:8080. Для Apache/nginx document root должен
+   указывать на `public/`; `public/.htaccess` содержит rewrite-правила.
+
+Полезные команды:
+
+```bash
+php database/migrate.php --status   # состояние миграций
+php database/migrate.php --fresh    # пересоздать схему (local/testing)
+php database/seed.php --force       # seed в production только осознанно
+```
+
+## Локальные seed-аккаунты
+
+Все пароли по умолчанию — `FixPoint!Dev1`; значение задаётся `SEED_PASSWORD`
+в `.env`. Это **только локальные демо-данные**, использовать их в production
+запрещено. Seed не перезаписывает существующие хеши паролей.
+
+| Роль | Email |
+|---|---|
+| Администратор | `admin@fixpoint.test` |
+| Мастер | `master.ivanov@fixpoint.test` |
+| Мастер | `master.smirnova@fixpoint.test` |
+| Клиент | `customer.kovalev@fixpoint.test` |
+| Клиент | `customer.ivanova@fixpoint.test` |
+| Неактивный клиент | `inactive@fixpoint.test` |
+
+Seed создаёт 5 категорий, 10 услуг, 4 заявки, 15 записей истории статусов и
+5 комментариев (включая внутренний). Повторный запуск идемпотентен и не
+перезаписывает уже изменённые пользователем записи.
+
+## Маршруты backend foundation
+
+| Метод | URL | Назначение |
+|---|---|---|
+| GET | `/` | Главная, реальные категории и услуги из MySQL |
+| GET | `/services` | Каталог: поиск `q`, фильтр `category`, пагинация `page` |
+| GET | `/services/{slug}` | Карточка услуги |
+| GET | `/about` | Страница «О сервисе» |
+| GET | `/contacts` | Контакты; значения из `CONTACT_*`, пустые — явный placeholder |
+| GET | `/health` | JSON-статус приложения и БД (200/503) |
+
+Маршруты авторизации, заявок, кабинета клиента, мастера и администратора
+появятся в TASK-002+ согласно `docs/10-INTEGRATION-CONTRACT.md`.
+
+## Структура
+
+```text
+app/
+  bootstrap.php          # конфигурация, autoload, front controller bootstrap
+  Controllers/           # тонкие HTTP-контроллеры
+  Core/                  # App, Config, Env, Request, Response, Router, Session
+  Database/              # Migrator, Seeder
+  Middleware/            # Auth, Role, CSRF, SecurityHeaders
+  Repositories/          # весь SQL (PDO prepared statements)
+  Security/              # Auth, Csrf, PasswordHasher
+  Services/              # AuthService, CatalogService, DatabaseHealthService
+  Support/views/         # временные backend-fallback страницы
+config/routes.php        # явная таблица маршрутов
+database/migrations/     # 6 forward-only SQL-миграций
+database/seeds/          # локальные демо-данные
+docker/                  # php.ini, Apache vhost, entrypoint, wait-for-db
+public/                  # единственный document root, index.php, .htaccess
+tests/                   # unit, integration, lint, smoke
+```
+
+`app/Views/**` и `public/assets/**` принадлежат frontend-команде и в этой
+задаче не изменялись. Если шаблон существует в `app/Views`, renderer
+использует его; иначе — явно помеченный fallback из `app/Support/views`.
+
+## Helpers
+
+Имена задокументированы в `app/Support/helpers.php`:
+
+| Helper | Назначение |
+|---|---|
+| `e($value)` | HTML-экранирование (`ENT_QUOTES`, UTF-8) |
+| `url($path)`, `asset($path)` | Абсолютные URL от `APP_URL` |
+| `redirect($to)`, `back($request)` | Только локальные безопасные переходы |
+| `csrf_token()`, `csrf_field()` | Токен и hidden-input для форм |
+| `flash($type, $message)` | Одноразовое сообщение |
+| `flash_errors($errors)`, `flash_old($input)` | Ошибки валидации и old input |
+| `auth_user()`, `has_role(...$roles)` | Текущий пользователь и RBAC-проверка |
+| `old_value($old, $key, $default)` | Безопасное значение old input |
+| `format_money()`, `format_datetime()` | Деньги в KZT и даты в `APP_TIMEZONE` |
+| `status_label($status)` | Русские подписи статусов заявок |
+| `app()`, `config($key)`, `base_path($path)` | Доступ к приложению и путям |
+
+## Тесты и проверки
+
+```bash
+php tests/lint.php          # php -l по всем 70 файлам проекта
+php tests/run.php           # unit + integration, 73 теста
+php tests/smoke.php         # реальный HTTP через встроенный сервер
+```
+
+Перед интеграционными тестами runner сам делает `migrate --fresh` и seed в
+отдельной БД. Имя БД обязано заканчиваться на `_test` — это защита от
+случайного удаления рабочих данных.
+
+PowerShell:
+
+```powershell
+$env:DB_DATABASE='fixpoint_test'
+$env:APP_ENV='testing'
+php tests/run.php
+```
+
+Bash:
+
+```bash
+DB_DATABASE=fixpoint_test APP_ENV=testing php tests/run.php
+```
+
+Только unit-тесты (без БД): `php tests/run.php --unit`.
+Smoke-тест требует уже применённые миграции и seed в рабочей БД; порт
+переопределяется `SMOKE_PORT` (по умолчанию `8091`).
+
+Текущий результат на MySQL 8.4.6: линтер — 74/74 файла, тесты — 80 passed,
+0 failed, 354 assertions, smoke — 23/23 проверки.
+
+## Безопасность
+
+- PDO: `ERRMODE_EXCEPTION`, `ATTR_EMULATE_PREPARES=false`, `utf8mb4`, UTC.
+- Все SQL-запросы — в репозиториях, только prepared statements; LIMIT/OFFSET
+  проходят целочисленную валидацию.
+- Пароли — `password_hash()` / `password_verify()`; хеши не попадают в views.
+- CSRF-токен на сессию, сравнение через `hash_equals()`, ротация при
+  login/logout; state-changing методы без токена получают 419.
+- Сессии: HttpOnly, SameSite, strict mode, regenerated id, idle timeout.
+- Security headers на всех ответах, включая 404/500: CSP, `X-Frame-Options:
+  DENY`, `nosniff`, Referrer-Policy, Permissions-Policy.
+- 500 не раскрывает SQL, пути и stack trace: в ответе только correlation id,
+  подробности — в `storage/logs/app.log`.
+- HTML-вывод экранируется через `e()`; XSS-регрессии покрыты HTTP-тестами.
+
+## Ограничения текущего этапа
+
+- Нет регистрации/входа, CRUD заявок, кабинета мастера и админки — это
+  TASK-002+; security-примитивы (`Auth`, `Csrf`, RBAC middleware) уже покрыты
+  тестами.
+- `/about` и `/contacts` уже имеют маршруты и backend-fallback; финальные
+  frontend-шаблоны приходят из UI-ветки.
+- Показываются backend-fallback страницы, пока frontend не добавит шаблоны в
+  `app/Views`.
+- `request_status_history.created_at` остаётся в схеме; для view-модели он
+  отдаётся alias-ом `changed_at` (решение зафиксировано).
+- `request_status_history.changed_by` остаётся `NOT NULL`: все переходы MVP
+  инициируются клиентом, мастером или администратором.
+
+## License
+
+Учебный проект; лицензия не задана.

@@ -1,0 +1,31 @@
+-- 004: repair requests. Status is VARCHAR(40) because the transition matrix is
+-- owned by RequestStatusService in a later task; priority is a closed ENUM.
+CREATE TABLE repair_requests (
+    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    public_number VARCHAR(32) NOT NULL,
+    customer_id BIGINT UNSIGNED NOT NULL,
+    technician_id BIGINT UNSIGNED NULL,
+    service_id BIGINT UNSIGNED NULL,
+    status VARCHAR(40) NOT NULL DEFAULT 'new',
+    priority ENUM('low', 'normal', 'high', 'urgent') NOT NULL DEFAULT 'normal',
+    device_type VARCHAR(100) NOT NULL,
+    device_brand VARCHAR(100) NULL,
+    device_model VARCHAR(160) NULL,
+    problem_description TEXT NOT NULL,
+    diagnostic_result TEXT NULL,
+    estimated_cost DECIMAL(10, 2) NULL,
+    final_cost DECIMAL(10, 2) NULL,
+    estimated_ready_at DATETIME NULL,
+    customer_contact VARCHAR(80) NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    completed_at DATETIME NULL,
+    PRIMARY KEY (id),
+    UNIQUE KEY uq_repair_requests_public_number (public_number),
+    KEY idx_requests_customer_created (customer_id, created_at),
+    KEY idx_requests_technician_status (technician_id, status),
+    KEY idx_requests_status_created (status, created_at),
+    CONSTRAINT fk_requests_customer FOREIGN KEY (customer_id) REFERENCES users (id),
+    CONSTRAINT fk_requests_technician FOREIGN KEY (technician_id) REFERENCES users (id),
+    CONSTRAINT fk_requests_service FOREIGN KEY (service_id) REFERENCES services (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

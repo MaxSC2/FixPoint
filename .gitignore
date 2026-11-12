@@ -1,7 +1,10 @@
 .env
+.env.local
+.env.*.local
 /vendor/
 /node_modules/
 /storage/logs/*
+/storage/sessions/*
 /storage/cache/*
 /.phpunit.cache/
 .DS_Store
