@@ -438,14 +438,14 @@ final class UiTemplateContractTest extends TestCase
 
         $list = $renderer->renderPage('pages/admin/users/index', array_merge($shared, ['users' => [$user]]));
         $this->assertSame(200, $list->status());
-        $this->assertContains('Тестовый мастер', $list->body());
-        $this->assertContains('tech@example.test', $list->body());
+        $this->assertContains('Тестовый мастер', $list->body(), 'Populated user list row was not rendered.');
+        $this->assertContains('tech@example.test', $list->body(), 'Populated user email was not rendered in the list.');
         $this->assertContains('Мастер', $list->body());
 
         $edit = $renderer->renderPage('pages/admin/users/edit', array_merge($shared, ['user' => $user]));
         $this->assertSame(200, $edit->status());
-        $this->assertContains('Тестовый мастер', $edit->body());
-        $this->assertContains('tech@example.test', $edit->body());
+        $this->assertContains('Тестовый мастер', $edit->body(), 'Edit view did not render the provided user name.');
+        $this->assertContains('tech@example.test', $edit->body(), 'Edit view did not render the provided user email.');
         $this->assertContains('name="is_active"', $edit->body());
     }
 
