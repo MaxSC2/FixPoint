@@ -92,6 +92,72 @@ final class UiTemplateContractTest extends TestCase
         $this->assertContains('.js .site-nav.is-open { display: flex; }', $stylesheet);
     }
 
+
+    public function testCustomerDashboardUsesOnlyProvidedRecentRequests(): void
+    {
+        $dashboard = $this->read('app/Views/pages/customer/dashboard.php');
+
+        $this->assertContains("$recentRequests", $dashboard);
+        $this->assertContains("array_slice($recentRequests, 0, 4)", $dashboard);
+        $this->assertContains("components/request-card.php", $dashboard);
+        $this->assertContains("components/empty-state.php", $dashboard);
+        $this->assertNotContains("FP-2026-000001", $dashboard);
+    }
+
+    public function testCustomerRequestListUsesScopedListAndRealEmptyState(): void
+    {
+        $list = $this->read('app/Views/pages/customer/requests/index.php');
+
+        $this->assertContains("$requestList['items']", $list);
+        $this->assertContains('method="get"', $list);
+        $this->assertContains('name="status"', $list);
+        $this->assertContains('name="sort"', $list);
+        $this->assertContains("components/request-card.php", $list);
+        $this->assertContains("components/empty-state.php", $list);
+        $this->assertNotContains("FP-2026-000001", $list);
+    }
+
+    public function testCustomerRequestCreationUsesPostCsrfAndContractFields(): void
+    {
+        $create = $this->read('app/Views/pages/customer/requests/create.php');
+
+        $this->assertContains('method="post"', $create);
+        $this->assertContains('action="/requests/create"', $create);
+        $this->assertContains('name="_token"', $create);
+        $this->assertContains('name="device_type"', $create);
+        $this->assertContains('name="device_brand"', $create);
+        $this->assertContains('name="device_model"', $create);
+        $this->assertContains('name="service_id"', $create);
+        $this->assertContains('name="problem_description"', $create);
+        $this->assertContains('name="customer_contact"', $create);
+        $this->assertNotContains('name="password"', $create);
+    }
+
+    public function testCustomerRequestDetailUsesPermissionGatedCsrfActions(): void
+    {
+        $detail = $this->read('app/Views/pages/customer/requests/show.php');
+
+        $this->assertContains('permissions', $detail);
+        $this->assertContains("$permissions['can_decide_estimate']", $detail);
+        $this->assertContains("$permissions['can_comment']", $detail);
+        $this->assertContains('action="/requests/<?= e(rawurlencode($requestId)) ?>/estimate-decision"', $detail);
+        $this->assertContains('action="/requests/<?= e(rawurlencode($requestId)) ?>/comments"', $detail);
+        $this->assertContains('name="_token"', $detail);
+        $this->assertContains('value="approve"', $detail);
+        $this->assertContains('value="reject"', $detail);
+        $this->assertContains("empty($comment['is_internal'])", $detail);
+    }
+
+    public function testReusableRequestCardUsesStatusComponentAndRequestIdentifier(): void
+    {
+        $card = $this->read('app/Views/components/request-card.php');
+
+        $this->assertContains("['id']", $card);
+        $this->assertContains("['public_number']", $card);
+        $this->assertContains("status-badge.php", $card);
+        $this->assertContains("'/requests/'", $card);
+    }
+
     private function read(string $relativePath): string
     {
         $path = $this->root . '/' . $relativePath;
