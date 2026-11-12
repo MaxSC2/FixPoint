@@ -25,14 +25,14 @@ final class HomeController extends Controller
     {
         $overview = $this->catalog->overview(6);
 
-        return $this->renderPage('pages/public/home/index', [
+        return $this->renderPage('pages/public/home', [
             'pageTitle' => 'FixPoint — сервисный центр',
             'activeNav' => 'home',
             'stats' => [
                 'categories_count' => $overview['categories_count'],
                 'services_count' => $overview['services_count'],
             ],
-            'popular_services' => $overview['popular_services'],
+            'featuredServices' => $overview['popular_services'],
             'foundation' => [
                 'environment' => (string) $this->config->get('app.env'),
                 'php_version' => PHP_VERSION,
