@@ -117,3 +117,53 @@ Field errors use `errors[field]`; a form-level error may use `errors.general`. O
 
 The views assume the same shared helpers and layout values as public templates. They do not implement registration, credential verification, session changes, role assignment or access control.
 
+## Customer workspace templates (UI-03)
+
+The following templates are prepared against the routes in `docs/10-INTEGRATION-CONTRACT.md`. They do not register routes or implement business logic.
+
+| Route | Logical view | Required view-model keys |
+|---|---|---|
+| GET /account | pages/customer/dashboard | `recentRequests[]` |
+| GET /requests | pages/customer/requests/index | `requestList` |
+| GET/POST /requests/create | pages/customer/requests/create | `services[]`, `old`, `errors`, `csrfToken` |
+| GET /requests/{id} | pages/customer/requests/show | `request`, `history[]`, `comments[]`, `permissions` |
+
+### Customer list model
+
+`requestList` uses the generic list structure defined above:
+- `items[]`: request view models matching the request fields in docs/10.
+- `pagination`: current_page, last_page, per_page and total.
+- `filters`: q, status and sort (newest, oldest or updated).
+
+The controller must scope the query to the authenticated customer before rendering. The view does not treat a missing/empty list as a server error and never inserts sample records.
+
+### Create request form
+
+POST `/requests/create` sends:
+- `device_type` (required string)
+- `device_brand` (optional string)
+- `device_model` (optional string)
+- `service_id` (optional service identifier)
+- `problem_description` (required string)
+- `customer_contact` (required string)
+
+The view model provides `services[]` with `id` and `name`. Field errors use the field names above. Only non-secret values may be returned in `old`. The form includes `_token` and uses POST + PRG.
+
+### Request detail model and actions
+
+The request detail view receives:
+- `request`: the request model in docs/10, with optional `customer`, `technician` and `service` sub-models.
+- `history[]`: chronological ascending events with to_status, reason, changed_at and changed_by_name.
+- `comments[]`: visible comments with body, author_name, author_role and created_at. Internal comments must be excluded server-side; the template also skips any item marked is_internal.
+- `permissions`: can_comment and can_decide_estimate boolean flags for presentation only. Backend authorization remains authoritative.
+
+Actions:
+- POST `/requests/{id}/comments`: `body` plus `_token`.
+- POST `/requests/{id}/estimate-decision`: `decision=approve|reject` plus `_token`.
+
+The estimate decision form is shown only when the backend permission flag is true and status is `awaiting_customer_approval`. Both decisions must be validated and applied by the backend; hiding a button is not access control.
+
+### Reusable request card
+
+`components/request-card.php` reads one `request` array and links to `/requests/{id}`. It must only be used with records already scoped by the controller/repository.
+
