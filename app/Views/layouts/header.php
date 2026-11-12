@@ -72,7 +72,7 @@ $userName = is_array($authUser) ? (string) ($authUser['full_name'] ?? 'Акка�
         <div class="site-header__actions">
             <?php if ($authUser !== null): ?>
                 <a class="header-account" href="<?= e($accountUrl) ?>">
-                    <span class="header-account__avatar" aria-hidden="true"><?= e(mb_strtoupper(mb_substr($userName, 0, 1, 'UTF-8'), 'UTF-8')) ?></span>
+                    <span class="header-account__avatar" aria-hidden="true">FP</span>
                     <span class="header-account__name"><?= e($userName) ?></span>
                 </a>
                 <form class="header-logout" method="post" action="/logout">
