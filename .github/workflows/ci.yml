@@ -98,3 +98,64 @@ jobs:
           php database/seed.php | tee /tmp/seed.txt
           grep -q "history: 0" /tmp/seed.txt
           grep -q "comments: 0" /tmp/seed.txt
+
+  compose:
+    name: Docker Compose build and runtime
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Prepare local Compose environment
+        run: cp .env.example .env
+
+      - name: Validate Compose configuration
+        run: docker compose config --quiet
+
+      - name: Build application image
+        run: docker compose build --pull app
+
+      - name: Start application and MySQL
+        run: docker compose up --detach
+
+      - name: Verify PHP runtime extensions
+        run: docker compose exec --no-TTY app php -m | grep -i '^mbstring
+
+      - name: Wait for application health and smoke-test public routes
+        shell: bash
+        run: |
+          set -euo pipefail
+          ready=0
+          for attempt in $(seq 1 60); do
+            if curl --fail --silent --show-error http://127.0.0.1:8080/health > /tmp/fixpoint-health.json; then
+              ready=1
+              break
+            fi
+            sleep 5
+          done
+
+          if [ "$ready" -ne 1 ]; then
+            echo "Application did not become healthy."
+            cat /tmp/fixpoint-health.json || true
+            docker compose logs app db
+            exit 1
+          fi
+
+          cat /tmp/fixpoint-health.json
+          curl --fail --silent --show-error http://127.0.0.1:8080/ > /tmp/fixpoint-home.html
+          grep -q "Сервисный центр FixPoint" /tmp/fixpoint-home.html
+
+          curl --fail --silent --show-error http://127.0.0.1:8080/services > /tmp/fixpoint-services.html
+          grep -q "Чистка ноутбука от пыли" /tmp/fixpoint-services.html
+
+          curl --fail --silent --show-error http://127.0.0.1:8080/services/laptop-cleaning > /tmp/fixpoint-service.html
+          grep -q "Компьютеры и ноутбуки" /tmp/fixpoint-service.html
+
+      - name: Show Compose logs on failure
+        if: failure()
+        run: docker compose logs app db
+
+      - name: Stop Compose environment
+        if: always()
+        run: docker compose down --volumes --remove-orphans
