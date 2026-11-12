@@ -167,3 +167,44 @@ The estimate decision form is shown only when the backend permission flag is tru
 
 `components/request-card.php` reads one `request` array and links to `/requests/{id}`. It must only be used with records already scoped by the controller/repository.
 
+## Technician workspace templates (UI-04)
+
+| Route | Logical view | Required view-model keys |
+|---|---|---|
+| GET /technician/requests | pages/technician/requests/index | `requestList` |
+| GET /technician/requests/{id} | pages/technician/requests/show | `request`, `history[]`, `comments[]`, `permissions`, `allowedTransitions[]` |
+
+The technician queue uses the generic list model. Its filters are q, status, priority and sort (newest, oldest or priority). Each item includes the request model and customer summary. The query must be scoped to requests assigned to the current technician unless the authenticated role is admin.
+
+The technician detail model contains the request model from docs/10, customer and service summaries, chronological history and comments (including internal comments for authorized staff). `permissions` contains:
+- can_edit_diagnosis
+- can_change_status
+- can_comment
+
+`allowedTransitions[]` contains the status codes that the backend currently permits for this request and actor. A value may be a status code string or an object containing `code`. The template only renders these supplied options and never computes the transition matrix.
+
+POST actions:
+- `/technician/requests/{id}/diagnosis`: `diagnostic_result`, optional `estimated_cost`, optional `estimated_ready_at`, plus `_token`.
+- `/technician/requests/{id}/status`: `status`, optional `reason`, plus `_token`.
+- `/requests/{id}/comments`: `body`, optional `is_internal=1`, plus `_token`.
+
+Internal comments may be displayed to authorized staff but must never be returned in customer-facing view models. The backend validates every status transition and role/assignment check, regardless of visible controls.
+
+## Administrator workspace templates (UI-04)
+
+| Route | Logical view | Required view-model keys |
+|---|---|---|
+| GET /admin | pages/admin/dashboard | `stats`, `recentRequests[]` |
+| GET /admin/requests | pages/admin/requests/index | `requestList` |
+
+Dashboard `stats` is a map of database-backed non-negative counts:
+- total_requests
+- requests_new
+- requests_in_progress
+- requests_waiting_approval
+- requests_completed
+- active_customers
+- active_technicians
+
+The admin request registry uses the generic list model. Items include request fields plus customer.full_name and technician.full_name when available. Filters are q, status, priority and sort (newest, oldest or updated). The list links to the authorized request detail route. No sample counts or demonstration rows are rendered when keys or items are missing.
+
