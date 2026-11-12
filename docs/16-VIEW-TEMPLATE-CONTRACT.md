@@ -48,6 +48,7 @@ All values must be escaped at output through e(). The e() helper must support nu
 |---|---|---|
 | GET / | pages/public/home | featuredServices optional array |
 | GET /services | pages/public/services/index | services, categories, filters |
+| GET /services/{slug} | pages/public/services/show | service (including category_name when available) |
 | GET /about | pages/public/about | shared data only |
 | GET /contacts | pages/public/contacts | contactAddress, contactPhone, contactEmail, workingHours optional strings |
 
@@ -71,7 +72,7 @@ filters:
 
 The GET form submits q and category to /services. Empty results render an explicit empty state; do not insert fake sample services.
 
-The service detail route must use a slug allowlisted by the router/controller and render a separately implemented page. The card links to /services/{slug}.
+The service detail route must use a slug allowlisted by the router/controller and render pages/public/services/show. The service view model contains name, slug, short_description, description, price_from, estimated_minutes, and optional category_name. The card links to /services/{slug}.
 
 ## Components
 
