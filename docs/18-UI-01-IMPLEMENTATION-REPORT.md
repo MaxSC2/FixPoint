@@ -41,8 +41,12 @@
 - docs/17-UI-01-QA-CHECKLIST.md
 - design/references/README.md
 - design/references/MOODBOARD-BRIEF.md
+- design/specs/DESIGN-SYSTEM.md
 
 ## Validation
+
+- Feature branch was synchronized with the current develop head using a two-parent merge commit; the PR now has no commits behind develop.
+- Design tokens were reconciled with the CSS, including the 1200 px content width, 640/900/1100 px breakpoints, 44 px minimum mobile controls, and canonical status code awaiting_parts.
 
 - GitHub branch tree and PR changed-file list checked.
 - Node syntax check passed for the current navigation script.
