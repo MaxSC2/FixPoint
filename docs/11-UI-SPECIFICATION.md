@@ -1,49 +1,76 @@
 # UI-спецификация FixPoint
 
 ## Направление дизайна
-Современный сервисный центр, спокойный технологичный интерфейс: светлый фон, тёмный текст, синий акцент, ясные статусы и заметные действия. Номер и статус заявки всегда видны; мобильная версия проектируется отдельно.
 
-## Design tokens
+Текущая визуальная концепция UI-02 — **Repair Dossier / Modern Workshop**: тёплая нейтральная основа, инженерная графика, выразительная редакционная типографика, насыщенный синий для действий и приглушённый лаймовый сигнальный акцент. Сайт должен выглядеть как продуманный сервисный продукт, а не стандартный SaaS-шаблон.
+
+Визуальный характер: точность, прозрачность, аккуратность, доверие. Не использовать декоративные метрики, фальшивые отзывы и обещания, которые не подтверждены данными.
+
+## Актуальные design tokens
+
 | Token | Value | Usage |
 |---|---|---|
-| --color-ink | #172033 | Main text |
-| --color-muted | #64748B | Secondary |
-| --color-primary | #2563EB | Actions/links |
-| --color-primary-dark | #1D4ED8 | Hover |
-| --color-bg | #F5F7FB | App background |
-| --color-surface | #FFFFFF | Cards |
-| --color-border | #E2E8F0 | Borders |
-| --color-success | #15803D | Success |
-| --color-warning | #B45309 | Waiting |
-| --color-danger | #B91C1C | Errors |
-| --radius-card | 16px | Cards |
-| --radius-control | 10px | Inputs/buttons |
-| --content-width | 1200px | Public content |
+| --color-ink | #202D30 | Main text |
+| --color-ink-soft | #34474A | Secondary text |
+| --color-muted | #667674 | Supporting text |
+| --color-primary | #315FC1 | Actions / links |
+| --color-primary-dark | #254C9E | Hover |
+| --color-primary-soft | #E8EDF8 | Soft action surface |
+| --color-bg | #F3F1E9 | Page canvas |
+| --color-surface | #FBFAF5 | Main surface |
+| --color-surface-soft | #F7F5EE | Secondary surface |
+| --color-border | #DCDED5 | Dividers |
+| Signal accent | #D9ED74 | Restrained highlights |
+| Workshop dark | #1D3036 | Process section / footer |
+| Success | #397B59 | Positive status |
+| Warning | #A66A31 | Waiting / approval |
+| Danger | #A84F4F | Errors / rejected |
+| --radius-card | 13px | Standard card |
+| --radius-control | 7px | Inputs / buttons |
+| --content-width | 1260px | Main content |
 
-Fonts: system stack Inter/ui-sans/system-ui; no CDN dependency.
+CSS tokens live in `public/assets/css/app.css`. The UI remains based on PHP Views, HTML, CSS and vanilla JavaScript.
 
-## Reusable components
-Header, footer, button variants (primary/secondary/ghost/danger), labeled input/textarea/select, field errors, status badge, card/stat-card, empty-state, flash alert, responsive table, breadcrumb, pagination, request timeline and confirmation dialog. All interactive controls need visible keyboard focus. Color is never the only status signal.
+## Public pages
 
-## Pages
-### Public
-Home (hero + CTA, benefits, popular services, process steps, contact info), catalogue (categories/search/service cards/estimated prices), service detail, about, contacts, login and registration.
+- Home: editorial hero with original local SVG artwork, service index, repair sequence, repair-record explainer, populated service list when database data exists, and final CTA.
+- Service catalogue: GET search and category filter, database-backed service cards, honest empty state, price disclaimer.
+- Service detail: description, steps, estimate caveat and application CTA.
+- About: explanation of the service process, without invented credentials.
+- Contacts: only configured contact values; missing settings remain explicit placeholders.
+- Login/registration: compact forms with validation and feedback.
 
-### Client workspace
-Dashboard, request list, create request form (device type/brand/model/problem/contact/optional service), request details with status progress, diagnosis, estimate approval, history and comments, profile.
+## Role workspaces
 
-### Technician workspace
-Assigned request queue and filters, device/problem details, diagnosis form, estimate/ETA, permitted status transitions, history/comments.
+### Customer
+Dashboard, own request list, request creation, request details, timeline, diagnosis, estimate approval/rejection, visible comments and history. Emphasize current status, next required action and cost decision.
+
+### Technician
+Assigned queue, device/problem summary, diagnosis, estimate, ETA, permitted status actions and work history. Optimize for scanning and fewer navigation steps.
 
 ### Admin
-KPI from real DB values, request list/filter/technician assignment, CRUD users/services/categories, statistics from actual DB.
+Operational overview, requests, assignment, users, technicians, services, categories and statistics. Prefer clear dense tables, filters and sortable headings over decorative KPI cards. Metrics must be based on actual database values.
+
+## Repair status semantics
+
+The exact status codes and labels are governed by `docs/10-INTEGRATION-CONTRACT.md`. Color is never the only indicator; every badge includes a text label. Customer-facing views must not expose internal comments.
+
+## Interaction and motion
+
+- Mobile navigation supports mouse, keyboard, Escape and focus return.
+- Content reveal uses progressive enhancement through IntersectionObserver.
+- With JavaScript disabled or reduced motion enabled, content remains readable and available.
+- Button, link and row hover states are subtle and provide clear feedback.
+- Motion must never block form submission or status understanding.
 
 ## Responsive breakpoints
-- >1100 px: full desktop layout and navigation.
-- 901–1100 px: compact grids and adjusted navigation spacing.
-- ≤900 px: collapsible mobile/tablet navigation and stacked primary layouts.
-- ≤640 px: single-column cards/forms, full-width primary actions and compact mobile spacing.
-- Minimum test width: 360px.
+
+- >1100 px: desktop composition.
+- 901–1100 px: narrower desktop / compact spacing.
+- ≤900 px: stacked primary layouts and collapsible navigation.
+- ≤640 px: mobile-first single column, full-width primary form actions.
+- Test widths: 1440, 1280, 1024, 768, 390 and 360 px.
 
 ## Content integrity
-No lorem ipsum or fake testimonials passed as real. Prices only from DB and shown as estimate where applicable. KPI from DB, mocked values explicitly labelled in prototype. No technician internal notes shown to clients. Do not promise exact completion dates before diagnosis. Every list has normal, empty and error states; loading state when JS-driven.
+
+No fake testimonials, phone numbers, addresses, awards, turnaround promises or live-looking demo KPIs. Prices must come from service data and be labelled as indicative where applicable. Any illustrative request record must be explicitly labelled as an example. Each list needs populated, empty and error states.
