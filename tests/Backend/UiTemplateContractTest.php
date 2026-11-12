@@ -158,6 +158,68 @@ final class UiTemplateContractTest extends TestCase
         $this->assertContains("'/requests/'", $card);
     }
 
+
+    public function testTechnicianQueueUsesBackendFiltersAndAssignedRequestLinks(): void
+    {
+        $queue = $this->read('app/Views/pages/technician/requests/index.php');
+
+        $this->assertContains('$requestList', $queue);
+        $this->assertContains('name="q"', $queue);
+        $this->assertContains('name="status"', $queue);
+        $this->assertContains('name="priority"', $queue);
+        $this->assertContains('name="sort"', $queue);
+        $this->assertContains('/technician/requests/', $queue);
+        $this->assertContains('status-badge.php', $queue);
+        $this->assertContains('components/empty-state.php', $queue);
+    }
+
+    public function testTechnicianActionsUseCsrfAndBackendProvidedPermissions(): void
+    {
+        $detail = $this->read('app/Views/pages/technician/requests/show.php');
+
+        $this->assertContains('$permissions[\'can_edit_diagnosis\']', $detail);
+        $this->assertContains('$permissions[\'can_change_status\']', $detail);
+        $this->assertContains('$permissions[\'can_comment\']', $detail);
+        $this->assertContains('$allowedTransitions', $detail);
+        $this->assertContains('action="/technician/requests/<?= e(rawurlencode($requestId)) ?>/diagnosis"', $detail);
+        $this->assertContains('action="/technician/requests/<?= e(rawurlencode($requestId)) ?>/status"', $detail);
+        $this->assertContains('name="diagnostic_result"', $detail);
+        $this->assertContains('name="estimated_cost"', $detail);
+        $this->assertContains('name="estimated_ready_at"', $detail);
+        $this->assertContains('name="is_internal"', $detail);
+        $this->assertContains('name="_token"', $detail);
+    }
+
+    public function testAdminDashboardUsesProvidedDatabaseMetricsAndRecentRequests(): void
+    {
+        $dashboard = $this->read('app/Views/pages/admin/dashboard.php');
+
+        $this->assertContains('$stats', $dashboard);
+        $this->assertContains('$recentRequests', $dashboard);
+        $this->assertContains("'total_requests'", $dashboard);
+        $this->assertContains("'requests_waiting_approval'", $dashboard);
+        $this->assertContains("'active_customers'", $dashboard);
+        $this->assertContains("'active_technicians'", $dashboard);
+        $this->assertContains('number_format((int) $stats[$key]', $dashboard);
+        $this->assertContains('components/empty-state.php', $dashboard);
+    }
+
+    public function testAdminRequestRegistryDisplaysRealAssociatedRecords(): void
+    {
+        $registry = $this->read('app/Views/pages/admin/requests/index.php');
+
+        $this->assertContains('$requestList', $registry);
+        $this->assertContains('name="q"', $registry);
+        $this->assertContains('name="status"', $registry);
+        $this->assertContains('name="priority"', $registry);
+        $this->assertContains("['customer']", $registry);
+        $this->assertContains("['technician']", $registry);
+        $this->assertContains('admin-request-table', $registry);
+        $this->assertContains('status-badge.php', $registry);
+        $this->assertContains('components/empty-state.php', $registry);
+    }
+
+
     private function read(string $relativePath): string
     {
         $path = $this->root . '/' . $relativePath;
