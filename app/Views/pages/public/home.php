@@ -173,7 +173,7 @@ $featuredServices = isset($featuredServices) && is_array($featuredServices) ? $f
 <section class="atelier-featured section">
     <div class="container">
         <div class="atelier-section-head" data-reveal>
-            <div><span class="eyebrow">Каталог / 04</span><h2>Частые задачи —<br>без лишнего поиска.</h2></div>
+            <div><span class="eyebrow">Каталог / 04</span><h2>Популярные услуги</h2></div>
             <a class="text-link" href="/services">Все услуги <span aria-hidden="true">↗</span></a>
         </div>
         <div class="service-grid" data-reveal>
