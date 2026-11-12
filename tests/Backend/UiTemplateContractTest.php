@@ -282,7 +282,7 @@ final class UiTemplateContractTest extends TestCase
             ['pages/admin/requests/index', ['requestList' => $emptyList]],
         ];
 
-        foreach ($views as [$viewName, $viewData, $expectedContent]) {
+        foreach ($views as [$viewName, $viewData]) {
             $response = $renderer->renderPage($viewName, array_merge($shared, $viewData));
             $body = $response->body();
 
@@ -386,7 +386,7 @@ final class UiTemplateContractTest extends TestCase
             ['pages/admin/requests/index', ['requestList' => $requestList], 'FP-TEST-000015'],
         ];
 
-        foreach ($views as [$viewName, $viewData]) {
+        foreach ($views as [$viewName, $viewData, $expectedContent]) {
             $response = $renderer->renderPage($viewName, array_merge($shared, $viewData));
             $body = $response->body();
 
