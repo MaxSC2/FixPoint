@@ -24,6 +24,13 @@ $customerContact = (string) ($request['customer_contact'] ?? '');
 $createdAt = (string) ($request['created_at'] ?? '');
 $technician = isset($request['technician']) && is_array($request['technician']) ? $request['technician'] : null;
 $service = isset($request['service']) && is_array($request['service']) ? $request['service'] : null;
+$priorityLabels = [
+    'low' => 'Низкий',
+    'normal' => 'Обычный',
+    'high' => 'Высокий',
+    'urgent' => 'Срочный',
+];
+$priorityLabel = $priorityLabels[(string) ($request['priority'] ?? 'normal')] ?? 'Не указан';
 $canComment = !empty($permissions['can_comment']);
 $canDecideEstimate = !empty($permissions['can_decide_estimate']);
 $canDecideEstimate = $canDecideEstimate && $requestStatus === 'awaiting_customer_approval';
@@ -31,7 +38,7 @@ $pageTitle = $publicNumber . ' — FixPoint';
 $activeNav = 'requests';
 
 $formatMoney = static function (mixed $amount): string {
-    if (!is_numeric($amount) || (float) $amount <= 0) {
+    if (!is_numeric($amount) || (float) $amount < 0) {
         return 'Не определена';
     }
 
@@ -178,7 +185,7 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
                 <div class="request-aside-card">
                     <span class="eyebrow">Кратко о заявке</span>
                     <h2><?= e($publicNumber) ?></h2>
-                    <div class="request-aside-card__row"><span>Приоритет</span><strong><?= e((string) ($request['priority'] ?? 'normal')) ?></strong></div>
+                    <div class="request-aside-card__row"><span>Приоритет</span><strong><?= e($priorityLabel) ?></strong></div>
                     <div class="request-aside-card__row"><span>Создана</span><strong><?= e($formatDate($createdAt)) ?></strong></div>
                     <div class="request-aside-card__row"><span>Обновлена</span><strong><?= e($formatDate((string) ($request['updated_at'] ?? ''))) ?></strong></div>
                     <a class="button button--secondary" href="/requests">← К списку заявок</a>
