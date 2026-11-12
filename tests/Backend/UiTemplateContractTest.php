@@ -28,11 +28,11 @@ final class UiTemplateContractTest extends TestCase
         }
 
         $this->assertContains('action="/login"', $login);
-        $this->assertContains('name="email"', $login);
+        $this->assertContains('$old' . "['email']", $login);
         $this->assertContains('name="password"', $login);
 
         $this->assertContains('action="/register"', $register);
-        $this->assertContains('name="full_name"', $register);
+        $this->assertContains('$old' . "['full_name']", $register);
         $this->assertContains('name="email"', $register);
         $this->assertContains('name="phone"', $register);
         $this->assertContains('name="password_confirmation"', $register);
@@ -43,11 +43,11 @@ final class UiTemplateContractTest extends TestCase
         $login = $this->read('app/Views/pages/auth/login.php');
         $register = $this->read('app/Views/pages/auth/register.php');
 
-        $this->assertNotContains('$old[\\'password\\']', $login);
-        $this->assertNotContains('$old[\\'password\\']', $register);
-        $this->assertNotContains('$old[\\'password_confirmation\\']', $register);
-        $this->assertContains('$old[\\'email\\']', $login);
-        $this->assertContains('$old[\\'full_name\\']', $register);
+        $this->assertNotContains('$old' . "['password']", $login);
+        $this->assertNotContains('$old' . "['password']", $register);
+        $this->assertNotContains('$old' . "['password_confirmation']", $register);
+        $this->assertContains('$old' . "['email']", $login);
+        $this->assertContains('$old' . "['full_name']", $register);
     }
 
     public function testPasswordVisibilityControlHasAccessibleClientBehavior(): void
