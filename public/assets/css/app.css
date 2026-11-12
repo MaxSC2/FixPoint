@@ -1512,3 +1512,72 @@ h1 { font-weight: 760; }
     .admin-edit-layout .request-form__actions .button { width: 100%; }
     .admin-toggle-row { align-items: flex-start; }
 }
+
+
+/* Admin analytics and reporting. */
+.admin-period-filter {
+    display: grid; grid-template-columns: minmax(220px,1fr) 170px 170px auto auto;
+    align-items: end; gap: 10px; margin-bottom: 15px; padding: 18px 20px;
+    border: 1px solid #dce0d6; border-radius: 9px; background: #fbfaf5;
+}
+.admin-period-filter > div { display: flex; flex-direction: column; gap: 5px; }
+.admin-period-filter .eyebrow { margin: 0; font-size: .62rem; }
+.admin-period-filter > div strong { color: #405249; font-size: .82rem; }
+.admin-period-filter .field { gap: 5px; }
+.admin-period-filter .field__label { font-size: .67rem; }
+.admin-period-filter input {
+    min-height: 41px; padding: 8px 10px; border: 1px solid #d7ddd3;
+    border-radius: 6px; background: #fff; color: var(--color-ink); font-size: .75rem;
+}
+.admin-period-filter .button { min-height: 41px; padding-inline: 13px; font-size: .75rem; }
+.admin-stat-metrics { margin-bottom: 16px; }
+.admin-stat-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); align-items: stretch; gap: 14px; }
+.admin-stat-panel { min-width: 0; padding: 24px; border: 1px solid #dce0d6; border-radius: 10px; background: #fbfaf5; }
+.admin-stat-panel__head { display: flex; align-items: flex-end; justify-content: space-between; gap: 15px; margin-bottom: 23px; }
+.admin-stat-panel__head .eyebrow { margin-bottom: 8px; }
+.admin-stat-panel__head h2 { margin: 0; font-size: 1.34rem; }
+.admin-status-breakdown { display: grid; gap: 16px; }
+.admin-status-row__top { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 7px; color: #69786f; font-size: .72rem; }
+.admin-status-row__top strong { color: #3b5147; font-size: .73rem; }
+.admin-status-row__track, .admin-service-ranking__track {
+    display: block; overflow: hidden; height: 8px; border-radius: 99px; background: #e9ece3;
+}
+.admin-status-row__track span, .admin-service-ranking__track i {
+    display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg,#6688c8,#9bb1d8);
+}
+.admin-month-chart {
+    display: grid; grid-template-columns: repeat(6,minmax(0,1fr)); align-items: end;
+    gap: 12px; min-height: 212px; padding: 12px 3px 0; border-bottom: 1px solid #e2e6dc;
+}
+.admin-month-chart__item { display: flex; min-width: 0; height: 190px; flex-direction: column; align-items: center; justify-content: flex-end; gap: 8px; }
+.admin-month-chart__value { color: #53665b; font-size: .65rem; font-weight: 760; }
+.admin-month-chart__bar { display: flex; align-items: flex-end; justify-content: center; width: min(100%,42px); height: 130px; border-radius: 5px 5px 0 0; background: #eff1e9; }
+.admin-month-chart__bar i { display: block; width: 100%; min-height: 0; border-radius: 5px 5px 0 0; background: #6d8ac2; }
+.admin-month-chart__label { max-width: 100%; overflow: hidden; color: #849087; font-size: .62rem; text-overflow: ellipsis; white-space: nowrap; }
+.admin-stat-empty { display: flex; min-height: 170px; flex-direction: column; align-items: flex-start; justify-content: center; padding: 22px; border: 1px dashed #d7ddd3; border-radius: 8px; background: #f7f6ef; }
+.admin-stat-empty strong { color: #53635a; font-size: .84rem; }
+.admin-stat-empty p { max-width: 400px; margin: 6px 0 0; color: #859188; font-size: .72rem; line-height: 1.6; }
+.admin-top-services { margin-top: 14px; }
+.admin-service-ranking { display: grid; gap: 17px; }
+.admin-service-ranking__row { display: grid; grid-template-columns: 33px minmax(0,1fr) 55px; align-items: center; gap: 13px; }
+.admin-service-ranking__rank { color: #9aa69b; font-size: .68rem; font-weight: 780; letter-spacing: .08em; }
+.admin-service-ranking__main { display: grid; min-width: 0; gap: 8px; }
+.admin-service-ranking__main strong { overflow: hidden; color: #43564c; font-size: .76rem; text-overflow: ellipsis; white-space: nowrap; }
+.admin-service-ranking__track { height: 7px; }
+.admin-service-ranking__track i { background: #729476; }
+.admin-service-ranking__row > b { color: #445a4d; font-size: .77rem; text-align: right; }
+
+@media (max-width: 1050px) {
+    .admin-period-filter { grid-template-columns: minmax(180px,1fr) 1fr 1fr; }
+}
+@media (max-width: 900px) {
+    .admin-stat-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+    .admin-period-filter { grid-template-columns: 1fr 1fr; padding: 14px; }
+    .admin-period-filter > div { grid-column: 1 / -1; }
+    .admin-period-filter .button { width: 100%; }
+    .admin-stat-panel { padding: 19px 16px; }
+    .admin-month-chart { gap: 7px; }
+    .admin-month-chart__label { font-size: .55rem; }
+}
