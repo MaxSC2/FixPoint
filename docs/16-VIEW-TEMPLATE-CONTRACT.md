@@ -208,3 +208,11 @@ Dashboard `stats` is a map of database-backed non-negative counts:
 
 The admin request registry uses the generic list model. Items include request fields plus customer.full_name and technician.full_name when available. Filters are q, status, priority and sort (newest, oldest or updated). The list links to the authorized request detail route. No sample counts or demonstration rows are rendered when keys or items are missing.
 
+### Administrator assignment view
+
+| Route | Logical view | Required view-model keys |
+|---|---|---|
+| GET/POST /admin/requests/{id}/assign | pages/admin/requests/assign | `request`, `technicians[]`, `old`, `errors`, `csrfToken` |
+
+`technicians[]` contains active technician user rows with id, full_name and optional email. The form sends `technician_id` plus `_token` via POST. The controller must validate that the selected user is active and has technician role, and must verify that the request can be assigned. An empty technician list is an explicit state, not a reason to add hardcoded users.
+
