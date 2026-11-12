@@ -58,6 +58,34 @@ final class SeedTest extends IntegrationTestCase
         $this->assertSame(0, $summary['comments']);
     }
 
+    public function testSeedDoesNotOverwriteEditedRequests(): void
+    {
+        $pdo = app()->database()->connection();
+        $pdo->exec(
+            "UPDATE repair_requests
+             SET status = 'diagnostics', device_model = 'Edited by developer'
+             WHERE public_number = 'FP-2026-000001'"
+        );
+
+        try {
+            $seeder = new Seeder($pdo, new PasswordHasher(), app()->config());
+            $seeder->run();
+
+            $row = $pdo->query(
+                "SELECT status, device_model FROM repair_requests WHERE public_number = 'FP-2026-000001'"
+            )->fetch();
+            $this->assertNotSame(false, $row);
+            $this->assertSame('diagnostics', $row['status']);
+            $this->assertSame('Edited by developer', $row['device_model']);
+        } finally {
+            $pdo->exec(
+                "UPDATE repair_requests
+                 SET status = 'repairing', device_model = 'ZenBook 14'
+                 WHERE public_number = 'FP-2026-000001'"
+            );
+        }
+    }
+
     public function testSeedRefusesProductionWithoutForce(): void
     {
         $values = app()->config()->all();

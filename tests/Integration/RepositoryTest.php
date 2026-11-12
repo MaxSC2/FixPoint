@@ -33,9 +33,22 @@ final class RepositoryTest extends IntegrationTestCase
         $this->assertNull($repository->findActiveBySlug('missing-service'));
     }
 
-    public function testCategoryRepositoryReturnsActiveCategoriesInOrder(): void
+    public function testCountAllActiveExcludesServicesInInactiveCategories(): void
     {
-        $categories = (new ServiceCategoryRepository(app()->database()))->allActive();
+        $pdo = app()->database()->connection();
+        $repository = new ServiceRepository(app()->database());
+
+        $pdo->exec("UPDATE service_categories SET is_active = 0 WHERE slug = 'diagnostics'");
+        try {
+            $this->assertSame(8, $repository->countAllActive());
+            $this->assertSame(8, $repository->countActive());
+        } finally {
+            $pdo->exec("UPDATE service_categories SET is_active = 1 WHERE slug = 'diagnostics'");
+        }
+    }
+
+    public function testCategoryRepositoryReturnsActiveCategoriesInOrder(): void
+    {        $categories = (new ServiceCategoryRepository(app()->database()))->allActive();
 
         $this->assertCount(5, $categories);
         $this->assertSame('computers-laptops', $categories[0]['slug']);

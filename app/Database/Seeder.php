@@ -85,11 +85,7 @@ final class Seeder
         $statement = $this->pdo->prepare(
             'INSERT INTO users (full_name, email, phone, password_hash, role, is_active)
              VALUES (:full_name, :email, :phone, :password_hash, :role, :is_active)
-             ON DUPLICATE KEY UPDATE
-                full_name = VALUES(full_name),
-                phone = VALUES(phone),
-                role = VALUES(role),
-                is_active = VALUES(is_active)'
+             ON DUPLICATE KEY UPDATE id = id'
         );
 
         $ids = [];
@@ -117,11 +113,7 @@ final class Seeder
         $statement = $this->pdo->prepare(
             'INSERT INTO service_categories (name, slug, description, sort_order, is_active)
              VALUES (:name, :slug, :description, :sort_order, :is_active)
-             ON DUPLICATE KEY UPDATE
-                name = VALUES(name),
-                description = VALUES(description),
-                sort_order = VALUES(sort_order),
-                is_active = VALUES(is_active)'
+             ON DUPLICATE KEY UPDATE id = id'
         );
 
         $ids = [];
@@ -151,14 +143,7 @@ final class Seeder
                 (category_id, name, slug, short_description, description, price_from, estimated_minutes, is_active)
              VALUES
                 (:category_id, :name, :slug, :short_description, :description, :price_from, :estimated_minutes, :is_active)
-             ON DUPLICATE KEY UPDATE
-                category_id = VALUES(category_id),
-                name = VALUES(name),
-                short_description = VALUES(short_description),
-                description = VALUES(description),
-                price_from = VALUES(price_from),
-                estimated_minutes = VALUES(estimated_minutes),
-                is_active = VALUES(is_active)'
+             ON DUPLICATE KEY UPDATE id = id'
         );
 
         $ids = [];
@@ -203,23 +188,7 @@ final class Seeder
                  :device_type, :device_brand, :device_model, :problem_description, :diagnostic_result,
                  :estimated_cost, :final_cost, :estimated_ready_at, :customer_contact,
                  :created_at, :updated_at, :completed_at)
-             ON DUPLICATE KEY UPDATE
-                customer_id = VALUES(customer_id),
-                technician_id = VALUES(technician_id),
-                service_id = VALUES(service_id),
-                status = VALUES(status),
-                priority = VALUES(priority),
-                device_type = VALUES(device_type),
-                device_brand = VALUES(device_brand),
-                device_model = VALUES(device_model),
-                problem_description = VALUES(problem_description),
-                diagnostic_result = VALUES(diagnostic_result),
-                estimated_cost = VALUES(estimated_cost),
-                final_cost = VALUES(final_cost),
-                estimated_ready_at = VALUES(estimated_ready_at),
-                customer_contact = VALUES(customer_contact),
-                updated_at = VALUES(updated_at),
-                completed_at = VALUES(completed_at)'
+             ON DUPLICATE KEY UPDATE id = id'
         );
 
         $ids = [];
