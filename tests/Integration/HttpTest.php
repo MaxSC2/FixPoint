@@ -15,7 +15,7 @@ final class HttpTest extends IntegrationTestCase
 
         $this->assertSame(200, $response->status());
         $this->assertContains('Сервисный центр FixPoint', $response->body());
-        $this->assertContains('Активные услуги', $response->body());
+        $this->assertContains('Популярные услуги', $response->body());
         $this->assertSame('nosniff', $response->header('X-Content-Type-Options'));
         $this->assertSame('DENY', $response->header('X-Frame-Options'));
         $this->assertContains('text/html', (string) $response->header('Content-Type'));
@@ -25,7 +25,7 @@ final class HttpTest extends IntegrationTestCase
     {
         $list = app()->handle(Request::create('GET', '/services'));
         $this->assertSame(200, $list->status());
-        $this->assertContains('Каталог услуг', $list->body());
+        $this->assertContains('Услуги', $list->body());
         $this->assertContains('Чистка ноутбука от пыли', $list->body());
         $this->assertContains('7 000', $list->body());
 
@@ -40,9 +40,21 @@ final class HttpTest extends IntegrationTestCase
         $this->assertNotContains('Чистка ноутбука от пыли', $filtered->body());
     }
 
-    public function testUnknownServiceAndUnknownRouteReturn404(): void
+    public function testAboutAndContactsPagesAreAvailable(): void
     {
-        $service = app()->handle(Request::create('GET', '/services/does-not-exist'));
+        $about = app()->handle(Request::create('GET', '/about'));
+        $this->assertSame(200, $about->status());
+        $this->assertContains('О сервисе', $about->body());
+
+        $contacts = app()->handle(Request::create('GET', '/contacts'));
+        $this->assertSame(200, $contacts->status());
+        $this->assertContains('Контакты', $contacts->body());
+        // Missing settings must be an explicit placeholder, not an invented value.
+        $this->assertNotContains('+7 700 000 00 00', $contacts->body());
+    }
+
+    public function testUnknownServiceAndUnknownRouteReturn404(): void
+    {        $service = app()->handle(Request::create('GET', '/services/does-not-exist'));
         $this->assertSame(404, $service->status());
 
         $route = app()->handle(Request::create('GET', '/definitely-missing'));

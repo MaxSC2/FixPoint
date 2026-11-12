@@ -13,11 +13,11 @@ final class ViewRendererTest extends TestCase
     public function testBackendFallbackHomeRendersAndEscapesData(): void
     {
         $renderer = new ViewRenderer(app()->config());
-        $response = $renderer->renderPage('pages/public/home/index', [
+        $response = $renderer->renderPage('pages/public/home', [
             'pageTitle' => '<script>alert(1)</script>',
             'flash' => null,
             'stats' => ['categories_count' => 5, 'services_count' => 10],
-            'popular_services' => [],
+            'featuredServices' => [],
             'foundation' => ['environment' => 'testing', 'php_version' => PHP_VERSION],
         ]);
 
@@ -61,7 +61,7 @@ final class ViewRendererTest extends TestCase
     {
         $renderer = new ViewRenderer(app()->config());
 
-        $this->assertTrue($renderer->exists('pages/public/home/index'));
+        $this->assertTrue($renderer->exists('pages/public/home'));
         $this->assertFalse($renderer->exists('pages/public/nope'));
     }
 }

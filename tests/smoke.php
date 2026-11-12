@@ -139,6 +139,13 @@ try {
     check('GET /services/{slug} returns 200', $detail['status'] === 200, $detail);
     check('Service detail shows category', str_contains($detail['body'], 'Компьютеры и ноутбуки'), $detail);
 
+    $about = httpRequest('GET', $baseUrl . '/about');
+    check('GET /about returns 200', $about['status'] === 200, $about);
+
+    $contacts = httpRequest('GET', $baseUrl . '/contacts');
+    check('GET /contacts returns 200', $contacts['status'] === 200, $contacts);
+    check('Contacts do not invent a phone', !str_contains($contacts['body'], '+7 700 000 00 00'), $contacts);
+
     $health = httpRequest('GET', $baseUrl . '/health', ['Accept: application/json']);
     check('GET /health returns 200', $health['status'] === 200, $health);
     $healthData = json_decode($health['body'], true);
