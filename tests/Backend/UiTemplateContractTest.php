@@ -410,6 +410,69 @@ final class UiTemplateContractTest extends TestCase
         $this->assertNotContains('Иванов Иван', $assign);
     }
 
+
+    public function testAdminUserViewsRenderEmptyAndPopulatedModels(): void
+    {
+        $renderer = new ViewRenderer(app()->config());
+        $shared = [
+            'pageTitle' => 'Admin users render test',
+            'activeNav' => 'admin',
+            'authUser' => ['id' => 1, 'full_name' => 'Администратор', 'role' => 'admin'],
+            'flash' => null,
+            'errors' => [],
+            'old' => [],
+            'csrfToken' => 'test-csrf-token',
+        ];
+        $user = [
+            'id' => 24,
+            'full_name' => 'Тестовый мастер',
+            'email' => 'tech@example.test',
+            'phone' => '+70000000000',
+            'role' => 'technician',
+            'is_active' => 1,
+        ];
+
+        $empty = $renderer->renderPage('pages/admin/users/index', array_merge($shared, ['users' => []]));
+        $this->assertSame(200, $empty->status());
+        $this->assertContains('Пользователей пока нет', $empty->body());
+
+        $list = $renderer->renderPage('pages/admin/users/index', array_merge($shared, ['users' => [$user]]));
+        $this->assertSame(200, $list->status());
+        $this->assertContains('Тестовый мастер', $list->body());
+        $this->assertContains('tech@example.test', $list->body());
+        $this->assertContains('Мастер', $list->body());
+
+        $edit = $renderer->renderPage('pages/admin/users/edit', array_merge($shared, ['user' => $user]));
+        $this->assertSame(200, $edit->status());
+        $this->assertContains('Тестовый мастер', $edit->body());
+        $this->assertContains('tech@example.test', $edit->body());
+        $this->assertContains('name="is_active"', $edit->body());
+    }
+
+    public function testAdminUserFormsUseCsrfAndDoNotRetainPasswords(): void
+    {
+        $create = $this->read('app/Views/pages/admin/users/index.php');
+        $edit = $this->read('app/Views/pages/admin/users/edit.php');
+
+        $this->assertContains('method="post"', $create);
+        $this->assertContains('action="/admin/users"', $create);
+        $this->assertContains('name="_token"', $create);
+        $this->assertContains('name="full_name"', $create);
+        $this->assertContains('name="email"', $create);
+        $this->assertContains('name="phone"', $create);
+        $this->assertContains('name="role"', $create);
+        $this->assertContains('name="password"', $create);
+        $this->assertNotContains("$old" . "['password']", $create);
+
+        $this->assertContains('method="post"', $edit);
+        $this->assertContains('name="_token"', $edit);
+        $this->assertContains('name="full_name"', $edit);
+        $this->assertContains('name="email"', $edit);
+        $this->assertContains('name="role"', $edit);
+        $this->assertContains('name="is_active"', $edit);
+        $this->assertNotContains('name="password"', $edit);
+    }
+
     private function read(string $relativePath): string
     {
         $path = $this->root . '/' . $relativePath;
