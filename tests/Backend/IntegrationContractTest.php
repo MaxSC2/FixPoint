@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace FixPoint\\Tests\\Backend;
+namespace FixPoint\Tests\Backend;
 
-use FixPoint\\Tests\\TestCase;
+use FixPoint\Tests\TestCase;
 
 /**
  * Guards the controller/view boundary against accidental key and path drift.
