@@ -86,7 +86,12 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
                                     <td><?php $status = (string) ($request['status'] ?? ''); require dirname(__DIR__, 3) . '/components/status-badge.php'; ?></td>
                                     <td><span class="priority-chip priority-chip--<?= e(in_array($priority, ['low','normal','high','urgent'], true) ? $priority : 'normal') ?>"><?= e($priorityLabels[$priority] ?? 'Не указан') ?></span></td>
                                     <td><?= e($dateLabel) ?></td>
-                                    <td><a class="admin-row-open" href="/requests/<?= e(rawurlencode($requestId)) ?>" aria-label="Открыть <?= e($number) ?>">↗</a></td>
+                                    <td>
+                                        <div class="admin-row-actions">
+                                            <a class="admin-row-open" href="/requests/<?= e(rawurlencode($requestId)) ?>" aria-label="Открыть <?= e($number) ?>">↗</a>
+                                            <a href="/admin/requests/<?= e(rawurlencode($requestId)) ?>/assign">Назначить</a>
+                                        </div>
+                                    </td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
