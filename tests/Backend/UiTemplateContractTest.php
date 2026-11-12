@@ -473,6 +473,77 @@ final class UiTemplateContractTest extends TestCase
         $this->assertNotContains('name="password"', $edit);
     }
 
+
+    public function testAdminServiceAndCategoryViewsRenderTheirModels(): void
+    {
+        $renderer = new ViewRenderer(app()->config());
+        $shared = [
+            'pageTitle' => 'Admin catalogue render test',
+            'activeNav' => 'admin',
+            'authUser' => ['id' => 1, 'full_name' => 'Администратор', 'role' => 'admin'],
+            'flash' => null,
+            'errors' => [],
+            'old' => [],
+            'csrfToken' => 'test-csrf-token',
+        ];
+        $category = [
+            'id' => 3,
+            'name' => 'Компьютеры и ноутбуки',
+            'slug' => 'computers',
+            'description' => 'Ремонт и обслуживание компьютерной техники.',
+            'sort_order' => 10,
+            'is_active' => 1,
+        ];
+        $service = [
+            'id' => 9,
+            'category_id' => 3,
+            'category_name' => 'Компьютеры и ноутбуки',
+            'name' => 'Чистка ноутбука',
+            'slug' => 'laptop-cleaning',
+            'short_description' => 'Очистка системы охлаждения.',
+            'description' => 'Разборка, очистка и проверка системы охлаждения.',
+            'price_from' => 8000,
+            'estimated_minutes' => 90,
+            'is_active' => 1,
+        ];
+
+        $views = [
+            ['pages/admin/services/index', ['services' => [], 'categories' => []], 'Добавить услугу'],
+            ['pages/admin/services/index', ['services' => [$service], 'categories' => [$category]], 'Чистка ноутбука'],
+            ['pages/admin/services/edit', ['service' => $service, 'categories' => [$category]], 'laptop-cleaning'],
+            ['pages/admin/categories/index', ['categories' => []], 'Создать категорию'],
+            ['pages/admin/categories/index', ['categories' => [$category]], 'Компьютеры и ноутбуки'],
+            ['pages/admin/categories/edit', ['category' => $category], 'computers'],
+        ];
+
+        foreach ($views as [$viewName, $viewData, $expected]) {
+            $response = $renderer->renderPage($viewName, array_merge($shared, $viewData));
+            $this->assertSame(200, $response->status(), 'Unexpected status for ' . $viewName);
+            $this->assertContains($expected, $response->body(), 'Expected content missing from ' . $viewName);
+        }
+    }
+
+    public function testAdminServiceAndCategoryFormsUsePostAndCsrf(): void
+    {
+        $serviceCreate = $this->read('app/Views/pages/admin/services/index.php');
+        $serviceEdit = $this->read('app/Views/pages/admin/services/edit.php');
+        $categoryCreate = $this->read('app/Views/pages/admin/categories/index.php');
+        $categoryEdit = $this->read('app/Views/pages/admin/categories/edit.php');
+
+        foreach ([$serviceCreate, $serviceEdit, $categoryCreate, $categoryEdit] as $view) {
+            $this->assertContains('method="post"', $view);
+            $this->assertContains('name="_token"', $view);
+        }
+        foreach (['category_id', 'name', 'slug', 'short_description', 'description', 'price_from', 'estimated_minutes', 'is_active'] as $field) {
+            $this->assertContains('name="' . $field . '"', $serviceCreate);
+            $this->assertContains('name="' . $field . '"', $serviceEdit);
+        }
+        foreach (['name', 'slug', 'description', 'sort_order', 'is_active'] as $field) {
+            $this->assertContains('name="' . $field . '"', $categoryCreate);
+            $this->assertContains('name="' . $field . '"', $categoryEdit);
+        }
+    }
+
     private function read(string $relativePath): string
     {
         $path = $this->root . '/' . $relativePath;
