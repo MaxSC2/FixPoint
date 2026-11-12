@@ -92,3 +92,28 @@ The service detail route must use a slug allowlisted by the router/controller an
 ## Route integration note
 
 Before wiring controllers, confirm that these page names resolve exactly as listed. If the backend's ViewRenderer API differs, adjust the renderer adapter, not the individual templates or security requirements.
+
+## Authentication templates (UI-02)
+
+| Route | Logical view | Additional data |
+|---|---|---|
+| GET /login | pages/auth/login | shared layout data, optional errors and old |
+| GET /register | pages/auth/register | shared layout data, optional errors and old |
+
+Both views use a regular POST form to the matching route and include the supplied CSRF token as `_token`.
+
+Login fields:
+- `email`
+- `password`
+
+Registration fields:
+- `full_name`
+- `email`
+- `phone` (optional)
+- `password`
+- `password_confirmation`
+
+Field errors use `errors[field]`; a form-level error may use `errors.general`. Only non-secret fields (full_name, email, phone) may be retained in `old`. Never return passwords or password confirmation in old input. Password visibility is a client-side presentation control only and does not alter submission semantics.
+
+The views assume the same shared helpers and layout values as public templates. They do not implement registration, credential verification, session changes, role assignment or access control.
+
