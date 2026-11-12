@@ -32,7 +32,7 @@ $userName = is_array($authUser) ? (string) ($authUser['full_name'] ?? 'Акка�
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#f5f7fb">
+    <meta name="theme-color" content="#f3f1e9">
     <meta name="description" content="FixPoint — сервисный центр. Оформление и отслеживание заявок на ремонт техники.">
     <title><?= e($pageTitle) ?> · FixPoint</title>
     <link rel="stylesheet" href="/assets/css/app.css">
@@ -44,9 +44,10 @@ $userName = is_array($authUser) ? (string) ($authUser['full_name'] ?? 'Акка�
     <div class="container site-header__inner">
         <a class="brand" href="/" aria-label="FixPoint — главная">
             <span class="brand__mark" aria-hidden="true">
-                <svg viewBox="0 0 36 36" fill="none">
-                    <path d="M18 3.5 31.5 11v14L18 32.5 4.5 25V11L18 3.5Z" stroke="currentColor" stroke-width="2.5"/>
-                    <path d="M12 18.5 16 22.5 24.5 13.5" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+                <svg viewBox="0 0 40 40" fill="none">
+                    <path d="M20 3.5 35 12v16L20 36.5 5 28V12L20 3.5Z" stroke="currentColor" stroke-width="2"/>
+                    <path d="M12 20.5 17.2 25.5 28.5 14" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="29.3" cy="10.8" r="2.2" fill="#D9ED74"/>
                 </svg>
             </span>
             <span class="brand__word">Fix<span>Point</span></span>
