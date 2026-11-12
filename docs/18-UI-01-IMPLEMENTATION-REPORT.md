@@ -9,7 +9,7 @@
 
 - Shared PHP header/footer and flash rendering component.
 - Reusable service card and repair-status badge.
-- Reusable accessible form field (with associated help/error text and no password repopulation) and empty-state component.
+- Reusable accessible text/file field, select field (both with help/error association), password/file value protection, and empty-state component.
 - Public landing page.
 - Service catalogue with GET search/category filters and real empty state.
 - Service detail page.
@@ -25,6 +25,7 @@
 - app/Views/layouts/footer.php
 - app/Views/components/flash.php
 - app/Views/components/form-field.php
+- app/Views/components/select-field.php
 - app/Views/components/empty-state.php
 - app/Views/components/status-badge.php
 - app/Views/components/service-card.php
