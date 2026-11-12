@@ -88,6 +88,12 @@ final class Config
             'catalog' => [
                 'per_page' => $perPage,
             ],
+            'contacts' => [
+                'address' => Env::get('CONTACT_ADDRESS', '') ?? '',
+                'phone' => Env::get('CONTACT_PHONE', '') ?? '',
+                'email' => Env::get('CONTACT_EMAIL', '') ?? '',
+                'working_hours' => Env::get('CONTACT_WORKING_HOURS', '') ?? '',
+            ],
             'paths' => [
                 'base' => $basePath,
                 'views' => $basePath . '/app/Views',

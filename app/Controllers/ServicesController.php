@@ -53,7 +53,7 @@ final class ServicesController extends Controller
             'pageTitle' => 'Услуги — ' . $this->config->get('app.name'),
             'activeNav' => 'services',
             'categories' => $categories,
-            'items' => $catalog['items'],
+            'services' => $catalog['items'],
             'pagination' => $catalog['pagination'],
             'filters' => $catalog['filters'],
         ]);

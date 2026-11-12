@@ -1,14 +1,18 @@
 <?php
 /**
  * Backend fallback home page. Replaced automatically by
- * app/Views/pages/public/home/index.php when the frontend view lands.
+ * app/Views/pages/public/home.php when the frontend view lands.
  *
  * @var array{type: string, message: string}|null $flash
  * @var array{categories_count: int, services_count: int} $stats
- * @var list<array<string, mixed>> $popular_services
+ * @var list<array<string, mixed>> $featuredServices
  * @var array{environment: string, php_version: string} $foundation
  */
 $appName = (string) config('app.name');
+$featuredServices = isset($featuredServices) && is_array($featuredServices) ? $featuredServices : [];
+$stats = isset($stats) && is_array($stats)
+    ? $stats
+    : ['categories_count' => 0, 'services_count' => 0];
 ?>
 <!doctype html>
 <html lang="ru">
@@ -16,7 +20,7 @@ $appName = (string) config('app.name');
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><?= e($pageTitle ?? $appName) ?></title>
-    <?php require __DIR__ . '/../../../partials/style.php'; ?>
+    <?php require __DIR__ . '/../../partials/style.php'; ?>
 </head>
 <body>
 <header class="fp-header">
@@ -25,6 +29,8 @@ $appName = (string) config('app.name');
         <nav class="fp-nav" aria-label="Основная навигация">
             <a href="/" aria-current="page">Главная</a>
             <a href="/services">Услуги</a>
+            <a href="/about">О сервисе</a>
+            <a href="/contacts">Контакты</a>
             <a href="/health">Статус</a>
         </nav>
     </div>
@@ -64,15 +70,15 @@ $appName = (string) config('app.name');
         </div>
 
         <h2>Популярные услуги</h2>
-        <?php if ($popular_services === []): ?>
+        <?php if ($featuredServices === []): ?>
             <div class="fp-empty">Активных услуг пока нет. Запустите seed или добавьте данные в админке.</div>
         <?php else: ?>
             <ul class="fp-list">
-                <?php foreach ($popular_services as $service): ?>
+                <?php foreach ($featuredServices as $service): ?>
                     <li>
                         <h3><a href="/services/<?= e($service['slug']) ?>"><?= e($service['name']) ?></a></h3>
                         <p class="fp-meta">
-                            <?= e($service['category']['name']) ?>
+                            <?= e($service['category_name']) ?>
                             <?php if ($service['short_description'] !== null): ?>
                                 — <?= e($service['short_description']) ?>
                             <?php endif; ?>
