@@ -37,18 +37,37 @@
         });
 
         document.addEventListener('click', (event) => {
-            if (!(event.target instanceof Node)) {
-                return;
-            }
+            if (!(event.target instanceof Node)) return;
             if (!toggle.contains(event.target) && !navigation.contains(event.target)) {
                 closeNavigation();
             }
         });
 
         window.addEventListener('resize', () => {
-            if (window.matchMedia('(min-width: 901px)').matches) {
-                closeNavigation();
-            }
+            if (window.matchMedia('(min-width: 901px)').matches) closeNavigation();
         });
     }
+
+    // Reveal content as it enters the viewport. The page remains fully readable
+    // when JavaScript, IntersectionObserver, or motion preferences require fallback.
+    const revealTargets = Array.from(document.querySelectorAll('[data-reveal]'));
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (!('IntersectionObserver' in window) || reduceMotion) {
+        revealTargets.forEach((element) => element.classList.add('is-visible'));
+        return;
+    }
+
+    const revealObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+        });
+    }, {
+        threshold: 0.12,
+        rootMargin: '0px 0px -36px 0px'
+    });
+
+    revealTargets.forEach((element) => revealObserver.observe(element));
 })();
