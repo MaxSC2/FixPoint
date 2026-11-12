@@ -45,6 +45,7 @@ if ($fieldError !== '') {
             rows="<?= e((string) $fieldRows) ?>"
             placeholder="<?= e($fieldPlaceholder) ?>"
             <?= $fieldRequired ? 'required' : '' ?>
+            <?= $fieldError !== '' ? 'aria-invalid="true"' : '' ?>
             <?= $describedBy !== [] ? 'aria-describedby="' . e(implode(' ', $describedBy)) . '"' : '' ?>
         ><?= e($fieldValue) ?></textarea>
     <?php else: ?>
