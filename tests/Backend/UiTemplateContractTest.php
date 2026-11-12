@@ -292,6 +292,110 @@ final class UiTemplateContractTest extends TestCase
         }
     }
 
+
+    public function testWorkspaceViewsRenderPopulatedRequestModels(): void
+    {
+        $renderer = new ViewRenderer(app()->config());
+        $shared = [
+            'pageTitle' => 'UI populated model test',
+            'activeNav' => '',
+            'authUser' => ['id' => 7, 'full_name' => 'Тестовый администратор', 'role' => 'admin'],
+            'flash' => null,
+            'errors' => [],
+            'old' => [],
+            'csrfToken' => 'test-csrf-token',
+        ];
+        $request = [
+            'id' => 15,
+            'public_number' => 'FP-TEST-000015',
+            'status' => 'awaiting_customer_approval',
+            'priority' => 'high',
+            'device_type' => 'Ноутбук',
+            'device_brand' => 'ASUS',
+            'device_model' => 'TUF Test',
+            'problem_description' => 'Устройство перегревается при нагрузке.',
+            'customer_contact' => '+70000000000',
+            'diagnostic_result' => 'Требуется обслуживание системы охлаждения.',
+            'estimated_cost' => 12000,
+            'final_cost' => null,
+            'estimated_ready_at' => '2026-11-15T18:00:00+05:00',
+            'created_at' => '2026-11-13T10:00:00+05:00',
+            'updated_at' => '2026-11-13T12:00:00+05:00',
+            'customer' => ['id' => 7, 'full_name' => 'Тестовый клиент'],
+            'technician' => ['id' => 8, 'full_name' => 'Тестовый мастер'],
+            'service' => ['id' => 2, 'name' => 'Обслуживание системы охлаждения'],
+        ];
+        $history = [[
+            'from_status' => 'diagnostics',
+            'to_status' => 'awaiting_customer_approval',
+            'reason' => 'Смета готова к согласованию.',
+            'changed_at' => '2026-11-13T12:00:00+05:00',
+            'changed_by_name' => 'Тестовый мастер',
+        ]];
+        $comments = [[
+            'id' => 1,
+            'body' => 'Пожалуйста, подтвердите смету.',
+            'author_name' => 'Тестовый мастер',
+            'author_role' => 'technician',
+            'created_at' => '2026-11-13T12:05:00+05:00',
+            'is_internal' => false,
+        ]];
+        $requestList = [
+            'items' => [$request],
+            'pagination' => ['current_page' => 1, 'last_page' => 1, 'per_page' => 10, 'total' => 1],
+            'filters' => ['q' => '', 'status' => '', 'priority' => '', 'sort' => 'newest'],
+        ];
+
+        $views = [
+            ['pages/customer/dashboard', ['recentRequests' => [$request]]],
+            ['pages/customer/requests/index', ['requestList' => $requestList]],
+            ['pages/customer/requests/create', ['services' => [['id' => 2, 'name' => 'Обслуживание системы охлаждения']]]],
+            ['pages/customer/requests/show', [
+                'request' => $request,
+                'history' => $history,
+                'comments' => $comments,
+                'permissions' => ['can_comment' => true, 'can_decide_estimate' => true],
+            ]],
+            ['pages/technician/requests/index', ['requestList' => $requestList]],
+            ['pages/technician/requests/show', [
+                'request' => $request,
+                'history' => $history,
+                'comments' => array_merge($comments, [[
+                    'id' => 2,
+                    'body' => 'Проверить наличие термопасты.',
+                    'author_name' => 'Тестовый мастер',
+                    'author_role' => 'technician',
+                    'created_at' => '2026-11-13T12:10:00+05:00',
+                    'is_internal' => true,
+                ]]),
+                'permissions' => ['can_edit_diagnosis' => true, 'can_change_status' => true, 'can_comment' => true],
+                'allowedTransitions' => ['repairing', 'awaiting_parts'],
+            ]],
+            ['pages/admin/dashboard', [
+                'stats' => [
+                    'total_requests' => 1,
+                    'requests_new' => 0,
+                    'requests_in_progress' => 0,
+                    'requests_waiting_approval' => 1,
+                    'requests_completed' => 0,
+                    'active_customers' => 1,
+                    'active_technicians' => 1,
+                ],
+                'recentRequests' => [$request],
+            ]],
+            ['pages/admin/requests/index', ['requestList' => $requestList]],
+        ];
+
+        foreach ($views as [$viewName, $viewData]) {
+            $response = $renderer->renderPage($viewName, array_merge($shared, $viewData));
+            $body = $response->body();
+
+            $this->assertSame(200, $response->status(), 'Unexpected status for ' . $viewName);
+            $this->assertContains('FP-TEST-000015', $body, 'Request model missing from ' . $viewName);
+            $this->assertContains('FixPoint', $body, 'Brand shell missing for ' . $viewName);
+        }
+    }
+
     private function read(string $relativePath): string
     {
         $path = $this->root . '/' . $relativePath;
