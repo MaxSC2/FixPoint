@@ -6,6 +6,7 @@ namespace FixPoint\Core;
 
 use FixPoint\Controllers\HomeController;
 use FixPoint\Controllers\ServicesController;
+use FixPoint\Middleware\CsrfMiddleware;
 use FixPoint\Middleware\SecurityHeaders;
 use ReflectionClass;
 use ReflectionNamedType;
@@ -200,7 +201,11 @@ final class App
             return $response;
         };
 
-        $pipeline = $core;
+        $pipeline = function (Request $current) use ($core): Response {
+            // Every state-changing request is CSRF-checked centrally so a new
+            // POST route cannot silently forget the protection.
+            return $this->make(CsrfMiddleware::class)->handle($current, $core);
+        };
         foreach (array_reverse($match->middleware) as $middleware) {
             $instance = is_string($middleware) ? $this->make($middleware) : $middleware;
             $next = $pipeline;

@@ -150,8 +150,26 @@ Seed создаёт 5 категорий, 10 услуг, 4 заявки, 15 за
 | GET | `/contacts` | Контакты; значения из `CONTACT_*`, пустые — явный placeholder |
 | GET | `/health` | JSON-статус приложения и БД (200/503) |
 
-Маршруты авторизации, заявок, кабинета клиента, мастера и администратора
-появятся в TASK-002+ согласно `docs/10-INTEGRATION-CONTRACT.md`.
+### Авторизация и роли
+
+| Метод | URL | Доступ | Назначение |
+|---|---|---|---|
+| GET | `/login` | гость | Форма входа |
+| POST | `/login` | гость | Проверка пароля и вход; CSRF обязателен |
+| GET | `/register` | гость | Форма регистрации |
+| POST | `/register` | гость | Создание аккаунта с ролью `customer` |
+| POST | `/logout` | авторизованный | Выход и ротация сессии |
+| GET | `/account` | `customer` | Кабинет: только заявки текущего клиента |
+| GET | `/technician/requests` | `technician` | Очередь: только назначенные мастеру заявки |
+| GET | `/admin` | `admin` | Сводка по заявкам, пользователям и каталогу |
+
+Гость, открывший защищённый URL, получает redirect на
+`/login?return_to=...`; возврат разрешён только на локальный путь. Чужая роль
+получает 403, а авторизованный пользователь не может открыть `/login` или
+`/register` — его перенаправляет на домашнюю страницу роли. Регистрация
+создаёт только `customer`; роли `technician` и `admin` назначаются
+администратором. Это read-only ролевые лендинги этапа TASK-002: создание
+заявок, детали, комментарии, сметы и смена статусов идут следующими PR.
 
 ## Структура
 
@@ -174,9 +192,10 @@ public/                  # единственный document root, index.php, .h
 tests/                   # unit, integration, lint, smoke
 ```
 
-`app/Views/**` и `public/assets/**` принадлежат frontend-команде и в этой
-задаче не изменялись. Если шаблон существует в `app/Views`, renderer
-использует его; иначе — явно помеченный fallback из `app/Support/views`.
+`app/Views/**` содержит основные шаблоны (включая auth и ролевые кабинеты),
+`public/assets/**` — стили и progressive enhancement. Если шаблон существует в
+`app/Views`, renderer использует его; иначе — явно помеченный fallback из
+`app/Support/views`. Backend не должен дублировать разметку в контроллерах.
 
 ## Helpers
 
@@ -199,8 +218,8 @@ tests/                   # unit, integration, lint, smoke
 ## Тесты и проверки
 
 ```bash
-php tests/lint.php          # php -l по всем 70 файлам проекта
-php tests/run.php           # unit + integration, 73 теста
+php tests/lint.php          # php -l по всем PHP-файлам проекта
+php tests/run.php           # unit + integration
 php tests/smoke.php         # реальный HTTP через встроенный сервер
 ```
 
@@ -226,8 +245,8 @@ DB_DATABASE=fixpoint_test APP_ENV=testing php tests/run.php
 Smoke-тест требует уже применённые миграции и seed в рабочей БД; порт
 переопределяется `SMOKE_PORT` (по умолчанию `8091`).
 
-Текущий результат на MySQL 8.4.6: линтер — 74/74 файла, тесты — 80 passed,
-0 failed, 354 assertions, smoke — 23/23 проверки.
+Текущий результат на MySQL 8.4.6: линтер — 100/100 файлов, тесты — 93 passed,
+0 failed, 460 assertions, smoke — 30/30 проверок.
 
 ## Безопасность
 
@@ -236,7 +255,12 @@ Smoke-тест требует уже применённые миграции и 
   проходят целочисленную валидацию.
 - Пароли — `password_hash()` / `password_verify()`; хеши не попадают в views.
 - CSRF-токен на сессию, сравнение через `hash_equals()`, ротация при
-  login/logout; state-changing методы без токена получают 419.
+  login/logout. Проверка включена глобально в `App::dispatch()` для всех
+  `POST`/`PUT`/`PATCH`/`DELETE`: запрос без валидного токена получает 419,
+  даже если новый маршрут забыл подключить middleware.
+- RBAC проверяется на сервере: роль из сессии сверяется с ролями маршрута,
+  клиентские выборки заявок ограничены `customer_id`, мастерские —
+  `technician_id`.
 - Сессии: HttpOnly, SameSite, strict mode, regenerated id, idle timeout.
 - Security headers на всех ответах, включая 404/500: CSP, `X-Frame-Options:
   DENY`, `nosniff`, Referrer-Policy, Permissions-Policy.
@@ -246,13 +270,13 @@ Smoke-тест требует уже применённые миграции и 
 
 ## Ограничения текущего этапа
 
-- Нет регистрации/входа, CRUD заявок, кабинета мастера и админки — это
-  TASK-002+; security-примитивы (`Auth`, `Csrf`, RBAC middleware) уже покрыты
-  тестами.
-- `/about` и `/contacts` уже имеют маршруты и backend-fallback; финальные
-  frontend-шаблоны приходят из UI-ветки.
-- Показываются backend-fallback страницы, пока frontend не добавит шаблоны в
-  `app/Views`.
+- Регистрация, вход, выход и ролевые лендинги работают; создание и детали
+  заявок, комментарии, согласование сметы, `RequestStatusService` и
+  админ-CRUD — следующие PR.
+- `/about` и `/contacts` имеют реальные контроллеры и шаблоны в `app/Views`;
+  backend-fallback остаётся страховкой для шаблонов, которых ещё нет.
+- Кабинеты клиента, мастера и администратора на этом этапе только читают
+  данные; действия над заявками появятся в TASK-003+.
 - `request_status_history.created_at` остаётся в схеме; для view-модели он
   отдаётся alias-ом `changed_at` (решение зафиксировано).
 - `request_status_history.changed_by` остаётся `NOT NULL`: все переходы MVP

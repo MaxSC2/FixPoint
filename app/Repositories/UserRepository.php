@@ -48,4 +48,54 @@ final class UserRepository
         );
         $statement->execute(['hash' => $hash, 'id' => $id]);
     }
+
+    public function create(string $fullName, string $email, ?string $phone, string $passwordHash): int
+    {
+        $statement = $this->database->connection()->prepare(
+            'INSERT INTO users (full_name, email, phone, password_hash, role, is_active)
+             VALUES (:full_name, :email, :phone, :password_hash, :role, 1)'
+        );
+        $statement->execute([
+            'full_name' => $fullName,
+            'email' => $email,
+            'phone' => $phone,
+            'password_hash' => $passwordHash,
+            'role' => 'customer',
+        ]);
+
+        return (int) $this->database->connection()->lastInsertId();
+    }
+
+    public function countAll(): int
+    {
+        return (int) $this->database->connection()
+            ->query('SELECT COUNT(*) FROM users')
+            ->fetchColumn();
+    }
+
+    public function countByRole(string $role): int
+    {
+        $statement = $this->database->connection()->prepare(
+            'SELECT COUNT(*) FROM users WHERE role = :role AND is_active = 1'
+        );
+        $statement->execute(['role' => $role]);
+
+        return (int) $statement->fetchColumn();
+    }
+
+    /** @return list<array<string, mixed>> */
+    public function listByRole(string $role, bool $activeOnly = true): array
+    {
+        $sql = 'SELECT id, full_name, email, phone, role, is_active, created_at
+                FROM users WHERE role = :role';
+        if ($activeOnly) {
+            $sql .= ' AND is_active = 1';
+        }
+        $sql .= ' ORDER BY full_name ASC';
+
+        $statement = $this->database->connection()->prepare($sql);
+        $statement->execute(['role' => $role]);
+
+        return $statement->fetchAll();
+    }
 }

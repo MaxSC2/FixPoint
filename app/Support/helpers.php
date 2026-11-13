@@ -169,6 +169,18 @@ if (!function_exists('has_role')) {
     }
 }
 
+if (!function_exists('role_home')) {
+    function role_home(?string $role): string
+    {
+        return match ($role) {
+            'technician' => '/technician/requests',
+            'admin' => '/admin',
+            'customer' => '/account',
+            default => '/',
+        };
+    }
+}
+
 if (!function_exists('old_value')) {
     /** @param array<string, mixed> $old */
     function old_value(array $old, string $key, mixed $default = null): mixed
