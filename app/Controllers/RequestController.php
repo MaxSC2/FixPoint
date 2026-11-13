@@ -115,9 +115,10 @@ final class RequestController extends Controller
         $user = $this->requireUser();
         $requestId = (int) ($params['id'] ?? 0);
         $body = $this->stringPost($request, 'body');
+        $internal = $this->stringPost($request, 'is_internal') === '1';
 
         try {
-            $this->requestService->addComment($requestId, $user, $body);
+            $this->requestService->addComment($requestId, $user, $body, $internal);
         } catch (ValidationException $exception) {
             $errors = $exception->errors();
             if (isset($errors['general'])) {
@@ -128,12 +129,12 @@ final class RequestController extends Controller
                 $this->session->flashErrors($errors);
             }
 
-            return Response::redirect('/requests/' . $requestId . '#comments');
+            return Response::redirect($this->commentRedirect($user, $requestId));
         }
 
         $this->session->flash('success', 'Комментарий добавлен.');
 
-        return Response::redirect('/requests/' . $requestId . '#comments');
+        return Response::redirect($this->commentRedirect($user, $requestId));
     }
 
     public function decideEstimate(Request $request, array $params = []): Response
@@ -173,6 +174,16 @@ final class RequestController extends Controller
         );
 
         return Response::redirect('/requests/' . $requestId);
+    }
+
+    /** @param array<string, mixed> $user */
+    private function commentRedirect(array $user, int $requestId): string
+    {
+        $prefix = in_array((string) ($user['role'] ?? ''), ['technician', 'admin'], true)
+            ? '/technician/requests/'
+            : '/requests/';
+
+        return $prefix . $requestId . '#comments';
     }
 
     /** @return array<string, mixed> */
