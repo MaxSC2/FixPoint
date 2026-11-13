@@ -726,6 +726,17 @@ final class UiTemplateContractTest extends TestCase
         $this->assertNotContains('value="12000"', $body);
     }
 
+    public function testEstimateRejectionUsesExplicitProgressiveConfirmation(): void
+    {
+        $detail = $this->read('app/Views/pages/customer/requests/show.php');
+        $javascript = $this->read('public/assets/js/app.js');
+
+        $this->assertContains('value="reject" data-confirm="Отклонить смету и отменить заявку?', $detail);
+        $this->assertContains('document.addEventListener(\'submit\'', $javascript);
+        $this->assertContains('if (message && !window.confirm(message))', $javascript);
+        $this->assertContains('event.preventDefault();', $javascript);
+    }
+
     private function read(string $relativePath): string
     {
         $path = $this->root . '/' . $relativePath;
