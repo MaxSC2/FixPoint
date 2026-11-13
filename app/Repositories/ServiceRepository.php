@@ -98,6 +98,34 @@ final class ServiceRepository
             ->fetchColumn();
     }
 
+    /** @return list<array<string, mixed>> */
+    public function listActiveForSelect(): array
+    {
+        return $this->database->connection()->query(
+            'SELECT s.id, s.name
+             FROM services s
+             INNER JOIN service_categories c ON c.id = s.category_id
+             WHERE s.is_active = 1 AND c.is_active = 1
+             ORDER BY c.sort_order ASC, s.name ASC'
+        )->fetchAll();
+    }
+
+    /** @return array<string, mixed>|null */
+    public function findActiveById(int $id): ?array
+    {
+        $statement = $this->database->connection()->prepare(
+            'SELECT s.id, s.name, s.slug
+             FROM services s
+             INNER JOIN service_categories c ON c.id = s.category_id
+             WHERE s.id = :id AND s.is_active = 1 AND c.is_active = 1
+             LIMIT 1'
+        );
+        $statement->execute(['id' => $id]);
+        $row = $statement->fetch();
+
+        return $row === false ? null : $row;
+    }
+
     /** @return array{0: string, 1: array<string, string>} */
     private function buildFilter(string $query, string $categorySlug): array
     {

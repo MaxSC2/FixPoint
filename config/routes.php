@@ -8,6 +8,7 @@ use FixPoint\Controllers\AuthController;
 use FixPoint\Controllers\HealthController;
 use FixPoint\Controllers\HomeController;
 use FixPoint\Controllers\PageController;
+use FixPoint\Controllers\RequestController;
 use FixPoint\Controllers\ServicesController;
 use FixPoint\Controllers\TechnicianController;
 use FixPoint\Core\App;
@@ -39,6 +40,19 @@ return static function (Router $router, App $app): void {
         [AccountController::class, 'index'],
         [AuthMiddleware::class, new RoleMiddleware($app->auth(), $app->session(), 'customer')]
     );
+
+    $customerOnly = [AuthMiddleware::class, new RoleMiddleware($app->auth(), $app->session(), 'customer')];
+    $router->get('/requests', [RequestController::class, 'index'], $customerOnly);
+    $router->get('/requests/create', [RequestController::class, 'create'], $customerOnly);
+    $router->post('/requests/create', [RequestController::class, 'store'], $customerOnly);
+    $router->get('/requests/{id:\d+}', [RequestController::class, 'show'], [AuthMiddleware::class]);
+    $router->post('/requests/{id:\d+}/comments', [RequestController::class, 'comment'], [AuthMiddleware::class]);
+    $router->post(
+        '/requests/{id:\d+}/estimate-decision',
+        [RequestController::class, 'decideEstimate'],
+        [AuthMiddleware::class]
+    );
+
     $router->get(
         '/technician/requests',
         [TechnicianController::class, 'queue'],

@@ -34,7 +34,7 @@ $priorityLabel = $priorityLabels[(string) ($request['priority'] ?? 'normal')] ??
 $canComment = !empty($permissions['can_comment']);
 $canDecideEstimate = !empty($permissions['can_decide_estimate']);
 $canDecideEstimate = $canDecideEstimate && $requestStatus === 'awaiting_customer_approval';
-$pageTitle = $publicNumber . ' — FixPoint';
+$pageTitle = $publicNumber;
 $activeNav = 'requests';
 
 $formatMoney = static function (mixed $amount): string {
@@ -109,7 +109,7 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
 
                     <?php if ($canDecideEstimate): ?>
                         <div class="estimate-decision">
-                            <div><span class="eyebrow">Требуется ваше решение</span><h3>Согласовать предложенную смету?</h3><p>Работы начнутся после подтверждения. При отказе заявка вернётся мастеру для дальнейшего решения.</p></div>
+                            <div><span class="eyebrow">Требуется ваше решение</span><h3>Согласовать предложенную смету?</h3><p>Работы начнутся после подтверждения. При отказе заявка будет отменена.</p></div>
                             <form method="post" action="/requests/<?= e(rawurlencode($requestId)) ?>/estimate-decision">
                                 <input type="hidden" name="_token" value="<?= e($csrfToken ?? '') ?>">
                                 <div class="estimate-decision__actions">
