@@ -1503,7 +1503,8 @@ h1 { font-weight: 760; }
     .admin-edit-layout > .request-create-aside { position: static; }
 }
 @media (max-width: 900px) {
-    .admin-crud-layout { grid-template-columns: 1fr; }
+    .admin-crud-layout { grid-template-columns: minmax(0,1fr); }
+    .admin-crud-layout > .staff-list-panel { min-width: 0; }
     .admin-create-panel { order: -1; }
 }
 @media (max-width: 640px) {

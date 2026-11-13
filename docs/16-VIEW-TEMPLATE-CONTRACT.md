@@ -231,9 +231,9 @@ The user list contains id, full_name, email, phone, role and is_active. The crea
 - `password`
 - `_token`
 
-The create form must never populate or retain password in `old`. The backend must hash the submitted password and validate uniqueness and role.
+The create form must never populate or retain password in `old`. The backend must hash the submitted password and validate uniqueness and role. Newly created accounts are always active; the create form has no activity toggle.
 
-The edit view receives one user row with id, full_name, email, phone, role and is_active. It submits full_name, email, phone, role and is_active (0/1) plus `_token`. It intentionally does not edit passwords. The backend must protect against privilege escalation and unsafe self-demotion/deactivation.
+The edit view receives one user row with id, full_name, email, phone, role and is_active. It submits full_name, email, phone, role and is_active (0/1) plus `_token`. It intentionally does not edit passwords. The backend must protect against privilege escalation and unsafe self-demotion/deactivation. The server also rejects changes that would leave no active administrator, validates email uniqueness, and must not return password hashes in `user`, `old` or HTML. Deactivation takes effect on the next request because authentication reloads the user row and checks `is_active`; no separate session revocation is required.
 ## Administrator service and category management templates
 
 | Route | Logical view | Required view-model keys |

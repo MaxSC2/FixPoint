@@ -66,6 +66,84 @@ final class UserRepository
         return (int) $this->database->connection()->lastInsertId();
     }
 
+    /** @return list<array<string, mixed>> */
+    public function listAllForAdmin(): array
+    {
+        return $this->database->connection()
+            ->query(
+                'SELECT id, full_name, email, phone, role, is_active, created_at
+                 FROM users
+                 ORDER BY created_at DESC, id DESC'
+            )
+            ->fetchAll();
+    }
+
+    public function createWithRole(
+        string $fullName,
+        string $email,
+        ?string $phone,
+        string $passwordHash,
+        string $role,
+        bool $isActive
+    ): int {
+        $statement = $this->database->connection()->prepare(
+            'INSERT INTO users (full_name, email, phone, password_hash, role, is_active)
+             VALUES (:full_name, :email, :phone, :password_hash, :role, :is_active)'
+        );
+        $statement->execute([
+            'full_name' => $fullName,
+            'email' => $email,
+            'phone' => $phone,
+            'password_hash' => $passwordHash,
+            'role' => $role,
+            'is_active' => $isActive ? 1 : 0,
+        ]);
+
+        return (int) $this->database->connection()->lastInsertId();
+    }
+
+    public function updateProfile(
+        int $id,
+        string $fullName,
+        string $email,
+        ?string $phone,
+        string $role,
+        bool $isActive
+    ): void {
+        $statement = $this->database->connection()->prepare(
+            'UPDATE users
+             SET full_name = :full_name,
+                 email = :email,
+                 phone = :phone,
+                 role = :role,
+                 is_active = :is_active
+             WHERE id = :id'
+        );
+        $statement->execute([
+            'full_name' => $fullName,
+            'email' => $email,
+            'phone' => $phone,
+            'role' => $role,
+            'is_active' => $isActive ? 1 : 0,
+            'id' => $id,
+        ]);
+    }
+
+    /**
+     * Active administrators other than the given user. Used before demotion or
+     * deactivation so the system can never lose its last admin account.
+     */
+    public function countActiveAdminsExcluding(int $id): int
+    {
+        $statement = $this->database->connection()->prepare(
+            "SELECT COUNT(*) FROM users
+             WHERE role = 'admin' AND is_active = 1 AND id <> :id"
+        );
+        $statement->execute(['id' => $id]);
+
+        return (int) $statement->fetchColumn();
+    }
+
     public function countAll(): int
     {
         return (int) $this->database->connection()
