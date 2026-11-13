@@ -243,9 +243,10 @@ The edit view receives one user row with id, full_name, email, phone, role and i
 | GET/POST /admin/categories | pages/admin/categories/index | categories[], old, errors, csrfToken |
 | GET/POST /admin/categories/{id}/edit | pages/admin/categories/edit | category, old, errors, csrfToken |
 
-Service rows contain id, category_id, category_name, name, slug, short_description, description, price_from, estimated_minutes and is_active. Create/edit forms submit category_id, name, slug, short_description, description, price_from, estimated_minutes, is_active and _token. Prices use non-negative decimal values; blank prices/time remain null. The backend checks category existence, active state, unique slug and valid amounts.
+Service rows contain id, category_id, category_name, name, slug, short_description, description, price_from, estimated_minutes and is_active. Create/edit forms submit category_id, name, slug, short_description, description, price_from, estimated_minutes, is_active and _token. Prices use non-negative decimal values; blank prices/time remain null. The backend requires the category to exist (it may be inactive, so administrators can prepare a service before publishing the category), enforces a unique slug matching `^[a-z0-9]+(?:-[a-z0-9]+)*$`, accepts at most two decimal places for price and an integer time from 1 to 100000 minutes. Public visibility requires both the service and its category to be active.
 
-Category rows contain id, name, slug, description, sort_order and is_active. Create/edit forms submit name, slug, description, sort_order, is_active and _token. The backend checks unique slug and validates ordering. Do not hard-delete categories that still have service references; use an inactive state or an explicit safe archival workflow.
+Category rows contain id, name, slug, description, sort_order and is_active. Create/edit forms submit name, slug, description, sort_order, is_active and _token. The backend checks unique slug and validates ordering. Do not hard-delete categories that still have service references; use an inactive state or an explicit safe archival workflow. Deactivating a category hides its services from the public catalogue without deleting them or changing their own `is_active` flag.
+
 ## Administrator statistics template
 
 | Route | Logical view | Required view-model keys |
