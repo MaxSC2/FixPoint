@@ -116,7 +116,7 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
                                 <input type="hidden" name="_token" value="<?= e($csrfToken ?? '') ?>">
                                 <div class="estimate-decision__actions">
                                     <button class="button button--primary" type="submit" name="decision" value="approve">Согласовать</button>
-                                    <button class="button button--secondary" type="submit" name="decision" value="reject">Отклонить</button>
+                                    <button class="button button--secondary" type="submit" name="decision" value="reject" data-confirm="Отклонить смету и отменить заявку? Это действие изменит статус обращения.">Отклонить</button>
                                 </div>
                             </form>
                         </div>
