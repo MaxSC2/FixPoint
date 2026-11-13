@@ -64,6 +64,22 @@
         });
     });
 
+    // Destructive choices get an explicit confirmation. The POST still goes
+    // through the normal server route and CSRF protection.
+    document.addEventListener('submit', (event) => {
+        const form = event.target;
+        if (!(form instanceof HTMLFormElement)) return;
+
+        const submitter = event.submitter;
+        const submitterMessage = submitter instanceof HTMLElement
+            ? submitter.getAttribute('data-confirm')
+            : null;
+        const message = submitterMessage || form.getAttribute('data-confirm');
+        if (message && !window.confirm(message)) {
+            event.preventDefault();
+        }
+    });
+
     // Reveal content as it enters the viewport. The page remains fully readable
     // when JavaScript, IntersectionObserver, or motion preferences require fallback.
     const revealTargets = Array.from(document.querySelectorAll('[data-reveal]'));
