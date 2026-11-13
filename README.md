@@ -29,6 +29,8 @@ FixPoint — учебное веб-приложение для сервисно�
 | [TASK-001 для агента](docs/12-AGENT-TASK-001-BACKEND-FOUNDATION.md) | Backend foundation |
 | [Карта ChatGPT](docs/13-CHATGPT-IMPLEMENTATION-MAP.md) | UI/UX, frontend и QA |
 | [Repository operations](docs/14-REPOSITORY-OPERATIONS.md) | Ветки и PR |
+| [View template contract](docs/16-VIEW-TEMPLATE-CONTRACT.md) | View-модели и разметка UI |
+| [UI-01 QA checklist](docs/17-UI-01-QA-CHECKLIST.md) | Проверки визуального слоя |
 | [Распределение ролей](TEAM_WORK_SPLIT.md) | Кто какие файлы меняет |
 | [Передача агенту](AGENT_HANDOFF.md) | Инструкция coding agent |
 | [Черновик SQL](database/schema-draft.sql) | Начальная схема БД |
@@ -192,8 +194,11 @@ public/                  # единственный document root, index.php, .h
 tests/                   # unit, integration, lint, smoke
 ```
 
-`app/Views/**` содержит основные шаблоны (включая auth и ролевые кабинеты),
-`public/assets/**` — стили и progressive enhancement. Если шаблон существует в
+`app/Views/**` содержит основные шаблоны публичной части, auth и ролевых
+кабинетов, `public/assets/**` — стили и progressive enhancement. Публичные
+страницы и формы входа/регистрации используют единый визуальный слой из
+`docs/16-VIEW-TEMPLATE-CONTRACT.md`; кабинеты клиента и мастера на этом этапе
+остаются рабочими backend-шаблонами до TASK-003/004. Если шаблон существует в
 `app/Views`, renderer использует его; иначе — явно помеченный fallback из
 `app/Support/views`. Backend не должен дублировать разметку в контроллерах.
 
@@ -245,8 +250,8 @@ DB_DATABASE=fixpoint_test APP_ENV=testing php tests/run.php
 Smoke-тест требует уже применённые миграции и seed в рабочей БД; порт
 переопределяется `SMOKE_PORT` (по умолчанию `8091`).
 
-Текущий результат на MySQL 8.4.6: линтер — 100/100 файлов, тесты — 93 passed,
-0 failed, 460 assertions, smoke — 30/30 проверок.
+Текущий результат на MySQL 8.4.6: линтер — 117/117 файлов, тесты — 117 passed,
+0 failed, 711 assertions, smoke — 30/30 проверок.
 
 ## Безопасность
 
@@ -273,6 +278,10 @@ Smoke-тест требует уже применённые миграции и 
 - Регистрация, вход, выход и ролевые лендинги работают; создание и детали
   заявок, комментарии, согласование сметы, `RequestStatusService` и
   админ-CRUD — следующие PR.
+- Публичная часть, auth-страницы и админ-дашборд переведены на общий UI-слой
+  (адаптив, reveal-анимации, состояния форм). Ссылки админ-навигации на
+  будущие CRUD-разделы (`/admin/requests`, `/admin/users` и т.д.) появятся
+  вместе с соответствующими маршрутами в TASK-003/005.
 - `/about` и `/contacts` имеют реальные контроллеры и шаблоны в `app/Views`;
   backend-fallback остаётся страховкой для шаблонов, которых ещё нет.
 - Кабинеты клиента, мастера и администратора на этом этапе только читают

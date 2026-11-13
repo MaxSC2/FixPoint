@@ -1,130 +1,75 @@
 <?php
 declare(strict_types=1);
 
-/**
- * @var array<string, mixed> $authUser
- * @var list<array<string, mixed>> $requests
- * @var array<string, int> $statusCounts
- * @var array<string, int> $summary
- */
-$pageTitle = 'Администрирование';
+$pageTitle = 'Панель администратора';
+$activeNav = 'admin';
+$stats = isset($stats) && is_array($stats) ? $stats : [];
+$recentRequests = isset($recentRequests) && is_array($recentRequests) ? array_values(array_filter($recentRequests, 'is_array')) : [];
+$metricDefinitions = [
+    'total_requests' => ['label' => 'Всего заявок', 'note' => 'Все обращения в системе', 'tone' => 'blue'],
+    'requests_new' => ['label' => 'Новые', 'note' => 'Ожидают первичной обработки', 'tone' => 'sand'],
+    'requests_in_progress' => ['label' => 'В работе', 'note' => 'Диагностика и ремонт', 'tone' => 'green'],
+    'requests_waiting_approval' => ['label' => 'Ждут решения', 'note' => 'Нужно согласование клиента', 'tone' => 'amber'],
+];
 require dirname(__DIR__, 2) . '/layouts/header.php';
 ?>
-<section class="page-hero page-hero--compact">
+<section class="workspace-page admin-workspace">
     <div class="container">
-        <span class="eyebrow"><span class="eyebrow__dot"></span> Администрирование</span>
-        <h1>Обзор сервисного центра</h1>
-        <p>Сводные показатели по заявкам, пользователям и каталогу. Все значения рассчитаны по данным MySQL.</p>
-    </div>
-</section>
-
-<section class="workspace-section">
-    <div class="container">
-        <div class="stat-grid">
-            <article class="stat-card">
-                <span class="stat-card__label">Всего заявок</span>
-                <span class="stat-card__value"><?= (int) $summary['requests_total'] ?></span>
-                <span class="stat-card__note">За всё время</span>
-            </article>
-            <article class="stat-card">
-                <span class="stat-card__label">В работе</span>
-                <span class="stat-card__value"><?= (int) $summary['requests_active'] ?></span>
-                <span class="stat-card__note">Не завершены и не закрыты</span>
-            </article>
-            <article class="stat-card">
-                <span class="stat-card__label">Без мастера</span>
-                <span class="stat-card__value"><?= (int) $summary['requests_unassigned'] ?></span>
-                <span class="stat-card__note">Требуют назначения</span>
-            </article>
-            <article class="stat-card">
-                <span class="stat-card__label">Завершено</span>
-                <span class="stat-card__value"><?= (int) $summary['requests_completed'] ?></span>
-                <span class="stat-card__note">Ремонт выполнен</span>
-            </article>
-        </div>
-
-        <div class="workspace-columns">
-            <div class="panel panel--spaced">
-                <div class="panel__head">
-                    <div>
-                        <h2>Последние заявки</h2>
-                        <p>Новые и недавно обновлённые обращения.</p>
-                    </div>
-                </div>
-
-                <?php if ($requests === []): ?>
-                    <?php
-                    $title = 'Заявок пока нет';
-                    $description = 'После первой заявки здесь появится оперативная сводка.';
-                    require dirname(__DIR__, 2) . '/components/empty-state.php';
-                    ?>
-                <?php else: ?>
-                    <div class="table-wrap">
-                        <table class="data-table">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Заявка</th>
-                                    <th scope="col">Клиент</th>
-                                    <th scope="col">Мастер</th>
-                                    <th scope="col">Статус</th>
-                                    <th scope="col">Создана</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            <?php foreach ($requests as $request): ?>
-                                <tr>
-                                    <td>
-                                        <span class="data-table__primary"><?= e($request['public_number']) ?></span>
-                                        <span class="data-table__meta"><?= e($request['device_type']) ?></span>
-                                    </td>
-                                    <td><?= e($request['customer_name']) ?></td>
-                                    <td><?= e($request['technician_name'] ?? 'Не назначен') ?></td>
-                                    <td>
-                                        <?php
-                                        $status = (string) $request['status'];
-                                        require dirname(__DIR__, 2) . '/components/status-badge.php';
-                                        ?>
-                                    </td>
-                                    <td><?= e(format_datetime((string) $request['created_at'])) ?></td>
-                                </tr>
-                            <?php endforeach; ?>
-                            </tbody>
-                        </table>
-                    </div>
-                <?php endif; ?>
+        <div class="workspace-heading" data-reveal>
+            <div>
+                <span class="eyebrow">Операционная панель / FixPoint</span>
+                <h1>Обзор сервиса</h1>
+                <p>Заявки, сотрудники и справочники сервисного центра. Показатели формируются из базы данных.</p>
             </div>
-
-            <aside class="panel panel--spaced">
-                <div class="panel__head">
-                    <div>
-                        <h2>Справочники</h2>
-                        <p>Активные записи системы.</p>
-                    </div>
-                </div>
-                <dl class="summary-list">
-                    <div>
-                        <dt>Пользователи</dt>
-                        <dd><?= (int) $summary['users_total'] ?></dd>
-                    </div>
-                    <div>
-                        <dt>Клиенты</dt>
-                        <dd><?= (int) $summary['customers'] ?></dd>
-                    </div>
-                    <div>
-                        <dt>Мастера</dt>
-                        <dd><?= (int) $summary['technicians'] ?></dd>
-                    </div>
-                    <div>
-                        <dt>Активные услуги</dt>
-                        <dd><?= (int) $summary['services_active'] ?></dd>
-                    </div>
-                    <div>
-                        <dt>Активные категории</dt>
-                        <dd><?= (int) $summary['categories_active'] ?></dd>
-                    </div>
-                </dl>
-            </aside>
+            <a class="button button--primary button--large" href="/admin/requests">Открыть реестр <span aria-hidden="true">↗</span></a>
         </div>
+
+        <nav class="workspace-nav" aria-label="Разделы администратора" data-reveal>
+            <a class="workspace-nav__link is-active" href="/admin" aria-current="page">Обзор</a>
+            <a class="workspace-nav__link" href="/admin/requests">Заявки</a>
+            <a class="workspace-nav__link" href="/admin/users">Пользователи</a>
+            <a class="workspace-nav__link" href="/admin/services">Услуги</a>
+            <a class="workspace-nav__link" href="/admin/categories">Категории</a>
+            <a class="workspace-nav__link workspace-nav__link--action" href="/admin/statistics">Статистика <span aria-hidden="true">↗</span></a>
+        </nav>
+
+        <section class="admin-metrics" aria-label="Показатели сервиса" data-reveal>
+            <?php foreach ($metricDefinitions as $key => $definition): ?>
+                <article class="admin-metric admin-metric--<?= e($definition['tone']) ?>">
+                    <span class="admin-metric__label"><?= e($definition['label']) ?></span>
+                    <strong><?= isset($stats[$key]) && is_numeric($stats[$key]) ? e(number_format((int) $stats[$key], 0, ',', ' ')) : '—' ?></strong>
+                    <small><?= e($definition['note']) ?></small>
+                </article>
+            <?php endforeach; ?>
+        </section>
+
+        <div class="admin-secondary-metrics" data-reveal>
+            <div><span>Активные клиенты</span><strong><?= isset($stats['active_customers']) && is_numeric($stats['active_customers']) ? e(number_format((int) $stats['active_customers'], 0, ',', ' ')) : '—' ?></strong></div>
+            <div><span>Активные мастера</span><strong><?= isset($stats['active_technicians']) && is_numeric($stats['active_technicians']) ? e(number_format((int) $stats['active_technicians'], 0, ',', ' ')) : '—' ?></strong></div>
+            <div><span>Завершённые заявки</span><strong><?= isset($stats['requests_completed']) && is_numeric($stats['requests_completed']) ? e(number_format((int) $stats['requests_completed'], 0, ',', ' ')) : '—' ?></strong></div>
+        </div>
+
+        <section class="admin-recent" data-reveal>
+            <div class="account-recent__head">
+                <div><span class="eyebrow">Операционная работа</span><h2>Последние обращения</h2></div>
+                <a class="text-link" href="/admin/requests">Весь реестр <span aria-hidden="true">↗</span></a>
+            </div>
+            <?php if ($recentRequests !== []): ?>
+                <div class="request-card-list">
+                    <?php foreach (array_slice($recentRequests, 0, 5) as $request): ?>
+                        <?php require dirname(__DIR__, 2) . '/components/request-card.php'; ?>
+                    <?php endforeach; ?>
+                </div>
+            <?php else: ?>
+                <?php
+                $title = 'Новых обращений пока нет';
+                $description = 'Здесь появятся последние заявки из базы данных. Демонстрационные записи не подставляются.';
+                $actionLabel = 'Открыть реестр';
+                $actionHref = '/admin/requests';
+                require dirname(__DIR__, 2) . '/components/empty-state.php';
+                ?>
+            <?php endif; ?>
+        </section>
     </div>
 </section>
 <?php require dirname(__DIR__, 2) . '/layouts/footer.php'; ?>

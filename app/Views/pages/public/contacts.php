@@ -11,7 +11,7 @@ $contactEmail = isset($contactEmail) ? (string) $contactEmail : '';
 $workingHours = isset($workingHours) ? (string) $workingHours : '';
 ?>
 <section class="page-hero page-hero--compact">
-    <div class="container">
+    <div class="container" data-reveal>
         <span class="eyebrow">Связь с FixPoint</span>
         <h1>Контакты сервисного центра</h1>
         <p>Здесь размещаются актуальные способы связи и информация о приёме устройств.</p>
@@ -20,7 +20,7 @@ $workingHours = isset($workingHours) ? (string) $workingHours : '';
 </section>
 
 <section class="section">
-    <div class="container contacts-layout">
+    <div class="container contacts-layout" data-reveal>
         <div class="contacts-panel">
             <span class="eyebrow">Как нас найти</span>
             <h2>Информация для клиентов</h2>

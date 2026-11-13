@@ -1,83 +1,89 @@
 <?php
 declare(strict_types=1);
 
-/**
- * @var array<string, mixed> $old
- * @var array<string, string> $errors
- * @var string $csrfToken
- * @var string|null $returnTo
- */
-$pageTitle = 'Вход';
+$pageTitle = 'Вход в личный кабинет';
+$activeNav = '';
+$old = isset($old) && is_array($old) ? $old : [];
+$errors = isset($errors) && is_array($errors) ? $errors : [];
+$email = (string) ($old['email'] ?? '');
+$emailError = (string) ($errors['email'] ?? '');
+$passwordError = (string) ($errors['password'] ?? '');
+$generalError = (string) ($errors['general'] ?? '');
+$returnTo = isset($returnTo) && is_string($returnTo) ? $returnTo : null;
 require dirname(__DIR__, 2) . '/layouts/header.php';
-
-$loginAction = $returnTo !== null
-    ? '/login?return_to=' . rawurlencode((string) $returnTo)
-    : '/login';
 ?>
-<section class="auth-shell">
-    <div class="container auth-shell__grid">
-        <div class="auth-intro">
-            <span class="eyebrow"><span class="eyebrow__dot"></span> Личный кабинет</span>
-            <h1>Следите за ремонтом<br><span>в одном месте.</span></h1>
-            <p class="auth-intro__lead">
-                После входа доступны ваши заявки, статус диагностики, согласование стоимости
-                и история работы мастера.
-            </p>
-            <ul class="auth-points">
-                <li>Только ваши заявки — доступ проверяется на сервере.</li>
-                <li>Понятный статус без звонков и уточнений.</li>
-                <li>История ремонта сохраняется в заявке.</li>
-            </ul>
+<section class="auth-page">
+    <div class="container auth-page__grid">
+        <div class="auth-story" data-reveal>
+            <span class="eyebrow">Личный кабинет / FixPoint</span>
+            <h1>Продолжим<br><em>с того места,</em><br>где остановились.</h1>
+            <p>Войдите, чтобы посмотреть ход ремонта, прочитать заключение мастера или принять решение по смете.</p>
+            <div class="auth-story__steps">
+                <div><span>01</span><strong>Статус заявки</strong><small>Текущий этап и история событий</small></div>
+                <div><span>02</span><strong>Диагностика</strong><small>Что удалось обнаружить мастеру</small></div>
+                <div><span>03</span><strong>Ваше решение</strong><small>Смета до начала ремонтных работ</small></div>
+            </div>
+            <span class="auth-story__signature">ПОНЯТНЫЙ ПРОЦЕСС · FIXPOINT</span>
         </div>
 
-        <div class="auth-card">
-            <h2>Вход</h2>
-            <p class="auth-card__lead">Введите email и пароль, указанные при регистрации.</p>
+        <div class="auth-panel" data-reveal>
+            <div class="auth-panel__head">
+                <span class="auth-panel__overline">РАБОЧЕЕ ПРОСТРАНСТВО</span>
+                <h2>С возвращением</h2>
+                <p>Введите данные, указанные при регистрации.</p>
+            </div>
 
-            <?php if (isset($errors['general']) && $errors['general'] !== ''): ?>
-                <div class="alert alert--error" role="alert">
-                    <span class="alert__marker" aria-hidden="true"></span>
-                    <p><?= e($errors['general']) ?></p>
-                </div>
+            <?php if ($generalError !== ''): ?>
+                <div class="alert alert--error" role="alert"><span class="alert__marker" aria-hidden="true"></span><p><?= e($generalError) ?></p></div>
             <?php endif; ?>
 
-            <form class="auth-form" method="post" action="<?= e($loginAction) ?>" novalidate>
-                <?= csrf_field() ?>
+            <form class="auth-form" method="post" action="/login">
+                <?php if ($returnTo !== null): ?><input type="hidden" name="return_to" value="<?= e($returnTo) ?>"><?php endif; ?>
+                <input type="hidden" name="_token" value="<?= e($csrfToken ?? '') ?>">
 
-                <?php
-                $name = 'email';
-                $label = 'Email';
-                $type = 'email';
-                $value = (string) old_value($old, 'email', '');
-                $placeholder = 'name@example.com';
-                $help = '';
-                $error = $errors['email'] ?? '';
-                $required = true;
-                $autocomplete = 'email';
-                $multiline = false;
-                require dirname(__DIR__, 2) . '/components/form-field.php';
-                ?>
+                <label class="field<?= $emailError !== '' ? ' field--invalid' : '' ?>" for="login-email">
+                    <span class="field__label">Электронная почта</span>
+                    <input
+                        id="login-email"
+                        type="email"
+                        name="email"
+                        value="<?= e($email) ?>"
+                        autocomplete="username"
+                        inputmode="email"
+                        placeholder="name@example.com"
+                        required
+                        <?= $emailError !== '' ? 'aria-invalid="true" aria-describedby="login-email-error"' : '' ?>
+                    >
+                    <?php if ($emailError !== ''): ?><small class="field__error" id="login-email-error"><?= e($emailError) ?></small><?php endif; ?>
+                </label>
 
-                <?php
-                $name = 'password';
-                $label = 'Пароль';
-                $type = 'password';
-                $value = '';
-                $placeholder = '';
-                $help = '';
-                $error = $errors['password'] ?? '';
-                $required = true;
-                $autocomplete = 'current-password';
-                $multiline = false;
-                require dirname(__DIR__, 2) . '/components/form-field.php';
-                ?>
+                <div class="field<?= $passwordError !== '' ? ' field--invalid' : '' ?>">
+                    <label class="field__label" for="login-password">Пароль</label>
+                    <span class="auth-password">
+                        <input
+                            id="login-password"
+                            type="password"
+                            name="password"
+                            autocomplete="current-password"
+                            placeholder="Введите пароль"
+                            required
+                            <?= $passwordError !== '' ? 'aria-invalid="true" aria-describedby="login-password-error"' : '' ?>
+                        >
+                        <button class="auth-password__toggle" type="button" data-password-toggle aria-controls="login-password" aria-pressed="false" aria-label="Показать пароль">
+                            <span data-password-toggle-label>Показать</span>
+                        </button>
+                    </span>
+                    <?php if ($passwordError !== ''): ?><small class="field__error" id="login-password-error"><?= e($passwordError) ?></small><?php endif; ?>
+                </div>
 
-                <button class="button button--primary" type="submit">Войти</button>
+                <button class="button button--primary button--large auth-form__submit" type="submit">Войти в кабинет <span aria-hidden="true">↗</span></button>
             </form>
 
-            <p class="auth-switch">
-                Нет аккаунта? <a href="/register">Зарегистрироваться</a>
-            </p>
+            <div class="auth-panel__foot">
+                <span>Впервые в FixPoint?</span>
+                <a href="/register">Создать аккаунт <span aria-hidden="true">↗</span></a>
+            </div>
+            <p class="auth-panel__privacy">Используйте личную учётную запись. Не передавайте пароль другим людям.</p>
         </div>
     </div>
 </section>

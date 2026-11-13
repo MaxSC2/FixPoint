@@ -11,7 +11,7 @@ $selectedCategory = (string) ($filters['category'] ?? '');
 require dirname(__DIR__, 3) . '/layouts/header.php';
 ?>
 <section class="page-hero page-hero--compact">
-    <div class="container">
+    <div class="container" data-reveal>
         <span class="eyebrow">Каталог FixPoint</span>
         <h1>Услуги сервисного центра</h1>
         <p>Выберите направление обслуживания. Итоговая стоимость определяется после диагностики и согласовывается до ремонта.</p>
@@ -21,7 +21,7 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
 
 <section class="section section--catalog">
     <div class="container">
-        <form class="catalog-filters" method="get" action="/services">
+        <form class="catalog-filters" data-reveal method="get" action="/services">
             <label class="field catalog-filters__search">
                 <span class="sr-only">Поиск услуги</span>
                 <span class="field__icon" aria-hidden="true">⌕</span>
@@ -49,7 +49,7 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
         </form>
 
         <?php if ($services !== []): ?>
-            <div class="catalog-results">
+            <div class="catalog-results" data-reveal>
                 <div class="catalog-results__heading"><h2>Доступные услуги</h2><span><?= e((string) count($services)) ?> в списке</span></div>
                 <div class="service-grid">
                     <?php foreach ($services as $service): ?>
@@ -58,7 +58,7 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
                 </div>
             </div>
         <?php else: ?>
-            <div class="empty-state">
+            <div class="empty-state" data-reveal>
                 <span class="empty-state__icon" aria-hidden="true">⌕</span>
                 <h2>Услуги пока не найдены</h2>
                 <p>Попробуйте изменить параметры поиска или вернитесь к полному каталогу. Новые услуги появятся здесь после публикации.</p>
@@ -66,7 +66,7 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
             </div>
         <?php endif; ?>
 
-        <aside class="catalog-note">
+        <aside class="catalog-note" data-reveal>
             <span class="catalog-note__icon" aria-hidden="true">i</span>
             <p>Цена «от» является ориентировочной. Точную стоимость мастер определит после диагностики и согласует с вами до начала ремонта.</p>
         </aside>

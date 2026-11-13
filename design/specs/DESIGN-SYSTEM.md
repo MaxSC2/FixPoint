@@ -1,125 +1,98 @@
-# FixPoint Design System — v0.1
+# FixPoint Design System — v0.2
 
-Status: working baseline for UI-001. Validate after reviewing actual visual references; do not treat this as a final brand system.
+**Status:** UI-02 visual direction implemented on `feature/ui-02-identity-and-motion`. This is the current design baseline for review, not a claim that every authenticated view is complete.
 
 ## Product character
 
-FixPoint is a practical computer and electronics repair service portal. The interface should feel reliable, precise, calm, and operational. Avoid gamer aesthetics, neon cyberpunk styling, excessive gradients, glassmorphism, and decorative dashboards that hide the next action.
+FixPoint uses a **repair dossier / modern workshop** direction. The service should feel like a careful technical workshop: precise, approachable, transparent and human. The visual language combines editorial typography, warm neutral surfaces, deep workshop green-charcoal, cobalt actions and a restrained chartreuse signal accent.
+
+The interface must not resemble a generic AI-generated SaaS template. Avoid decorative gradients, random 3D objects, repeated glass cards, neon effects and unearned statistics.
 
 ## Visual principles
 
-1. Status before decoration: users should immediately understand what is happening with a repair.
-2. One primary action per screen or major section.
-3. Use consistent page widths and spacing.
-4. Dense operational tables are acceptable on desktop, but must become readable cards or horizontally managed views on mobile.
-5. Distinguish estimated prices from confirmed prices.
-6. Every form needs visible labels, validation, loading, success, and error states.
-7. Color must not be the only way to communicate status.
+1. **Show the process.** Repair is presented as a sequence of understandable events, not an opaque status field.
+2. **Evidence before promise.** Diagnosis, estimate and customer approval are distinct stages.
+3. **Clear next action.** Every screen should make the next useful action obvious.
+4. **Different workspaces, one identity.** Customer, technician and admin experiences may have different density and navigation.
+5. **Composition over decoration.** Technical illustration and typography carry meaning; decoration is secondary.
+6. **Content integrity.** Never invent prices, addresses, credentials, testimonials, KPIs or real request data.
 
-## Provisional tokens
+## Current design tokens
 
 | Token | Value | Use |
 |---|---|---|
-| Brand / primary | `#2563EB` | primary actions, links, active navigation |
-| Primary hover | `#1D4ED8` | hover/focus interaction |
-| Ink | `#172033` | headings and main text |
-| Muted text | `#64748B` | secondary labels |
-| Page background | `#F5F7FB` | app canvas |
-| Surface | `#FFFFFF` | cards and panels |
-| Border | `#E2E8F0` | dividers and outlines |
-| Success | `#15803D` | completed / accepted |
-| Warning | `#B45309` | waiting / approval needed |
-| Danger | `#B91C1C` | rejected / destructive errors |
-| Info | `#0369A1` | informational state |
+| `--color-ink` | `#202D30` | Main text |
+| `--color-ink-soft` | `#34474A` | Secondary headings |
+| `--color-muted` | `#667674` | Supporting text |
+| `--color-primary` | `#315FC1` | Main actions and links |
+| `--color-primary-dark` | `#254C9E` | Hover |
+| `--color-primary-soft` | `#E8EDF8` | Soft action surfaces |
+| `--color-bg` | `#F3F1E9` | Warm canvas |
+| `--color-surface` | `#FBFAF5` | Panels and content surfaces |
+| `--color-surface-soft` | `#F7F5EE` | Secondary surface |
+| `--color-border` | `#DCDED5` | Dividers and outlines |
+| Signal accent | `#D9ED74` | Small highlights, not body text |
+| Workshop dark | `#1D3036` | Dark process areas and footer |
+| Success | `#397B59` | Positive status |
+| Warning | `#A66A31` | Waiting / approval |
+| Danger | `#A84F4F` | Errors / rejected |
+| `--radius-card` | `13px` | Standard cards |
+| `--radius-control` | `7px` | Buttons and controls |
+| `--content-width` | `1260px` | Main page width |
 
-These values are provisional. Keep them as CSS custom properties so the palette can be revised centrally.
+Use CSS custom properties; don't scatter raw brand colors across templates. Status colors remain semantic and always pair with readable text.
 
 ## Typography
 
-- Use a system sans-serif stack initially; avoid loading remote fonts before performance and licensing are checked.
-- Landing hero title: 48–69 px desktop, 36–50 px mobile.
-- Secondary page title: 38–58 px desktop, 34–45 px mobile.
-- Section title: 28–45 px desktop, 26–36 px mobile.
-- Card/component title: 16–20 px.
-- Body: 14–16 px, line-height 1.45–1.6.
-- Metadata: 12–13 px; never use tiny text for critical status or form help.
+- Use a local system sans-serif stack; no mandatory CDN font request.
+- Use a restrained serif italic accent for selected editorial phrases, not as the main interface font.
+- Desktop hero: approximately 52–84 px, responsive with `clamp()`.
+- Section headings: approximately 32–54 px.
+- Body copy: 14–17 px with comfortable line-height.
+- Metadata: normally at least 12 px; essential status and form help must remain comfortably readable.
+- Keep heading line lengths controlled and avoid forced line breaks that clip on narrow screens.
 
-## Layout and spacing
+## Layout
 
-- Desktop content max width: 1200 px.
-- Main page padding: 32 px desktop, 20 px tablet, 16 px mobile.
-- Spacing scale: 4, 8, 12, 16, 24, 32, 40, 48 px.
-- Cards: 12–16 px radius, 1 px border, restrained shadow only where elevation clarifies hierarchy.
-- Buttons and inputs: minimum 44 px touch height on mobile.
-- Breakpoints used by the current stylesheet: 640 px, 900 px, 1100 px.
-- At 900 px and below, public navigation collapses; at 640 px and below, primary page grids become single-column.
+- Primary content width: 1260 px.
+- Breakpoints: 1100 px, 900 px, 640 px.
+- Mobile minimum test width: 360 px.
+- Touch controls: at least 44 px high.
+- Use open rows and strong dividers where information is naturally sequential; don't put every element inside a card.
+- Cards are reserved for actual grouped content, not used as the default container for every section.
 
-## Components required for UI-001
+## Signature components
 
-- Header with logo/wordmark, public navigation, auth actions.
-- Mobile navigation with accessible open/close behavior.
-- Main container and page header.
-- Primary, secondary, tertiary, and danger buttons.
-- Text, email, telephone, password, select, textarea, and file inputs.
-- Form field help, validation error, and success message.
-- Cards, service cards, status badges, alerts, tables, pagination.
-- Empty, loading, and error states.
-- Footer with contacts and legal links placeholders.
+- Repair dossier hero artwork: `public/assets/images/repair-dossier.svg`.
+- Service index rows with number, device glyph, description and clear navigation affordance.
+- Four-stage repair process line.
+- Repair record / timeline panel, explicitly marked as an illustrative schema.
+- Shared status badges, form fields, empty states, data tables and flash alerts.
+- Sticky responsive public header and shared footer.
 
-## Repair status semantics
+## Motion
 
-| Status | Meaning | Visual treatment |
-|---|---|---|
-| new | Request received | info |
-| accepted | Accepted by service centre | info |
-| diagnostics | Device is being diagnosed | info |
-| awaiting_customer_approval | Customer decision required | warning |
-| awaiting_parts | Waiting for required parts | warning |
-| repairing | Repair work in progress | info |
-| ready_for_pickup | Ready for collection | success |
-| completed | Work completed and handed over | success |
-| rejected | Request rejected | danger |
-| cancelled | Cancelled | neutral |
+- Small interaction feedback: 140–220 ms.
+- Content reveal: approximately 650 ms with a restrained vertical offset.
+- Motion should clarify hierarchy or state, not delay actions.
+- Scroll reveal is progressively enhanced through `IntersectionObserver`.
+- If JavaScript is unavailable, all content remains visible.
+- Respect `prefers-reduced-motion`; never rely on animation to communicate a status.
 
-Always pair a color with a text label and, where useful, an icon.
+## Accessibility and implementation
 
-## Accessibility baseline
+- Semantic landmarks and one clear H1 per page.
+- Real links for navigation; real buttons for actions.
+- Explicit field labels and visible focus.
+- Text labels accompany status colors.
+- Decorative SVGs use empty alt text or are hidden from assistive technology; meaningful SVGs have title/description.
+- PHP templates only render data. No SQL, authorization, business rules or fake successful submissions in views.
+- Keep production frontend to PHP views, HTML, CSS and vanilla JavaScript.
 
-- Semantic landmarks and heading order.
-- Explicit labels for every input.
-- Keyboard-visible focus states.
-- Sufficient contrast for text and controls.
-- Buttons must be real buttons; navigation must be links.
-- Error messages must be associated with the relevant field.
-- Respect reduced-motion preferences.
+## Role-specific density
 
-## Page composition
+- Customer: low density, clear progress, cost decision, next action and history.
+- Technician: efficient queue, compact device/problem context, diagnosis and status actions.
+- Admin: information-dense overview, reliable filters, tables and operational metrics from the database.
 
-### Public landing page
-1. Header.
-2. Hero with clear proposition and one primary CTA to create a repair request.
-3. Service categories / popular services.
-4. Three-step repair process.
-5. Trust and quality information without fabricated testimonials or certifications.
-6. Contact/location block.
-7. Footer.
-
-### Service catalogue
-- Search and category filter.
-- Service cards with title, short scope, estimated price or “from” label, and details CTA.
-- Clear disclaimer that final price follows diagnostics.
-
-### Auth pages
-- Compact centered form surface.
-- Clear validation and password visibility control.
-- Link between sign-in and registration.
-- No decorative illustration that competes with the form.
-
-### Authenticated workspaces
-- Customer: repair overview, status timeline, next required action, history.
-- Technician: assigned queue, priority, device details, diagnosis, action log.
-- Administrator: KPIs, filters, request management, users, technicians, services.
-
-## Implementation note
-
-The design system must be implemented with CSS variables and reusable components. Avoid scattering raw colors, spacing values, or one-off button styles across pages.
+These role patterns share the same tokens and status language, but not necessarily the same page composition.

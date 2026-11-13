@@ -6,7 +6,7 @@ $activeNav = 'about';
 require dirname(__DIR__, 2) . '/layouts/header.php';
 ?>
 <section class="page-hero">
-    <div class="container page-hero__grid">
+    <div class="container page-hero__grid" data-reveal>
         <div>
             <span class="eyebrow">О FixPoint</span>
             <h1>Сервис, в котором<br><span>понятно, что происходит.</span></h1>
@@ -23,7 +23,7 @@ require dirname(__DIR__, 2) . '/layouts/header.php';
 </section>
 
 <section class="section">
-    <div class="container about-intro">
+    <div class="container about-intro" data-reveal>
         <div><span class="eyebrow">Наш подход</span><h2>Каждый этап<br>имеет своё место</h2></div>
         <div class="about-intro__copy">
             <p>Ремонт техники часто сопровождается ожиданием и вопросами: кто занимается устройством, что уже проверили, сколько будет стоить работа и когда можно забрать устройство.</p>
@@ -35,7 +35,7 @@ require dirname(__DIR__, 2) . '/layouts/header.php';
 <section class="section section--soft">
     <div class="container">
         <div class="section-heading"><div><span class="eyebrow">Принципы работы</span><h2>На чём строится процесс</h2></div></div>
-        <div class="principle-grid">
+        <div class="principle-grid" data-reveal>
             <article class="principle-card"><span>01</span><h3>Сначала диагностика</h3><p>Причина неисправности и объём работ уточняются до согласования сметы.</p></article>
             <article class="principle-card"><span>02</span><h3>Стоимость не сюрприз</h3><p>Работы начинаются после того, как клиенту показали и согласовали стоимость.</p></article>
             <article class="principle-card"><span>03</span><h3>История сохраняется</h3><p>Статусы и важные события записываются в истории заявки.</p></article>
@@ -44,7 +44,7 @@ require dirname(__DIR__, 2) . '/layouts/header.php';
 </section>
 
 <section class="section">
-    <div class="container about-bottom">
+    <div class="container about-bottom" data-reveal>
         <div><span class="eyebrow">Начать просто</span><h2>Опишите проблему<br>и создайте заявку.</h2><p>Дальнейшие шаги будут доступны в личном кабинете.</p></div>
         <a class="button button--primary button--large" href="/register">Создать аккаунт <span aria-hidden="true">→</span></a>
     </div>

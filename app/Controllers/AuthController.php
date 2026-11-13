@@ -45,7 +45,7 @@ final class AuthController extends Controller
     {
         $email = $this->stringPost($request, 'email');
         $password = $this->stringPost($request, 'password');
-        $returnTo = $this->safeReturnTo($request->query('return_to'));
+        $returnTo = $this->safeReturnTo($request->post('return_to', $request->query('return_to')));
 
         if (!$this->authService->attempt($email, $password)) {
             $this->session->flash('error', 'Неверный email или пароль.');

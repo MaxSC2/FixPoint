@@ -10,13 +10,11 @@ use FixPoint\Core\Response;
 use FixPoint\Core\Session;
 use FixPoint\Core\ViewRenderer;
 use FixPoint\Repositories\RequestRepository;
-use FixPoint\Repositories\ServiceCategoryRepository;
-use FixPoint\Repositories\ServiceRepository;
 use FixPoint\Repositories\UserRepository;
 use FixPoint\Security\Auth;
 use FixPoint\Security\Csrf;
 
-/** Admin dashboard backed by real aggregate queries. */
+/** Admin dashboard backed by real aggregate queries and the UI view contract. */
 final class AdminController extends Controller
 {
     public function __construct(
@@ -26,9 +24,7 @@ final class AdminController extends Controller
         Csrf $csrf,
         Session $session,
         private readonly RequestRepository $requests,
-        private readonly UserRepository $users,
-        private readonly ServiceRepository $services,
-        private readonly ServiceCategoryRepository $categories
+        private readonly UserRepository $users
     ) {
         parent::__construct($config, $view, $auth, $csrf, $session);
     }
@@ -37,24 +33,36 @@ final class AdminController extends Controller
     {
         $counts = $this->requests->statusCountsAll();
         $total = $this->requests->countAll();
-        $closed = ($counts['completed'] ?? 0) + ($counts['cancelled'] ?? 0) + ($counts['rejected'] ?? 0);
+
+        $inProgress = 0;
+        foreach (['accepted', 'diagnostics', 'awaiting_parts', 'repairing', 'ready_for_pickup'] as $status) {
+            $inProgress += $counts[$status] ?? 0;
+        }
+
+        $stats = [
+            'total_requests' => $total,
+            'requests_new' => $counts['new'] ?? 0,
+            'requests_in_progress' => $inProgress,
+            'requests_waiting_approval' => $counts['awaiting_customer_approval'] ?? 0,
+            'requests_completed' => $counts['completed'] ?? 0,
+            'active_customers' => $this->users->countByRole('customer'),
+            'active_technicians' => $this->users->countByRole('technician'),
+        ];
+
+        $recentRequests = array_map(
+            static function (array $request): array {
+                $request['service'] = ['name' => $request['service_name'] ?? null];
+
+                return $request;
+            },
+            $this->requests->latest(8)
+        );
 
         return $this->renderPage('pages/admin/dashboard', [
             'pageTitle' => 'Администрирование — ' . $this->config->get('app.name'),
             'activeNav' => 'admin',
-            'requests' => $this->requests->latest(8),
-            'statusCounts' => $counts,
-            'summary' => [
-                'requests_total' => $total,
-                'requests_active' => max(0, $total - $closed),
-                'requests_unassigned' => $this->requests->countUnassigned(),
-                'requests_completed' => $counts['completed'] ?? 0,
-                'users_total' => $this->users->countAll(),
-                'customers' => $this->users->countByRole('customer'),
-                'technicians' => $this->users->countByRole('technician'),
-                'services_active' => $this->services->countAllActive(),
-                'categories_active' => $this->categories->countActive(),
-            ],
+            'stats' => $stats,
+            'recentRequests' => $recentRequests,
         ]);
     }
 }
