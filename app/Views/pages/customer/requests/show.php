@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 $request = isset($request) && is_array($request) ? $request : [];
 $permissions = isset($permissions) && is_array($permissions) ? $permissions : [];
+$old = isset($old) && is_array($old) ? $old : [];
+$errors = isset($errors) && is_array($errors) ? $errors : [];
 $history = isset($history) && is_array($history) ? array_values(array_filter($history, 'is_array')) : [];
 $comments = isset($comments) && is_array($comments) ? array_values(array_filter($comments, 'is_array')) : [];
 $requestId = (string) ($request['id'] ?? '');
@@ -172,7 +174,7 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
                             <input type="hidden" name="_token" value="<?= e($csrfToken ?? '') ?>">
                             <label class="field<?= isset($errors['body']) ? ' field--invalid' : '' ?>" for="request-comment-body">
                                 <span class="field__label">Добавить комментарий</span>
-                                <textarea id="request-comment-body" name="body" rows="3" maxlength="3000" placeholder="Напишите уточнение или задайте вопрос" required <?= isset($errors['body']) ? 'aria-invalid="true" aria-describedby="request-comment-error"' : '' ?>></textarea>
+                                <textarea id="request-comment-body" name="body" rows="3" maxlength="3000" placeholder="Напишите уточнение или задайте вопрос" required <?= isset($errors['body']) ? 'aria-invalid="true" aria-describedby="request-comment-error"' : '' ?>><?= e((string) ($old['body'] ?? '')) ?></textarea>
                                 <?php if (isset($errors['body'])): ?><small class="field__error" id="request-comment-error"><?= e((string) $errors['body']) ?></small><?php endif; ?>
                             </label>
                             <button class="button button--primary" type="submit">Отправить комментарий</button>
