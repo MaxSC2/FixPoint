@@ -28,19 +28,21 @@ Added two ViewRenderer-based tests in `tests/Backend/UiTemplateContractTest.php`
 
 ## CI evidence
 
-[GitHub Actions run #43389133646](https://github.com/MaxSC2/FixPoint/actions/runs/43389133646) completed successfully on commit `0990f51167fe4f444a13bbec2b22abad8a61d15e`.
+Final-head GitHub Actions runs [#43389780967](https://github.com/MaxSC2/FixPoint/actions/runs/43389780967) and [#43389778136](https://github.com/MaxSC2/FixPoint/actions/runs/43389778136) completed successfully on PR head `f47a830a22677b2b640a0daa13dec47f0b1280ed`.
 
 - PHP lint: **121 files OK**
-- Unit and integration tests: **135 passed, 0 failed**
-- Assertions: **937**
+- Unit and integration tests: **136 passed, 0 failed**
+- Assertions: **941**
+- JavaScript: V8 parse-only syntax compilation passed; the script was not executed in a browser.
 - Docker Compose runtime: configuration, image build, app/MySQL startup, health endpoint, public-route smoke and cleanup all passed.
 
-The later documentation-only commits are checked again by the final PR head workflow.
+Both push-triggered and pull-request-triggered CI runs are green.
 
 ## Changed files
 
 - `app/Views/pages/customer/requests/show.php`
 - `app/Views/pages/technician/requests/show.php`
+- `public/assets/js/app.js`
 - `tests/Backend/UiTemplateContractTest.php`
 - `docs/13-CHATGPT-IMPLEMENTATION-MAP.md`
 - `docs/17-UI-01-QA-CHECKLIST.md`
