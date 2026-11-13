@@ -5,6 +5,7 @@ declare(strict_types=1);
 use FixPoint\Controllers\AccountController;
 use FixPoint\Controllers\AdminController;
 use FixPoint\Controllers\AdminRequestController;
+use FixPoint\Controllers\AdminUserController;
 use FixPoint\Controllers\AuthController;
 use FixPoint\Controllers\HealthController;
 use FixPoint\Controllers\HomeController;
@@ -72,4 +73,8 @@ return static function (Router $router, App $app): void {
     $router->get('/admin/requests', [AdminRequestController::class, 'index'], $adminOnly);
     $router->get('/admin/requests/{id:\d+}/assign', [AdminRequestController::class, 'showAssign'], $adminOnly);
     $router->post('/admin/requests/{id:\d+}/assign', [AdminRequestController::class, 'assign'], $adminOnly);
+    $router->get('/admin/users', [AdminUserController::class, 'index'], $adminOnly);
+    $router->post('/admin/users', [AdminUserController::class, 'store'], $adminOnly);
+    $router->get('/admin/users/{id:\d+}/edit', [AdminUserController::class, 'showEdit'], $adminOnly);
+    $router->post('/admin/users/{id:\d+}/edit', [AdminUserController::class, 'update'], $adminOnly);
 };
