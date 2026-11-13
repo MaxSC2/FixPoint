@@ -9,7 +9,7 @@
 ### Customer request comments
 Previously, a server-side validation redirect returned the request detail page but the customer's submitted comment body was not restored in the textarea. The view now normalizes the `old` and `errors` view data and renders `old.body` back into the field using the shared HTML escaping helper.
 
-The customer comment list continues to filter out comments marked `is_internal`. Internal technician notes are not rendered in the customer workspace.
+The customer comment list continues to filter out comments marked `is_internal`. Internal technician notes are not rendered in the customer workspace. The reject-estimate submitter also carries a confirmation message; the JavaScript enhancement can cancel the submit, while the original POST + CSRF form remains the functional fallback.
 
 ### Technician diagnosis and estimate
 Previously, a validation redirect could repopulate the work card from the persisted request model and discard the technician's unsaved form values. The view now prefers submitted old input for:
@@ -24,6 +24,7 @@ Persisted values remain the fallback when the page is opened normally. The view 
 Added two ViewRenderer-based tests in `tests/Backend/UiTemplateContractTest.php`:
 1. Render the customer request detail with a failed comment submission and verify escaped old input is restored, the field error is associated, and an internal note is absent.
 2. Render the technician work card with a failed diagnosis submission and verify the unsaved diagnosis, estimate and ready timestamp are restored instead of the older persisted values.
+3. Assert that the estimate-rejection button is guarded by the shared progressive confirmation handler.
 
 ## CI evidence
 
