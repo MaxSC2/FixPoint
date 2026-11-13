@@ -53,11 +53,18 @@ return static function (Router $router, App $app): void {
         [AuthMiddleware::class]
     );
 
+    $staffOnly = [
+        AuthMiddleware::class,
+        new RoleMiddleware($app->auth(), $app->session(), 'technician', 'admin'),
+    ];
     $router->get(
         '/technician/requests',
         [TechnicianController::class, 'queue'],
         [AuthMiddleware::class, new RoleMiddleware($app->auth(), $app->session(), 'technician')]
     );
+    $router->get('/technician/requests/{id:\d+}', [TechnicianController::class, 'show'], $staffOnly);
+    $router->post('/technician/requests/{id:\d+}/diagnosis', [TechnicianController::class, 'updateDiagnosis'], $staffOnly);
+    $router->post('/technician/requests/{id:\d+}/status', [TechnicianController::class, 'updateStatus'], $staffOnly);
     $router->get(
         '/admin',
         [AdminController::class, 'index'],

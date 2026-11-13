@@ -179,6 +179,31 @@ final class RequestRepository
         }
     }
 
+    /**
+     * Persist the technician's diagnosis and estimate. Status changes stay in
+     * transitionStatus so every workflow step is validated and logged.
+     */
+    public function updateDiagnosis(
+        int $requestId,
+        string $diagnosticResult,
+        ?string $estimatedCost,
+        ?string $estimatedReadyAt
+    ): void {
+        $statement = $this->database->connection()->prepare(
+            'UPDATE repair_requests
+             SET diagnostic_result = :diagnostic_result,
+                 estimated_cost = :estimated_cost,
+                 estimated_ready_at = :estimated_ready_at
+             WHERE id = :id'
+        );
+        $statement->execute([
+            'diagnostic_result' => $diagnosticResult,
+            'estimated_cost' => $estimatedCost,
+            'estimated_ready_at' => $estimatedReadyAt,
+            'id' => $requestId,
+        ]);
+    }
+
     /** @return list<array<string, mixed>> */
     public function commentsForRequest(int $requestId, bool $includeInternal = false): array
     {
@@ -327,6 +352,45 @@ final class RequestRepository
         return $this->statusMap($statement->fetchAll());
     }
 
+    /**
+     * Scoped work queue. A null technician id means the caller is an admin and
+     * wants every request; filter values are validated by the service.
+     *
+     * @param array{q: string, status: string, priority: string, sort: string} $filters
+     * @return list<array<string, mixed>>
+     */
+    public function listForQueueFiltered(?int $technicianId, array $filters, int $limit, int $offset): array
+    {
+        [$where, $params] = $this->queueFilter($technicianId, $filters);
+        $order = $this->queueSort((string) ($filters['sort'] ?? 'newest'));
+
+        $statement = $this->database->connection()->prepare(
+            self::SELECT . ' WHERE ' . $where . ' ORDER BY ' . $order . '
+             LIMIT ' . max(1, min(100, $limit)) . ' OFFSET ' . max(0, $offset)
+        );
+        $statement->execute($params);
+
+        return $statement->fetchAll();
+    }
+
+    /**
+     * @param array{q: string, status: string, priority: string, sort: string} $filters
+     */
+    public function countForQueueFiltered(?int $technicianId, array $filters): int
+    {
+        [$where, $params] = $this->queueFilter($technicianId, $filters);
+        $statement = $this->database->connection()->prepare(
+            'SELECT COUNT(*)
+             FROM repair_requests r
+             INNER JOIN users c ON c.id = r.customer_id
+             LEFT JOIN services s ON s.id = r.service_id
+             WHERE ' . $where
+        );
+        $statement->execute($params);
+
+        return (int) $statement->fetchColumn();
+    }
+
     /** @return list<array<string, mixed>> */
     public function listAll(int $limit = 20, int $offset = 0): array
     {
@@ -407,6 +471,61 @@ final class RequestRepository
         return match ($sort) {
             'oldest' => 'r.created_at ASC, r.id ASC',
             'updated' => 'r.updated_at DESC, r.id DESC',
+            default => 'r.created_at DESC, r.id DESC',
+        };
+    }
+
+    /**
+     * @param array{q: string, status: string, priority: string} $filters
+     * @return array{0: string, 1: array<string, string>}
+     */
+    private function queueFilter(?int $technicianId, array $filters): array
+    {
+        $where = [];
+        $params = [];
+
+        if ($technicianId !== null) {
+            $where[] = 'r.technician_id = :technician_id';
+            $params['technician_id'] = $technicianId;
+        }
+
+        $query = trim((string) ($filters['q'] ?? ''));
+        if ($query !== '') {
+            $like = '%' . $query . '%';
+            $where[] = '(r.public_number LIKE :q_number
+                OR c.full_name LIKE :q_customer
+                OR r.device_type LIKE :q_type
+                OR r.device_brand LIKE :q_brand
+                OR r.device_model LIKE :q_model
+                OR s.name LIKE :q_service)';
+            $params['q_number'] = $like;
+            $params['q_customer'] = $like;
+            $params['q_type'] = $like;
+            $params['q_brand'] = $like;
+            $params['q_model'] = $like;
+            $params['q_service'] = $like;
+        }
+
+        $status = (string) ($filters['status'] ?? '');
+        if ($status !== '') {
+            $where[] = 'r.status = :status';
+            $params['status'] = $status;
+        }
+
+        $priority = (string) ($filters['priority'] ?? '');
+        if ($priority !== '') {
+            $where[] = 'r.priority = :priority';
+            $params['priority'] = $priority;
+        }
+
+        return [$where === [] ? '1 = 1' : implode(' AND ', $where), $params];
+    }
+
+    private function queueSort(string $sort): string
+    {
+        return match ($sort) {
+            'oldest' => 'r.created_at ASC, r.id ASC',
+            'priority' => "FIELD(r.priority, 'urgent', 'high', 'normal', 'low'), r.created_at DESC, r.id DESC",
             default => 'r.created_at DESC, r.id DESC',
         };
     }

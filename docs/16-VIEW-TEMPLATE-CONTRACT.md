@@ -188,7 +188,7 @@ POST actions:
 - `/technician/requests/{id}/status`: `status`, optional `reason`, plus `_token`.
 - `/requests/{id}/comments`: `body`, optional `is_internal=1`, plus `_token`.
 
-Internal comments may be displayed to authorized staff but must never be returned in customer-facing view models. The backend validates every status transition and role/assignment check, regardless of visible controls.
+Internal comments may be displayed to authorized staff but must never be returned in customer-facing view models. The backend validates every status transition and role/assignment check, regardless of visible controls. Successful and failed POSTs use PRG: staff return to `/technician/requests/{id}#comments`, customers to `/requests/{id}#comments`. Terminal requests (`completed`, `cancelled`, `rejected`) are read-only for diagnosis and status changes.
 
 ## Administrator workspace templates (UI-04)
 

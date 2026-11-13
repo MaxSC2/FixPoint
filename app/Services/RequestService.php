@@ -8,15 +8,20 @@ use FixPoint\Core\HttpException;
 use FixPoint\Core\ValidationException;
 use FixPoint\Repositories\RequestRepository;
 use FixPoint\Repositories\ServiceRepository;
+use DateTimeImmutable;
+use Throwable;
 
 /**
- * Customer-facing request rules: validation, ownership, list shaping,
- * comments and estimate decisions. Controllers translate results into HTTP;
- * views only render the supplied view model.
+ * Customer and staff request rules: validation, ownership, list shaping,
+ * comments, estimate decisions and technician workflow. Controllers translate
+ * results into HTTP; views only render the supplied view model.
  */
 final class RequestService
 {
     private const PER_PAGE = 8;
+
+    /** @var list<string> */
+    private const PRIORITIES = ['low', 'normal', 'high', 'urgent'];
 
     public function __construct(
         private readonly RequestRepository $requests,
@@ -69,6 +74,56 @@ final class RequestService
             fn (array $row): array => $this->present($row),
             $this->requests->listForCustomer($customerId, $limit)
         );
+    }
+
+    /**
+     * Work queue for a technician (scoped to the current user) or an admin
+     * (all requests). Filters mirror the technician template contract.
+     *
+     * @param array<string, mixed> $user
+     * @param array<string, mixed> $input
+     * @return array{items: list<array<string, mixed>>, pagination: array<string, int>, filters: array{q: string, status: string, priority: string, sort: string}}
+     */
+    public function listQueue(array $user, array $input, int $page): array
+    {
+        $role = (string) ($user['role'] ?? '');
+        if (!in_array($role, ['technician', 'admin'], true)) {
+            throw new HttpException(403, 'Staff access required');
+        }
+
+        $query = mb_substr(trim($this->scalar($input['q'] ?? '')), 0, 100);
+        $status = $this->scalar($input['status'] ?? '');
+        if (!in_array($status, RequestStatusService::STATUSES, true)) {
+            $status = '';
+        }
+        $priority = $this->scalar($input['priority'] ?? '');
+        if (!in_array($priority, self::PRIORITIES, true)) {
+            $priority = '';
+        }
+        $sort = $this->scalar($input['sort'] ?? 'newest');
+        if (!in_array($sort, ['newest', 'oldest', 'priority'], true)) {
+            $sort = 'newest';
+        }
+
+        $filters = ['q' => $query, 'status' => $status, 'priority' => $priority, 'sort' => $sort];
+        $technicianId = $role === 'technician' ? (int) ($user['id'] ?? 0) : null;
+        $total = $this->requests->countForQueueFiltered($technicianId, $filters);
+        $lastPage = max(1, (int) ceil($total / self::PER_PAGE));
+        $page = max(1, min($lastPage, $page));
+        $offset = ($page - 1) * self::PER_PAGE;
+
+        $rows = $this->requests->listForQueueFiltered($technicianId, $filters, self::PER_PAGE, $offset);
+
+        return [
+            'items' => array_map(fn (array $row): array => $this->present($row), $rows),
+            'pagination' => [
+                'current_page' => $page,
+                'last_page' => $lastPage,
+                'per_page' => self::PER_PAGE,
+                'total' => $total,
+            ],
+            'filters' => $filters,
+        ];
     }
 
     /** @return list<array<string, mixed>> */
@@ -204,17 +259,205 @@ final class RequestService
     }
 
     /**
-     * Add a customer-visible comment. Internal notes are never created through
-     * this route; staff get their own guarded flow later.
+     * Staff detail lookup: assigned technician or admin only. A technician who
+     * is not assigned gets null, which controllers expose as 404.
+     *
+     * @param array<string, mixed> $user
+     * @return array<string, mixed>|null
+     */
+    public function findForStaff(int $requestId, array $user): ?array
+    {
+        if (!in_array((string) ($user['role'] ?? ''), ['technician', 'admin'], true)) {
+            return null;
+        }
+
+        return $this->findVisibleForUser($requestId, $user);
+    }
+
+    /**
+     * Staff comment list including internal notes. The caller must have passed
+     * findForStaff first; the check is repeated here because internal notes are
+     * the most sensitive part of the view model.
+     *
+     * @param array<string, mixed> $user
+     * @return list<array<string, mixed>>
+     */
+    public function staffComments(int $requestId, array $user): array
+    {
+        if ($this->findForStaff($requestId, $user) === null) {
+            throw new HttpException(404, 'Request not found');
+        }
+
+        return $this->requests->commentsForRequest($requestId, true);
+    }
+
+    /**
+     * Presentation flags for the technician workspace. Backend checks in
+     * updateDiagnosis/changeStatus remain authoritative.
+     *
+     * @param array<string, mixed> $request
+     * @param array<string, mixed> $user
+     * @return array{can_edit_diagnosis: bool, can_change_status: bool, can_comment: bool}
+     */
+    public function staffPermissions(array $request, array $user): array
+    {
+        $role = (string) ($user['role'] ?? '');
+        $isAdmin = $role === 'admin';
+        $isAssigned = $role === 'technician'
+            && (int) ($request['technician_id'] ?? 0) === (int) ($user['id'] ?? 0);
+        $canAct = ($isAdmin || $isAssigned)
+            && !$this->statuses->isTerminal((string) ($request['status'] ?? ''));
+
+        return [
+            'can_edit_diagnosis' => $canAct,
+            'can_change_status' => $canAct
+                && $this->statuses->allowedTransitions((string) ($request['status'] ?? '')) !== [],
+            'can_comment' => $isAdmin || $isAssigned,
+        ];
+    }
+
+    /**
+     * @param array<string, mixed> $request
+     * @param array<string, mixed> $user
+     * @return list<string>
+     */
+    public function allowedTransitionsFor(array $request, array $user): array
+    {
+        if (!$this->staffPermissions($request, $user)['can_change_status']) {
+            return [];
+        }
+
+        return $this->statuses->allowedTransitions((string) ($request['status'] ?? ''));
+    }
+
+    /**
+     * Save diagnosis and estimate. Terminal requests are read-only.
+     *
+     * @param array<string, mixed> $user
+     * @param array<string, mixed> $input
+     * @throws ValidationException|HttpException
+     */
+    public function updateDiagnosis(int $requestId, array $user, array $input): void
+    {
+        $request = $this->findForStaff($requestId, $user);
+        if ($request === null) {
+            throw new HttpException(404, 'Request not found');
+        }
+        if ($this->statuses->isTerminal((string) $request['status'])) {
+            throw new ValidationException([
+                'general' => 'Завершённую заявку нельзя редактировать.',
+            ]);
+        }
+
+        $errors = [];
+
+        $diagnostic = $this->scalar($input['diagnostic_result'] ?? '');
+        $diagnosticLength = mb_strlen($diagnostic);
+        if ($diagnosticLength < 10) {
+            $errors['diagnostic_result'] = 'Опишите результат диагностики — не менее 10 символов.';
+        } elseif ($diagnosticLength > 10000) {
+            $errors['diagnostic_result'] = 'Результат диагностики слишком длинный.';
+        } elseif ($this->hasControlCharacters($diagnostic)) {
+            $errors['diagnostic_result'] = 'Результат диагностики содержит недопустимые символы.';
+        }
+
+        $estimatedCost = null;
+        $rawCost = $this->scalar($input['estimated_cost'] ?? '');
+        if ($rawCost !== '') {
+            if (!is_numeric($rawCost)) {
+                $errors['estimated_cost'] = 'Укажите стоимость числом.';
+            } else {
+                $amount = (float) $rawCost;
+                if ($amount < 0 || $amount > 99999999.99) {
+                    $errors['estimated_cost'] = 'Стоимость должна быть в диапазоне от 0 до 99 999 999,99.';
+                } else {
+                    $estimatedCost = number_format($amount, 2, '.', '');
+                }
+            }
+        }
+
+        $estimatedReadyAt = null;
+        $rawReadyAt = $this->scalar($input['estimated_ready_at'] ?? '');
+        if ($rawReadyAt !== '') {
+            try {
+                $estimatedReadyAt = (new DateTimeImmutable($rawReadyAt))->format('Y-m-d H:i:s');
+            } catch (Throwable) {
+                $errors['estimated_ready_at'] = 'Укажите корректную дату готовности.';
+            }
+        }
+
+        if ($errors !== []) {
+            throw new ValidationException($errors);
+        }
+
+        $this->requests->updateDiagnosis($requestId, $diagnostic, $estimatedCost, $estimatedReadyAt);
+    }
+
+    /**
+     * Apply a permitted status transition with an audit trail. The transition
+     * matrix and the conditional UPDATE both guard against stale pages.
      *
      * @param array<string, mixed> $user
      * @throws ValidationException|HttpException
      */
-    public function addComment(int $requestId, array $user, string $body): int
+    public function changeStatus(int $requestId, array $user, string $toStatus, string $reason): void
     {
-        if ($this->findVisibleForUser($requestId, $user) === null) {
+        $request = $this->findForStaff($requestId, $user);
+        if ($request === null) {
             throw new HttpException(404, 'Request not found');
         }
+
+        $fromStatus = (string) $request['status'];
+        if ($this->statuses->isTerminal($fromStatus)) {
+            throw new ValidationException([
+                'general' => 'Завершённую заявку нельзя изменить.',
+            ]);
+        }
+        $this->statuses->assertTransition($fromStatus, $toStatus);
+
+        $reason = trim($reason);
+        if (mb_strlen($reason) > 500) {
+            throw new ValidationException(['reason' => 'Комментарий к переходу слишком длинный (максимум 500 символов).']);
+        }
+        if ($reason !== '' && $this->hasControlCharacters($reason)) {
+            throw new ValidationException(['reason' => 'Комментарий содержит недопустимые символы.']);
+        }
+
+        $changed = $this->requests->transitionStatus(
+            $requestId,
+            $fromStatus,
+            $toStatus,
+            (int) ($user['id'] ?? 0),
+            $reason === '' ? null : $reason
+        );
+
+        if (!$changed) {
+            throw new ValidationException([
+                'general' => 'Статус заявки уже изменился. Обновите страницу и попробуйте снова.',
+            ]);
+        }
+    }
+
+    /**
+     * Add a comment. Customers can only write public comments; an assigned
+     * technician or an admin may mark a note internal. The flag is ignored for
+     * any other actor, and internal notes never reach customer view models.
+     *
+     * @param array<string, mixed> $user
+     * @throws ValidationException|HttpException
+     */
+    public function addComment(int $requestId, array $user, string $body, bool $internal = false): int
+    {
+        $request = $this->findVisibleForUser($requestId, $user);
+        if ($request === null) {
+            throw new HttpException(404, 'Request not found');
+        }
+
+        $role = (string) ($user['role'] ?? '');
+        $isStaff = $role === 'admin'
+            || ($role === 'technician'
+                && (int) ($request['technician_id'] ?? 0) === (int) ($user['id'] ?? 0));
+        $internal = $internal && $isStaff;
 
         $body = trim($body);
         if ($body === '') {
@@ -227,7 +470,7 @@ final class RequestService
             throw new ValidationException(['body' => 'Комментарий содержит недопустимые символы.']);
         }
 
-        return $this->requests->addComment($requestId, (int) $user['id'], $body, false);
+        return $this->requests->addComment($requestId, (int) $user['id'], $body, $internal);
     }
 
     /**

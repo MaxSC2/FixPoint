@@ -44,10 +44,10 @@
 | GET | `/requests` | customer | My requests |
 | GET/POST | `/requests/create` | customer | Create request |
 | GET | `/requests/{id}` | owner/assigned tech/admin | Request detail |
-| POST | `/requests/{id}/comments` | owner/assigned tech/admin | Add visible comment |
+| POST | `/requests/{id}/comments` | owner/assigned tech/admin | Add comment; staff may set `is_internal=1` |
 | POST | `/requests/{id}/estimate-decision` | owner | Approve/reject estimate |
-| GET | `/technician/requests` | technician | Work queue |
-| GET | `/technician/requests/{id}` | assigned tech/admin | Work details |
+| GET | `/technician/requests` | technician | Work queue, scoped to `technician_id` |
+| GET | `/technician/requests/{id}` | assigned tech/admin | Work details; foreign technician gets 404 |
 | POST | `/technician/requests/{id}/diagnosis` | assigned tech/admin | Diagnosis and estimate |
 | POST | `/technician/requests/{id}/status` | assigned tech/admin | Permitted status transition |
 | GET | `/admin` | admin | Dashboard |
@@ -76,7 +76,7 @@
  'technician'=>null, 'service'=>null
 ]
 ```
-Request detail дополнительно: `history[]` (from_status,to_status,reason,changed_at,changed_by_name), `comments[]` (id,body,author_name,author_role,created_at,is_internal). Внутренние заметки не выдавать клиенту. `permissions` содержит can_comment, can_decide_estimate, can_edit_diagnosis, can_change_status; эти флаги не заменяют backend auth.
+Request detail дополнительно: `history[]` (from_status,to_status,reason,changed_at,changed_by_name), `comments[]` (id,body,author_name,author_role,created_at,is_internal). Внутренние заметки не выдавать клиенту: customer view model фильтруется на сервере, а staff view model получает их вместе с флагом. Создавать `is_internal=1` может только назначенный мастер или admin; для остальных флаг игнорируется. `permissions` содержит can_comment, can_decide_estimate, can_edit_diagnosis, can_change_status; эти флаги не заменяют backend auth.
 
 ## Статусы
 | Code | UI label |
@@ -100,6 +100,8 @@ Request detail дополнительно: `history[]` (from_status,to_status,re
  'filters'=>['q'=>'','status'=>'','sort'=>'newest']]
 ```
 Empty state рендерится честно, без fake rows.
+
+Очередь мастера использует тот же контракт с `filters` = q, status, priority, sort (newest|oldest|priority) и `per_page=8`. `admin` может получить все заявки через сервис, но публичный маршрут очереди остаётся только для `technician`; рабочая карточка и мутации доступны назначенному мастеру и admin. Терминальные заявки (`completed`, `cancelled`, `rejected`) не принимают diagnosis/status-изменения.
 
 ## HTTP error policy
 - Guest → login redirect с локальным безопасным return_to.
