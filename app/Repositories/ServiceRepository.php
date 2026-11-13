@@ -126,6 +126,120 @@ final class ServiceRepository
         return $row === false ? null : $row;
     }
 
+    /** @return list<array<string, mixed>> */
+    public function listAllForAdmin(): array
+    {
+        return $this->database->connection()->query(
+            'SELECT s.id, s.category_id, s.name, s.slug, s.short_description, s.description,
+                    s.price_from, s.estimated_minutes, s.is_active,
+                    c.name AS category_name, c.slug AS category_slug
+             FROM services s
+             INNER JOIN service_categories c ON c.id = s.category_id
+             ORDER BY c.sort_order ASC, c.name ASC, s.name ASC, s.id ASC'
+        )->fetchAll();
+    }
+
+    /** @return array<string, mixed>|null */
+    public function findByIdForAdmin(int $id): ?array
+    {
+        $statement = $this->database->connection()->prepare(
+            'SELECT s.id, s.category_id, s.name, s.slug, s.short_description, s.description,
+                    s.price_from, s.estimated_minutes, s.is_active,
+                    c.name AS category_name, c.slug AS category_slug
+             FROM services s
+             INNER JOIN service_categories c ON c.id = s.category_id
+             WHERE s.id = :id
+             LIMIT 1'
+        );
+        $statement->execute(['id' => $id]);
+        $row = $statement->fetch();
+
+        return $row === false ? null : $row;
+    }
+
+    public function slugExists(string $slug, ?int $excludeId = null): bool
+    {
+        $sql = 'SELECT COUNT(*) FROM services WHERE slug = :slug';
+        $params = ['slug' => $slug];
+        if ($excludeId !== null) {
+            $sql .= ' AND id <> :id';
+            $params['id'] = $excludeId;
+        }
+
+        $statement = $this->database->connection()->prepare($sql);
+        $statement->execute($params);
+
+        return (int) $statement->fetchColumn() > 0;
+    }
+
+    public function createForAdmin(
+        int $categoryId,
+        string $name,
+        string $slug,
+        ?string $shortDescription,
+        ?string $description,
+        ?string $priceFrom,
+        ?int $estimatedMinutes,
+        bool $isActive
+    ): int {
+        $statement = $this->database->connection()->prepare(
+            'INSERT INTO services
+                (category_id, name, slug, short_description, description,
+                 price_from, estimated_minutes, is_active)
+             VALUES
+                (:category_id, :name, :slug, :short_description, :description,
+                 :price_from, :estimated_minutes, :is_active)'
+        );
+        $statement->execute([
+            'category_id' => $categoryId,
+            'name' => $name,
+            'slug' => $slug,
+            'short_description' => $shortDescription,
+            'description' => $description,
+            'price_from' => $priceFrom,
+            'estimated_minutes' => $estimatedMinutes,
+            'is_active' => $isActive ? 1 : 0,
+        ]);
+
+        return (int) $this->database->connection()->lastInsertId();
+    }
+
+    public function updateForAdmin(
+        int $id,
+        int $categoryId,
+        string $name,
+        string $slug,
+        ?string $shortDescription,
+        ?string $description,
+        ?string $priceFrom,
+        ?int $estimatedMinutes,
+        bool $isActive
+    ): void {
+        $statement = $this->database->connection()->prepare(
+            'UPDATE services
+             SET category_id = :category_id,
+                 name = :name,
+                 slug = :slug,
+                 short_description = :short_description,
+                 description = :description,
+                 price_from = :price_from,
+                 estimated_minutes = :estimated_minutes,
+                 is_active = :is_active
+             WHERE id = :id'
+        );
+        $statement->execute([
+            'category_id' => $categoryId,
+            'name' => $name,
+            'slug' => $slug,
+            'short_description' => $shortDescription,
+            'description' => $description,
+            'price_from' => $priceFrom,
+            'estimated_minutes' => $estimatedMinutes,
+            'is_active' => $isActive ? 1 : 0,
+            'id' => $id,
+        ]);
+    }
+
     /** @return array{0: string, 1: array<string, string>} */
     private function buildFilter(string $query, string $categorySlug): array
     {

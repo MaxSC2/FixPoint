@@ -3,8 +3,10 @@
 declare(strict_types=1);
 
 use FixPoint\Controllers\AccountController;
+use FixPoint\Controllers\AdminCategoryController;
 use FixPoint\Controllers\AdminController;
 use FixPoint\Controllers\AdminRequestController;
+use FixPoint\Controllers\AdminServiceController;
 use FixPoint\Controllers\AdminUserController;
 use FixPoint\Controllers\AuthController;
 use FixPoint\Controllers\HealthController;
@@ -77,4 +79,12 @@ return static function (Router $router, App $app): void {
     $router->post('/admin/users', [AdminUserController::class, 'store'], $adminOnly);
     $router->get('/admin/users/{id:\d+}/edit', [AdminUserController::class, 'showEdit'], $adminOnly);
     $router->post('/admin/users/{id:\d+}/edit', [AdminUserController::class, 'update'], $adminOnly);
+    $router->get('/admin/services', [AdminServiceController::class, 'index'], $adminOnly);
+    $router->post('/admin/services', [AdminServiceController::class, 'store'], $adminOnly);
+    $router->get('/admin/services/{id:\d+}/edit', [AdminServiceController::class, 'showEdit'], $adminOnly);
+    $router->post('/admin/services/{id:\d+}/edit', [AdminServiceController::class, 'update'], $adminOnly);
+    $router->get('/admin/categories', [AdminCategoryController::class, 'index'], $adminOnly);
+    $router->post('/admin/categories', [AdminCategoryController::class, 'store'], $adminOnly);
+    $router->get('/admin/categories/{id:\d+}/edit', [AdminCategoryController::class, 'showEdit'], $adminOnly);
+    $router->post('/admin/categories/{id:\d+}/edit', [AdminCategoryController::class, 'update'], $adminOnly);
 };
