@@ -391,6 +391,64 @@ final class RequestRepository
         return (int) $statement->fetchColumn();
     }
 
+    /**
+     * Global admin registry. Filter values are allowlisted by RequestService;
+     * the query reuses the staff filter so every join stays in one place.
+     *
+     * @param array{q: string, status: string, priority: string, sort: string} $filters
+     * @return list<array<string, mixed>>
+     */
+    public function listForAdminFiltered(array $filters, int $limit, int $offset): array
+    {
+        [$where, $params] = $this->queueFilter(null, $filters);
+        $order = $this->queueSort((string) ($filters['sort'] ?? 'newest'));
+
+        $statement = $this->database->connection()->prepare(
+            self::SELECT . ' WHERE ' . $where . ' ORDER BY ' . $order . '
+             LIMIT ' . max(1, min(100, $limit)) . ' OFFSET ' . max(0, $offset)
+        );
+        $statement->execute($params);
+
+        return $statement->fetchAll();
+    }
+
+    /** @param array{q: string, status: string, priority: string, sort: string} $filters */
+    public function countForAdminFiltered(array $filters): int
+    {
+        [$where, $params] = $this->queueFilter(null, $filters);
+        $statement = $this->database->connection()->prepare(
+            'SELECT COUNT(*)
+             FROM repair_requests r
+             INNER JOIN users c ON c.id = r.customer_id
+             LEFT JOIN services s ON s.id = r.service_id
+             WHERE ' . $where
+        );
+        $statement->execute($params);
+
+        return (int) $statement->fetchColumn();
+    }
+
+    /**
+     * Assign a technician without touching the status workflow. The status
+     * guard closes the race where a terminal request is assigned after the
+     * service already checked it.
+     */
+    public function assignTechnician(int $requestId, int $technicianId): bool
+    {
+        $statement = $this->database->connection()->prepare(
+            "UPDATE repair_requests
+             SET technician_id = :technician_id
+             WHERE id = :id
+               AND status NOT IN ('completed', 'cancelled', 'rejected')"
+        );
+        $statement->execute([
+            'technician_id' => $technicianId,
+            'id' => $requestId,
+        ]);
+
+        return $statement->rowCount() === 1;
+    }
+
     /** @return list<array<string, mixed>> */
     public function listAll(int $limit = 20, int $offset = 0): array
     {
@@ -525,6 +583,7 @@ final class RequestRepository
     {
         return match ($sort) {
             'oldest' => 'r.created_at ASC, r.id ASC',
+            'updated' => 'r.updated_at DESC, r.id DESC',
             'priority' => "FIELD(r.priority, 'urgent', 'high', 'normal', 'low'), r.created_at DESC, r.id DESC",
             default => 'r.created_at DESC, r.id DESC',
         };

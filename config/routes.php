@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use FixPoint\Controllers\AccountController;
 use FixPoint\Controllers\AdminController;
+use FixPoint\Controllers\AdminRequestController;
 use FixPoint\Controllers\AuthController;
 use FixPoint\Controllers\HealthController;
 use FixPoint\Controllers\HomeController;
@@ -65,9 +66,10 @@ return static function (Router $router, App $app): void {
     $router->get('/technician/requests/{id:\d+}', [TechnicianController::class, 'show'], $staffOnly);
     $router->post('/technician/requests/{id:\d+}/diagnosis', [TechnicianController::class, 'updateDiagnosis'], $staffOnly);
     $router->post('/technician/requests/{id:\d+}/status', [TechnicianController::class, 'updateStatus'], $staffOnly);
-    $router->get(
-        '/admin',
-        [AdminController::class, 'index'],
-        [AuthMiddleware::class, new RoleMiddleware($app->auth(), $app->session(), 'admin')]
-    );
+
+    $adminOnly = [AuthMiddleware::class, new RoleMiddleware($app->auth(), $app->session(), 'admin')];
+    $router->get('/admin', [AdminController::class, 'index'], $adminOnly);
+    $router->get('/admin/requests', [AdminRequestController::class, 'index'], $adminOnly);
+    $router->get('/admin/requests/{id:\d+}/assign', [AdminRequestController::class, 'showAssign'], $adminOnly);
+    $router->post('/admin/requests/{id:\d+}/assign', [AdminRequestController::class, 'assign'], $adminOnly);
 };

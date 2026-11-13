@@ -8,6 +8,7 @@ use FixPoint\Core\HttpException;
 use FixPoint\Core\ValidationException;
 use FixPoint\Repositories\RequestRepository;
 use FixPoint\Repositories\ServiceRepository;
+use FixPoint\Repositories\UserRepository;
 use DateTimeImmutable;
 use Throwable;
 
@@ -26,6 +27,7 @@ final class RequestService
     public function __construct(
         private readonly RequestRepository $requests,
         private readonly ServiceRepository $services,
+        private readonly UserRepository $users,
         private readonly RequestStatusService $statuses
     ) {
     }
@@ -113,6 +115,54 @@ final class RequestService
         $offset = ($page - 1) * self::PER_PAGE;
 
         $rows = $this->requests->listForQueueFiltered($technicianId, $filters, self::PER_PAGE, $offset);
+
+        return [
+            'items' => array_map(fn (array $row): array => $this->present($row), $rows),
+            'pagination' => [
+                'current_page' => $page,
+                'last_page' => $lastPage,
+                'per_page' => self::PER_PAGE,
+                'total' => $total,
+            ],
+            'filters' => $filters,
+        ];
+    }
+
+    /**
+     * Global request registry for the administrator: every request regardless
+     * of owner or assignment. Filters mirror the admin template contract.
+     *
+     * @param array<string, mixed> $user
+     * @param array<string, mixed> $input
+     * @return array{items: list<array<string, mixed>>, pagination: array<string, int>, filters: array{q: string, status: string, priority: string, sort: string}}
+     */
+    public function listForAdmin(array $user, array $input, int $page): array
+    {
+        if ((string) ($user['role'] ?? '') !== 'admin') {
+            throw new HttpException(403, 'Admin access required');
+        }
+
+        $query = mb_substr(trim($this->scalar($input['q'] ?? '')), 0, 100);
+        $status = $this->scalar($input['status'] ?? '');
+        if (!in_array($status, RequestStatusService::STATUSES, true)) {
+            $status = '';
+        }
+        $priority = $this->scalar($input['priority'] ?? '');
+        if (!in_array($priority, self::PRIORITIES, true)) {
+            $priority = '';
+        }
+        $sort = $this->scalar($input['sort'] ?? 'newest');
+        if (!in_array($sort, ['newest', 'oldest', 'updated'], true)) {
+            $sort = 'newest';
+        }
+
+        $filters = ['q' => $query, 'status' => $status, 'priority' => $priority, 'sort' => $sort];
+        $total = $this->requests->countForAdminFiltered($filters);
+        $lastPage = max(1, (int) ceil($total / self::PER_PAGE));
+        $page = max(1, min($lastPage, $page));
+        $offset = ($page - 1) * self::PER_PAGE;
+
+        $rows = $this->requests->listForAdminFiltered($filters, self::PER_PAGE, $offset);
 
         return [
             'items' => array_map(fn (array $row): array => $this->present($row), $rows),
@@ -272,6 +322,87 @@ final class RequestService
         }
 
         return $this->findVisibleForUser($requestId, $user);
+    }
+
+    /**
+     * Admin-only detail lookup used by the assignment screen.
+     *
+     * @param array<string, mixed> $user
+     * @return array<string, mixed>|null
+     */
+    public function findForAdmin(int $requestId, array $user): ?array
+    {
+        if ((string) ($user['role'] ?? '') !== 'admin') {
+            throw new HttpException(403, 'Admin access required');
+        }
+
+        return $this->requests->findById($requestId);
+    }
+
+    /**
+     * Active technicians are the only valid assignees. The list is deliberately
+     * empty-safe: no demo users are added when the database has none.
+     *
+     * @param array<string, mixed> $user
+     * @return list<array<string, mixed>>
+     */
+    public function techniciansForAssignment(array $user): array
+    {
+        if ((string) ($user['role'] ?? '') !== 'admin') {
+            throw new HttpException(403, 'Admin access required');
+        }
+
+        return $this->users->listByRole('technician', true);
+    }
+
+    /**
+     * Assign an active technician to a non-terminal request. Status is not
+     * changed here; the technician still advances the workflow explicitly.
+     *
+     * @param array<string, mixed> $user
+     * @throws ValidationException|HttpException
+     */
+    public function assignTechnician(int $requestId, array $user, mixed $technicianInput): void
+    {
+        $request = $this->findForAdmin($requestId, $user);
+        if ($request === null) {
+            throw new HttpException(404, 'Request not found');
+        }
+        if ($this->statuses->isTerminal((string) ($request['status'] ?? ''))) {
+            throw new ValidationException([
+                'general' => 'Завершённую заявку нельзя переназначить.',
+            ]);
+        }
+
+        $raw = $this->scalar($technicianInput);
+        if ($raw === '') {
+            throw new ValidationException(['technician_id' => 'Выберите мастера из списка.']);
+        }
+
+        $validated = filter_var($raw, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
+        if ($validated === false) {
+            throw new ValidationException(['technician_id' => 'Выберите мастера из списка.']);
+        }
+
+        $technician = $this->users->findById((int) $validated);
+        if ($technician === null
+            || (string) ($technician['role'] ?? '') !== 'technician'
+            || (int) ($technician['is_active'] ?? 0) !== 1
+        ) {
+            throw new ValidationException([
+                'technician_id' => 'Пользователь недоступен для назначения: нужен активный мастер.',
+            ]);
+        }
+
+        if ((int) ($request['technician_id'] ?? 0) === (int) $validated) {
+            return;
+        }
+
+        if (!$this->requests->assignTechnician($requestId, (int) $validated)) {
+            throw new ValidationException([
+                'general' => 'Заявка уже изменилась. Обновите страницу и попробуйте снова.',
+            ]);
+        }
     }
 
     /**

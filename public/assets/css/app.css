@@ -1396,7 +1396,7 @@ h1 { font-weight: 760; }
 .admin-record-count strong { color: #2e4240; font-size: 1.65rem; letter-spacing: -.05em; }
 .admin-record-count small { color: #87938a; font-size: .67rem; }
 .admin-filters { grid-template-columns: minmax(200px,1fr) 170px 160px 170px auto auto; }
-.admin-request-table-wrap { overflow-x: auto; border: 1px solid #dfe3d9; border-radius: 8px; background: #fff; }
+.admin-request-table-wrap { position: relative; overflow-x: auto; border: 1px solid #dfe3d9; border-radius: 8px; background: #fff; }
 .admin-request-table { width: 100%; min-width: 940px; border-collapse: collapse; text-align: left; }
 .admin-request-table th { padding: 13px 14px; border-bottom: 1px solid #e7eae2; background: #f5f5ee; color: #7c8980; font-size: .63rem; font-weight: 780; letter-spacing: .07em; text-transform: uppercase; white-space: nowrap; }
 .admin-request-table td { padding: 13px 14px; border-bottom: 1px solid #edf0e9; color: #58685e; font-size: .72rem; white-space: nowrap; }
