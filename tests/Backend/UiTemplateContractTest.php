@@ -624,6 +624,6 @@ final class UiTemplateContractTest extends TestCase
             throw new \RuntimeException('Unable to read UI contract file: ' . $relativePath);
         }
 
-        return $content;
+        return str_replace("\r\n", "\n", $content);
     }
 }

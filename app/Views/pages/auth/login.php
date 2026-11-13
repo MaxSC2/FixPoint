@@ -9,6 +9,7 @@ $email = (string) ($old['email'] ?? '');
 $emailError = (string) ($errors['email'] ?? '');
 $passwordError = (string) ($errors['password'] ?? '');
 $generalError = (string) ($errors['general'] ?? '');
+$returnTo = isset($returnTo) && is_string($returnTo) ? $returnTo : null;
 require dirname(__DIR__, 2) . '/layouts/header.php';
 ?>
 <section class="auth-page">
@@ -37,6 +38,7 @@ require dirname(__DIR__, 2) . '/layouts/header.php';
             <?php endif; ?>
 
             <form class="auth-form" method="post" action="/login">
+                <?php if ($returnTo !== null): ?><input type="hidden" name="return_to" value="<?= e($returnTo) ?>"><?php endif; ?>
                 <input type="hidden" name="_token" value="<?= e($csrfToken ?? '') ?>">
 
                 <label class="field<?= $emailError !== '' ? ' field--invalid' : '' ?>" for="login-email">

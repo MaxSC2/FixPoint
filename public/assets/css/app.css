@@ -1581,3 +1581,26 @@ h1 { font-weight: 760; }
     .admin-month-chart { gap: 7px; }
     .admin-month-chart__label { font-size: .55rem; }
 }
+
+/* Authenticated workspace panels (pending TASK-003 view integration) */
+.workspace-section { padding: 38px 0 68px; background: #f7f9fd; }
+.panel { border: 1px solid var(--color-border); border-radius: var(--radius-card); background: #fff; box-shadow: var(--shadow-card); overflow: hidden; }
+.panel--spaced { margin-top: 24px; }
+.panel__head { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; padding: 23px 25px; border-bottom: 1px solid #edf0f5; }
+.panel__head h2 { margin-bottom: 5px; font-size: 1.22rem; }
+.panel__head p { margin: 0; color: var(--color-muted); font-size: .83rem; }
+.panel .empty-state { border: 0; border-radius: 0; }
+.workspace-columns { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(260px, .65fr); gap: 24px; align-items: start; }
+.summary-list { margin: 0; padding: 8px 25px 18px; }
+.summary-list > div { display: flex; align-items: baseline; justify-content: space-between; gap: 18px; padding: 12px 0; border-bottom: 1px solid #edf0f5; }
+.summary-list > div:last-child { border-bottom: 0; }
+.summary-list dt { color: var(--color-ink-soft); font-size: .85rem; font-weight: 620; }
+.summary-list dd { margin: 0; color: var(--color-ink); font-size: 1.1rem; font-weight: 780; letter-spacing: -.03em; }
+
+@media (max-width: 900px) {
+    .workspace-columns { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+    .panel__head { padding: 18px 18px; }
+    .summary-list { padding: 6px 18px 14px; }
+}

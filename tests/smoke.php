@@ -146,6 +146,25 @@ try {
     check('GET /contacts returns 200', $contacts['status'] === 200, $contacts);
     check('Contacts do not invent a phone', !str_contains($contacts['body'], '+7 700 000 00 00'), $contacts);
 
+    $login = httpRequest('GET', $baseUrl . '/login');
+    check('GET /login returns 200', $login['status'] === 200, $login);
+    check('Login form has CSRF token', str_contains($login['body'], 'name="_token"'), $login);
+
+    $register = httpRequest('GET', $baseUrl . '/register');
+    check('GET /register returns 200', $register['status'] === 200, $register);
+    check('Register form has confirmation field', str_contains($register['body'], 'name="password_confirmation"'), $register);
+
+    $account = httpRequest('GET', $baseUrl . '/account');
+    check('Guest /account redirects to login', $account['status'] === 302, $account);
+    check(
+        'Guest redirect keeps local return_to',
+        str_contains($account['headers']['location'] ?? '', '/login?return_to='),
+        $account
+    );
+
+    $admin = httpRequest('GET', $baseUrl . '/admin');
+    check('Guest /admin redirects to login', $admin['status'] === 302, $admin);
+
     $health = httpRequest('GET', $baseUrl . '/health', ['Accept: application/json']);
     check('GET /health returns 200', $health['status'] === 200, $health);
     $healthData = json_decode($health['body'], true);
