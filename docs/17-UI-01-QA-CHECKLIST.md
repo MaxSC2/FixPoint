@@ -78,6 +78,7 @@
 ## UI-06 form-resilience regression checks
 - [x] Customer comment form restores the submitted body after server validation errors.
 - [x] Customer comment body is HTML-escaped when restored.
+- [x] Rejecting an estimate prompts for explicit confirmation before the existing POST + CSRF action continues.
 - [x] Customer request detail excludes internal comments from its visible comment list.
 - [x] Technician diagnosis form restores diagnostic_result, estimated_cost and estimated_ready_at after validation errors.
 - [ ] Technician workflow routes and POST actions are verified against the final TASK-004 backend implementation.
