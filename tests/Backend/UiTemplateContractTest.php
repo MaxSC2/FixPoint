@@ -615,6 +615,117 @@ final class UiTemplateContractTest extends TestCase
         $this->assertNotContains('1 248', $view);
     }
 
+    public function testCustomerCommentValidationPreservesEscapedOldInputAndHidesInternalNotes(): void
+    {
+        $renderer = new ViewRenderer(app()->config());
+        $commentBody = 'Уточнение <неисправность> & проверка';
+        $response = $renderer->renderPage('pages/customer/requests/show', [
+            'pageTitle' => 'Customer request comment validation',
+            'activeNav' => 'requests',
+            'authUser' => ['id' => 7, 'full_name' => 'Тестовый клиент', 'email' => 'customer@example.test', 'role' => 'customer'],
+            'flash' => null,
+            'errors' => ['body' => 'Сообщение превышает допустимую длину.'],
+            'old' => ['body' => $commentBody],
+            'csrfToken' => 'test-csrf-token',
+            'request' => [
+                'id' => 41,
+                'public_number' => 'FP-TEST-000041',
+                'status' => 'diagnostics',
+                'priority' => 'normal',
+                'device_type' => 'Ноутбук',
+                'device_brand' => 'ASUS',
+                'device_model' => 'TUF Test',
+                'problem_description' => 'Нужна диагностика.',
+                'customer_contact' => '+70000000000',
+                'diagnostic_result' => null,
+                'estimated_cost' => null,
+                'final_cost' => null,
+                'estimated_ready_at' => null,
+                'created_at' => '2026-11-13T10:00:00+05:00',
+                'updated_at' => '2026-11-13T10:00:00+05:00',
+                'customer' => ['id' => 7, 'full_name' => 'Тестовый клиент'],
+                'technician' => null,
+                'service' => null,
+            ],
+            'history' => [],
+            'comments' => [
+                [
+                    'id' => 1,
+                    'body' => 'Публичный комментарий',
+                    'author_name' => 'Мастер',
+                    'created_at' => '2026-11-13T10:05:00+05:00',
+                    'is_internal' => false,
+                ],
+                [
+                    'id' => 2,
+                    'body' => 'Секретная внутренняя заметка мастера',
+                    'author_name' => 'Мастер',
+                    'created_at' => '2026-11-13T10:06:00+05:00',
+                    'is_internal' => true,
+                ],
+            ],
+            'permissions' => ['can_comment' => true, 'can_decide_estimate' => false],
+        ]);
+
+        $body = $response->body();
+        $this->assertSame(200, $response->status());
+        $this->assertContains('Уточнение &lt;неисправность&gt; &amp; проверка', $body);
+        $this->assertContains('id="request-comment-error"', $body);
+        $this->assertContains('Публичный комментарий', $body);
+        $this->assertNotContains('Секретная внутренняя заметка мастера', $body);
+        $this->assertNotContains($commentBody, $body);
+    }
+
+    public function testTechnicianDiagnosisValidationPreservesAllEnteredValues(): void
+    {
+        $renderer = new ViewRenderer(app()->config());
+        $diagnosis = 'Проверка системы охлаждения & замена термоинтерфейса';
+        $response = $renderer->renderPage('pages/technician/requests/show', [
+            'pageTitle' => 'Technician diagnosis validation',
+            'activeNav' => 'technician',
+            'authUser' => ['id' => 8, 'full_name' => 'Тестовый мастер', 'email' => 'tech@example.test', 'role' => 'technician'],
+            'flash' => null,
+            'errors' => ['estimated_cost' => 'Укажите корректную стоимость.'],
+            'old' => [
+                'diagnostic_result' => $diagnosis,
+                'estimated_cost' => '17750',
+                'estimated_ready_at' => '2026-11-16T12:30',
+            ],
+            'csrfToken' => 'test-csrf-token',
+            'request' => [
+                'id' => 41,
+                'public_number' => 'FP-TEST-000041',
+                'status' => 'diagnostics',
+                'priority' => 'normal',
+                'device_type' => 'Ноутбук',
+                'device_brand' => 'ASUS',
+                'device_model' => 'TUF Test',
+                'problem_description' => 'Устройство перегревается.',
+                'customer_contact' => '+70000000000',
+                'diagnostic_result' => 'Сохранённое старое заключение',
+                'estimated_cost' => '12000',
+                'estimated_ready_at' => '2026-11-15T18:00:00+05:00',
+                'created_at' => '2026-11-13T10:00:00+05:00',
+                'updated_at' => '2026-11-13T10:00:00+05:00',
+                'customer' => ['id' => 7, 'full_name' => 'Тестовый клиент'],
+                'technician' => ['id' => 8, 'full_name' => 'Тестовый мастер'],
+                'service' => null,
+            ],
+            'history' => [],
+            'comments' => [],
+            'permissions' => ['can_edit_diagnosis' => true, 'can_change_status' => true, 'can_comment' => false],
+            'allowedTransitions' => ['awaiting_customer_approval'],
+        ]);
+
+        $body = $response->body();
+        $this->assertSame(200, $response->status());
+        $this->assertContains('Проверка системы охлаждения &amp; замена термоинтерфейса', $body);
+        $this->assertContains('value="17750"', $body);
+        $this->assertContains('value="2026-11-16T12:30"', $body);
+        $this->assertNotContains('Сохранённое старое заключение', $body);
+        $this->assertNotContains('value="12000"', $body);
+    }
+
     private function read(string $relativePath): string
     {
         $path = $this->root . '/' . $relativePath;
