@@ -1,6 +1,6 @@
 -- 008: seed the first editable public content block.
 INSERT INTO site_content_blocks
-    (block_key, title, lead, section_heading, section_body)
+    (block_key, title, `lead`, section_heading, section_body)
 VALUES
     (
         'about',

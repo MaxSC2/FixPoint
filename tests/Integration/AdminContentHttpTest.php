@@ -107,7 +107,7 @@ final class AdminContentHttpTest extends IntegrationTestCase
     private function aboutRow(): array
     {
         $row = $this->pdo()->query(
-            "SELECT block_key, title, lead, section_heading, section_body, updated_by
+            "SELECT block_key, title, `lead`, section_heading, section_body, updated_by
              FROM site_content_blocks WHERE block_key = 'about' LIMIT 1"
         )->fetch();
 
@@ -120,7 +120,7 @@ final class AdminContentHttpTest extends IntegrationTestCase
     {
         $this->pdo()->prepare(
             'UPDATE site_content_blocks
-             SET title = :title, lead = :lead, section_heading = :section_heading,
+             SET title = :title, `lead` = :lead, section_heading = :section_heading,
                  section_body = :section_body, updated_by = :updated_by
              WHERE block_key = :block_key'
         )->execute([

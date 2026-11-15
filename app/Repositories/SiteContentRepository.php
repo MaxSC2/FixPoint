@@ -17,7 +17,7 @@ final class SiteContentRepository
     public function findByKey(string $key): ?array
     {
         $statement = $this->database->connection()->prepare(
-            'SELECT block_key, title, lead, section_heading, section_body, updated_by, updated_at
+            'SELECT block_key, title, `lead`, section_heading, section_body, updated_by, updated_at
              FROM site_content_blocks
              WHERE block_key = :block_key
              LIMIT 1'
@@ -36,7 +36,7 @@ final class SiteContentRepository
         $statement = $this->database->connection()->prepare(
             'UPDATE site_content_blocks
              SET title = :title,
-                 lead = :lead,
+                 `lead` = :lead,
                  section_heading = :section_heading,
                  section_body = :section_body,
                  updated_by = :updated_by

@@ -2,7 +2,7 @@
 CREATE TABLE site_content_blocks (
     block_key VARCHAR(64) NOT NULL,
     title VARCHAR(180) NOT NULL,
-    lead VARCHAR(255) NOT NULL,
+    `lead` VARCHAR(255) NOT NULL,
     section_heading VARCHAR(180) NOT NULL,
     section_body TEXT NOT NULL,
     updated_by BIGINT UNSIGNED NULL,
