@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace FixPoint\\Controllers;
+namespace FixPoint\Controllers;
 
 use DateTimeImmutable;
-use FixPoint\\Core\\Config;
-use FixPoint\\Core\\Request;
-use FixPoint\\Core\\Response;
-use FixPoint\\Core\\Session;
-use FixPoint\\Core\\ViewRenderer;
-use FixPoint\\Repositories\\AdminStatisticsRepository;
-use FixPoint\\Security\\Auth;
-use FixPoint\\Security\\Csrf;
+use FixPoint\Core\Config;
+use FixPoint\Core\Request;
+use FixPoint\Core\Response;
+use FixPoint\Core\Session;
+use FixPoint\Core\ViewRenderer;
+use FixPoint\Repositories\AdminStatisticsRepository;
+use FixPoint\Security\Auth;
+use FixPoint\Security\Csrf;
 
 /** Admin reporting screen backed by date-scoped database aggregates. */
 final class AdminStatisticsController extends Controller
