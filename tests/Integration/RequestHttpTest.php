@@ -80,6 +80,9 @@ final class RequestHttpTest extends IntegrationTestCase
         $this->assertContains('FP-2026-000003', $body);
         $this->assertNotContains('FP-2026-000002', $body);
         $this->assertNotContains('FP-2026-000004', $body);
+        $this->assertContains('mobile-customer-nav', $body);
+        $this->assertContains('Быстрая навигация', $body);
+        $this->assertContains('href="/requests/create"', $body);
 
         $filtered = app()->handle(Request::create('GET', '/requests?status=awaiting_customer_approval'))->body();
         $this->assertContains('FP-2026-000003', $filtered);
@@ -210,6 +213,7 @@ final class RequestHttpTest extends IntegrationTestCase
 
         $dashboard = app()->handle(Request::create('GET', '/account'))->body();
         $this->assertContains((string) $row['public_number'], $dashboard);
+        $this->assertContains('mobile-customer-nav', $dashboard);
     }
 
     public function testCreateValidationKeepsInputButNeverWrites(): void
