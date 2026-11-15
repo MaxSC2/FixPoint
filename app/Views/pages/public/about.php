@@ -3,14 +3,21 @@ declare(strict_types=1);
 
 $pageTitle = 'О сервисе';
 $activeNav = 'about';
+$aboutContent = isset($aboutContent) && is_array($aboutContent) ? $aboutContent : [];
+$headline = (string) ($aboutContent['title'] ?? 'Сервис, в котором понятно, что происходит.');
+$lead = (string) ($aboutContent['lead'] ?? 'FixPoint объединяет приём обращений, диагностику, согласование стоимости и контроль выполнения ремонта в одном рабочем процессе.');
+$sectionHeading = (string) ($aboutContent['section_heading'] ?? 'Каждый этап имеет своё место');
+$sectionBody = (string) ($aboutContent['section_body'] ?? '');
+$paragraphs = preg_split('/\R\s*\R/u', trim($sectionBody)) ?: [];
+$paragraphs = array_values(array_filter($paragraphs, static fn (string $paragraph): bool => trim($paragraph) !== ''));
 require dirname(__DIR__, 2) . '/layouts/header.php';
 ?>
 <section class="page-hero">
     <div class="container page-hero__grid" data-reveal>
         <div>
             <span class="eyebrow">О FixPoint</span>
-            <h1>Сервис, в котором<br><span>понятно, что происходит.</span></h1>
-            <p>FixPoint объединяет приём обращений, диагностику, согласование стоимости и контроль выполнения ремонта в одном рабочем процессе.</p>
+            <h1><?= e($headline) ?></h1>
+            <p><?= e($lead) ?></p>
             <nav class="breadcrumbs" aria-label="Хлебные крошки"><a href="/">Главная</a><span aria-hidden="true">/</span><span aria-current="page">О сервисе</span></nav>
         </div>
         <div class="about-visual" aria-hidden="true">
@@ -24,10 +31,11 @@ require dirname(__DIR__, 2) . '/layouts/header.php';
 
 <section class="section">
     <div class="container about-intro" data-reveal>
-        <div><span class="eyebrow">Наш подход</span><h2>Каждый этап<br>имеет своё место</h2></div>
+        <div><span class="eyebrow">Наш подход</span><h2><?= e($sectionHeading) ?></h2></div>
         <div class="about-intro__copy">
-            <p>Ремонт техники часто сопровождается ожиданием и вопросами: кто занимается устройством, что уже проверили, сколько будет стоить работа и когда можно забрать устройство.</p>
-            <p>В FixPoint эти сведения собираются в карточке заявки. Клиент видит доступную ему историю, мастер фиксирует диагностику и ход работ, администратор следит за распределением обращений.</p>
+            <?php foreach ($paragraphs as $paragraph): ?>
+                <p><?= nl2br(e(trim($paragraph))) ?></p>
+            <?php endforeach; ?>
         </div>
     </div>
 </section>

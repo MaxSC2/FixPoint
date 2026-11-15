@@ -4,8 +4,14 @@ declare(strict_types=1);
 
 namespace FixPoint\Controllers;
 
+use FixPoint\Core\Config;
 use FixPoint\Core\Request;
 use FixPoint\Core\Response;
+use FixPoint\Core\Session;
+use FixPoint\Core\ViewRenderer;
+use FixPoint\Security\Auth;
+use FixPoint\Security\Csrf;
+use FixPoint\Services\SiteContentService;
 
 /**
  * Static public pages that render frontend-owned templates. Contact values come
@@ -14,11 +20,23 @@ use FixPoint\Core\Response;
  */
 final class PageController extends Controller
 {
+    public function __construct(
+        Config $config,
+        ViewRenderer $view,
+        Auth $auth,
+        Csrf $csrf,
+        Session $session,
+        private readonly SiteContentService $siteContent
+    ) {
+        parent::__construct($config, $view, $auth, $csrf, $session);
+    }
+
     public function about(Request $request, array $params = []): Response
     {
         return $this->renderPage('pages/public/about', [
             'pageTitle' => 'О сервисе — ' . $this->config->get('app.name'),
             'activeNav' => 'about',
+            'aboutContent' => $this->siteContent->about(),
         ]);
     }
 

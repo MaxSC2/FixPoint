@@ -24,7 +24,7 @@ const ROLE_SESSIONS = [
     { role: 'customer-kovalev', email: 'customer.kovalev@fixpoint.test', routes: ['/account', '/requests', '/requests/create', '/requests/1', '/requests/3'] },
     { role: 'technician-ivanov', email: 'master.ivanov@fixpoint.test', routes: ['/technician/requests', '/technician/requests/1'] },
     { role: 'technician-smirnova', email: 'master.smirnova@fixpoint.test', routes: ['/technician/requests/3'] },
-    { role: 'admin', email: 'admin@fixpoint.test', routes: ['/admin', '/admin/requests', '/admin/requests/1/assign', '/admin/users', '/admin/users/1/edit', '/admin/users/2/edit', '/admin/services', '/admin/services/1/edit', '/admin/categories', '/admin/categories/1/edit', '/admin/statistics'] },
+    { role: 'admin', email: 'admin@fixpoint.test', routes: ['/admin', '/admin/requests', '/admin/requests/1/assign', '/admin/users', '/admin/users/1/edit', '/admin/users/2/edit', '/admin/services', '/admin/services/1/edit', '/admin/categories', '/admin/categories/1/edit', '/admin/content/about', '/admin/statistics'] },
 ];
 
 function slug(value) {

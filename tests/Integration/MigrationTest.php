@@ -14,7 +14,7 @@ final class MigrationTest extends IntegrationTestCase
         $migrator = new Migrator(app()->config(), app()->logger());
 
         $status = $migrator->status();
-        $this->assertCount(6, $status);
+        $this->assertCount(7, $status);
         foreach ($status as $row) {
             $this->assertFalse($row['pending'], 'Pending migration: ' . $row['migration']);
         }
@@ -53,6 +53,7 @@ final class MigrationTest extends IntegrationTestCase
             'fk_history_user',
             'fk_comments_request',
             'fk_comments_author',
+            'fk_site_content_updated_by',
         ] as $constraint) {
             $this->assertTrue(in_array($constraint, $rows, true), 'Missing FK: ' . $constraint);
         }
@@ -64,7 +65,7 @@ final class MigrationTest extends IntegrationTestCase
             'SELECT migration, checksum FROM schema_migrations ORDER BY migration'
         )->fetchAll();
 
-        $this->assertCount(6, $rows);
+        $this->assertCount(7, $rows);
         foreach ($rows as $row) {
             $this->assertSame(64, strlen((string) $row['checksum']));
         }
