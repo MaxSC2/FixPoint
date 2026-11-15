@@ -165,3 +165,26 @@ Browser matrix расширена: viewport 360 px теперь проверяе
 - Recheck 1440 / 1280 / 1024 px for the same public, customer, technician and admin route matrix.
 - Inspect dense admin tables, assignment form, statistics charts, request details and the public service catalogue at desktop widths.
 - Any visual defect must be tracked as screenshot → issue → fix → test → new screenshot. Do not mark a route reviewed from viewport metrics alone.
+
+## Full mobile + desktop viewport pass — 15 November, commit 3283786
+
+| Commit | Workflow | Run | Result |
+|---|---|---|---|
+| 3283786 | CI | [43750279819](https://github.com/MaxSC2/FixPoint/actions/runs/43750279819) | ✅ PASS: 174 tests, 0 failures, 1652 assertions; 30 HTTP smoke checks; Docker Compose runtime passed |
+| 3283786 | Browser Visual QA | [43750280195](https://github.com/MaxSC2/FixPoint/actions/runs/43750280195) | ✅ PASS: 139 captures; 0 HTTP errors; 0 horizontal overflow; 0 accessibility violations; 0 browser errors; 0 fatal errors |
+| 3283786 | Module 4 source audit | [43750279834](https://github.com/MaxSC2/FixPoint/actions/runs/43750279834) | ✅ PASS: 56 DOCX paragraphs and 31 unique links extracted; captions remain blocked/unverified |
+
+The browser viewport matrix now includes 1440, 1280, 1024, 768, 390 and 360 px where applicable. The 1280 px desktop viewport is captured for every public and authenticated route. The 360 px minimum viewport covers all public and customer/technician/admin routes.
+
+### Customer mobile workspace updates in this tested HEAD
+
+- Request filters collapse to a single column on narrow phones; search and submit actions remain full-width.
+- Request cards use compact spacing and a readable two-line problem summary rather than a one-line clipped preview.
+- Request creation switches to one column, moves the explanatory panel below the form and gives primary actions full-width touch targets.
+- Device type now has quick choices (laptop, smartphone, PC, tablet, monitor, printer, console, other) while retaining free-text input for anything unusual.
+- Brand search and free-text fallback remain intact; the existing POST contract and database schema are unchanged.
+- Customer bottom navigation remains separate from desktop workspace navigation and respects the device safe area.
+
+**Current branch head at this pass:** `3283786814de0bd9efaa7122253bfb15c5d1eb66`. Browser screenshots artifact: `fixpoint-visual-review-57` (GitHub Actions run 43750280195, 14-day retention).
+
+The next desktop pass is visual/manual review of the 1440/1280/1024 screenshots, especially admin tables, assignment, statistics, service catalog and request detail. Automated zero-overflow/axe results are not a substitute for inspecting layout hierarchy and content quality.
