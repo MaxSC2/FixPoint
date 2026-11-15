@@ -257,6 +257,99 @@ final class RequestHttpTest extends IntegrationTestCase
         $this->assertSame(0, $this->fixtureRequestCount());
     }
 
+    public function testCompleteRepairLifecycleAcrossCustomerAdminAndTechnician(): void
+    {
+        $this->loginAs(self::CUSTOMER);
+        $requestId = $this->createRequest('full-lifecycle');
+        $this->assertSame('new', $this->requestRow($requestId)['status']);
+
+        $this->logout();
+        $this->loginAs(self::ADMIN);
+        $assigned = $this->post('/admin/requests/' . $requestId . '/assign', [
+            'technician_id' => (string) $this->userId(self::TECHNICIAN),
+        ]);
+        $this->assertSame(302, $assigned->status());
+        $this->assertSame($this->userId(self::TECHNICIAN), (int) $this->requestRow($requestId)['technician_id']);
+
+        $this->logout();
+        $this->loginAs(self::TECHNICIAN);
+        foreach ([
+            ['accepted', 'Мастер принял заявку в работу.'],
+            ['diagnostics', 'Начата диагностика устройства.'],
+        ] as [$status, $reason]) {
+            $response = $this->post('/technician/requests/' . $requestId . '/status', [
+                'status' => $status,
+                'reason' => $reason,
+            ]);
+            $this->assertSame(302, $response->status());
+            $this->assertSame($status, $this->requestRow($requestId)['status']);
+        }
+
+        $diagnostic = 'Обнаружено загрязнение системы охлаждения и износ термопасты.';
+        $diagnosis = $this->post('/technician/requests/' . $requestId . '/diagnosis', [
+            'diagnostic_result' => $diagnostic,
+            'estimated_cost' => '15000.00',
+            'estimated_ready_at' => '2026-12-01T15:30',
+        ]);
+        $this->assertSame(302, $diagnosis->status());
+        $this->assertSame($diagnostic, $this->requestRow($requestId)['diagnostic_result']);
+
+        $estimate = $this->post('/technician/requests/' . $requestId . '/status', [
+            'status' => 'awaiting_customer_approval',
+            'reason' => 'Диагностика завершена, смета подготовлена.',
+        ]);
+        $this->assertSame(302, $estimate->status());
+        $this->assertSame('awaiting_customer_approval', $this->requestRow($requestId)['status']);
+
+        $this->logout();
+        $this->loginAs(self::CUSTOMER);
+        $estimatePage = app()->handle(Request::create('GET', '/requests/' . $requestId));
+        $this->assertSame(200, $estimatePage->status());
+        $this->assertContains('Согласовать предложенную смету?', $estimatePage->body());
+        $this->assertContains('15 000 ₸', $estimatePage->body());
+
+        $approval = $this->post('/requests/' . $requestId . '/estimate-decision', ['decision' => 'approve']);
+        $this->assertSame(302, $approval->status());
+        $this->assertSame('repairing', $this->requestRow($requestId)['status']);
+
+        $this->logout();
+        $this->loginAs(self::TECHNICIAN);
+        foreach ([
+            ['ready_for_pickup', 'Ремонт завершён, устройство готово к выдаче.'],
+            ['completed', 'Устройство передано клиенту.'],
+        ] as [$status, $reason]) {
+            $response = $this->post('/technician/requests/' . $requestId . '/status', [
+                'status' => $status,
+                'reason' => $reason,
+            ]);
+            $this->assertSame(302, $response->status());
+            $this->assertSame($status, $this->requestRow($requestId)['status']);
+        }
+
+        $history = $this->pdo()->prepare(
+            'SELECT from_status, to_status FROM request_status_history
+             WHERE request_id = :id ORDER BY id ASC'
+        );
+        $history->execute(['id' => $requestId]);
+        $events = $history->fetchAll();
+        $this->assertCount(7, $events);
+        $this->assertSame(
+            ['new', 'accepted', 'diagnostics', 'awaiting_customer_approval', 'repairing', 'ready_for_pickup', 'completed'],
+            array_column($events, 'to_status')
+        );
+        $this->assertSame(
+            [null, 'new', 'accepted', 'diagnostics', 'awaiting_customer_approval', 'repairing', 'ready_for_pickup'],
+            array_column($events, 'from_status')
+        );
+
+        $this->logout();
+        $this->loginAs(self::CUSTOMER);
+        $completedPage = app()->handle(Request::create('GET', '/requests/' . $requestId));
+        $this->assertSame(200, $completedPage->status());
+        $this->assertContains('Завершена', $completedPage->body());
+        $this->assertContains('Устройство передано клиенту.', $completedPage->body());
+    }
+
     public function testCommentsAreVisibleAndInternalNotesAreHidden(): void
     {
         $this->loginAs(self::CUSTOMER);
