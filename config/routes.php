@@ -7,6 +7,7 @@ use FixPoint\Controllers\AdminCategoryController;
 use FixPoint\Controllers\AdminController;
 use FixPoint\Controllers\AdminRequestController;
 use FixPoint\Controllers\AdminServiceController;
+use FixPoint\Controllers\AdminStatisticsController;
 use FixPoint\Controllers\AdminUserController;
 use FixPoint\Controllers\AuthController;
 use FixPoint\Controllers\HealthController;
