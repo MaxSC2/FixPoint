@@ -63,6 +63,16 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
                                     <option value="Монитор"></option>
                                     <option value="Периферия"></option>
                                 </datalist>
+                                <div class="request-device-types" role="group" aria-label="Популярные типы устройств">
+                                    <button type="button" class="request-device-type-option" data-device-type="Ноутбук">Ноутбук</button>
+                                    <button type="button" class="request-device-type-option" data-device-type="Смартфон">Смартфон</button>
+                                    <button type="button" class="request-device-type-option" data-device-type="Настольный компьютер">ПК</button>
+                                    <button type="button" class="request-device-type-option" data-device-type="Планшет">Планшет</button>
+                                    <button type="button" class="request-device-type-option" data-device-type="Монитор">Монитор</button>
+                                    <button type="button" class="request-device-type-option" data-device-type="Принтер">Принтер</button>
+                                    <button type="button" class="request-device-type-option" data-device-type="Игровая консоль">Консоль</button>
+                                    <button type="button" class="request-device-type-option" data-device-type="Другое">Другое</button>
+                                </div>
                                 <?php if (isset($errors['device_type'])): ?><small class="field__error" id="request-device-type-error"><?= e((string) $errors['device_type']) ?></small><?php endif; ?>
                             </label>
 
