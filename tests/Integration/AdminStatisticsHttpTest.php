@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace FixPoint\\Tests\\Integration;
+namespace FixPoint\Tests\Integration;
 
-use FixPoint\\Core\\Env;
-use FixPoint\\Core\\Request;
-use FixPoint\\Tests\\IntegrationTestCase;
+use FixPoint\Core\Env;
+use FixPoint\Core\Request;
+use FixPoint\Tests\IntegrationTestCase;
 
 final class AdminStatisticsHttpTest extends IntegrationTestCase
 {
