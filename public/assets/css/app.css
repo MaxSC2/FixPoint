@@ -513,7 +513,7 @@ h3 { font-size: 1.15rem; font-weight: 700; }
     color-scheme: light;
     --color-ink: #202d30;
     --color-ink-soft: #34474a;
-    --color-muted: #667674;
+    --color-muted: #5d6d69;
     --color-primary: #315fc1;
     --color-primary-dark: #254c9e;
     --color-primary-soft: #e8edf8;
@@ -560,7 +560,7 @@ h1 { font-weight: 760; }
     position: relative;
     padding: 11px 13px;
     border-radius: 5px;
-    color: #657370;
+    color: #5d6d69;
     font-size: .86rem;
     font-weight: 620;
 }
@@ -960,7 +960,7 @@ h1 { font-weight: 760; }
 .auth-story__steps > div > span { grid-row: span 2; padding-top: 2px; color: #d9ed74; font-size: .7rem; font-weight: 780; letter-spacing: .1em; }
 .auth-story__steps strong { color: #f6f4eb; font-size: .84rem; }
 .auth-story__steps small { margin-top: 3px; color: #aebdb2; font-size: .72rem; }
-.auth-story__signature { position: relative; z-index: 1; margin-top: 25px; color: #81938a; font-size: .59rem; font-weight: 760; letter-spacing: .18em; }
+.auth-story__signature { position: relative; z-index: 1; margin-top: 25px; color: #aebdb2; font-size: .59rem; font-weight: 760; letter-spacing: .18em; }
 .auth-panel {
     align-self: center; padding: clamp(30px, 4vw, 48px); border: 1px solid #dce0d6;
     border-radius: 13px; background: #fbfaf5; box-shadow: 0 16px 45px rgba(30, 45, 42, .06);
