@@ -2192,3 +2192,9 @@ h1 { font-weight: 760; }
     .admin-crud-layout { grid-template-columns: minmax(0, 1fr); }
     .admin-crud-layout > .staff-list-panel { min-width: 0; }
 }
+
+/* Compact desktop request registry: prioritize the assignment action over the date column. */
+@media (min-width: 761px) and (max-width: 1100px) {
+    .admin-request-table th:nth-child(6),
+    .admin-request-table td:nth-child(6) { display: none; }
+}
