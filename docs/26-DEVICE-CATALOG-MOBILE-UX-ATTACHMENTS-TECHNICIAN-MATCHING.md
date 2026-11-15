@@ -174,6 +174,17 @@ This document records the next product direction. It does not claim that uploads
 - The layout compresses the brand selector to four columns on phones and three on very narrow screens. The existing server-side form fields and request schema are unchanged.
 - Integration coverage now asserts the searchable picker and unknown-brand fallback are present.
 
-**Not included in this slice:** image uploads, a separate mobile application shell/bottom navigation, technician capability profiles, automatic matching, AI triage, and push/live notifications. The generated phone screens are concept references only, not screenshots of the running app.
+**Also implemented after this first picker slice:** a customer-only mobile bottom navigation (Overview, Requests, Create, Services), safe-area spacing and active-route highlighting. The extra in-page customer navigation is being hidden on mobile after the latest visual QA finding.
+
+**Not included yet:** image uploads, a mobile request wizard, technician capability profiles, automatic matching, AI triage, and push/live notifications. The generated phone screens are concept references only, not screenshots of the running app.
 
 **Validation:** GitHub Actions CI and Browser visual QA were triggered for the latest implementation commit. Their final conclusions must be recorded after completion; no pass is claimed here.
+
+
+## Implementation update — mobile navigation and QA gate (2026-11-15)
+
+- Customer-only fixed bottom navigation is implemented for narrow screens; desktop navigation is unchanged.
+- Baseline browser run on `c92f3be` completed with 86 full-page captures across 26 role/route combinations, zero HTTP/navigation errors, zero horizontal overflow and zero browser runtime errors.
+- The same run exposed one serious WCAG contrast group (two brand marks: Acer and Xiaomi). This is a real accessibility finding, not a clean pass; contrast and duplicate mobile navigation have now been corrected in code and must be rechecked.
+- Browser visual QA now saves actual viewport screenshots for mobile and fails on serious/critical axe findings or duplicate customer navigation.
+- Baseline CI and Docker Compose jobs passed. Historical intermediate runs cancelled by newer commits are superseded runs, not code failures.
