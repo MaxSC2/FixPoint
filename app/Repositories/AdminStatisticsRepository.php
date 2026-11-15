@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace FixPoint\\Repositories;
+namespace FixPoint\Repositories;
 
 use DateTimeImmutable;
-use FixPoint\\Core\\Database;
+use FixPoint\Core\Database;
 use PDO;
 
 /** Read-only aggregate queries used by the administrator's statistics screen. */
