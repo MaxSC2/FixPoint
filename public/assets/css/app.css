@@ -1607,3 +1607,100 @@ h1 { font-weight: 760; }
     .panel__head { padding: 18px 18px; }
     .summary-list { padding: 6px 18px 14px; }
 }
+
+
+/* Visual refinement pass — consistent rhythm, balanced cards and mobile clarity. */
+@media (min-width: 641px) {
+    .section { padding-block: 74px; }
+    .page-hero--compact { padding: 50px 0 30px; }
+    .section--catalog { padding: 24px 0 66px; }
+}
+.catalog-filters { margin-bottom: 24px; }
+.catalog-results__heading { margin-bottom: 16px; }
+.service-grid { grid-auto-rows: 1fr; align-items: stretch; gap: 16px; }
+.service-card {
+    min-width: 0;
+    min-height: 224px;
+    padding: 21px;
+    display: flex;
+    flex-direction: column;
+}
+.service-card__body { min-width: 0; }
+.service-card__body h3 {
+    min-height: 2.3em;
+    margin-bottom: 7px;
+    line-height: 1.2;
+    overflow-wrap: anywhere;
+}
+.service-card__body p {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    line-height: 1.5;
+}
+.service-card__bottom { margin-top: auto; }
+.service-card:last-child:nth-child(3n + 1) {
+    display: grid;
+    grid-template-columns: 52px minmax(0, 1fr) minmax(150px, auto);
+    align-items: center;
+    gap: 20px;
+    min-height: 142px;
+}
+.service-card:last-child:nth-child(3n + 1) .service-card__icon { margin: 0; }
+.service-card:last-child:nth-child(3n + 1) .service-card__body h3 { min-height: 0; }
+.service-card:last-child:nth-child(3n + 1) .service-card__bottom {
+    min-width: 150px;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 9px;
+    padding: 0;
+    border: 0;
+}
+.tech-request-grid { align-items: stretch; grid-auto-rows: 1fr; gap: 14px; }
+.tech-request-card { display: flex; min-width: 0; flex-direction: column; }
+.tech-request-card__device { align-items: flex-start; }
+.tech-request-card__device > div { min-width: 0; }
+.tech-request-card__device h3 { overflow-wrap: anywhere; }
+.priority-chip { flex: 0 0 auto; align-self: flex-start; }
+.tech-request-card__problem { min-height: 3.2em; }
+.tech-request-card__bottom { margin-top: auto; }
+.workspace-page { padding-top: 44px; padding-bottom: 64px; }
+.workspace-heading { margin-bottom: 23px; }
+.request-list-panel, .request-form-panel, .request-detail-panel, .staff-list-panel { min-width: 0; }
+.account-welcome__copy { min-width: 0; }
+.account-welcome h1 { overflow-wrap: anywhere; }
+@media (max-width: 900px) {
+    .service-card:last-child:nth-child(3n + 1) {
+        grid-column: 1 / -1;
+    }
+}
+@media (max-width: 640px) {
+    .section { padding-block: 54px; }
+    .page-hero--compact { padding: 38px 0 26px; }
+    .section--catalog { padding: 18px 0 46px; }
+    .service-grid { grid-template-columns: 1fr; grid-auto-rows: auto; gap: 12px; }
+    .service-card { min-height: 0; padding: 18px; }
+    .service-card__body h3 { min-height: 0; }
+    .service-card:last-child:nth-child(3n + 1) {
+        grid-column: auto;
+        display: flex;
+        min-height: 0;
+        align-items: stretch;
+    }
+    .service-card:last-child:nth-child(3n + 1) .service-card__icon { margin-bottom: 14px; }
+    .service-card:last-child:nth-child(3n + 1) .service-card__bottom {
+        min-width: 0;
+        flex-direction: row;
+        align-items: center;
+        padding-top: 12px;
+        border-top: 1px solid #edf0e9;
+    }
+    .tech-request-grid { grid-auto-rows: auto; }
+    .tech-request-card__device { gap: 10px; }
+    .priority-chip { white-space: normal; text-align: center; }
+    .workspace-page { padding-top: 28px; padding-bottom: 46px; }
+    .account-welcome__seal { display: none; }
+    .account-welcome { gap: 22px; }
+}
