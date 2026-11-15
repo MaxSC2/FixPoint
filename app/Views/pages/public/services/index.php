@@ -68,7 +68,11 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
 
         <aside class="catalog-note" data-reveal>
             <span class="catalog-note__icon" aria-hidden="true">i</span>
-            <p>Цена «от» является ориентировочной. Точную стоимость мастер определит после диагностики и согласует с вами до начала ремонта.</p>
+            <div class="catalog-note__content">
+                <strong>Не знаете, какую услугу выбрать?</strong>
+                <p>Это нормально. Выберите «Нужна диагностика» при создании заявки и просто опишите симптомы. Мастер уточнит причину и согласует стоимость до ремонта. Цены «от» в каталоге предварительные.</p>
+            </div>
+            <a class="button button--secondary catalog-note__action" href="/register">Описать проблему <span aria-hidden="true">↗</span></a>
         </aside>
     </div>
 </section>
