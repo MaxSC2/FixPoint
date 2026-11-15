@@ -20,9 +20,9 @@
 
 | Commit | Workflow | Run | Статус | Подтверждённый результат |
 |---|---|---:|---|---|
-| fbbe5e1 | CI | [43753109426](https://github.com/MaxSC2/FixPoint/actions/runs/43753109426) | ✅ PASS | PHP 8.3 + MySQL 8: 175 passed, 0 failed, 1711 assertions; HTTP smoke: 30 checks; Docker Compose runtime: success |
-| fbbe5e1 | Browser Visual QA | [43753109411](https://github.com/MaxSC2/FixPoint/actions/runs/43753109411) | ✅ PASS | 139 captures; 0 HTTP errors; 0 horizontal overflow; 0 axe violations; 0 browser errors; 0 fatal errors |
-| fbbe5e1 | Module 4 source audit | [43753109412](https://github.com/MaxSC2/FixPoint/actions/runs/43753109412) | ✅ PASS WITH BLOCKED CAPTIONS | 56 DOCX paragraphs, 31 unique embedded links; all 31 subtitle probes blocked by YouTube anti-bot/auth. Captions remain unverified, not absent |
+| 94a9090 | CI | [43758348983](https://github.com/MaxSC2/FixPoint/actions/runs/43758348983) | ✅ PASS | PHP 8.3 + MySQL 8: 175 passed, 0 failed, 1711 assertions; HTTP smoke: 30 checks; Docker Compose runtime: success |
+| 94a9090 | Browser Visual QA | [43758348984](https://github.com/MaxSC2/FixPoint/actions/runs/43758348984) | ✅ PASS | 139 captures; 0 HTTP errors; 0 horizontal overflow; 0 axe violations; 0 browser errors; 0 fatal errors |
+| 94a9090 | Module 4 source audit | [43758348939](https://github.com/MaxSC2/FixPoint/actions/runs/43758348939) | ✅ PASS WITH BLOCKED CAPTIONS | 56 DOCX paragraphs, 31 unique embedded links; all 31 subtitle probes blocked by YouTube anti-bot/auth. Captions remain unverified, not absent |
 
 ### Исторические красные прогоны — исправлены, не удалять из истории
 
@@ -217,12 +217,12 @@ A new integration test `testCompleteRepairLifecycleAcrossCustomerAdminAndTechnic
 
 ## Revalidation on latest PR HEAD — 16 November 2026
 
-- **Latest branch HEAD:** `fbbe5e1b8a192f9f539916dffc7377e935031ca4` (documentation-only commit on top of code commit `c4509cbf2479b1f3ba7308c3f8e9b4a4fc0fc957`).
-- [CI #43753109426](https://github.com/MaxSC2/FixPoint/actions/runs/43753109426): **PASS** — 175 tests, 0 failures, 1711 assertions; 30 HTTP smoke checks; Docker Compose runtime passed.
-- [Browser Visual QA #43753109411](https://github.com/MaxSC2/FixPoint/actions/runs/43753109411): **PASS** — 139 captures; zero HTTP errors, horizontal overflow, axe violations, browser errors or fatal errors.
-- [Module 4 source audit #43753109412](https://github.com/MaxSC2/FixPoint/actions/runs/43753109412): **PASS** — 56 DOCX paragraphs, 31 unique video links; YouTube blocked all automated caption probes, so subtitle availability remains unverified.
-- Screenshot archive: `fixpoint-visual-review-66`, run [43753109411](https://github.com/MaxSC2/FixPoint/actions/runs/43753109411), 14-day retention. The 1024px admin request registry screenshot was manually inspected: the full “Назначить” action is visible.
+- **Latest branch HEAD:** `94a909083a0734779a0cfaa7a97cfeed9ac726be` (documentation-only update on top of verified code commit `c4509cbf2479b1f3ba7308c3f8e9b4a4fc0fc957`).
+- [CI #43758348983](https://github.com/MaxSC2/FixPoint/actions/runs/43758348983): **PASS** — 175 tests, 0 failures, 1711 assertions; 30 HTTP smoke checks; Docker Compose runtime passed.
+- [Browser Visual QA #43758348984](https://github.com/MaxSC2/FixPoint/actions/runs/43758348984): **PASS** — 139 captures; zero HTTP errors, horizontal overflow, axe violations, browser errors or fatal errors.
+- [Module 4 source audit #43758348939](https://github.com/MaxSC2/FixPoint/actions/runs/43758348939): **PASS** — 56 DOCX paragraphs, 31 unique video links; YouTube blocked all automated caption probes, so subtitle availability remains unverified.
+- Screenshot archive: `fixpoint-visual-review-67`, run [43758348984](https://github.com/MaxSC2/FixPoint/actions/runs/43758348984), 14-day retention. The latest 1024px admin request registry was manually inspected: the complete “Назначить” action is visible. The 360px request form was also manually inspected.
 - The end-to-end lifecycle test added in `c4509cb` verifies all seven status-history transitions across customer, administrator and technician roles using the MySQL integration test database.
-- Commit `54381e2` had an intermediate Browser QA run cancelled by a newer push; it is **CANCELLED/SUPERSEDED**, not a code failure. The subsequent complete QA run on `fbbe5e1` passed.
+- Commit `54381e2` had an intermediate Browser QA run cancelled by a newer push; it is **CANCELLED/SUPERSEDED**, not a code failure. The subsequent complete QA runs on `fbbe5e1` and `94a9090` passed.
 
 **Current release boundary:** private photo uploads, technician capability profiles/matching, real-time chat, push, AI triage, official SVG brand logos and public deployment remain unimplemented. Do not claim otherwise in the submission.
