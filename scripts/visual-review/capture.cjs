@@ -11,6 +11,7 @@ const OUTPUT_DIR = path.resolve('artifacts/visual-review');
 
 const VIEWPORTS = [
     { name: 'desktop-1440', width: 1440, height: 1000 },
+    { name: 'desktop-1280', width: 1280, height: 900 },
     { name: 'compact-1024', width: 1024, height: 900 },
     { name: 'mobile-390', width: 390, height: 844 },
 ];
