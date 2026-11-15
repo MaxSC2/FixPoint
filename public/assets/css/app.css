@@ -1345,7 +1345,7 @@ h1 { font-weight: 760; }
 .tech-request-card__top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .tech-request-card__top > span:first-child { color: var(--color-muted); font-size: .66rem; font-weight: 780; letter-spacing: .1em; }
 .tech-request-card__device { display: flex; justify-content: space-between; gap: 16px; margin-top: 20px; }
-.tech-request-card__type { color: #8b978d; font-size: .66rem; }
+.tech-request-card__type { color: var(--color-muted); font-size: .66rem; }
 .tech-request-card h3 { margin: 4px 0 5px; font-size: 1.07rem; }
 .tech-request-card__device p { margin: 0; color: var(--color-muted); font-size: .72rem; }
 .priority-chip {
