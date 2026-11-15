@@ -16,8 +16,8 @@ const VIEWPORTS = [
 ];
 const EXTRA_VIEWPORTS = [
     { name: 'tablet-768', width: 768, height: 1024 },
-    { name: 'small-mobile-360', width: 360, height: 800 },
 ];
+const SMALL_MOBILE_VIEWPORT = { name: 'small-mobile-360', width: 360, height: 800 };
 const PUBLIC_ROUTES = ['/', '/services', '/services/laptop-cleaning', '/about', '/contacts', '/login', '/register'];
 
 const ROLE_SESSIONS = [
@@ -26,6 +26,10 @@ const ROLE_SESSIONS = [
     { role: 'technician-smirnova', email: 'master.smirnova@fixpoint.test', routes: ['/technician/requests/3'] },
     { role: 'admin', email: 'admin@fixpoint.test', routes: ['/admin', '/admin/requests', '/admin/requests/1/assign', '/admin/users', '/admin/users/1/edit', '/admin/users/2/edit', '/admin/services', '/admin/services/1/edit', '/admin/categories', '/admin/categories/1/edit', '/admin/content/about', '/admin/statistics'] },
 ];
+const SMALL_MOBILE_ROUTES = new Set([
+    ...PUBLIC_ROUTES,
+    ...ROLE_SESSIONS.flatMap((session) => session.routes),
+]);
 
 function slug(value) {
     return value === '/' ? 'home' : value.replace(/^\/|\/$/g, '').replace(/[^a-zA-Z0-9]+/g, '-').replace(/^-|-$/g, '');
@@ -182,7 +186,10 @@ async function main() {
         const publicPage = await publicContext.newPage();
         publicPage.on('pageerror', (error) => browserErrors.push('public: ' + error.message));
         for (const route of PUBLIC_ROUTES) {
-            const viewports = route === '/' ? VIEWPORTS.concat(EXTRA_VIEWPORTS) : VIEWPORTS;
+            let viewports = route === '/' ? VIEWPORTS.concat(EXTRA_VIEWPORTS) : VIEWPORTS;
+            if (SMALL_MOBILE_ROUTES.has(route) && !viewports.some((viewport) => viewport.name === SMALL_MOBILE_VIEWPORT.name)) {
+                viewports = viewports.concat(SMALL_MOBILE_VIEWPORT);
+            }
             for (const viewport of viewports) {
                 await captureRoute(publicPage, 'public', route, viewport, results, axeResults, fatalErrors);
             }
@@ -195,8 +202,11 @@ async function main() {
             try {
                 await login(page, session.email, session.role);
                 for (const route of session.routes) {
-                    const viewports = ['/account', '/admin', '/technician/requests'].includes(route)
+                    let viewports = ['/account', '/admin', '/technician/requests'].includes(route)
                         ? VIEWPORTS.concat(EXTRA_VIEWPORTS) : VIEWPORTS;
+                    if (SMALL_MOBILE_ROUTES.has(route) && !viewports.some((viewport) => viewport.name === SMALL_MOBILE_VIEWPORT.name)) {
+                        viewports = viewports.concat(SMALL_MOBILE_VIEWPORT);
+                    }
                     for (const viewport of viewports) {
                         await captureRoute(page, session.role, route, viewport, results, axeResults, fatalErrors);
                     }
