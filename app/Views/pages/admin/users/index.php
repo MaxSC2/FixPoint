@@ -27,7 +27,7 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
             <section class="staff-list-panel" data-reveal>
                 <div class="request-list-panel__head"><div><span class="eyebrow">Учётные записи</span><h2>Список пользователей</h2></div></div>
                 <?php if ($users !== []): ?>
-                    <div class="admin-request-table-wrap">
+                    <div class="admin-request-table-wrap" role="region" aria-label="Таблица пользователей" tabindex="0">
                         <table class="admin-request-table">
                             <thead><tr><th>Пользователь</th><th>Контакты</th><th>Роль</th><th>Состояние</th><th><span class="sr-only">Редактировать</span></th></tr></thead>
                             <tbody>
