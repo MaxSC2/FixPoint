@@ -6,7 +6,7 @@ from pathlib import Path
 from xml.etree import ElementTree as ET
 
 NS = {"w": "http://schemas.openxmlformats.org/wordprocessingml/2006/main", "r": "http://schemas.openxmlformats.org/officeDocument/2006/relationships"}
-URL_RE = re.compile(r"https?://[^\\s<>]+", re.IGNORECASE)
+URL_RE = re.compile(r"https?://[^\s<>]+", re.IGNORECASE)
 VIDEO_DOMAINS = ("youtube.com", "youtu.be", "vimeo.com")
 
 def extract_docx(path: Path):
@@ -20,7 +20,7 @@ def extract_docx(path: Path):
         parts, paragraph_links = [], []
         for node in paragraph.iter():
             if node.tag.endswith('}t') and node.text: parts.append(node.text)
-            elif node.tag.endswith("}br"): parts.append("\\n")
+            elif node.tag.endswith("}br"): parts.append("\n")
             elif node.tag.endswith("}hyperlink"):
                 rel_id = node.attrib.get("{" + NS["r"] + "}id")
                 target = rels.get(rel_id, '')
@@ -55,14 +55,14 @@ def main() -> int:
     lines.extend(item['text'] for item in paragraphs if item['text'])
     lines.extend(['', '## Встроенные ссылки', ''])
     lines.extend('- ' + item['url'] for item in links)
-    (output / 'module4-extracted.md').write_text('\\n'.join(lines) + '\\n', encoding='utf-8')
+    (output / 'module4-extracted.md').write_text('\n'.join(lines) + '\n', encoding='utf-8')
     videos = [item['url'] for item in links if any(domain in item['url'].lower() for domain in VIDEO_DOMAINS)]
     caption_results = []
     if args.check_video_captions:
         for url in videos:
             try:
                 result = subprocess.run([sys.executable, '-m', 'yt_dlp', '--list-subs', '--skip-download', '--no-warnings', url], capture_output=True, text=True, timeout=90, check=False)
-                caption_results.append({'url': url, 'returncode': result.returncode, 'output': (result.stdout + '\\n' + result.stderr)[-12000:]})
+                caption_results.append({'url': url, 'returncode': result.returncode, 'output': (result.stdout + '\n' + result.stderr)[-12000:]})
             except (subprocess.TimeoutExpired, OSError) as error:
                 caption_results.append({'url': url, 'error': str(error)})
         (output / 'video-caption-availability.json').write_text(json.dumps(caption_results, ensure_ascii=False, indent=2), encoding='utf-8')
@@ -74,7 +74,7 @@ def main() -> int:
     else:
         for item in caption_results:
             summary.extend(['### ' + item['url'], '', 'Результат yt-dlp --list-subs:', item.get('output', item.get('error', 'Нет результата'))[-3500:], ''])
-    (output / 'module4-video-study.md').write_text('\\n'.join(summary) + '\\n', encoding='utf-8')
+    (output / 'module4-video-study.md').write_text('\n'.join(summary) + '\n', encoding='utf-8')
     print('Extracted ' + str(len(paragraphs)) + ' paragraphs, ' + str(len(links)) + ' links, ' + str(len(videos)) + ' video links.')
     return 0
 
