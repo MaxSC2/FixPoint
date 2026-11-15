@@ -1671,10 +1671,24 @@ h1 { font-weight: 760; }
 .request-list-panel, .request-form-panel, .request-detail-panel, .staff-list-panel { min-width: 0; }
 .account-welcome__copy { min-width: 0; }
 .account-welcome h1 { overflow-wrap: anywhere; }
-@media (max-width: 900px) {
+@media (max-width: 1100px) {
     .service-card:last-child:nth-child(3n + 1) {
-        grid-column: 1 / -1;
+        display: flex;
+        grid-column: auto;
+        min-height: 224px;
+        align-items: stretch;
     }
+    .service-card:last-child:nth-child(3n + 1) .service-card__icon { margin-bottom: 18px; }
+    .service-card:last-child:nth-child(3n + 1) .service-card__bottom {
+        min-width: 0;
+        flex-direction: row;
+        align-items: center;
+        padding-top: 14px;
+        border-top: 1px solid #edf0e9;
+    }
+}
+@media (min-width: 1101px) {
+    .service-card:last-child:nth-child(3n + 1) { grid-column: 1 / -1; }
 }
 @media (max-width: 640px) {
     .section { padding-block: 54px; }
