@@ -1403,6 +1403,7 @@ h1 { font-weight: 760; }
 .admin-request-table-wrap:focus-visible { outline: 3px solid rgba(49, 87, 213, .38); outline-offset: 3px; }
 .admin-request-table-wrap { scrollbar-color: #aeb9aa #f1f2eb; scrollbar-width: thin; }
 @media (max-width: 1100px) {
+    .admin-row-open { display: none; }
     .admin-request-table th, .admin-request-table td { padding-inline: 9px; }
     .admin-request-table td { font-size: .68rem; }
     .admin-row-actions { gap: 6px; }
