@@ -35,4 +35,4 @@ jobs:
           name: module4-source-audit-${{ github.run_number }}
           path: artifacts/module4/
           if-no-files-found: error
-          retention-days: 1
+          retention-days: 14
