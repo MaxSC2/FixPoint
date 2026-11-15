@@ -204,7 +204,9 @@ async function main() {
         fatalErrors,
         overflowCount: results.filter((r) => r.horizontalOverflow).length,
         httpErrorCount: results.filter((r) => r.status !== null && r.status >= 400).length,
-        accessibilityViolationCount: axeResults.reduce((sum, item) => sum + (item.violations || []).length, 0),
+        accessibilityViolationGroups: axeResults.reduce((sum, item) => sum + (item.violations || []).length, 0),
+        accessibilityViolationNodes: axeResults.reduce((sum, item) => sum + (item.violations || []).reduce((subtotal, violation) => subtotal + violation.nodes, 0), 0),
+        accessibilityViolationCount: axeResults.reduce((sum, item) => sum + (item.violations || []).reduce((subtotal, violation) => subtotal + violation.nodes, 0), 0),
     };
     await fs.writeFile(path.join(OUTPUT_DIR, 'report.json'), JSON.stringify(report, null, 2) + '\n');
 
@@ -215,7 +217,8 @@ async function main() {
         '- Captures: ' + report.totalCaptures,
         '- Routes with HTTP/navigation/overflow problems: ' + failedPages.length,
         '- Horizontal overflow captures: ' + report.overflowCount,
-        '- WCAG axe violations (desktop route scans): ' + report.accessibilityViolationCount,
+        '- WCAG axe violation groups (desktop route scans): ' + report.accessibilityViolationGroups,
+        '- WCAG affected nodes (desktop route scans): ' + report.accessibilityViolationNodes,
         '- Browser runtime errors: ' + browserErrors.length, '',
         '## Page capture results', '',
         '| Role | Route | Viewport | HTTP | H1 | Overflow | Screenshot |',
