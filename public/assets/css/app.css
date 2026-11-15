@@ -2143,3 +2143,35 @@ h1 { font-weight: 760; }
         justify-content: center;
     }
 }
+
+
+/* Device type quick choices: optional shortcuts, never a closed catalogue. */
+.request-device-types {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-top: 9px;
+}
+.request-device-type-option {
+    min-height: 36px;
+    padding: 7px 11px;
+    border: 1px solid #dce3df;
+    border-radius: 999px;
+    background: #fff;
+    color: #536176;
+    cursor: pointer;
+    font-size: .74rem;
+    font-weight: 650;
+    transition: border-color .15s ease, background .15s ease, color .15s ease;
+}
+.request-device-type-option:hover,
+.request-device-type-option.is-selected {
+    border-color: #8ca8ee;
+    background: #f0f4ff;
+    color: #244db4;
+}
+.request-device-type-option:focus-visible { outline: 2px solid #244db4; outline-offset: 2px; }
+@media (max-width: 640px) {
+    .request-device-types { gap: 6px; }
+    .request-device-type-option { min-height: 40px; padding-inline: 12px; }
+}
