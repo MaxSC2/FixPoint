@@ -1855,3 +1855,91 @@ h1 { font-weight: 760; }
         border-top: 1px solid #edf0e9;
     }
 }
+
+
+/* Device brand picker — compact wordmarks, searchable and touch-friendly. */
+.request-brand-field { min-width: 0; }
+.request-brand-search {
+    width: 100%;
+    min-height: 42px;
+    margin-top: 9px;
+    padding: 9px 12px;
+    border: 1px solid var(--color-border);
+    border-radius: 9px;
+    background: #fbfcff;
+    color: var(--color-ink);
+    font-size: .84rem;
+}
+.request-brand-options {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 7px;
+    margin-top: 10px;
+}
+.request-brand-option {
+    display: flex;
+    min-width: 0;
+    min-height: 66px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 7px 4px;
+    border: 1px solid #e3e8f0;
+    border-radius: 9px;
+    background: #fff;
+    color: #536176;
+    cursor: pointer;
+    font-size: .68rem;
+    font-weight: 650;
+    line-height: 1.2;
+    transition: border-color .15s ease, background .15s ease, color .15s ease;
+}
+.request-brand-option:hover,
+.request-brand-option.is-selected {
+    border-color: #8ca8ee;
+    background: #f0f4ff;
+    color: #244db4;
+}
+.request-brand-option:focus-visible { outline-offset: 2px; }
+.request-brand-option[hidden] { display: none; }
+.request-brand-option__mark {
+    display: grid;
+    width: 34px;
+    height: 26px;
+    place-items: center;
+    color: #26364d;
+    font-size: .8rem;
+    font-weight: 850;
+    letter-spacing: -.06em;
+}
+.request-brand-option__mark--asus { font-style: italic; letter-spacing: -.1em; }
+.request-brand-option__mark--apple { font-size: 1.3rem; }
+.request-brand-option__mark--samsung { font-size: 1.15rem; font-weight: 900; }
+.request-brand-option__mark--lenovo { color: #d71920; font-size: .7rem; }
+.request-brand-option__mark--hp { color: #0878bd; font-size: 1.25rem; }
+.request-brand-option__mark--dell { color: #0876bd; font-size: .68rem; }
+.request-brand-option__mark--acer { color: #75a900; font-style: italic; }
+.request-brand-option__mark--msi { color: #c52a31; }
+.request-brand-option__mark--xiaomi { width: 25px; height: 25px; border-radius: 6px; background: #ff6900; color: #fff; }
+.request-brand-option__mark--huawei { color: #c8202c; }
+.request-brand-option__mark--sony { font-size: .7rem; }
+.request-brand-option__mark--microsoft { color: #2877c7; font-size: 1.15rem; }
+.request-brand-option__mark--nintendo { color: #e60012; }
+.request-brand-option__mark--canon { color: #c51f2a; font-size: .7rem; }
+.request-brand-option__mark--epson { color: #1765a5; font-size: .7rem; }
+@media (max-width: 640px) {
+    .request-brand-options { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
+    .request-brand-option { min-height: 60px; font-size: .64rem; }
+    .request-brand-option__mark { height: 23px; }
+    .request-form-panel { padding: 20px 16px; }
+    .request-form__section { padding-block: 19px; }
+    .request-form__section-head { gap: 10px; }
+    .request-form__section-head h3 { font-size: 1rem; }
+    .request-form__section-head p { font-size: .76rem; }
+    .request-form__actions { gap: 9px; }
+    .request-form__actions .button { min-height: 46px; }
+}
+@media (max-width: 360px) {
+    .request-brand-options { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
