@@ -60,7 +60,7 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
             </form>
 
             <?php if ($items !== []): ?>
-                <div class="admin-request-table-wrap">
+                <div class="admin-request-table-wrap" role="region" aria-label="Таблица заявок, прокручиваемая по горизонтали" tabindex="0">
                     <table class="admin-request-table">
                         <thead><tr><th>Заявка / устройство</th><th>Клиент</th><th>Мастер</th><th>Статус</th><th>Приоритет</th><th>Создана</th><th><span class="sr-only">Открыть</span></th></tr></thead>
                         <tbody>
