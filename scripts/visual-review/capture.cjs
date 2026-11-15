@@ -80,8 +80,19 @@ async function inspectPage(page) {
         const controls = Array.from(document.querySelectorAll('button, input, select, textarea'));
         const links = Array.from(document.querySelectorAll('a[href]'));
         const imgs = Array.from(document.images);
+        const workspaceNav = document.querySelector('.workspace-nav');
+        const mobileCustomerNav = document.querySelector('.mobile-customer-nav');
+        const workspaceNavVisible = Boolean(workspaceNav)
+            && getComputedStyle(workspaceNav).display !== 'none'
+            && getComputedStyle(workspaceNav).visibility !== 'hidden';
+        const duplicateMobileCustomerNavigation = window.innerWidth <= 760
+            && Boolean(mobileCustomerNav)
+            && workspaceNavVisible;
         return {
             title: document.title,
+            hasMobileCustomerNav: Boolean(mobileCustomerNav),
+            workspaceNavVisible,
+            duplicateMobileCustomerNavigation,
             h1: Array.from(document.querySelectorAll('h1')).map((node) => node.innerText.trim()),
             h1Count: document.querySelectorAll('h1').length,
             viewportWidth: window.innerWidth,
@@ -114,17 +125,23 @@ async function captureRoute(page, role, route, viewport, results, axeResults, fa
     const status = response ? response.status() : null;
     const file = safeRole(role) + '__' + slug(route) + '__' + viewport.name + '.png';
     const screenshotPath = path.join(OUTPUT_DIR, file);
+    let viewportScreenshot = null;
     try {
         await page.screenshot({ path: screenshotPath, fullPage: true, animations: 'disabled' });
+        if (viewport.width <= 760) {
+            viewportScreenshot = safeRole(role) + '__' + slug(route) + '__' + viewport.name + '__viewport.png';
+            await page.screenshot({ path: path.join(OUTPUT_DIR, viewportScreenshot), fullPage: false, animations: 'disabled' });
+        }
     } catch (error) {
         fatalErrors.push(role + ' ' + route + ' @ ' + viewport.name + ': screenshot: ' + error.message);
     }
 
-    const row = { role, route, viewport: viewport.name, status, finalPath, redirected: finalPath !== route, screenshot: file, ...metrics };
+    const row = { role, route, viewport: viewport.name, status, finalPath, redirected: finalPath !== route, screenshot: file, viewportScreenshot, ...metrics };
     results.push(row);
     if (status !== null && status >= 400) fatalErrors.push(role + ' ' + route + ' @ ' + viewport.name + ': HTTP ' + status);
     if (row.redirected && !(route === '/login' && finalPath === '/login')) fatalErrors.push(role + ' ' + route + ' @ ' + viewport.name + ': redirected to ' + finalPath);
     if (metrics.horizontalOverflow) fatalErrors.push(role + ' ' + route + ' @ ' + viewport.name + ': horizontal overflow (' + metrics.documentWidth + 'px > ' + viewport.width + 'px)');
+    if (metrics.duplicateMobileCustomerNavigation) fatalErrors.push(role + ' ' + route + ' @ ' + viewport.name + ': duplicate customer navigation is visible on mobile');
 
     if (viewport.name === 'desktop-1440') {
         try {
@@ -194,6 +211,14 @@ async function main() {
         await browser.close();
     }
 
+    for (const item of axeResults) {
+        for (const violation of item.violations || []) {
+            if (['critical', 'serious'].includes(violation.impact)) {
+                fatalErrors.push(item.role + ' ' + item.route + ': serious accessibility violation ' + violation.id + ' (' + violation.nodes.length + ' node(s))');
+            }
+        }
+    }
+
     const report = {
         generatedAt: new Date().toISOString(),
         baseUrl: BASE_URL,
@@ -221,9 +246,9 @@ async function main() {
         '- WCAG affected nodes (desktop route scans): ' + report.accessibilityViolationNodes,
         '- Browser runtime errors: ' + browserErrors.length, '',
         '## Page capture results', '',
-        '| Role | Route | Viewport | HTTP | H1 | Overflow | Screenshot |',
-        '|---|---|---:|---:|---|---|---|',
-        ...results.map((r) => '| ' + r.role + ' | ' + r.route + ' | ' + r.viewport + ' | ' + (r.status ?? 'n/a') + ' | ' + (r.h1 || []).join('; ').replace(/\|/g, '\\|') + ' | ' + (r.horizontalOverflow ? 'YES' : 'no') + ' | ' + r.screenshot + ' |'),
+        '| Role | Route | Viewport | HTTP | H1 | Overflow | Full-page screenshot | Viewport screenshot |',
+        '|---|---|---:|---:|---|---|---|---|',
+        ...results.map((r) => '| ' + r.role + ' | ' + r.route + ' | ' + r.viewport + ' | ' + (r.status ?? 'n/a') + ' | ' + (r.h1 || []).join('; ').replace(/\|/g, '\\|') + ' | ' + (r.horizontalOverflow ? 'YES' : 'no') + ' | ' + r.screenshot + ' | ' + (r.viewportScreenshot || '—') + ' |'),
         '', '## Fatal findings', '',
         ...(fatalErrors.length ? fatalErrors.map((item) => '- ' + item) : ['- None']),
         '', '## Accessibility findings', '',
@@ -231,7 +256,8 @@ async function main() {
             '- **' + item.role + ' ' + item.route + '**: ' + v.id + ' (' + v.impact + '), ' + v.nodes + ' node(s). ' + v.help
         )),
         '', '## Notes', '',
-        'Screenshots are captured from the running PHP application backed by a fresh MySQL 8 database seeded from database/seeds/local_data.php. They are not concept mockups.',
+        'Screenshots are captured from the running PHP application backed by a fresh MySQL 8 database seeded from database/seeds/local_data.php. They are not concept mockups. Mobile captures include both full-page and true viewport screenshots so fixed navigation can be checked at its actual screen position.
+A serious/critical axe violation or duplicate customer navigation on mobile fails the workflow.',
         'Axe results are automated indicators, not a substitute for manual keyboard and screen-reader review.',
     ].join('\n') + '\n';
     await fs.writeFile(path.join(OUTPUT_DIR, 'report.md'), markdown);
