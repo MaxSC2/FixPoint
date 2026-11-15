@@ -116,6 +116,8 @@ final class AdminUserHttpTest extends IntegrationTestCase
         $this->assertContains('action="/admin/users"', $body);
         $this->assertContains('name="_token"', $body);
         $this->assertContains('name="password"', $body);
+        $this->assertContains('aria-label="Таблица пользователей"', $body);
+        $this->assertContains('tabindex="0"', $body);
         $this->assertNotContains('password_hash', $body);
         $this->assertNotContains('$2y$', $body);
         $this->assertNotContains('FixPoint!Dev1', $body);
