@@ -151,3 +151,17 @@ Browser matrix расширена: viewport 360 px теперь проверяе
 ### Текущая граница реализации
 
 Пока не реализованы безопасные фото-вложения к заявке/комментариям, профили компетенций мастеров и автоматизированный подбор. Они требуют отдельного backend, миграций и тестов. Не считать их частью готового функционала только потому, что они описаны в продуктовой концепции.
+
+## Mobile UX implementation slice — 15 November
+
+- Customer request list now uses a two-column filter layout on small tablets and a single-column filter flow on narrow phones; search and submit controls receive full width.
+- Request cards use tighter spacing and readable two-line problem previews on phones instead of clipping all text to a single line.
+- Request creation layout becomes a single column, with the explanatory panel moved below the form; submit/cancel actions become full-width touch targets.
+- Existing customer-only bottom navigation remains fixed with safe-area padding; the redundant in-page workspace navigation is hidden on mobile.
+- CSS-only change, preserving routes, form field names, validation and database workflow. New visual and CI runs are required for the updated HEAD.
+
+## Desktop QA queue after mobile sign-off
+
+- Recheck 1440 / 1280 / 1024 px for the same public, customer, technician and admin route matrix.
+- Inspect dense admin tables, assignment form, statistics charts, request details and the public service catalogue at desktop widths.
+- Any visual defect must be tracked as screenshot → issue → fix → test → new screenshot. Do not mark a route reviewed from viewport metrics alone.
