@@ -68,7 +68,7 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
 
                             <div class="field request-brand-field<?= isset($errors['device_brand']) ? ' field--invalid' : '' ?>">
                                 <label class="field__label" for="request-device-brand">Производитель</label>
-                                <input id="request-device-brand" type="text" name="device_brand" value="<?= e($deviceBrand) ?>" maxlength="100" placeholder="Выберите ниже или введите свой" autocomplete="off" aria-describedby="request-brand-help" <?= isset($errors['device_brand']) ? 'aria-invalid="true" aria-describedby="request-device-brand-error"' : '' ?>>
+                                <input id="request-device-brand" type="text" name="device_brand" value="<?= e($deviceBrand) ?>" maxlength="100" placeholder="Выберите ниже или введите свой" autocomplete="off" aria-describedby="request-brand-help<?= isset($errors['device_brand']) ? ' request-device-brand-error' : '' ?>" <?= isset($errors['device_brand']) ? 'aria-invalid="true"' : '' ?>>
                                 <label class="sr-only" for="request-brand-search">Найти производителя</label>
                                 <input class="request-brand-search" id="request-brand-search" type="search" placeholder="Поиск бренда..." autocomplete="off" aria-controls="request-brand-options">
                                 <div class="request-brand-options" id="request-brand-options" role="group" aria-label="Популярные производители">
