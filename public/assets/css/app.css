@@ -1833,3 +1833,25 @@ h1 { font-weight: 760; }
 @media (max-width: 640px) {
     .atelier-final__stamp { display: none; }
 }
+
+
+/* Catalogue rows: four balanced columns on wide screens, two on tablet. */
+@media (min-width: 1101px) {
+    .service-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .service-card:last-child:nth-child(3n + 1) {
+        display: flex;
+        grid-column: auto;
+        min-height: 224px;
+        align-items: stretch;
+    }
+    .service-card:last-child:nth-child(3n + 1) .service-card__icon { margin-bottom: 14px; }
+    .service-card:last-child:nth-child(3n + 1) .service-card__body h3 { min-height: 0; }
+    .service-card:last-child:nth-child(3n + 1) .service-card__bottom {
+        min-width: 0;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        padding-top: 14px;
+        border-top: 1px solid #edf0e9;
+    }
+}
