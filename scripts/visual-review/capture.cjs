@@ -256,8 +256,7 @@ async function main() {
             '- **' + item.role + ' ' + item.route + '**: ' + v.id + ' (' + v.impact + '), ' + v.nodes + ' node(s). ' + v.help
         )),
         '', '## Notes', '',
-        'Screenshots are captured from the running PHP application backed by a fresh MySQL 8 database seeded from database/seeds/local_data.php. They are not concept mockups. Mobile captures include both full-page and true viewport screenshots so fixed navigation can be checked at its actual screen position.
-A serious/critical axe violation or duplicate customer navigation on mobile fails the workflow.',
+        'Screenshots are captured from the running PHP application backed by a fresh MySQL 8 database seeded from database/seeds/local_data.php. They are not concept mockups. Mobile captures include both full-page and true viewport screenshots so fixed navigation can be checked at its actual screen position.\nA serious/critical axe violation or duplicate customer navigation on mobile fails the workflow.',
         'Axe results are automated indicators, not a substitute for manual keyboard and screen-reader review.',
     ].join('\n') + '\n';
     await fs.writeFile(path.join(OUTPUT_DIR, 'report.md'), markdown);
