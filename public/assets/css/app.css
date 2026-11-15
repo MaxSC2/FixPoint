@@ -1764,3 +1764,66 @@ h1 { font-weight: 760; }
     .catalog-note { align-items: flex-start; flex-wrap: wrap; }
     .catalog-note__action { width: 100%; }
 }
+
+
+/* Homepage device categories — equal, self-explanatory selection tiles. */
+.atelier-service-list {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+    border: 0;
+}
+.atelier-service-row {
+    display: flex;
+    min-width: 0;
+    min-height: 190px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    padding: 18px;
+    border: 1px solid #dce0d6;
+    border-radius: 10px;
+    background: #fbfaf5;
+    transition: transform .18s ease, border-color .18s ease, background .18s ease, box-shadow .18s ease;
+}
+.atelier-service-row:hover {
+    padding-inline: 18px;
+    transform: translateY(-3px);
+    border-color: #b9c6b5;
+    background: #fff;
+    box-shadow: 0 10px 24px rgba(30,45,42,.055);
+}
+.atelier-service-row__number { font-size: .66rem; }
+.atelier-service-row__icon { width: 46px; height: 46px; margin: 13px 0 12px; }
+.atelier-service-row__icon svg { width: 32px; height: 32px; }
+.atelier-service-row__copy { display: block; min-width: 0; }
+.atelier-service-row__copy strong { font-size: .94rem; }
+.atelier-service-row__copy small {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    min-height: 2.8em;
+    font-size: .72rem;
+    line-height: 1.4;
+}
+.atelier-service-row__arrow { margin-top: auto; }
+.atelier-services__foot { margin-top: 18px; }
+@media (max-width: 1100px) {
+    .atelier-service-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .atelier-service-row { min-height: 178px; }
+}
+@media (max-width: 640px) {
+    .atelier-service-list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
+    .atelier-service-row { min-height: 174px; padding: 14px; }
+    .atelier-service-row:hover { padding-inline: 14px; }
+    .atelier-service-row__icon { width: 40px; height: 40px; margin: 11px 0 9px; }
+    .atelier-service-row__icon svg { width: 27px; height: 27px; }
+    .atelier-service-row__copy strong { font-size: .84rem; }
+    .atelier-service-row__copy small { font-size: .67rem; }
+    .atelier-service-row__arrow { height: 29px; }
+}
+@media (max-width: 380px) {
+    .atelier-service-list { grid-template-columns: 1fr; }
+    .atelier-service-row { min-height: 150px; }
+}
