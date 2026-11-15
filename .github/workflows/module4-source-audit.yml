@@ -1,1 +1,38 @@
-name: Module 4 source audit\n\non:\n  pull_request:\n    branches: [develop]\n    paths:\n      - 'assignment/Модуль 4.docx'\n      - 'scripts/assignment/**'\n      - '.github/workflows/module4-source-audit.yml'\n  workflow_dispatch:\n\npermissions:\n  contents: read\n\njobs:\n  extract-assignment:\n    name: Extract original rubric and check video captions\n    runs-on: ubuntu-latest\n    timeout-minutes: 10\n    steps:\n      - name: Checkout\n        uses: actions/checkout@v4\n      - name: Set up Python\n        uses: actions/setup-python@v5\n        with:\n          python-version: '3.12'\n      - name: Install caption metadata utility\n        run: python -m pip install --disable-pip-version-check yt-dlp\n      - name: Extract DOCX and inspect video subtitle availability\n        run: >-\n          python scripts/assignment/extract_module4.py\n          --input 'assignment/Модуль 4.docx'\n          --output artifacts/module4\n          --check-video-captions\n      - name: Upload extracted requirements and subtitle availability report\n        uses: actions/upload-artifact@v4\n        with:\n          name: module4-source-audit-${{ github.run_number }}\n          path: artifacts/module4/\n          if-no-files-found: error\n          retention-days: 1\n
+name: Module 4 source audit
+
+on:
+  pull_request:
+    branches:
+      - develop
+    paths:
+      - assignment/Модуль 4.docx
+      - scripts/assignment/**
+      - .github/workflows/module4-source-audit.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  extract-assignment:
+    name: Extract original rubric and check video captions
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install caption metadata utility
+        run: python -m pip install --disable-pip-version-check yt-dlp
+      - name: Extract DOCX and inspect video subtitle availability
+        run: python scripts/assignment/extract_module4.py --input 'assignment/Модуль 4.docx' --output artifacts/module4 --check-video-captions
+      - name: Upload extracted requirements and subtitle availability report
+        uses: actions/upload-artifact@v4
+        with:
+          name: module4-source-audit-${{ github.run_number }}
+          path: artifacts/module4/
+          if-no-files-found: error
+          retention-days: 1
