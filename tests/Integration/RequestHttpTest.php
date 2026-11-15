@@ -159,6 +159,8 @@ final class RequestHttpTest extends IntegrationTestCase
         $this->assertContains('action="/requests/create"', $form->body());
         $this->assertContains('name="_token"', $form->body());
         $this->assertContains('name="problem_description"', $form->body());
+        $this->assertContains('data-device-type="Ноутбук"', $form->body());
+        $this->assertContains('data-device-type="Игровая консоль"', $form->body());
         $this->assertContains('id="request-brand-search"', $form->body());
         $this->assertContains('data-brand="ASUS"', $form->body());
         $this->assertContains('data-brand="Samsung"', $form->body());
