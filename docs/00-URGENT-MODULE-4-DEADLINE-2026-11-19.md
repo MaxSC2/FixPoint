@@ -20,9 +20,9 @@
 
 | Commit | Workflow | Run | Статус | Подтверждённый результат |
 |---|---|---:|---|---|
-| 3df9ef2 | CI | [43746104616](https://github.com/MaxSC2/FixPoint/actions/runs/43746104616) | ✅ PASS | PHP 8.3 + MySQL 8: 174 passed, 0 failed, 1650 assertions; HTTP smoke: 30 checks; Docker Compose runtime: success |
-| 3df9ef2 | Browser Visual QA | [43746104494](https://github.com/MaxSC2/FixPoint/actions/runs/43746104494) | ✅ PASS | 89 captures; 0 HTTP/navigation errors; 0 horizontal overflow; 0 axe violation groups/nodes; 0 browser runtime errors |
-| 3df9ef2 | Module 4 source audit | [43746104510](https://github.com/MaxSC2/FixPoint/actions/runs/43746104510) | ✅ PASS WITH BLOCKED CAPTIONS | 56 DOCX paragraphs, 31 unique embedded links, all 31 video subtitle requests blocked by YouTube anti-bot/auth requirement |
+| c4509cb | CI | [43752695232](https://github.com/MaxSC2/FixPoint/actions/runs/43752695232) | ✅ PASS | PHP 8.3 + MySQL 8: 175 passed, 0 failed, 1711 assertions; HTTP smoke: 30 checks; Docker Compose runtime: success |
+| c4509cb | Browser Visual QA | [43752695221](https://github.com/MaxSC2/FixPoint/actions/runs/43752695221) | ✅ PASS | 139 captures; 0 HTTP errors; 0 horizontal overflow; 0 axe violations; 0 browser errors; 0 fatal errors |
+| c4509cb | Module 4 source audit | [43752695261](https://github.com/MaxSC2/FixPoint/actions/runs/43752695261) | ✅ PASS WITH BLOCKED CAPTIONS | 56 DOCX paragraphs, 31 unique embedded links; all 31 subtitle probes blocked by YouTube anti-bot/auth. Captions remain unverified, not absent |
 
 ### Исторические красные прогоны — исправлены, не удалять из истории
 
@@ -67,10 +67,10 @@
 
 ### Вторник, 17 ноября — функции и desktop
 - [ ] Повторно сопоставить каждый пункт DOCX с маршрутом, БД и тестом.
-- [ ] Проверить сквозную заявку: клиент → администратор → мастер → согласование → история.
-- [ ] Проверить CRUD пользователей, услуг и категорий, а также редактор «О сервисе».
-- [ ] Проверить desktop 1440/1280/1024 px: публичные страницы, клиент, мастер, администратор, формы и таблицы.
-- [ ] Если обнаружен дефект: снимок → описание → код → тест → свежий снимок.
+- [x] Сквозная заявка проверена интеграционным тестом: клиент → администратор → мастер → согласование → завершение; проверены все 7 событий истории.
+- [x] CRUD пользователей, услуг и категорий проверен интеграционными тестами; редактор «О сервисе» покрыт отдельными HTTP-тестами.
+- [x] Desktop 1440/1280/1024 px: все публичные и ролевые маршруты сняты; вручную просмотрены главная, клиентские заявки/форма, реестр и назначение, статистика, CRUD и карточка мастера.
+- [x] Дефекты компактного desktop-реестра и CRUD-таблиц исправлены по схеме снимок → код → тест → свежий снимок.
 
 ### Среда, 18 ноября — регрессия и защита
 - [ ] Повторить PHP lint, unit/integration tests, MySQL CI, Docker Compose runtime.
@@ -188,3 +188,30 @@ The browser viewport matrix now includes 1440, 1280, 1024, 768, 390 and 360 px w
 **Current branch head at this pass:** `3283786814de0bd9efaa7122253bfb15c5d1eb66`. Browser screenshots artifact: `fixpoint-visual-review-57` (GitHub Actions run 43750280195, 14-day retention).
 
 The next desktop pass is visual/manual review of the 1440/1280/1024 screenshots, especially admin tables, assignment, statistics, service catalog and request detail. Automated zero-overflow/axe results are not a substitute for inspecting layout hierarchy and content quality.
+
+## Latest verified HEAD — 16 November 2026, commit c4509cb
+
+The exact code HEAD is `c4509cbf2479b1f3ba7308c3f8e9b4a4fc0fc957`. All three required workflows passed on this same commit:
+
+- CI: 175 tests, 0 failures, 1711 assertions; 30 HTTP smoke checks; Docker Compose runtime passed.
+- Browser Visual QA: 139 screenshots across public, customer, technician and administrator routes; viewports 1440, 1280, 1024, 768, 390 and 360 px as applicable. Zero HTTP errors, horizontal overflow, axe violations, browser errors or fatal errors.
+- Module 4 source audit: 56 DOCX paragraphs and 31 unique embedded video links extracted. YouTube blocked all 31 automated caption checks; no claim is made that subtitles are absent.
+
+### Desktop defects found and fixed during screenshot review
+
+- At 1024 px, the admin request registry clipped the “Назначить” action. The redundant open icon was removed for compact widths, then the date column was hidden at 761–1100 px to preserve the assignment action. The final 1024 px screenshot shows the complete action link.
+- Admin CRUD lists for users, services and categories were squeezed beside the create form at 1024 px. They now use the full content width, with the create form below the list.
+- CRUD table wrappers now have accessible region labels and keyboard focus.
+- Latest screenshot archive: `fixpoint-visual-review-65`, GitHub Actions run [43752695221](https://github.com/MaxSC2/FixPoint/actions/runs/43752695221), retained for 14 days.
+
+### End-to-end workflow proof
+
+A new integration test `testCompleteRepairLifecycleAcrossCustomerAdminAndTechnician` covers customer creation, admin assignment, technician acceptance and diagnostics, estimate preparation, customer approval, repair completion and final customer view. It verifies all seven status-history transitions against the real MySQL test database.
+
+### Remaining release blockers
+
+- [ ] Manually identify and review the three unnamed videos from task 9. The DOCX supplies URLs only; YouTube blocks automated metadata/caption extraction.
+- [ ] Manually demonstrate the full workflow in the browser using all three roles, including the negative authorization path.
+- [ ] Final release-day regression on the final documentation/code HEAD.
+- [ ] Confirm local startup instructions and test-account credentials from README/.env before demonstration.
+
