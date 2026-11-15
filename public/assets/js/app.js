@@ -64,6 +64,29 @@
         });
     });
 
+    // Quick device-type choices keep free-text entry available as a fallback.
+    const deviceTypeInput = document.querySelector('#request-device-type');
+    const deviceTypeOptions = Array.from(document.querySelectorAll('[data-device-type]'));
+    if (deviceTypeInput && deviceTypeOptions.length > 0) {
+        const syncDeviceType = () => {
+            deviceTypeOptions.forEach((option) => {
+                const selected = option.dataset.deviceType === deviceTypeInput.value.trim();
+                option.classList.toggle('is-selected', selected);
+                option.setAttribute('aria-pressed', String(selected));
+            });
+        };
+        syncDeviceType();
+        deviceTypeInput.addEventListener('input', syncDeviceType);
+        deviceTypeOptions.forEach((option) => {
+            option.addEventListener('click', () => {
+                deviceTypeInput.value = option.dataset.deviceType || '';
+                deviceTypeInput.dispatchEvent(new Event('input', { bubbles: true }));
+                syncDeviceType();
+                deviceTypeInput.focus();
+            });
+        });
+    }
+
     // Progressive manufacturer picker: native text entry remains the fallback.
     const brandInput = document.querySelector('#request-device-brand');
     const brandSearch = document.querySelector('#request-brand-search');
