@@ -83,15 +83,19 @@ final class AdminStatisticsRepository
     {
         [$where, $params] = $this->dateWhere($filters);
         $statement = $this->database->connection()->prepare(
-            'SELECT
-                DATE_FORMAT(r.created_at, \'%Y-%m\') AS month_key,
-                DATE_FORMAT(r.created_at, \'%m.%Y\') AS month_label,
-                COUNT(*) AS request_count
-             FROM repair_requests r
-             WHERE ' . $where . '
-             GROUP BY month_key, month_label
-             ORDER BY month_key ASC
-             LIMIT 12'
+            'SELECT month_key, month_label, request_count
+             FROM (
+                SELECT
+                    DATE_FORMAT(r.created_at, \'%Y-%m\') AS month_key,
+                    DATE_FORMAT(r.created_at, \'%m.%Y\') AS month_label,
+                    COUNT(*) AS request_count
+                FROM repair_requests r
+                WHERE ' . $where . '
+                GROUP BY month_key, month_label
+                ORDER BY month_key DESC
+                LIMIT 12
+             ) AS recent_months
+             ORDER BY month_key ASC'
         );
         $statement->execute($params);
 
