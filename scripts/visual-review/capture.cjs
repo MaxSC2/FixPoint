@@ -48,6 +48,11 @@ async function login(page, email, role) {
 }
 
 async function revealWholePage(page) {
+    // The page's IntersectionObserver is designed for user-paced scrolling.
+    // Full-page screenshot capture scrolls faster than a person, so explicitly
+    // settle every reveal target before taking a screenshot.
+    await page.addStyleTag({ content: '.js [data-reveal] { opacity: 1 !important; transform: none !important; transition: none !important; animation: none !important; }' });
+    await page.evaluate(() => document.querySelectorAll('[data-reveal]').forEach((element) => element.classList.add('is-visible')));
     await page.evaluate(async () => {
         const pause = () => new Promise((resolve) => requestAnimationFrame(() => resolve()));
         const step = Math.max(300, Math.floor(window.innerHeight * 0.72));
@@ -129,7 +134,16 @@ async function captureRoute(page, role, route, viewport, results, axeResults, fa
                 violations: axe.violations.map((v) => ({
                     id: v.id, impact: v.impact, description: v.description, help: v.help,
                     helpUrl: v.helpUrl, nodes: v.nodes.length,
-                    targets: v.nodes.slice(0, 5).map((node) => node.target),
+                    details: v.nodes.map((node) => ({
+                        target: node.target,
+                        html: node.html,
+                        failureSummary: node.failureSummary,
+                        checks: [...node.any, ...node.all, ...node.none].map((check) => ({
+                            id: check.id,
+                            message: check.message,
+                            data: check.data,
+                        })),
+                    })),
                 })),
             });
         } catch (error) {
