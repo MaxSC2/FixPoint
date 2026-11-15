@@ -149,6 +149,8 @@ final class AdminCatalogHttpTest extends IntegrationTestCase
         $this->assertContains('action="/admin/services"', $body);
         $this->assertContains('name="_token"', $body);
         $this->assertContains('name="short_description"', $body);
+        $this->assertContains('aria-label="Таблица услуг"', $body);
+        $this->assertContains('tabindex="0"', $body);
         $this->assertContains('name="description"', $body);
         $this->assertContains('name="is_active"', $body);
         $this->assertContains(
@@ -177,6 +179,8 @@ final class AdminCatalogHttpTest extends IntegrationTestCase
         $this->assertContains('action="/admin/categories"', $body);
         $this->assertContains('name="_token"', $body);
         $this->assertContains('name="sort_order"', $body);
+        $this->assertContains('aria-label="Таблица категорий"', $body);
+        $this->assertContains('tabindex="0"', $body);
         $this->assertContains('name="is_active"', $body);
         $this->assertContains('/admin/categories/' . $active['id'] . '/edit', $body);
         $this->assertContains('/admin/categories/' . $inactive['id'] . '/edit', $body);
