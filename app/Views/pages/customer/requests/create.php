@@ -66,15 +66,35 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
                                 <?php if (isset($errors['device_type'])): ?><small class="field__error" id="request-device-type-error"><?= e((string) $errors['device_type']) ?></small><?php endif; ?>
                             </label>
 
-                            <label class="field<?= isset($errors['device_brand']) ? ' field--invalid' : '' ?>" for="request-device-brand">
-                                <span class="field__label">Производитель</span>
-                                <input id="request-device-brand" type="text" name="device_brand" value="<?= e($deviceBrand) ?>" maxlength="100" placeholder="Например, ASUS" <?= isset($errors['device_brand']) ? 'aria-invalid="true" aria-describedby="request-device-brand-error"' : '' ?>>
+                            <div class="field request-brand-field<?= isset($errors['device_brand']) ? ' field--invalid' : '' ?>">
+                                <label class="field__label" for="request-device-brand">Производитель</label>
+                                <input id="request-device-brand" type="text" name="device_brand" value="<?= e($deviceBrand) ?>" maxlength="100" placeholder="Выберите ниже или введите свой" autocomplete="off" aria-describedby="request-brand-help" <?= isset($errors['device_brand']) ? 'aria-invalid="true" aria-describedby="request-device-brand-error"' : '' ?>>
+                                <label class="sr-only" for="request-brand-search">Найти производителя</label>
+                                <input class="request-brand-search" id="request-brand-search" type="search" placeholder="Поиск бренда..." autocomplete="off" aria-controls="request-brand-options">
+                                <div class="request-brand-options" id="request-brand-options" role="group" aria-label="Популярные производители">
+                                    <button type="button" class="request-brand-option" data-brand="ASUS"><span class="request-brand-option__mark request-brand-option__mark--asus">ASUS</span><span>ASUS</span></button>
+                                    <button type="button" class="request-brand-option" data-brand="Apple"><span class="request-brand-option__mark request-brand-option__mark--apple">A</span><span>Apple</span></button>
+                                    <button type="button" class="request-brand-option" data-brand="Samsung"><span class="request-brand-option__mark request-brand-option__mark--samsung">S</span><span>Samsung</span></button>
+                                    <button type="button" class="request-brand-option" data-brand="Lenovo"><span class="request-brand-option__mark request-brand-option__mark--lenovo">Lenovo</span><span>Lenovo</span></button>
+                                    <button type="button" class="request-brand-option" data-brand="HP"><span class="request-brand-option__mark request-brand-option__mark--hp">hp</span><span>HP</span></button>
+                                    <button type="button" class="request-brand-option" data-brand="Dell"><span class="request-brand-option__mark request-brand-option__mark--dell">DELL</span><span>Dell</span></button>
+                                    <button type="button" class="request-brand-option" data-brand="Acer"><span class="request-brand-option__mark request-brand-option__mark--acer">acer</span><span>Acer</span></button>
+                                    <button type="button" class="request-brand-option" data-brand="MSI"><span class="request-brand-option__mark request-brand-option__mark--msi">MSI</span><span>MSI</span></button>
+                                    <button type="button" class="request-brand-option" data-brand="Xiaomi"><span class="request-brand-option__mark request-brand-option__mark--xiaomi">mi</span><span>Xiaomi</span></button>
+                                    <button type="button" class="request-brand-option" data-brand="Huawei"><span class="request-brand-option__mark request-brand-option__mark--huawei">H</span><span>Huawei</span></button>
+                                    <button type="button" class="request-brand-option" data-brand="Sony"><span class="request-brand-option__mark request-brand-option__mark--sony">SONY</span><span>Sony</span></button>
+                                    <button type="button" class="request-brand-option" data-brand="Microsoft"><span class="request-brand-option__mark request-brand-option__mark--microsoft">▦</span><span>Microsoft</span></button>
+                                    <button type="button" class="request-brand-option" data-brand="Nintendo"><span class="request-brand-option__mark request-brand-option__mark--nintendo">N</span><span>Nintendo</span></button>
+                                    <button type="button" class="request-brand-option" data-brand="Canon"><span class="request-brand-option__mark request-brand-option__mark--canon">Canon</span><span>Canon</span></button>
+                                    <button type="button" class="request-brand-option" data-brand="Epson"><span class="request-brand-option__mark request-brand-option__mark--epson">EPSON</span><span>Epson</span></button>
+                                </div>
+                                <small class="field__help" id="request-brand-help">Не нашли бренд? Просто введите его название. Можно оставить поле пустым.</small>
                                 <?php if (isset($errors['device_brand'])): ?><small class="field__error" id="request-device-brand-error"><?= e((string) $errors['device_brand']) ?></small><?php endif; ?>
-                            </label>
+                            </div>
 
                             <label class="field<?= isset($errors['device_model']) ? ' field--invalid' : '' ?>" for="request-device-model">
-                                <span class="field__label">Модель</span>
-                                <input id="request-device-model" type="text" name="device_model" value="<?= e($deviceModel) ?>" maxlength="160" placeholder="Например, TUF Gaming F15" <?= isset($errors['device_model']) ? 'aria-invalid="true" aria-describedby="request-device-model-error"' : '' ?>>
+                                <span class="field__label">Серия или модель <span class="field__optional">необязательно</span></span>
+                                <input id="request-device-model" type="text" name="device_model" value="<?= e($deviceModel) ?>" maxlength="160" placeholder="Например, TUF Gaming F15 или FX506LH" <?= isset($errors['device_model']) ? 'aria-invalid="true" aria-describedby="request-device-model-error"' : '' ?>>
                                 <?php if (isset($errors['device_model'])): ?><small class="field__error" id="request-device-model-error"><?= e((string) $errors['device_model']) ?></small><?php endif; ?>
                             </label>
 
