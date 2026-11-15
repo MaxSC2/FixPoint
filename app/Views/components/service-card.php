@@ -6,6 +6,7 @@ $service = isset($service) && is_array($service) ? $service : [];
 $serviceName = (string) ($service['name'] ?? 'Услуга');
 $serviceSlug = (string) ($service['slug'] ?? '');
 $serviceDescription = (string) ($service['short_description'] ?? '');
+$serviceCategory = trim((string) ($service['category_name'] ?? ''));
 $priceFrom = $service['price_from'] ?? null;
 $hasPrice = is_numeric($priceFrom) && (float) $priceFrom > 0;
 $serviceUrl = $serviceSlug !== '' ? '/services/' . rawurlencode($serviceSlug) : '/services';
@@ -19,6 +20,7 @@ $serviceUrl = $serviceSlug !== '' ? '/services/' . rawurlencode($serviceSlug) : 
         </svg>
     </div>
     <div class="service-card__body">
+        <?php if ($serviceCategory !== ''): ?><span class="service-card__category"><?= e($serviceCategory) ?></span><?php endif; ?>
         <h3><?= e($serviceName) ?></h3>
         <?php if ($serviceDescription !== ''): ?>
             <p><?= e($serviceDescription) ?></p>
