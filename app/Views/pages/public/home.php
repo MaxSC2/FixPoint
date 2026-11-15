@@ -66,7 +66,7 @@ $featuredServices = isset($featuredServices) && is_array($featuredServices) ? $f
                     <svg viewBox="0 0 48 48" fill="none"><rect x="9" y="7" width="30" height="24" rx="2.5" stroke="currentColor" stroke-width="1.7"/><path d="M4.5 36h39L39 31H9l-4.5 5Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M19 36v2h10v-2" stroke="currentColor" stroke-width="1.7"/></svg>
                 </span>
                 <span class="atelier-service-row__copy"><strong>Ноутбуки</strong><small>Диагностика, охлаждение, питание, экран и обслуживание</small></span>
-                <span class="atelier-service-row__arrow" aria-hidden="true">Выбрать <b>↗</b></span>
+                <span class="atelier-service-row__arrow">Выбрать <b aria-hidden="true">↗</b></span>
             </a>
             <a class="atelier-service-row" href="/services?q=компьютер">
                 <span class="atelier-service-row__number">02</span>
