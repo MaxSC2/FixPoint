@@ -12,16 +12,3 @@ CREATE TABLE site_content_blocks (
     KEY idx_site_content_updated_by (updated_by),
     CONSTRAINT fk_site_content_updated_by FOREIGN KEY (updated_by) REFERENCES users (id) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-INSERT INTO site_content_blocks
-    (block_key, title, lead, section_heading, section_body)
-VALUES
-    (
-        'about',
-        'Сервис, в котором понятно, что происходит.',
-        'FixPoint объединяет приём обращений, диагностику, согласование стоимости и контроль выполнения ремонта в одном рабочем процессе.',
-        'Каждый этап имеет своё место',
-        'Ремонт техники часто сопровождается ожиданием и вопросами: кто занимается устройством, что уже проверили, сколько будет стоить работа и когда можно забрать устройство.
-
-В FixPoint эти сведения собираются в карточке заявки. Клиент видит доступную ему историю, мастер фиксирует диагностику и ход работ, администратор следит за распределением обращений.'
-    );

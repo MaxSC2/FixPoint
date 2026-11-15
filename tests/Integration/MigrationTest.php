@@ -1,73 +1,27 @@
-<?php
+-- 007: editable public content blocks managed by administrators.
+CREATE TABLE site_content_blocks (
+    block_key VARCHAR(64) NOT NULL,
+    title VARCHAR(180) NOT NULL,
+    lead VARCHAR(255) NOT NULL,
+    section_heading VARCHAR(180) NOT NULL,
+    section_body TEXT NOT NULL,
+    updated_by BIGINT UNSIGNED NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (block_key),
+    KEY idx_site_content_updated_by (updated_by),
+    CONSTRAINT fk_site_content_updated_by FOREIGN KEY (updated_by) REFERENCES users (id) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-declare(strict_types=1);
+INSERT INTO site_content_blocks
+    (block_key, title, lead, section_heading, section_body)
+VALUES
+    (
+        'about',
+        'Сервис, в котором понятно, что происходит.',
+        'FixPoint объединяет приём обращений, диагностику, согласование стоимости и контроль выполнения ремонта в одном рабочем процессе.',
+        'Каждый этап имеет своё место',
+        'Ремонт техники часто сопровождается ожиданием и вопросами: кто занимается устройством, что уже проверили, сколько будет стоить работа и когда можно забрать устройство.
 
-namespace FixPoint\Tests\Integration;
-
-use FixPoint\Database\Migrator;
-use FixPoint\Tests\IntegrationTestCase;
-
-final class MigrationTest extends IntegrationTestCase
-{
-    public function testAllMigrationsAreAppliedAndRerunIsIdempotent(): void
-    {
-        $migrator = new Migrator(app()->config(), app()->logger());
-
-        $status = $migrator->status();
-        $this->assertCount(7, $status);
-        foreach ($status as $row) {
-            $this->assertFalse($row['pending'], 'Pending migration: ' . $row['migration']);
-        }
-
-        $this->assertSame([], $migrator->migrate());
-    }
-
-    public function testEveryTableUsesInnodbAndUtf8mb4(): void
-    {
-        $rows = app()->database()->connection()->query(
-            'SELECT TABLE_NAME, ENGINE, TABLE_COLLATION
-             FROM information_schema.TABLES
-             WHERE TABLE_SCHEMA = DATABASE() AND TABLE_TYPE = "BASE TABLE"'
-        )->fetchAll();
-
-        $this->assertGreaterThan(0, count($rows));
-        foreach ($rows as $row) {
-            $this->assertSame('InnoDB', $row['ENGINE'], 'Engine mismatch for ' . $row['TABLE_NAME']);
-            $this->assertContains('utf8mb4', (string) $row['TABLE_COLLATION']);
-        }
-    }
-
-    public function testForeignKeysExist(): void
-    {
-        $rows = app()->database()->connection()->query(
-            'SELECT CONSTRAINT_NAME FROM information_schema.REFERENTIAL_CONSTRAINTS
-             WHERE CONSTRAINT_SCHEMA = DATABASE()'
-        )->fetchAll(\PDO::FETCH_COLUMN);
-
-        foreach ([
-            'fk_services_category',
-            'fk_requests_customer',
-            'fk_requests_technician',
-            'fk_requests_service',
-            'fk_history_request',
-            'fk_history_user',
-            'fk_comments_request',
-            'fk_comments_author',
-            'fk_site_content_updated_by',
-        ] as $constraint) {
-            $this->assertTrue(in_array($constraint, $rows, true), 'Missing FK: ' . $constraint);
-        }
-    }
-
-    public function testChecksumsAreStored(): void
-    {
-        $rows = app()->database()->connection()->query(
-            'SELECT migration, checksum FROM schema_migrations ORDER BY migration'
-        )->fetchAll();
-
-        $this->assertCount(7, $rows);
-        foreach ($rows as $row) {
-            $this->assertSame(64, strlen((string) $row['checksum']));
-        }
-    }
-}
+В FixPoint эти сведения собираются в карточке заявки. Клиент видит доступную ему историю, мастер фиксирует диагностику и ход работ, администратор следит за распределением обращений.'
+    );
