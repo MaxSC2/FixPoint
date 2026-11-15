@@ -1919,9 +1919,9 @@ h1 { font-weight: 760; }
 .request-brand-option__mark--lenovo { color: #d71920; font-size: .7rem; }
 .request-brand-option__mark--hp { color: #0878bd; font-size: 1.25rem; }
 .request-brand-option__mark--dell { color: #0876bd; font-size: .68rem; }
-.request-brand-option__mark--acer { color: #75a900; font-style: italic; }
+.request-brand-option__mark--acer { color: #486700; font-style: italic; }
 .request-brand-option__mark--msi { color: #c52a31; }
-.request-brand-option__mark--xiaomi { width: 25px; height: 25px; border-radius: 6px; background: #ff6900; color: #fff; }
+.request-brand-option__mark--xiaomi { width: 25px; height: 25px; border-radius: 6px; background: #ff6900; color: #202d30; }
 .request-brand-option__mark--huawei { color: #c8202c; }
 .request-brand-option__mark--sony { font-size: .7rem; }
 .request-brand-option__mark--microsoft { color: #2877c7; font-size: 1.15rem; }
@@ -1949,6 +1949,7 @@ h1 { font-weight: 760; }
 .mobile-customer-nav { display: none; }
 @media (max-width: 760px) {
     body:has(.mobile-customer-nav) { padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px)); }
+    body:has(.mobile-customer-nav) .workspace-nav { display: none; }
     .mobile-customer-nav {
         position: fixed;
         z-index: 100;
