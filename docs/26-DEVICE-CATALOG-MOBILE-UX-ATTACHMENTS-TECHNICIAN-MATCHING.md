@@ -160,3 +160,20 @@ Two different Google offerings are relevant; they should not be confused:
 ## Current implementation boundary
 
 This document records the next product direction. It does not claim that uploads, technician skill profiles, AI triage or real-time notifications already exist. Those features require their own migrations, authorization tests and browser coverage.
+
+---
+
+## Implementation update — first UI slice
+
+**Implemented on the QA branch (not yet merged):**
+
+- The request form now offers a curated manufacturer picker for ASUS, Apple, Samsung, Lenovo, HP, Dell, Acer, MSI, Xiaomi, Huawei, Sony, Microsoft, Nintendo, Canon and Epson.
+- The manufacturer list is searchable and selecting a brand fills the existing `device_brand` field. Free text remains available for niche/unknown brands.
+- The model field is explicitly optional and now describes series/model together, so customers can enter a family such as TUF Gaming or a specific code such as FX506LH without a model database.
+- The selector uses compact typographic brand marks, not official logo artwork. These are lightweight visual identifiers; replace them with properly sourced local SVG marks in a later asset pass if brand fidelity is required.
+- The layout compresses the brand selector to four columns on phones and three on very narrow screens. The existing server-side form fields and request schema are unchanged.
+- Integration coverage now asserts the searchable picker and unknown-brand fallback are present.
+
+**Not included in this slice:** image uploads, a separate mobile application shell/bottom navigation, technician capability profiles, automatic matching, AI triage, and push/live notifications. The generated phone screens are concept references only, not screenshots of the running app.
+
+**Validation:** GitHub Actions CI and Browser visual QA were triggered for the latest implementation commit. Their final conclusions must be recorded after completion; no pass is claimed here.
