@@ -74,7 +74,7 @@ $featuredServices = isset($featuredServices) && is_array($featuredServices) ? $f
                     <svg viewBox="0 0 48 48" fill="none"><rect x="5" y="6" width="38" height="27" rx="2.5" stroke="currentColor" stroke-width="1.7"/><path d="M24 33v7m-9 0h18" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M11 12h26" stroke="currentColor" stroke-width="1.2"/></svg>
                 </span>
                 <span class="atelier-service-row__copy"><strong>Компьютеры</strong><small>Сборка, апгрейд, настройка и восстановление системы</small></span>
-                <span class="atelier-service-row__arrow" aria-hidden="true">↗</span>
+                <span class="atelier-service-row__arrow">Выбрать <b aria-hidden="true">↗</b></span>
             </a>
             <a class="atelier-service-row" href="/services?q=смартфон">
                 <span class="atelier-service-row__number">03</span>
@@ -82,7 +82,7 @@ $featuredServices = isset($featuredServices) && is_array($featuredServices) ? $f
                     <svg viewBox="0 0 48 48" fill="none"><rect x="14" y="4" width="20" height="40" rx="4" stroke="currentColor" stroke-width="1.7"/><path d="M20 9h8m-4 29h.01" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
                 </span>
                 <span class="atelier-service-row__copy"><strong>Смартфоны</strong><small>Проверка, настройка и диагностика мобильных устройств</small></span>
-                <span class="atelier-service-row__arrow" aria-hidden="true">↗</span>
+                <span class="atelier-service-row__arrow">Выбрать <b aria-hidden="true">↗</b></span>
             </a>
             <a class="atelier-service-row" href="/services?q=периферия">
                 <span class="atelier-service-row__number">04</span>
@@ -90,7 +90,7 @@ $featuredServices = isset($featuredServices) && is_array($featuredServices) ? $f
                     <svg viewBox="0 0 48 48" fill="none"><rect x="5" y="9" width="38" height="29" rx="6" stroke="currentColor" stroke-width="1.7"/><path d="M12 17h3m5 0h3m5 0h3m5 0h3M12 24h3m5 0h3m5 0h3m5 0h3M17 31h14" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
                 </span>
                 <span class="atelier-service-row__copy"><strong>Периферия</strong><small>Подключение, обслуживание и поиск причин неисправности</small></span>
-                <span class="atelier-service-row__arrow" aria-hidden="true">↗</span>
+                <span class="atelier-service-row__arrow">Выбрать <b aria-hidden="true">↗</b></span>
             </a>
         </div>
         <div class="atelier-services__foot" data-reveal>
