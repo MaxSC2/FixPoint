@@ -367,6 +367,21 @@ final class RequestHttpTest extends IntegrationTestCase
         $this->assertNotContains('<script>alert(1)</script>', $page);
         $this->assertContains('Алексей Ковалёв', $page);
 
+        // A customer must not be able to create an internal note by forging
+        // the staff-only form field in a direct POST request.
+        $forgedInternal = $this->post('/requests/' . $requestId . '/comments', [
+            'body' => 'TASK003: forged internal flag must be ignored.',
+            'is_internal' => '1',
+        ]);
+        $this->assertSame(302, $forgedInternal->status());
+        $latestComment = $this->pdo()->query(
+            'SELECT body, is_internal FROM request_comments ORDER BY id DESC LIMIT 1'
+        )->fetch();
+        $this->assertSame('TASK003: forged internal flag must be ignored.', $latestComment['body']);
+        $this->assertSame(0, (int) $latestComment['is_internal']);
+        $forgedPage = app()->handle(Request::create('GET', '/requests/' . $requestId))->body();
+        $this->assertContains('TASK003: forged internal flag must be ignored.', $forgedPage);
+
         $this->pdo()->prepare(
             'INSERT INTO request_comments (request_id, author_id, body, is_internal)
              VALUES (:request_id, :author_id, :body, 1)'
