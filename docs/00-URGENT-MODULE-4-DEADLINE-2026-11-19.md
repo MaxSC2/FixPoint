@@ -48,6 +48,7 @@
 - Исходное задание: [assignment/Модуль 4.docx](../assignment/%D0%9C%D0%BE%D0%B4%D1%83%D0%BB%D1%8C%204.docx).
 - Карта требований: [docs/02-MODULE-4-MAPPING.md](02-MODULE-4-MAPPING.md).
 - Шпаргалка с темами уроков, всеми 31 ссылками и ответами: [docs/27-MODULE-4-DEFENCE-NOTES.md](27-MODULE-4-DEFENCE-NOTES.md).
+- Пошаговый сценарий ручной демонстрации и негативных проверок: [docs/28-MANUAL-DEFENCE-RUNBOOK.md](28-MANUAL-DEFENCE-RUNBOOK.md).
 
 ## 🚦 Build watch — актуальные и исторические сборки
 
