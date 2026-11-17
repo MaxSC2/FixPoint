@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 $request = isset($request) && is_array($request) ? $request : [];
 $permissions = isset($permissions) && is_array($permissions) ? $permissions : [];
+$old = isset($old) && is_array($old) ? $old : [];
+$errors = isset($errors) && is_array($errors) ? $errors : [];
 $history = isset($history) && is_array($history) ? array_values(array_filter($history, 'is_array')) : [];
 $comments = isset($comments) && is_array($comments) ? array_values(array_filter($comments, 'is_array')) : [];
 $allowedTransitions = isset($allowedTransitions) && is_array($allowedTransitions) ? $allowedTransitions : [];
@@ -19,9 +21,9 @@ $requestStatus = (string) ($request['status'] ?? '');
 $canEditDiagnosis = !empty($permissions['can_edit_diagnosis']);
 $canChangeStatus = !empty($permissions['can_change_status']) && $allowedTransitions !== [];
 $canComment = !empty($permissions['can_comment']);
-$diagnosticResult = (string) ($request['diagnostic_result'] ?? '');
-$estimatedCost = $request['estimated_cost'] ?? '';
-$estimatedReadyAt = (string) ($request['estimated_ready_at'] ?? '');
+$diagnosticResult = (string) ($old['diagnostic_result'] ?? ($request['diagnostic_result'] ?? ''));
+$estimatedCost = $old['estimated_cost'] ?? ($request['estimated_cost'] ?? '');
+$estimatedReadyAt = (string) ($old['estimated_ready_at'] ?? ($request['estimated_ready_at'] ?? ''));
 $estimatedReadyInput = $estimatedReadyAt !== '' ? substr(str_replace(' ', 'T', $estimatedReadyAt), 0, 16) : '';
 $priorityLabels = ['low' => 'Низкий', 'normal' => 'Обычный', 'high' => 'Высокий', 'urgent' => 'Срочный'];
 $statusLabels = [

@@ -78,3 +78,27 @@ Not yet complete:
 - Backend ViewRenderer integration awaits TASK-001.
 
 Do not close UI-01 until those checks are completed and the PR is reviewed.
+
+## Implementation status — 2026-11-13
+
+### Integrated into develop
+- **UI-01 / UI-02:** shared shell, Repair Dossier design direction, public pages and local SVG hero illustration were merged with PR #11.
+- **Auth UI:** login and registration views use POST + CSRF, server-provided validation state, safe old input and password visibility enhancement.
+- **Customer UI:** dashboard, request creation, scoped list, detail, history, visible comments and estimate decision UI are present in develop after PR #13 / TASK-003 integration.
+- **Admin UI:** dashboard, request registry, assignment form, user/service/category views and database-backed statistics are present in develop.
+- **Technician UI templates:** queue and request detail templates are present. The final technician workflow is still dependent on the corresponding backend routes and service contract; do not treat a rendered view as proof that those actions are integrated.
+
+### UI-06 — QA and form resilience
+Working branch: `feature/ui-06-form-resilience`
+
+This branch fixes two real validation-retry problems:
+- Customer comment text is restored after a validation redirect and remains HTML-escaped.
+- Technician diagnosis text, estimate and estimated-ready timestamp prefer submitted old input over previously persisted values after validation errors.
+
+Regression coverage renders both views through the real ViewRenderer with invalid submissions and verifies safe output. Customer-facing comments remain filtered to exclude internal notes.
+
+### Remaining gates
+- Confirm TASK-004 technician routes and mutations once the backend implementation is available in the integration branch.
+- Perform real browser visual QA at desktop, tablet and mobile widths. CI render tests and HTTP smoke tests do not replace visual inspection.
+- Capture review screenshots and attach them to the UI integration PR before considering UI-06 complete.
+

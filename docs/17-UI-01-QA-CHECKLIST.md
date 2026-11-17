@@ -74,3 +74,13 @@
 - [ ] Empty states do not include fake users, services or categories.
 - [ ] All admin CRUD forms show server validation errors and remain usable at 390px and 360px.
 - [ ] Backend enforces role changes, slug uniqueness, category references and active/inactive constraints.
+
+## UI-06 form-resilience regression checks
+- [x] Customer comment form restores the submitted body after server validation errors.
+- [x] Customer comment body is HTML-escaped when restored.
+- [x] Rejecting an estimate prompts for explicit confirmation before the existing POST + CSRF action continues.
+- [x] Customer request detail excludes internal comments from its visible comment list.
+- [x] Technician diagnosis form restores diagnostic_result, estimated_cost and estimated_ready_at after validation errors.
+- [ ] Technician workflow routes and POST actions are verified against the final TASK-004 backend implementation.
+- [ ] Complete browser review with screenshots at 1440, 1024, 768, 390 and 360 px.
+- [ ] Keyboard-only review of all role workspaces, including status forms and pagination.
