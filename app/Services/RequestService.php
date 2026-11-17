@@ -504,7 +504,7 @@ final class RequestService
         $rawCost = $this->scalar($input['estimated_cost'] ?? '');
         if ($rawCost !== '') {
             if (!preg_match('/\\A\\d+(?:\\.\\d{1,2})?\\z/', $rawCost)) {
-                $errors['estimated_cost'] = 'Укажите сумму числом, не более чем с двумя знаками после запятой.';
+                $errors['estimated_cost'] = 'Укажите стоимость числом. Допускается не более двух знаков после запятой.';
             } else {
                 [$wholePart, $fractionPart] = array_pad(explode('.', $rawCost, 2), 2, '');
                 $wholePart = ltrim($wholePart, '0');
