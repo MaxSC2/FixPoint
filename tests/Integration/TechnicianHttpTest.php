@@ -260,7 +260,7 @@ final class TechnicianHttpTest extends IntegrationTestCase
         $diagnostic = 'TASK004: обнаружен износ термопасты и загрязнение радиатора.';
         $response = $this->post('/technician/requests/' . $requestId . '/diagnosis', [
             'diagnostic_result' => $diagnostic,
-            'estimated_cost' => '15000.00',
+            'estimated_cost' => '15000.49',
             'estimated_ready_at' => '2026-12-01T15:30',
         ]);
         $this->assertSame(302, $response->status());
@@ -268,12 +268,12 @@ final class TechnicianHttpTest extends IntegrationTestCase
 
         $row = $this->requestRow($requestId);
         $this->assertSame($diagnostic, $row['diagnostic_result']);
-        $this->assertSame('15000.00', $row['estimated_cost']);
+        $this->assertSame('15000.49', $row['estimated_cost']);
         $this->assertSame('2026-12-01 15:30:00', $row['estimated_ready_at']);
 
         $detail = app()->handle(Request::create('GET', '/technician/requests/' . $requestId))->body();
         $this->assertContains($diagnostic, $detail);
-        $this->assertContains('value="15000.00"', $detail);
+        $this->assertContains('value="15000.49"', $detail);
         $this->assertContains('Диагностика сохранена.', $detail);
 
         $cleared = $this->post('/technician/requests/' . $requestId . '/diagnosis', [
@@ -297,6 +297,16 @@ final class TechnicianHttpTest extends IntegrationTestCase
         $this->assertContains('Укажите стоимость числом.', $invalidPage);
         $this->assertContains('Укажите корректную дату готовности.', $invalidPage);
         $this->assertSame('TASK004: повторная диагностика без сметы.', $this->requestRow($requestId)['diagnostic_result']);
+
+        $excessPrecision = $this->post('/technician/requests/' . $requestId . '/diagnosis', [
+            'diagnostic_result' => 'TASK004: проверка недопустимой точности суммы.',
+            'estimated_cost' => '15000.499',
+        ]);
+        $this->assertSame(302, $excessPrecision->status());
+        $precisionPage = app()->handle(Request::create('GET', '/technician/requests/' . $requestId))->body();
+        $this->assertContains('не более двух знаков после запятой', $precisionPage);
+        $this->assertSame('TASK004: повторная диагностика без сметы.', $this->requestRow($requestId)['diagnostic_result']);
+        $this->assertSame(null, $this->requestRow($requestId)['estimated_cost']);
 
         $noToken = app()->handle(Request::create('POST', '/technician/requests/' . $requestId . '/diagnosis', [
             'diagnostic_result' => 'TASK004: запрос без CSRF-токена.',
