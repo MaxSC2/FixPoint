@@ -1,6 +1,17 @@
 name: Browser visual QA
 
 on:
+  push:
+    branches: ['fix/**']
+    paths:
+      - '.github/workflows/visual-review.yml'
+      - 'scripts/visual-review/**'
+      - 'app/**'
+      - 'public/**'
+      - 'config/**'
+      - 'database/**'
+      - 'Dockerfile'
+      - 'composer.json'
   pull_request:
     branches: [develop]
     paths:

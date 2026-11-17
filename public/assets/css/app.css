@@ -2202,3 +2202,107 @@ h1 { font-weight: 760; }
     .admin-request-table th:nth-child(6),
     .admin-request-table td:nth-child(6) { display: none; }
 }
+
+
+/* UX remediation pass — task-first authentication, stable hero callouts and legible data. */
+.auth-story { grid-column: 1; grid-row: 1; min-height: 560px; }
+.auth-panel { grid-column: 2; grid-row: 1; }
+.auth-story h1 {
+    max-width: 100%;
+    font-size: clamp(2.55rem, 3.55vw, 3.4rem);
+    overflow-wrap: break-word;
+}
+.auth-story__steps small { font-size: .78rem; }
+.auth-panel__privacy { font-size: .74rem; }
+@media (max-width: 900px) {
+    /* The document order is form-first on compact screens, matching the visual order. */
+    .auth-story, .auth-panel { grid-column: 1; grid-row: auto; }
+}
+@media (max-width: 640px) {
+    .auth-story h1 {
+        font-size: clamp(2rem, 8.8vw, 2.5rem);
+        letter-spacing: -.045em;
+    }
+}
+
+/* The hero illustration is a stable diagram, not a moving interface control. */
+.atelier-hero__visual { padding: 0; }
+.atelier-art-frame { transform: none; transition: none; }
+.atelier-art-frame:hover { transform: none; }
+.atelier-visual-index {
+    position: static;
+    display: block;
+    margin: 0 0 11px;
+    color: #586861;
+    font-size: .72rem;
+    line-height: 1.4;
+    letter-spacing: .08em;
+    text-align: right;
+}
+.atelier-visual-note {
+    position: static;
+    width: fit-content;
+    min-width: 0;
+    max-width: 100%;
+    margin: 13px 0 0 auto;
+}
+.atelier-visual-note strong { font-size: .84rem; }
+.atelier-visual-note small { font-size: .78rem; }
+@media (max-width: 640px) {
+    .atelier-visual-index { font-size: .7rem; }
+    .atelier-visual-note {
+        right: auto;
+        bottom: auto;
+        max-width: 100%;
+        padding: 11px 13px;
+    }
+    .atelier-visual-note strong { font-size: .8rem; }
+    .atelier-visual-note small { font-size: .74rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .atelier-art-frame,
+    .atelier-art-frame:hover { transform: none; transition: none; }
+}
+
+/* Functional metadata must remain readable without competing with headings. */
+.request-event__top time,
+.request-event__body > small,
+.request-comment__top time,
+.request-aside-help p,
+.request-facts dt,
+.estimate-grid span,
+.request-detail-status__label { font-size: .78rem; }
+.request-comment__top strong { font-size: .8rem; }
+.priority-chip { font-size: .72rem; }
+.admin-request-table th { font-size: .72rem; }
+.admin-request-table td { font-size: .8rem; }
+.admin-request-primary small { font-size: .72rem; }
+.admin-row-actions > a:last-child { font-size: .74rem; }
+.mobile-customer-nav__item { font-size: .72rem; }
+.request-card__copy p { font-size: .78rem; }
+.request-card__bottom { font-size: .72rem; }
+.internal-note-tag { font-size: .7rem; }
+.workspace-nav__link { font-size: .78rem; }
+.request-brand-option { font-size: .72rem; }
+.request-device-type-option { font-size: .78rem; }
+
+/* Placeholder copy is supporting text, so it must still pass readable contrast. */
+.field input::placeholder,
+.field textarea::placeholder,
+.catalog-filters input::placeholder { color: #5d6d69; opacity: 1; }
+
+/* Make horizontal table scrolling discoverable on touch screens. */
+.admin-table-scroll-hint {
+    display: none;
+    margin: 9px 0 0;
+    color: var(--color-muted);
+    font-size: .76rem;
+    line-height: 1.45;
+}
+.admin-row-action-disabled {
+    color: var(--color-muted);
+    font-size: .76rem;
+}
+@media (max-width: 1100px) {
+    .admin-table-scroll-hint { display: block; }
+}

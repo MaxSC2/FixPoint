@@ -14,18 +14,6 @@ require dirname(__DIR__, 2) . '/layouts/header.php';
 ?>
 <section class="auth-page">
     <div class="container auth-page__grid">
-        <div class="auth-story" data-reveal>
-            <span class="eyebrow">Личный кабинет / FixPoint</span>
-            <h1>Продолжим<br><em>с того места,</em><br>где остановились.</h1>
-            <p>Войдите, чтобы посмотреть ход ремонта, прочитать заключение мастера или принять решение по смете.</p>
-            <div class="auth-story__steps">
-                <div><span>01</span><strong>Статус заявки</strong><small>Текущий этап и история событий</small></div>
-                <div><span>02</span><strong>Диагностика</strong><small>Что удалось обнаружить мастеру</small></div>
-                <div><span>03</span><strong>Ваше решение</strong><small>Смета до начала ремонтных работ</small></div>
-            </div>
-            <span class="auth-story__signature">ПОНЯТНЫЙ ПРОЦЕСС · FIXPOINT</span>
-        </div>
-
         <div class="auth-panel" data-reveal>
             <div class="auth-panel__head">
                 <span class="auth-panel__overline">РАБОЧЕЕ ПРОСТРАНСТВО</span>
@@ -84,6 +72,18 @@ require dirname(__DIR__, 2) . '/layouts/header.php';
                 <a href="/register">Создать аккаунт <span aria-hidden="true">↗</span></a>
             </div>
             <p class="auth-panel__privacy">Используйте личную учётную запись. Не передавайте пароль другим людям.</p>
+        </div>
+
+        <div class="auth-story" data-reveal>
+            <span class="eyebrow">Личный кабинет / FixPoint</span>
+            <h1>Продолжим<br><em>с того места,</em><br>где остановились.</h1>
+            <p>Войдите, чтобы посмотреть ход ремонта, прочитать заключение мастера или принять решение по смете.</p>
+            <div class="auth-story__steps">
+                <div><span>01</span><strong>Статус заявки</strong><small>Текущий этап и история событий</small></div>
+                <div><span>02</span><strong>Диагностика</strong><small>Что удалось обнаружить мастеру</small></div>
+                <div><span>03</span><strong>Ваше решение</strong><small>Смета до начала ремонтных работ</small></div>
+            </div>
+            <span class="auth-story__signature">ПОНЯТНЫЙ ПРОЦЕСС · FIXPOINT</span>
         </div>
     </div>
 </section>

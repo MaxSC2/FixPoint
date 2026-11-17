@@ -75,6 +75,8 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
                                 $customer = isset($request['customer']) && is_array($request['customer']) ? $request['customer'] : [];
                                 $technician = isset($request['technician']) && is_array($request['technician']) ? $request['technician'] : [];
                                 $priority = (string) ($request['priority'] ?? 'normal');
+                                $requestStatus = (string) ($request['status'] ?? '');
+                                $isTerminalRequest = in_array($requestStatus, ['completed', 'cancelled', 'rejected'], true);
                                 $dateLabel = '—';
                                 if (!empty($request['created_at'])) {
                                     try { $dateLabel = (new DateTimeImmutable((string) $request['created_at']))->format('d.m.Y'); } catch (Throwable) { $dateLabel = 'Уточняется'; }
@@ -84,13 +86,17 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
                                     <td><a class="admin-request-primary" href="/requests/<?= e(rawurlencode($requestId)) ?>"><?= e($number) ?><small><?= e($deviceTitle) ?></small></a></td>
                                     <td><?= e((string) ($customer['full_name'] ?? '—')) ?></td>
                                     <td><?= e((string) ($technician['full_name'] ?? 'Не назначен')) ?></td>
-                                    <td><?php $status = (string) ($request['status'] ?? ''); require dirname(__DIR__, 3) . '/components/status-badge.php'; ?></td>
+                                    <td><?php $status = $requestStatus; require dirname(__DIR__, 3) . '/components/status-badge.php'; ?></td>
                                     <td><span class="priority-chip priority-chip--<?= e(in_array($priority, ['low','normal','high','urgent'], true) ? $priority : 'normal') ?>"><?= e($priorityLabels[$priority] ?? 'Не указан') ?></span></td>
                                     <td><?= e($dateLabel) ?></td>
                                     <td>
                                         <div class="admin-row-actions">
                                             <a class="admin-row-open" href="/requests/<?= e(rawurlencode($requestId)) ?>" aria-label="Открыть <?= e($number) ?>">↗</a>
-                                            <a href="/admin/requests/<?= e(rawurlencode($requestId)) ?>/assign">Назначить</a>
+                                            <?php if (!$isTerminalRequest): ?>
+                                                <a href="/admin/requests/<?= e(rawurlencode($requestId)) ?>/assign">Назначить</a>
+                                            <?php else: ?>
+                                                <span class="admin-row-action-disabled" aria-label="Назначение недоступно для завершённой заявки" title="Терминальную заявку нельзя переназначить">—</span>
+                                            <?php endif; ?>
                                         </div>
                                     </td>
                                 </tr>
@@ -98,6 +104,7 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
                         </tbody>
                     </table>
                 </div>
+                <p class="admin-table-scroll-hint">На узком экране прокрутите таблицу вправо, чтобы увидеть остальные столбцы →</p>
                 <?php if ($lastPage > 1): ?>
                     <?php
                     $pageQuery = ['q' => $query, 'status' => $selectedStatus, 'priority' => $selectedPriority, 'sort' => $selectedSort];

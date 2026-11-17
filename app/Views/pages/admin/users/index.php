@@ -39,7 +39,7 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
                                     $isActive = !empty($user['is_active']);
                                     ?>
                                     <tr>
-                                        <td><span class="admin-request-primary"><?= e((string) ($user['full_name'] ?? 'Без имени')) ?><small><?= e((string) ($user['email'] ?? '')) ?></small></span></td>
+                                        <td><a class="admin-request-primary" href="/admin/users/<?= e(rawurlencode($userId)) ?>/edit"><?= e((string) ($user['full_name'] ?? 'Без имени')) ?><small><?= e((string) ($user['email'] ?? '')) ?></small></a></td>
                                         <td><?= e((string) ($user['phone'] ?? 'Не указан')) ?></td>
                                         <td><?= e($roleLabel) ?></td>
                                         <td><span class="admin-state-chip <?= $isActive ? 'is-active' : 'is-inactive' ?>"><?= $isActive ? 'Активен' : 'Отключён' ?></span></td>
@@ -49,6 +49,7 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
                             </tbody>
                         </table>
                     </div>
+                    <p class="admin-table-scroll-hint">На узком экране прокрутите таблицу вправо, чтобы увидеть остальные столбцы →</p>
                 <?php else: ?>
                     <?php $title = 'Пользователей пока нет'; $description = 'Создайте первую учётную запись. Список не заполняется демонстрационными данными.'; $actionLabel = ''; $actionHref = ''; require dirname(__DIR__, 3) . '/components/empty-state.php'; ?>
                 <?php endif; ?>

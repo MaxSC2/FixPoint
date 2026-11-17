@@ -5,6 +5,12 @@ $pageTitle = 'Ремонт техники с понятным процессом
 $activeNav = 'home';
 require dirname(__DIR__, 2) . '/layouts/header.php';
 
+$heroAction = match ($authUser['role'] ?? null) {
+    'customer' => ['href' => '/requests/create', 'label' => 'Оформить заявку'],
+    'technician' => ['href' => '/technician/requests', 'label' => 'К рабочей очереди'],
+    'admin' => ['href' => '/admin', 'label' => 'Панель администратора'],
+    default => ['href' => '/register', 'label' => 'Создать заявку'],
+};
 $featuredServices = isset($featuredServices) && is_array($featuredServices) ? $featuredServices : [];
 ?>
 <section class="atelier-hero">
@@ -14,7 +20,7 @@ $featuredServices = isset($featuredServices) && is_array($featuredServices) ? $f
             <h1>Вернём технике <em>рабочий ритм.</em><span>А ремонт сделаем понятным.</span></h1>
             <p class="atelier-hero__lead">От первой заявки до выдачи устройства — вы видите, что уже сделано, что происходит сейчас и какое решение нужно принять дальше.</p>
             <div class="atelier-hero__actions">
-                <a class="button button--primary button--large" href="/register">Создать заявку <span aria-hidden="true">↗</span></a>
+                <a class="button button--primary button--large" href="<?= e($heroAction['href']) ?>"><?= e($heroAction['label']) ?> <span aria-hidden="true">↗</span></a>
                 <a class="button button--secondary button--large" href="/services">Изучить услуги</a>
             </div>
             <div class="atelier-proof" aria-label="Принципы обслуживания">
@@ -24,6 +30,7 @@ $featuredServices = isset($featuredServices) && is_array($featuredServices) ? $f
         </div>
 
         <div class="atelier-hero__visual" data-reveal>
+            <span class="atelier-visual-index" aria-hidden="true">Схема 01 / Устройство изнутри</span>
             <div class="atelier-art-frame">
                 <img
                     src="/assets/images/repair-dossier.svg"
@@ -39,7 +46,6 @@ $featuredServices = isset($featuredServices) && is_array($featuredServices) ? $f
                 <span class="atelier-visual-note__marker" aria-hidden="true">↗</span>
                 <span><strong>Каждый шаг зафиксирован</strong><small>История ремонта остаётся в заявке</small></span>
             </div>
-            <span class="atelier-visual-index" aria-hidden="true">Схема 01 / Устройство изнутри</span>
         </div>
     </div>
     <div class="container atelier-hero__bottom" data-reveal>
@@ -192,7 +198,7 @@ $featuredServices = isset($featuredServices) && is_array($featuredServices) ? $f
             <h2>Начните с того,<br><em>что уже известно.</em></h2>
             <p>Опишите симптомы устройства. Остальное станет понятнее после диагностики.</p>
         </div>
-        <a class="button button--light button--large" href="/register">Оформить заявку <span aria-hidden="true">↗</span></a>
+        <a class="button button--light button--large" href="<?= e($heroAction['href']) ?>"><?= e($heroAction['label']) ?> <span aria-hidden="true">↗</span></a>
         <span class="atelier-final__stamp" aria-hidden="true">FIX<br>POINT</span>
     </div>
 </section>
