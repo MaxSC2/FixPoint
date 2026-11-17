@@ -1,0 +1,312 @@
+[
+  {
+    "id": "TZhPnURquAE",
+    "name": "task01-alt-01-vvedenie [TZhPnURquAE]",
+    "title": "PHP+MYSQL   Создание сайта 1",
+    "task": "1",
+    "sub": "Вариант Б · 1. Введение",
+    "dur": 381,
+    "words": 783,
+    "file": "task01-alt-01-vvedenie [TZhPnURquAE].ru.txt"
+  },
+  {
+    "id": "ILwo7JP29xA",
+    "name": "task01-alt-02-karkas-sajta [ILwo7JP29xA]",
+    "title": "PHP+MYSQL   Создание сайта 2",
+    "task": "1",
+    "sub": "Вариант Б · 2. Определяем сайт и каркас",
+    "dur": 682,
+    "words": 1123,
+    "file": "task01-alt-02-karkas-sajta [ILwo7JP29xA].ru.txt"
+  },
+  {
+    "id": "0Uwg29ocICU",
+    "name": "task01-alt-03-ishodnyj-vid [0Uwg29ocICU]",
+    "title": "PHP+MYSQL   Создание сайта 3",
+    "task": "1",
+    "sub": "Вариант Б · 3. Приводим сайт к исходному виду",
+    "dur": 631,
+    "words": 1066,
+    "file": "task01-alt-03-ishodnyj-vid [0Uwg29ocICU].ru.txt"
+  },
+  {
+    "id": "ldb-qv9Pzuo",
+    "name": "task01-alt-04-php-bloki [ldb-qv9Pzuo]",
+    "title": "PHP+MYSQL   Создание сайта 4",
+    "task": "1",
+    "sub": "Вариант Б · 4. Разбиваем сайт на PHP-блоки",
+    "dur": 598,
+    "words": 1049,
+    "file": "task01-alt-04-php-bloki [ldb-qv9Pzuo].ru.txt"
+  },
+  {
+    "id": "B8Vaqmi-4YQ",
+    "name": "task01-03-urok01-bd-i-tablicy [B8Vaqmi-4YQ]",
+    "title": "Урок №1. Создание сайта на PHP. Создание базы данных и таблиц.",
+    "task": "1 и 3",
+    "sub": "Урок №1. Создание БД и таблиц",
+    "dur": 717,
+    "words": 494,
+    "file": "task01-03-urok01-bd-i-tablicy [B8Vaqmi-4YQ].ru.txt"
+  },
+  {
+    "id": "UuiWiItYY_k",
+    "name": "task03-alt-01-bazovye-stranicy [UuiWiItYY_k]",
+    "title": "PHP+MYSQL   Создание сайта 5",
+    "task": "3",
+    "sub": "Вариант Б · базовые страницы",
+    "dur": 185,
+    "words": 316,
+    "file": "task03-alt-01-bazovye-stranicy [UuiWiItYY_k].ru.txt"
+  },
+  {
+    "id": "Ltv4BiegWKM",
+    "name": "task03-alt-02-bd-i-tablicy [Ltv4BiegWKM]",
+    "title": "PHP+MYSQL   Создание сайта 6",
+    "task": "3",
+    "sub": "Вариант Б · создаём БД и таблицы",
+    "dur": 713,
+    "words": 1192,
+    "file": "task03-alt-02-bd-i-tablicy [Ltv4BiegWKM].ru.txt"
+  },
+  {
+    "id": "2Lndhxvx2ag",
+    "name": "task03-alt-03-izvlechenie-dannyh [2Lndhxvx2ag]",
+    "title": "PHP+MYSQL   Создание сайта 7",
+    "task": "3",
+    "sub": "Вариант Б · извлекаем данные из БД",
+    "dur": 994,
+    "words": 1654,
+    "file": "task03-alt-03-izvlechenie-dannyh [2Lndhxvx2ag].ru.txt"
+  },
+  {
+    "id": "gPg7nOrggtc",
+    "name": "task03-alt-04-tablica-lesson [gPg7nOrggtc]",
+    "title": "PHP+MYSQL   Создание сайта 8",
+    "task": "3",
+    "sub": "Вариант Б · таблица lesson и добавление уроков",
+    "dur": 891,
+    "words": 1585,
+    "file": "task03-alt-04-tablica-lesson [gPg7nOrggtc].ru.txt"
+  },
+  {
+    "id": "FvCtAVgsGOg",
+    "name": "task05-urok04-vyvod-informacii [FvCtAVgsGOg]",
+    "title": "Урок №4. Вывод информации из базы данных. Создание сайта на php",
+    "task": "5",
+    "sub": "Урок №4. Вывод информации из БД",
+    "dur": 1176,
+    "words": 941,
+    "file": "task05-urok04-vyvod-informacii [FvCtAVgsGOg].ru.txt"
+  },
+  {
+    "id": "wXe5K7-fyQE",
+    "name": "task05-urok05-meta-tegi [wXe5K7-fyQE]",
+    "title": "Урок №5. Создание сайта на php. Создание и вывод Мета Тегов.",
+    "task": "5",
+    "sub": "Урок №5. Вывод мета-тегов из БД",
+    "dur": 263,
+    "words": 324,
+    "file": "task05-urok05-meta-tegi [wXe5K7-fyQE].ru.txt"
+  },
+  {
+    "id": "-UFfeFgQq6Q",
+    "name": "task05-alt-01-cikl-urokov [-UFfeFgQq6Q]",
+    "title": "PHP+MYSQL   Создание сайта 9",
+    "task": "5",
+    "sub": "Вариант Б · 1. Выводим в цикле таблички уроков",
+    "dur": 1924,
+    "words": 3382,
+    "file": "task05-alt-01-cikl-urokov [-UFfeFgQq6Q].ru.txt"
+  },
+  {
+    "id": "RoUrijk_oTk",
+    "name": "task05-alt-02-urok-polnostyu [RoUrijk_oTk]",
+    "title": "PHP+MYSQL   Создание сайта 10",
+    "task": "5",
+    "sub": "Вариант Б · 2. Выводим урок полностью",
+    "dur": 853,
+    "words": 1427,
+    "file": "task05-alt-02-urok-polnostyu [RoUrijk_oTk].ru.txt"
+  },
+  {
+    "id": "dXf-6tZ1n98",
+    "name": "task05-kontrol-dz [dXf-6tZ1n98]",
+    "title": "PHP+MYSQL   Создание сайта 11",
+    "task": "5",
+    "sub": "Вариант Б · контроль выполнения ДЗ",
+    "dur": 223,
+    "words": 429,
+    "file": "task05-kontrol-dz [dXf-6tZ1n98].ru.txt"
+  },
+  {
+    "id": "4OCplt3jy_E",
+    "name": "task07-urok02-vhod-v-admin [4OCplt3jy_E]",
+    "title": "Урок 2. Создание сайта на php. Авторизация. Создание и вход в админку.",
+    "task": "7",
+    "sub": "Урок №2. Вход в админ-панель",
+    "dur": 1510,
+    "words": 1139,
+    "file": "task07-urok02-vhod-v-admin [4OCplt3jy_E].ru.txt"
+  },
+  {
+    "id": "zuvs0VQGunA",
+    "name": "task07-urok03-zakrytie-dostupa [zuvs0VQGunA]",
+    "title": "Урок 3. Создание сайта на php. Закрытие доступа к админке. Подключение файлов.",
+    "task": "7",
+    "sub": "Урок №3. Закрытие доступа к админ-блоку",
+    "dur": 935,
+    "words": 879,
+    "file": "task07-urok03-zakrytie-dostupa [zuvs0VQGunA].ru.txt"
+  },
+  {
+    "id": "N9BX_FfqGKI",
+    "name": "task07-urok06-izmenenie-informacii [N9BX_FfqGKI]",
+    "title": "Урок №6. Создание сайта на php. Изменение данных на сайте через админку.",
+    "task": "7",
+    "sub": "Урок №6. Изменение информации через админку",
+    "dur": 1376,
+    "words": 1209,
+    "file": "task07-urok06-izmenenie-informacii [N9BX_FfqGKI].ru.txt"
+  },
+  {
+    "id": "UH4QMQsftfk",
+    "name": "task07-urok07-blok-o-nas [UH4QMQsftfk]",
+    "title": "Урок №7. Создание сайта на php. Загрузка изображения через админку. Работа с блоком \"О нас\".",
+    "task": "7",
+    "sub": "Урок №7. Работа с блоком «О нас»",
+    "dur": 2178,
+    "words": 1869,
+    "file": "task07-urok07-blok-o-nas [UH4QMQsftfk].ru.txt"
+  },
+  {
+    "id": "1SCsjIJPeCI",
+    "name": "task07-urok08-nashi-uslugi [1SCsjIJPeCI]",
+    "title": "Урок №8. Создание сайта с нуля. работа с блоком \"Наши услуги\".",
+    "task": "7",
+    "sub": "Урок №8. Работа с блоком «Наши услуги»",
+    "dur": 1289,
+    "words": 1223,
+    "file": "task07-urok08-nashi-uslugi [1SCsjIJPeCI].ru.txt"
+  },
+  {
+    "id": "vo7PPvigiKI",
+    "name": "task07-urok09-admin-blok [vo7PPvigiKI]",
+    "title": "Урок 9. Создание сайта на php с админкой",
+    "task": "7",
+    "sub": "Урок №9. Административный блок",
+    "dur": 95,
+    "words": 114,
+    "file": "task07-urok09-admin-blok [vo7PPvigiKI].ru.txt"
+  },
+  {
+    "id": "0aycPjqX-dc",
+    "name": "task07-urok10-11-hosting-1 [0aycPjqX-dc]",
+    "title": "Урок 10. Как купить домен и хостинг для сайта | Промокод со скидкой",
+    "task": "7",
+    "sub": "Урок №10. Хостинг, часть 1",
+    "dur": 964,
+    "words": 1391,
+    "file": "task07-urok10-11-hosting-1 [0aycPjqX-dc].ru.txt"
+  },
+  {
+    "id": "_365TsXwj74",
+    "name": "task07-urok10-11-hosting-2 [_365TsXwj74]",
+    "title": "Урок № 11. Перенос сайта на хостинг - всё простым языком",
+    "task": "7",
+    "sub": "Урок №11. Хостинг, часть 2",
+    "dur": 613,
+    "words": 736,
+    "file": "task07-urok10-11-hosting-2 [_365TsXwj74].ru.txt"
+  },
+  {
+    "id": "4s0DreJwPhI",
+    "name": "task07-alt-01-sozdanie-bloka-admina [4s0DreJwPhI]",
+    "title": "PHP+MYSQL   Создание сайта 12",
+    "task": "7",
+    "sub": "Вариант Б · создание блока админа",
+    "dur": 501,
+    "words": 969,
+    "file": "task07-alt-01-sozdanie-bloka-admina [4s0DreJwPhI].ru.txt"
+  },
+  {
+    "id": "UueDVpw8Gzg",
+    "name": "task07-alt-02-dopolnenie-uroka [UueDVpw8Gzg]",
+    "title": "PHP+MYSQL   Создание сайта 13",
+    "task": "7",
+    "sub": "Вариант Б · дополнение нового урока",
+    "dur": 885,
+    "words": 1581,
+    "file": "task07-alt-02-dopolnenie-uroka [UueDVpw8Gzg].ru.txt"
+  },
+  {
+    "id": "yNuL5W8NCCo",
+    "name": "task07-alt-03-dobavlenie-v-bd [yNuL5W8NCCo]",
+    "title": "PHP+MYSQL   Создание сайта 14",
+    "task": "7",
+    "sub": "Вариант Б · добавление урока в БД",
+    "dur": 1576,
+    "words": 2664,
+    "file": "task07-alt-03-dobavlenie-v-bd [yNuL5W8NCCo].ru.txt"
+  },
+  {
+    "id": "qOVnVzsolao",
+    "name": "task07-alt-03-1-dobavlenie-v-bd [qOVnVzsolao]",
+    "title": "PHP+MYSQL   Создание сайта 15",
+    "task": "7",
+    "sub": "Вариант Б · добавление урока в БД (1)",
+    "dur": 1808,
+    "words": 3446,
+    "file": "task07-alt-03-1-dobavlenie-v-bd [qOVnVzsolao].ru.txt"
+  },
+  {
+    "id": "4aUGf-oM4dI",
+    "name": "task07-alt-03-2-dobavlenie-v-bd [4aUGf-oM4dI]",
+    "title": "PHP+MYSQL   Создание сайта 16",
+    "task": "7",
+    "sub": "Вариант Б · добавление урока в БД (2)",
+    "dur": 702,
+    "words": 1159,
+    "file": "task07-alt-03-2-dobavlenie-v-bd [4aUGf-oM4dI].ru.txt"
+  },
+  {
+    "id": "IdFUgnpdy_k",
+    "name": "task07-alt-04-udalenie-uroka [IdFUgnpdy_k]",
+    "title": "PHP+MYSQL   Создание сайта 17",
+    "task": "7",
+    "sub": "Вариант Б · удаление урока из БД",
+    "dur": 882,
+    "words": 1458,
+    "file": "task07-alt-04-udalenie-uroka [IdFUgnpdy_k].ru.txt"
+  },
+  {
+    "id": "vvI5ult8yTo",
+    "name": "task09-video-1 [vvI5ult8yTo]",
+    "title": "PHP+MYSQL   Создание сайта 18",
+    "task": "9",
+    "sub": "Видео 1 (без названия в задании)",
+    "dur": 832,
+    "words": 1383,
+    "file": "task09-video-1 [vvI5ult8yTo].ru.txt"
+  },
+  {
+    "id": "iFwuu74H9lU",
+    "name": "task09-video-2 [iFwuu74H9lU]",
+    "title": "PHP+MYSQL   Создание сайта 19",
+    "task": "9",
+    "sub": "Видео 2 (без названия в задании)",
+    "dur": 564,
+    "words": 980,
+    "file": "task09-video-2 [iFwuu74H9lU].ru.txt"
+  },
+  {
+    "id": "xEmTJ5V0oN4",
+    "name": "task09-video-3 [xEmTJ5V0oN4]",
+    "title": "PHP+MYSQL   Создание сайта 20",
+    "task": "9",
+    "sub": "Видео 3 (без названия в задании)",
+    "dur": 460,
+    "words": 1036,
+    "file": "task09-video-3 [xEmTJ5V0oN4].ru.txt"
+  }
+]

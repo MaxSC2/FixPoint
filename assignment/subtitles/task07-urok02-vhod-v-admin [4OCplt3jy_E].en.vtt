@@ -1,0 +1,2436 @@
+WEBVTT
+Kind: captions
+Language: en
+
+00:00:00.140 --> 00:00:03.139 align:start position:0%
+ 
+Hello <00:00:01.539><c>everyone, </c><00:00:02.938><c>we're</c>
+
+00:00:03.139 --> 00:00:03.149 align:start position:0%
+Hello everyone, we're
+ 
+
+00:00:03.149 --> 00:00:05.390 align:start position:0%
+Hello everyone, we're
+continuing <00:00:03.363><c>our </c><00:00:03.577><c>video </c><00:00:03.791><c>course </c><00:00:04.005><c>on </c><00:00:04.219><c>creating </c><00:00:04.433><c>a </c><00:00:04.647><c>website</c>
+
+00:00:05.390 --> 00:00:05.400 align:start position:0%
+continuing our video course on creating a website
+ 
+
+00:00:05.400 --> 00:00:06.519 align:start position:0%
+continuing our video course on creating a website
+on <00:00:05.460><c>the </c><00:00:05.520><c>stove.</c>
+
+00:00:06.519 --> 00:00:06.529 align:start position:0%
+on the stove.
+ 
+
+00:00:06.529 --> 00:00:10.509 align:start position:0%
+on the stove.
+In <00:00:06.905><c>this </c><00:00:07.281><c>lesson, </c><00:00:07.657><c>we'll </c><00:00:08.033><c>be </c><00:00:08.409><c>creating </c><00:00:08.785><c>an</c>
+
+00:00:10.509 --> 00:00:10.519 align:start position:0%
+In this lesson, we'll be creating an
+ 
+
+00:00:10.519 --> 00:00:13.700 align:start position:0%
+In this lesson, we'll be creating an
+administrative <00:00:10.857><c>panel, </c><00:00:11.195><c>or </c><00:00:11.533><c>more </c><00:00:11.871><c>precisely, </c><00:00:12.209><c>an </c><00:00:12.547><c>entrance </c><00:00:12.885><c>to </c><00:00:13.223><c>the</c>
+
+00:00:13.700 --> 00:00:13.710 align:start position:0%
+administrative panel, or more precisely, an entrance to the
+ 
+
+00:00:13.710 --> 00:00:17.500 align:start position:0%
+administrative panel, or more precisely, an entrance to the
+administrative <00:00:14.519><c>panel.</c>
+
+00:00:17.500 --> 00:00:17.510 align:start position:0%
+ 
+ 
+
+00:00:17.510 --> 00:00:19.779 align:start position:0%
+ 
+So, <00:00:18.205><c>our </c><00:00:18.900><c>project,</c>
+
+00:00:19.779 --> 00:00:19.789 align:start position:0%
+So, our project,
+ 
+
+00:00:19.789 --> 00:00:21.340 align:start position:0%
+So, our project,
+domains
+
+00:00:21.340 --> 00:00:21.350 align:start position:0%
+domains
+ 
+
+00:00:21.350 --> 00:00:25.609 align:start position:0%
+domains
+testing, <00:00:21.956><c>I </c><00:00:22.562><c>created </c><00:00:23.168><c>a </c><00:00:23.774><c>folder </c><00:00:24.380><c>here </c><00:00:24.986><c>called</c>
+
+00:00:25.609 --> 00:00:25.619 align:start position:0%
+testing, I created a folder here called
+ 
+
+00:00:25.619 --> 00:00:26.800 align:start position:0%
+testing, I created a folder here called
+phones.
+
+00:00:26.800 --> 00:00:26.810 align:start position:0%
+phones.
+ 
+
+00:00:26.810 --> 00:00:32.110 align:start position:0%
+phones.
+Here <00:00:27.321><c>I've </c><00:00:27.832><c>already </c><00:00:28.343><c>created </c><00:00:28.854><c>files </c><00:00:29.365><c>for </c><00:00:29.876><c>no.  </c><00:00:30.387><c>The </c><00:00:30.898><c>stove</c>
+
+00:00:32.110 --> 00:00:32.120 align:start position:0%
+Here I've already created files for no.  The stove
+ 
+
+00:00:32.120 --> 00:00:35.810 align:start position:0%
+Here I've already created files for no.  The stove
+is <00:00:32.722><c>a </c><00:00:33.324><c>connection </c><00:00:33.926><c>to </c><00:00:34.528><c>the </c><00:00:35.130><c>database.</c>
+
+00:00:35.810 --> 00:00:35.820 align:start position:0%
+is a connection to the database.
+ 
+
+00:00:35.820 --> 00:00:38.380 align:start position:0%
+is a connection to the database.
+Look,
+
+00:00:38.380 --> 00:00:38.390 align:start position:0%
+ 
+ 
+
+00:00:38.390 --> 00:00:42.010 align:start position:0%
+ 
+you <00:00:38.965><c>log </c><00:00:39.540><c>in,</c>
+
+00:00:42.010 --> 00:00:42.020 align:start position:0%
+you log in,
+ 
+
+00:00:42.020 --> 00:00:44.200 align:start position:0%
+you log in,
+match, <00:00:42.443><c>and </c><00:00:42.866><c>my </c><00:00:43.289><c>admin.</c>
+
+00:00:44.200 --> 00:00:44.210 align:start position:0%
+match, and my admin.
+ 
+
+00:00:44.210 --> 00:00:47.410 align:start position:0%
+match, and my admin.
+Well, <00:00:44.481><c>how </c><00:00:44.752><c>do </c><00:00:45.023><c>I </c><00:00:45.294><c>log </c><00:00:45.565><c>in? </c><00:00:45.836><c>I </c><00:00:46.107><c>think </c><00:00:46.378><c>I </c><00:00:46.649><c>need </c><00:00:46.920><c>an</c>
+
+00:00:47.410 --> 00:00:47.420 align:start position:0%
+Well, how do I log in? I think I need an
+ 
+
+00:00:47.420 --> 00:00:50.690 align:start position:0%
+Well, how do I log in? I think I need an
+additional <00:00:47.974><c>stove. </c><00:00:48.528><c>Mine </c><00:00:49.082><c>is </c><00:00:49.636><c>near </c><00:00:50.190><c>Ufin</c>
+
+00:00:50.690 --> 00:00:50.700 align:start position:0%
+additional stove. Mine is near Ufin
+ 
+
+00:00:50.700 --> 00:01:01.150 align:start position:0%
+additional stove. Mine is near Ufin
+syrup. <00:00:50.979><c>Here's </c><00:00:51.258><c>the </c><00:00:51.537><c>root </c><00:00:51.816><c>user, </c><00:00:52.095><c>and </c><00:00:52.374><c>without </c><00:00:52.653><c>a </c><00:00:52.932><c>password, </c><00:00:53.211><c>that's </c><00:00:53.490><c>how </c><00:00:53.769><c>you </c><00:00:54.048><c>log</c>
+
+00:01:01.150 --> 00:01:01.160 align:start position:0%
+ 
+ 
+
+00:01:01.160 --> 00:01:04.780 align:start position:0%
+ 
+in. <00:01:02.670><c>You</c>
+
+00:01:04.780 --> 00:01:04.790 align:start position:0%
+in. You
+ 
+
+00:01:04.790 --> 00:01:07.820 align:start position:0%
+in. You
+see, <00:01:05.102><c>root </c><00:01:05.414><c>also </c><00:01:05.726><c>doesn't </c><00:01:06.038><c>have </c><00:01:06.350><c>a </c><00:01:06.662><c>password </c><00:01:06.974><c>from </c><00:01:07.286><c>the</c>
+
+00:01:07.820 --> 00:01:07.830 align:start position:0%
+see, root also doesn't have a password from the
+ 
+
+00:01:07.830 --> 00:01:10.580 align:start position:0%
+see, root also doesn't have a password from the
+localhost. <00:01:08.415><c>Our </c><00:01:09.000><c>database </c><00:01:09.585><c>is </c><00:01:10.170><c>called</c>
+
+00:01:10.580 --> 00:01:10.590 align:start position:0%
+localhost. Our database is called
+ 
+
+00:01:10.590 --> 00:01:12.609 align:start position:0%
+localhost. Our database is called
+Tossing.
+
+00:01:12.609 --> 00:01:12.619 align:start position:0%
+Tossing.
+ 
+
+00:01:12.619 --> 00:01:18.100 align:start position:0%
+Tossing.
+That's <00:01:13.036><c>what </c><00:01:13.453><c>we </c><00:01:13.870><c>created </c><00:01:14.287><c>yesterday, </c><00:01:14.704><c>and </c><00:01:15.121><c>more </c><00:01:15.538><c>precisely,</c>
+
+00:01:18.100 --> 00:01:18.110 align:start position:0%
+That's what we created yesterday, and more precisely,
+ 
+
+00:01:18.110 --> 00:01:21.429 align:start position:0%
+That's what we created yesterday, and more precisely,
+what <00:01:18.561><c>we </c><00:01:19.012><c>created </c><00:01:19.463><c>in </c><00:01:19.914><c>the </c><00:01:20.365><c>last </c><00:01:20.816><c>lesson.</c>
+
+00:01:21.429 --> 00:01:21.439 align:start position:0%
+what we created in the last lesson.
+ 
+
+00:01:21.439 --> 00:01:24.469 align:start position:0%
+what we created in the last lesson.
+The <00:01:22.086><c>database </c><00:01:22.733><c>is </c><00:01:23.380><c>sing. </c><00:01:24.027><c>Well,</c>
+
+00:01:24.469 --> 00:01:24.479 align:start position:0%
+The database is sing. Well,
+ 
+
+00:01:24.479 --> 00:01:27.289 align:start position:0%
+The database is sing. Well,
+we <00:01:24.739><c>don't </c><00:01:24.999><c>need </c><00:01:25.259><c>tables </c><00:01:25.519><c>here. </c><00:01:25.779><c>The </c><00:01:26.039><c>encoding </c><00:01:26.299><c>is</c>
+
+00:01:27.289 --> 00:01:27.299 align:start position:0%
+we don't need tables here. The encoding is
+ 
+
+00:01:27.299 --> 00:01:32.940 align:start position:0%
+we don't need tables here. The encoding is
+UTF-8.
+
+00:01:32.940 --> 00:01:32.950 align:start position:0%
+ 
+ 
+
+00:01:32.950 --> 00:01:36.420 align:start position:0%
+ 
+So, <00:01:33.364><c>the </c><00:01:33.778><c>login </c><00:01:34.192><c>to </c><00:01:34.606><c>the </c><00:01:35.020><c>administrative </c><00:01:35.434><c>panel</c>
+
+00:01:36.420 --> 00:01:36.430 align:start position:0%
+So, the login to the administrative panel
+ 
+
+00:01:36.430 --> 00:01:38.569 align:start position:0%
+So, the login to the administrative panel
+will be in the
+
+00:01:38.569 --> 00:01:38.579 align:start position:0%
+will be in the
+ 
+
+00:01:38.579 --> 00:01:51.469 align:start position:0%
+will be in the
+login <00:01:39.814><c>file.  </c><00:01:41.049><c>.</c>
+
+00:01:51.469 --> 00:01:51.479 align:start position:0%
+ 
+ 
+
+00:01:51.479 --> 00:01:57.950 align:start position:0%
+ 
+login <00:01:52.504><c>.  </c><00:01:53.529><c>.</c>
+
+00:01:57.950 --> 00:01:57.960 align:start position:0%
+ 
+ 
+
+00:01:57.960 --> 00:02:01.850 align:start position:0%
+ 
+We'll <00:01:58.361><c>just </c><00:01:58.762><c>throw </c><00:01:59.163><c>something </c><00:01:59.564><c>together </c><00:01:59.965><c>here </c><00:02:00.366><c>now,</c>
+
+00:02:01.850 --> 00:02:01.860 align:start position:0%
+We'll just throw something together here now,
+ 
+
+00:02:01.860 --> 00:02:17.670 align:start position:0%
+We'll just throw something together here now,
+
+
+00:02:17.670 --> 00:02:17.680 align:start position:0%
+ 
+ 
+
+00:02:17.680 --> 00:02:20.410 align:start position:0%
+ 
+so <00:02:17.970><c>I </c><00:02:18.260><c>don't </c><00:02:18.550><c>think </c><00:02:18.840><c>I </c><00:02:19.130><c>need </c><00:02:19.420><c>to </c><00:02:19.710><c>explain </c><00:02:20.000><c>the</c>
+
+00:02:20.410 --> 00:02:20.420 align:start position:0%
+so I don't think I need to explain the
+ 
+
+00:02:20.420 --> 00:02:24.270 align:start position:0%
+so I don't think I need to explain the
+layout <00:02:21.035><c>anymore. </c><00:02:21.650><c>It's </c><00:02:22.265><c>all </c><00:02:22.880><c>in</c>
+
+00:02:24.270 --> 00:02:24.280 align:start position:0%
+layout anymore. It's all in
+ 
+
+00:02:24.280 --> 00:02:59.500 align:start position:0%
+layout anymore. It's all in
+the <00:02:24.665><c>video </c><00:02:25.050><c>course, </c><00:02:25.435><c>flat, </c><00:02:25.820><c>or</c>
+
+00:02:59.500 --> 00:02:59.510 align:start position:0%
+ 
+ 
+
+00:02:59.510 --> 00:03:01.980 align:start position:0%
+ 
+what about
+
+00:03:01.980 --> 00:03:01.990 align:start position:0%
+ 
+ 
+
+00:03:01.990 --> 00:03:05.910 align:start position:0%
+ 
+the <00:03:02.216><c>deadlines? </c><00:03:02.442><c>We'll </c><00:03:02.668><c>make </c><00:03:02.894><c>a </c><00:03:03.120><c>page </c><00:03:03.346><c>header </c><00:03:03.572><c>for </c><00:03:03.798><c>the</c>
+
+00:03:05.910 --> 00:03:05.920 align:start position:0%
+the deadlines? We'll make a page header for the
+ 
+
+00:03:05.920 --> 00:03:16.449 align:start position:0%
+the deadlines? We'll make a page header for the
+admin <00:03:07.160><c>login,</c>
+
+00:03:16.449 --> 00:03:16.459 align:start position:0%
+ 
+ 
+
+00:03:16.459 --> 00:03:20.920 align:start position:0%
+ 
+so <00:03:16.776><c>we'll </c><00:03:17.093><c>save </c><00:03:17.410><c>it </c><00:03:17.727><c>and </c><00:03:18.044><c>connect </c><00:03:18.361><c>Bootstrap </c><00:03:18.678><c>right </c><00:03:18.995><c>away. </c><00:03:19.312><c>So,</c>
+
+00:03:20.920 --> 00:03:20.930 align:start position:0%
+so we'll save it and connect Bootstrap right away. So,
+ 
+
+00:03:20.930 --> 00:03:26.080 align:start position:0%
+so we'll save it and connect Bootstrap right away. So,
+
+
+00:03:26.080 --> 00:03:34.700 align:start position:0%
+ 
+ 
+
+00:03:34.700 --> 00:03:34.710 align:start position:0%
+ 
+ 
+
+00:03:34.710 --> 00:03:42.750 align:start position:0%
+ 
+in <00:03:35.050><c>our </c><00:03:35.390><c>body, </c><00:03:35.730><c>we'll</c>
+
+00:03:42.750 --> 00:03:42.760 align:start position:0%
+ 
+ 
+
+00:03:42.760 --> 00:03:48.559 align:start position:0%
+ 
+write <00:03:43.000><c>a </c><00:03:43.240><c>header </c><00:03:43.480><c>here </c><00:03:43.720><c>and</c>
+
+00:03:48.559 --> 00:03:48.569 align:start position:0%
+ 
+ 
+
+00:03:48.569 --> 00:03:52.259 align:start position:0%
+ 
+apply <00:03:49.261><c>some </c><00:03:49.953><c>styles </c><00:03:50.645><c>so </c><00:03:51.337><c>that </c><00:03:52.029><c>it's</c>
+
+00:03:52.259 --> 00:03:52.269 align:start position:0%
+apply some styles so that it's
+ 
+
+00:03:52.269 --> 00:04:00.820 align:start position:0%
+apply some styles so that it's
+centered.
+
+00:04:00.820 --> 00:04:00.830 align:start position:0%
+ 
+ 
+
+00:04:00.830 --> 00:04:04.830 align:start position:0%
+ 
+Well, <00:04:00.983><c>it's </c><00:04:01.136><c>not </c><00:04:01.289><c>the </c><00:04:01.442><c>most </c><00:04:01.595><c>obvious, </c><00:04:01.748><c>so </c><00:04:01.901><c>we'll </c><00:04:02.054><c>move </c><00:04:02.207><c>it </c><00:04:02.360><c>a</c>
+
+00:04:04.830 --> 00:04:04.840 align:start position:0%
+ 
+ 
+
+00:04:04.840 --> 00:04:06.520 align:start position:0%
+ 
+little
+
+00:04:06.520 --> 00:04:06.530 align:start position:0%
+little
+ 
+
+00:04:06.530 --> 00:04:19.039 align:start position:0%
+little
+closer <00:04:06.684><c>to </c><00:04:06.838><c>the </c><00:04:06.992><c>middle. </c><00:04:07.146><c>We'll </c><00:04:07.300><c>meet </c><00:04:07.454><c>up </c><00:04:07.608><c>and</c>
+
+00:04:19.039 --> 00:04:19.049 align:start position:0%
+ 
+ 
+
+00:04:19.049 --> 00:04:25.170 align:start position:0%
+ 
+write
+
+00:04:25.170 --> 00:04:25.180 align:start position:0%
+ 
+ 
+
+00:04:25.180 --> 00:04:30.230 align:start position:0%
+ 
+[music] and
+
+00:04:30.230 --> 00:04:30.240 align:start position:0%
+ 
+ 
+
+00:04:30.240 --> 00:04:36.230 align:start position:0%
+ 
+let's <00:04:30.670><c>see </c><00:04:31.100><c>what </c><00:04:31.530><c>we've </c><00:04:31.960><c>got,</c>
+
+00:04:36.230 --> 00:04:36.240 align:start position:0%
+ 
+ 
+
+00:04:36.240 --> 00:04:38.990 align:start position:0%
+ 
+login.
+
+00:04:38.990 --> 00:04:39.000 align:start position:0%
+login.
+ 
+
+00:04:39.000 --> 00:04:41.879 align:start position:0%
+login.
+So, <00:04:39.374><c>here's </c><00:04:39.748><c>the </c><00:04:40.122><c>entrance </c><00:04:40.496><c>to </c><00:04:40.870><c>the </c><00:04:41.244><c>mandatory </c><00:04:41.618><c>panel.</c>
+
+00:04:41.879 --> 00:04:41.889 align:start position:0%
+So, here's the entrance to the mandatory panel.
+ 
+
+00:04:41.889 --> 00:04:45.119 align:start position:0%
+So, here's the entrance to the mandatory panel.
+Now <00:04:42.294><c>we'll </c><00:04:42.699><c>need </c><00:04:43.104><c>to </c><00:04:43.509><c>create </c><00:04:43.914><c>a </c><00:04:44.319><c>formula</c>
+
+00:04:45.119 --> 00:04:45.129 align:start position:0%
+Now we'll need to create a formula
+ 
+
+00:04:45.129 --> 00:04:52.279 align:start position:0%
+Now we'll need to create a formula
+that <00:04:45.439><c>will </c><00:04:45.749><c>be </c><00:04:46.059><c>the </c><00:04:46.369><c>login </c><00:04:46.679><c>and </c><00:04:46.989><c>password,</c>
+
+00:04:52.279 --> 00:04:52.289 align:start position:0%
+ 
+ 
+
+00:04:52.289 --> 00:04:56.089 align:start position:0%
+ 
+and <00:04:52.932><c>shop </c><00:04:53.575><c>for </c><00:04:54.218><c>the</c>
+
+00:04:56.089 --> 00:04:56.099 align:start position:0%
+and shop for the
+ 
+
+00:04:56.099 --> 00:04:58.520 align:start position:0%
+and shop for the
+USA.
+
+00:04:58.520 --> 00:04:58.530 align:start position:0%
+USA.
+ 
+
+00:04:58.530 --> 00:05:02.610 align:start position:0%
+USA.
+He <00:04:59.116><c>filled </c><00:04:59.702><c>it </c><00:05:00.288><c>out </c><00:05:00.874><c>beforehand, </c><00:05:01.460><c>transferred </c><00:05:02.046><c>to</c>
+
+00:05:02.610 --> 00:05:02.620 align:start position:0%
+He filled it out beforehand, transferred to
+ 
+
+00:05:02.620 --> 00:05:09.080 align:start position:0%
+He filled it out beforehand, transferred to
+seven <00:05:02.935><c>years. </c><00:05:03.250><c>Post-</c>
+
+00:05:09.080 --> 00:05:09.090 align:start position:0%
+ 
+ 
+
+00:05:09.090 --> 00:05:12.499 align:start position:0%
+ 
+through. <00:05:09.491><c>Now </c><00:05:09.892><c>we'll </c><00:05:10.293><c>make </c><00:05:10.694><c>the </c><00:05:11.095><c>fields </c><00:05:11.496><c>to</c>
+
+00:05:12.499 --> 00:05:12.509 align:start position:0%
+through. Now we'll make the fields to
+ 
+
+00:05:12.509 --> 00:05:16.339 align:start position:0%
+through. Now we'll make the fields to
+become <00:05:12.909><c>them, </c><00:05:13.309><c>for </c><00:05:13.709><c>starters, </c><00:05:14.109><c>gays,</c>
+
+00:05:16.339 --> 00:05:16.349 align:start position:0%
+become them, for starters, gays,
+ 
+
+00:05:16.349 --> 00:05:18.200 align:start position:0%
+become them, for starters, gays,
+class,
+
+00:05:18.200 --> 00:05:18.210 align:start position:0%
+class,
+ 
+
+00:05:18.210 --> 00:05:26.600 align:start position:0%
+class,
+FM <00:05:19.210><c>group.</c>
+
+00:05:26.600 --> 00:05:26.610 align:start position:0%
+ 
+ 
+
+00:05:26.610 --> 00:05:29.030 align:start position:0%
+ 
+First, <00:05:26.905><c>let's </c><00:05:27.200><c>mark </c><00:05:27.495><c>up </c><00:05:27.790><c>the</c>
+
+00:05:29.030 --> 00:05:29.040 align:start position:0%
+First, let's mark up the
+ 
+
+00:05:29.040 --> 00:05:34.760 align:start position:0%
+First, let's mark up the
+impact. <00:05:29.692><c>I'll </c><00:05:30.344><c>get </c><00:05:30.996><c>started. </c><00:05:31.648><c>Programmed</c>
+
+00:05:34.760 --> 00:05:34.770 align:start position:0%
+ 
+ 
+
+00:05:34.770 --> 00:05:36.590 align:start position:0%
+ 
+group
+
+00:05:36.590 --> 00:05:36.600 align:start position:0%
+group
+ 
+
+00:05:36.600 --> 00:05:40.280 align:start position:0%
+group
+input
+
+00:05:40.280 --> 00:05:40.290 align:start position:0%
+ 
+ 
+
+00:05:40.290 --> 00:05:46.670 align:start position:0%
+ 
+project, <00:05:41.350><c>text</c>
+
+00:05:46.670 --> 00:05:46.680 align:start position:0%
+ 
+ 
+
+00:05:46.680 --> 00:06:00.100 align:start position:0%
+ 
+with <00:05:47.553><c>Haggar, </c><00:05:48.426><c>view, </c><00:05:49.299><c>login.</c>
+
+00:06:00.100 --> 00:06:00.110 align:start position:0%
+ 
+ 
+
+00:06:00.110 --> 00:06:01.710 align:start position:0%
+ 
+So, <00:06:00.250><c>you </c><00:06:00.390><c>see, </c><00:06:00.530><c>the</c>
+
+00:06:01.710 --> 00:06:01.720 align:start position:0%
+So, you see, the
+ 
+
+00:06:01.720 --> 00:06:12.460 align:start position:0%
+So, you see, the
+role,
+
+00:06:12.460 --> 00:06:12.470 align:start position:0%
+ 
+ 
+
+00:06:12.470 --> 00:06:36.860 align:start position:0%
+ 
+sound,
+
+00:06:36.860 --> 00:06:36.870 align:start position:0%
+ 
+ 
+
+00:06:36.870 --> 00:06:39.610 align:start position:0%
+ 
+and <00:06:37.190><c>the </c><00:06:37.510><c>enter </c><00:06:37.830><c>button.</c>
+
+00:06:39.610 --> 00:06:39.620 align:start position:0%
+and the enter button.
+ 
+
+00:06:39.620 --> 00:06:45.340 align:start position:0%
+and the enter button.
+
+
+00:06:45.340 --> 00:06:45.350 align:start position:0%
+ 
+ 
+
+00:06:45.350 --> 00:06:52.270 align:start position:0%
+ 
+Bator <00:06:46.100><c>with </c><00:06:46.850><c>the </c><00:06:47.600><c>type, </c><00:06:48.350><c>together,</c>
+
+00:06:52.270 --> 00:06:52.280 align:start position:0%
+ 
+ 
+
+00:06:52.280 --> 00:06:53.660 align:start position:0%
+ 
+class
+
+00:06:53.660 --> 00:06:53.670 align:start position:0%
+class
+ 
+
+00:06:53.670 --> 00:06:58.870 align:start position:0%
+class
+[music].
+
+00:06:58.870 --> 00:06:58.880 align:start position:0%
+[music].
+ 
+
+00:06:58.880 --> 00:07:12.880 align:start position:0%
+[music].
+Let's check. Well,
+
+00:07:12.880 --> 00:07:12.890 align:start position:0%
+ 
+ 
+
+00:07:12.890 --> 00:07:17.420 align:start position:0%
+ 
+from <00:07:13.606><c>the </c><00:07:14.322><c>self-roll, </c><00:07:15.038><c>enter. </c><00:07:15.754><c>So, </c><00:07:16.470><c>now </c><00:07:17.186><c>let's</c>
+
+00:07:17.420 --> 00:07:17.430 align:start position:0%
+from the self-roll, enter. So, now let's
+ 
+
+00:07:17.430 --> 00:07:20.830 align:start position:0%
+from the self-roll, enter. So, now let's
+check.
+
+00:07:20.830 --> 00:07:20.840 align:start position:0%
+ 
+ 
+
+00:07:20.840 --> 00:07:23.020 align:start position:0%
+ 
+Okay.
+
+00:07:23.020 --> 00:07:23.030 align:start position:0%
+Okay.
+ 
+
+00:07:23.030 --> 00:07:24.970 align:start position:0%
+Okay.
+Now <00:07:24.030><c>let's</c>
+
+00:07:24.970 --> 00:07:24.980 align:start position:0%
+Now let's
+ 
+
+00:07:24.980 --> 00:07:28.900 align:start position:0%
+Now let's
+write down
+
+00:07:28.900 --> 00:07:28.910 align:start position:0%
+ 
+ 
+
+00:07:28.910 --> 00:07:33.140 align:start position:0%
+ 
+what <00:07:29.244><c>we </c><00:07:29.578><c>wrote </c><00:07:29.912><c>for </c><00:07:30.246><c>the </c><00:07:30.580><c>h2 </c><00:07:30.914><c>header. </c><00:07:31.248><c>We'll </c><00:07:31.582><c>write </c><00:07:31.916><c>it </c><00:07:32.250><c>down</c>
+
+00:07:33.140 --> 00:07:33.150 align:start position:0%
+what we wrote for the h2 header. We'll write it down
+ 
+
+00:07:33.150 --> 00:07:38.170 align:start position:0%
+what we wrote for the h2 header. We'll write it down
+for <00:07:33.480><c>the </c><00:07:33.810><c>form, </c><00:07:34.140><c>too. </c><00:07:34.470><c>I </c><00:07:34.800><c>did</c>
+
+00:07:38.170 --> 00:07:38.180 align:start position:0%
+ 
+ 
+
+00:07:38.180 --> 00:07:47.200 align:start position:0%
+ 
+n't <00:07:38.486><c>copy </c><00:07:38.792><c>it </c><00:07:39.098><c>myself </c><00:07:39.404><c>in </c><00:07:39.710><c>the </c><00:07:40.016><c>circle.</c>
+
+00:07:47.200 --> 00:07:47.210 align:start position:0%
+ 
+ 
+
+00:07:47.210 --> 00:07:53.080 align:start position:0%
+ 
+So, <00:07:47.781><c>look </c><00:07:48.352><c>at </c><00:07:48.923><c>the </c><00:07:49.494><c>dialog. </c><00:07:50.065><c>Enter </c><00:07:50.636><c>the </c><00:07:51.207><c>password. </c><00:07:51.778><c>I'll</c>
+
+00:07:53.080 --> 00:07:53.090 align:start position:0%
+So, look at the dialog. Enter the password. I'll
+ 
+
+00:07:53.090 --> 00:08:01.059 align:start position:0%
+So, look at the dialog. Enter the password. I'll
+say <00:07:53.378><c>let </c><00:07:53.666><c>it </c><00:07:53.954><c>be </c><00:07:54.242><c>8. </c><00:07:54.530><c>Let </c><00:07:54.818><c>it </c><00:07:55.106><c>be</c>
+
+00:08:01.059 --> 00:08:01.069 align:start position:0%
+ 
+ 
+
+00:08:01.069 --> 00:08:03.159 align:start position:0%
+ 
+like <00:08:01.599><c>this. </c><00:08:02.129><c>We've</c>
+
+00:08:03.159 --> 00:08:03.169 align:start position:0%
+like this. We've
+ 
+
+00:08:03.169 --> 00:08:07.670 align:start position:0%
+like this. We've
+done <00:08:04.047><c>the </c><00:08:04.925><c>markup. </c><00:08:05.803><c>Now </c><00:08:06.681><c>we'll </c><00:08:07.559><c>still</c>
+
+00:08:07.670 --> 00:08:07.680 align:start position:0%
+done the markup. Now we'll still
+ 
+
+00:08:07.680 --> 00:08:10.159 align:start position:0%
+done the markup. Now we'll still
+need <00:08:08.176><c>to </c><00:08:08.672><c>add </c><00:08:09.168><c>another</c>
+
+00:08:10.159 --> 00:08:10.169 align:start position:0%
+need to add another
+ 
+
+00:08:10.169 --> 00:08:12.999 align:start position:0%
+need to add another
+table. <00:08:10.416><c>Let's </c><00:08:10.663><c>give </c><00:08:10.910><c>it </c><00:08:11.157><c>a</c>
+
+00:08:12.999 --> 00:08:13.009 align:start position:0%
+table. Let's give it a
+ 
+
+00:08:13.009 --> 00:08:16.179 align:start position:0%
+table. Let's give it a
+user.
+
+00:08:16.179 --> 00:08:16.189 align:start position:0%
+user.
+ 
+
+00:08:16.189 --> 00:08:23.860 align:start position:0%
+user.
+We <00:08:16.922><c>have </c><00:08:17.655><c>three </c><00:08:18.388><c>columns.</c>
+
+00:08:23.860 --> 00:08:23.870 align:start position:0%
+ 
+ 
+
+00:08:23.870 --> 00:08:27.279 align:start position:0%
+ 
+So, <00:08:24.579><c>katrana, </c><00:08:25.288><c>go</c>
+
+00:08:27.279 --> 00:08:27.289 align:start position:0%
+So, katrana, go
+ 
+
+00:08:27.289 --> 00:08:30.249 align:start position:0%
+So, katrana, go
+ahead, <00:08:28.289><c>login,</c>
+
+00:08:30.249 --> 00:08:30.259 align:start position:0%
+ahead, login,
+ 
+
+00:08:30.259 --> 00:08:34.839 align:start position:0%
+ahead, login,
+password.
+
+00:08:34.839 --> 00:08:34.849 align:start position:0%
+ 
+ 
+
+00:08:34.849 --> 00:08:38.439 align:start position:0%
+ 
+So, <00:08:35.252><c>here's </c><00:08:35.655><c>the </c><00:08:36.058><c>wolf,</c>
+
+00:08:38.439 --> 00:08:38.449 align:start position:0%
+So, here's the wolf,
+ 
+
+00:08:38.449 --> 00:08:43.600 align:start position:0%
+So, here's the wolf,
+purpose <00:08:39.152><c>10 </c><00:08:39.855><c>10 </c><00:08:40.558><c>55.</c>
+
+00:08:43.600 --> 00:08:43.610 align:start position:0%
+ 
+ 
+
+00:08:43.610 --> 00:08:46.750 align:start position:0%
+ 
+So, <00:08:44.220><c>we </c><00:08:44.830><c>have </c><00:08:45.440><c>8, </c><00:08:46.050><c>and</c>
+
+00:08:46.750 --> 00:08:46.760 align:start position:0%
+So, we have 8, and
+ 
+
+00:08:46.760 --> 00:08:48.460 align:start position:0%
+So, we have 8, and
+Russians
+
+00:08:48.460 --> 00:08:48.470 align:start position:0%
+Russians
+ 
+
+00:08:48.470 --> 00:09:11.020 align:start position:0%
+Russians
+from <00:08:48.970><c>the </c><00:08:49.470><c>same</c>
+
+00:09:11.020 --> 00:09:11.030 align:start position:0%
+ 
+ 
+
+00:09:11.030 --> 00:09:19.150 align:start position:0%
+ 
+table. <00:09:11.512><c>We've </c><00:09:11.994><c>created </c><00:09:12.476><c>it </c><00:09:12.958><c>like </c><00:09:13.440><c>this.</c>
+
+00:09:19.150 --> 00:09:19.160 align:start position:0%
+ 
+ 
+
+00:09:19.160 --> 00:09:21.580 align:start position:0%
+ 
+
+
+00:09:21.580 --> 00:09:21.590 align:start position:0%
+ 
+ 
+
+00:09:21.590 --> 00:09:25.840 align:start position:0%
+ 
+login <00:09:22.046><c>and </c><00:09:22.502><c>therefore </c><00:09:22.958><c>we </c><00:09:23.414><c>will </c><00:09:23.870><c>get </c><00:09:24.326><c>in,</c>
+
+00:09:25.840 --> 00:09:25.850 align:start position:0%
+login and therefore we will get in,
+ 
+
+00:09:25.850 --> 00:09:31.060 align:start position:0%
+login and therefore we will get in,
+let's <00:09:26.256><c>first </c><00:09:26.662><c>go </c><00:09:27.068><c>to </c><00:09:27.474><c>the </c><00:09:27.880><c>folder </c><00:09:28.286><c>we </c><00:09:28.692><c>have </c><00:09:29.098><c>there,</c>
+
+00:09:31.060 --> 00:09:31.070 align:start position:0%
+let's first go to the folder we have there,
+ 
+
+00:09:31.070 --> 00:09:37.930 align:start position:0%
+let's first go to the folder we have there,
+then <00:09:31.720><c>our </c><00:09:32.370><c>file,</c>
+
+00:09:37.930 --> 00:09:37.940 align:start position:0%
+ 
+ 
+
+00:09:37.940 --> 00:09:40.840 align:start position:0%
+ 
+so <00:09:38.340><c>it </c><00:09:38.740><c>will </c><00:09:39.140><c>be </c><00:09:39.540><c>processed,</c>
+
+00:09:40.840 --> 00:09:40.850 align:start position:0%
+so it will be processed,
+ 
+
+00:09:40.850 --> 00:09:43.450 align:start position:0%
+so it will be processed,
+therefore <00:09:41.353><c>we </c><00:09:41.856><c>create </c><00:09:42.359><c>a</c>
+
+00:09:43.450 --> 00:09:43.460 align:start position:0%
+therefore we create a
+ 
+
+00:09:43.460 --> 00:09:48.670 align:start position:0%
+therefore we create a
+folder <00:09:44.183><c>here, </c><00:09:44.906><c>call </c><00:09:45.629><c>it</c>
+
+00:09:48.670 --> 00:09:48.680 align:start position:0%
+ 
+ 
+
+00:09:48.680 --> 00:09:51.700 align:start position:0%
+ 
+in <00:09:48.964><c>it </c><00:09:49.248><c>we </c><00:09:49.532><c>already </c><00:09:49.816><c>have </c><00:09:50.100><c>a</c>
+
+00:09:51.700 --> 00:09:51.710 align:start position:0%
+in it we already have a
+ 
+
+00:09:51.710 --> 00:09:54.940 align:start position:0%
+in it we already have a
+test <00:09:52.710><c>document</c>
+
+00:09:54.940 --> 00:09:54.950 align:start position:0%
+ 
+ 
+
+00:09:54.950 --> 00:09:59.500 align:start position:0%
+ 
+.  <00:09:55.253><c>.  </c><00:09:55.556><c>It </c><00:09:55.859><c>turns </c><00:09:56.162><c>out </c><00:09:56.465><c>that </c><00:09:56.768><c>when </c><00:09:57.071><c>we </c><00:09:57.374><c>click </c><00:09:57.677><c>the </c><00:09:57.980><c>"Login" </c><00:09:58.283><c>button, </c><00:09:58.586><c>the</c>
+
+00:09:59.500 --> 00:09:59.510 align:start position:0%
+.  .  It turns out that when we click the "Login" button, the
+ 
+
+00:09:59.510 --> 00:10:01.240 align:start position:0%
+.  .  It turns out that when we click the "Login" button, the
+
+
+00:10:01.240 --> 00:10:01.250 align:start position:0%
+ 
+ 
+
+00:10:01.250 --> 00:10:04.160 align:start position:0%
+ 
+file <00:10:01.950><c>will </c><00:10:02.650><c>be </c><00:10:03.350><c>processed </c><00:10:04.050><c>here</c>
+
+00:10:04.160 --> 00:10:04.170 align:start position:0%
+file will be processed here
+ 
+
+00:10:04.170 --> 00:10:07.070 align:start position:0%
+file will be processed here
+in <00:10:04.492><c>the </c><00:10:04.814><c>"Admin" </c><00:10:05.136><c>folder, </c><00:10:05.458><c>and </c><00:10:05.780><c>here </c><00:10:06.102><c>is </c><00:10:06.424><c>this </c><00:10:06.746><c>"</c>
+
+00:10:07.070 --> 00:10:07.080 align:start position:0%
+in the "Admin" folder, and here is this "
+ 
+
+00:10:07.080 --> 00:10:12.550 align:start position:0%
+in the "Admin" folder, and here is this "
+Admin" <00:10:07.242><c>file </c><00:10:07.404><c>with </c><00:10:07.566><c>the </c><00:10:07.728><c>"Stove" </c><00:10:07.890><c>function.</c>
+
+00:10:12.550 --> 00:10:12.560 align:start position:0%
+ 
+ 
+
+00:10:12.560 --> 00:10:16.480 align:start position:0%
+ 
+So, <00:10:13.126><c>first, </c><00:10:13.692><c>we </c><00:10:14.258><c>will </c><00:10:14.824><c>need </c><00:10:15.390><c>to</c>
+
+00:10:16.480 --> 00:10:16.490 align:start position:0%
+So, first, we will need to
+ 
+
+00:10:16.490 --> 00:10:18.610 align:start position:0%
+So, first, we will need to
+connect
+
+00:10:18.610 --> 00:10:18.620 align:start position:0%
+connect
+ 
+
+00:10:18.620 --> 00:10:21.070 align:start position:0%
+connect
+the file
+
+00:10:21.070 --> 00:10:21.080 align:start position:0%
+the file
+ 
+
+00:10:21.080 --> 00:10:22.630 align:start position:0%
+the file
+with
+
+00:10:22.630 --> 00:10:22.640 align:start position:0%
+with
+ 
+
+00:10:22.640 --> 00:10:26.680 align:start position:0%
+with
+the <00:10:22.950><c>connection </c><00:10:23.260><c>to </c><00:10:23.570><c>the </c><00:10:23.880><c>database,</c>
+
+00:10:26.680 --> 00:10:26.690 align:start position:0%
+ 
+ 
+
+00:10:26.690 --> 00:10:29.170 align:start position:0%
+ 
+who <00:10:27.190><c>I </c><00:10:27.690><c>am,</c>
+
+00:10:29.170 --> 00:10:29.180 align:start position:0%
+who I am,
+ 
+
+00:10:29.180 --> 00:10:44.710 align:start position:0%
+who I am,
+vans,
+
+00:10:44.710 --> 00:10:44.720 align:start position:0%
+ 
+ 
+
+00:10:44.720 --> 00:10:46.930 align:start position:0%
+ 
+so <00:10:45.325><c>we </c><00:10:45.930><c>have</c>
+
+00:10:46.930 --> 00:10:46.940 align:start position:0%
+so we have
+ 
+
+00:10:46.940 --> 00:10:52.660 align:start position:0%
+so we have
+[music]
+
+00:10:52.660 --> 00:10:52.670 align:start position:0%
+ 
+ 
+
+00:10:52.670 --> 00:11:00.369 align:start position:0%
+ 
+background <00:10:53.523><c>since </c><00:10:54.376><c>the </c><00:10:55.229><c>long</c>
+
+00:11:00.369 --> 00:11:00.379 align:start position:0%
+ 
+ 
+
+00:11:00.379 --> 00:11:11.049 align:start position:0%
+ 
+lance
+
+00:11:11.049 --> 00:11:11.059 align:start position:0%
+ 
+ 
+
+00:11:11.059 --> 00:11:32.680 align:start position:0%
+ 
+franchise <00:11:12.290><c>baking,</c>
+
+00:11:32.680 --> 00:11:32.690 align:start position:0%
+ 
+ 
+
+00:11:32.690 --> 00:11:36.930 align:start position:0%
+ 
+as <00:11:33.067><c>with </c><00:11:33.444><c>us, </c><00:11:33.821><c>it </c><00:11:34.198><c>writes </c><00:11:34.575><c>to </c><00:11:34.952><c>the </c><00:11:35.329><c>directories,</c>
+
+00:11:36.930 --> 00:11:36.940 align:start position:0%
+as with us, it writes to the directories,
+ 
+
+00:11:36.940 --> 00:11:42.510 align:start position:0%
+as with us, it writes to the directories,
+yes, <00:11:37.251><c>I </c><00:11:37.562><c>did </c><00:11:37.873><c>it </c><00:11:38.184><c>like </c><00:11:38.495><c>this, </c><00:11:38.806><c>most </c><00:11:39.117><c>likely, </c><00:11:39.428><c>so </c><00:11:39.739><c>well, </c><00:11:40.050><c>so </c><00:11:40.361><c>we</c>
+
+00:11:42.510 --> 00:11:47.280 align:start position:0%
+yes, I did it like this, most likely, so well, so we
+ 
+
+00:11:47.280 --> 00:11:47.290 align:start position:0%
+ 
+ 
+
+00:11:47.290 --> 00:11:51.600 align:start position:0%
+ 
+did <00:11:47.646><c>it </c><00:11:48.002><c>with </c><00:11:48.358><c>the </c><00:11:48.714><c>connection, </c><00:11:49.070><c>so</c>
+
+00:11:51.600 --> 00:11:51.610 align:start position:0%
+ 
+ 
+
+00:11:51.610 --> 00:11:55.500 align:start position:0%
+ 
+then <00:11:52.272><c>we </c><00:11:52.934><c>create </c><00:11:53.596><c>a </c><00:11:54.258><c>new </c><00:11:54.920><c>variable</c>
+
+00:11:55.500 --> 00:11:55.510 align:start position:0%
+then we create a new variable
+ 
+
+00:11:55.510 --> 00:11:58.440 align:start position:0%
+then we create a new variable
+called <00:11:56.510><c>"length",</c>
+
+00:11:58.440 --> 00:11:58.450 align:start position:0%
+called "length",
+ 
+
+00:11:58.450 --> 00:12:01.810 align:start position:0%
+called "length",
+so <00:11:59.820><c>the </c><00:12:01.190><c>value</c>
+
+00:12:01.810 --> 00:12:01.820 align:start position:0%
+so the value
+ 
+
+00:12:01.820 --> 00:12:06.920 align:start position:0%
+so the value
+that <00:12:02.117><c>the </c><00:12:02.414><c>user </c><00:12:02.711><c>enters </c><00:12:03.008><c>in </c><00:12:03.305><c>the </c><00:12:03.602><c>"Login" </c><00:12:03.899><c>field </c><00:12:04.196><c>will </c><00:12:04.493><c>be </c><00:12:04.790><c>assigned </c><00:12:05.087><c>here</c>
+
+00:12:06.920 --> 00:12:06.930 align:start position:0%
+that the user enters in the "Login" field will be assigned here
+ 
+
+00:12:06.930 --> 00:12:21.240 align:start position:0%
+that the user enters in the "Login" field will be assigned here
+[music].
+
+00:12:21.240 --> 00:12:21.250 align:start position:0%
+ 
+ 
+
+00:12:21.250 --> 00:12:23.850 align:start position:0%
+ 
+Here <00:12:21.593><c>we </c><00:12:21.936><c>have </c><00:12:22.279><c>"</c>
+
+00:12:23.850 --> 00:12:23.860 align:start position:0%
+Here we have "
+ 
+
+00:12:23.860 --> 00:12:27.330 align:start position:0%
+Here we have "
+Login", <00:12:24.205><c>here </c><00:12:24.550><c>we </c><00:12:24.895><c>have </c><00:12:25.240><c>"</c>
+
+00:12:27.330 --> 00:12:27.340 align:start position:0%
+Login", here we have "
+ 
+
+00:12:27.340 --> 00:12:43.560 align:start position:0%
+Login", here we have "
+Save", <00:12:28.940><c>so</c>
+
+00:12:43.560 --> 00:12:43.570 align:start position:0%
+ 
+ 
+
+00:12:43.570 --> 00:12:46.110 align:start position:0%
+ 
+we <00:12:44.123><c>also </c><00:12:44.676><c>need </c><00:12:45.229><c>a</c>
+
+00:12:46.110 --> 00:12:46.120 align:start position:0%
+we also need a
+ 
+
+00:12:46.120 --> 00:12:50.500 align:start position:0%
+we also need a
+forum, <00:12:46.593><c>from </c><00:12:47.066><c>its </c><00:12:47.539><c>two </c><00:12:48.012><c>attributes, </c><00:12:48.485><c>login </c><00:12:48.958><c>and </c><00:12:49.431><c>pass, </c><00:12:49.904><c>so</c>
+
+00:12:50.500 --> 00:12:50.510 align:start position:0%
+forum, from its two attributes, login and pass, so
+ 
+
+00:12:50.510 --> 00:12:57.600 align:start position:0%
+forum, from its two attributes, login and pass, so
+
+
+00:12:57.600 --> 00:12:57.610 align:start position:0%
+ 
+ 
+
+00:12:57.610 --> 00:12:59.760 align:start position:0%
+ 
+login, <00:12:57.860><c>so </c><00:12:58.110><c>this </c><00:12:58.360><c>is </c><00:12:58.610><c>the</c>
+
+00:12:59.760 --> 00:12:59.770 align:start position:0%
+login, so this is the
+ 
+
+00:12:59.770 --> 00:13:02.730 align:start position:0%
+login, so this is the
+login, <00:13:00.483><c>here </c><00:13:01.196><c>it </c><00:13:01.909><c>is,</c>
+
+00:13:02.730 --> 00:13:02.740 align:start position:0%
+login, here it is,
+ 
+
+00:13:02.740 --> 00:13:04.590 align:start position:0%
+login, here it is,
+[ __ ],
+
+00:13:04.590 --> 00:13:04.600 align:start position:0%
+[ __ ],
+ 
+
+00:13:04.600 --> 00:13:10.410 align:start position:0%
+[ __ ],
+what <00:13:04.891><c>are </c><00:13:05.182><c>we </c><00:13:05.473><c>specifically </c><00:13:05.764><c>accessing </c><00:13:06.055><c>this </c><00:13:06.346><c>field, </c><00:13:06.637><c>here </c><00:13:06.928><c>is </c><00:13:07.219><c>the</c>
+
+00:13:10.410 --> 00:13:10.420 align:start position:0%
+ 
+ 
+
+00:13:10.420 --> 00:13:13.080 align:start position:0%
+ 
+passport, <00:13:11.420><c>I'll</c>
+
+00:13:13.080 --> 00:13:13.090 align:start position:0%
+passport, I'll
+ 
+
+00:13:13.090 --> 00:13:15.210 align:start position:0%
+passport, I'll
+copy it, it
+
+00:13:15.210 --> 00:13:15.220 align:start position:0%
+copy it, it
+ 
+
+00:13:15.220 --> 00:13:17.130 align:start position:0%
+copy it, it
+turns <00:13:15.720><c>out </c><00:13:16.220><c>that</c>
+
+00:13:17.130 --> 00:13:17.140 align:start position:0%
+turns out that
+ 
+
+00:13:17.140 --> 00:13:19.260 align:start position:0%
+turns out that
+the <00:13:17.640><c>user </c><00:13:18.140><c>clicks,</c>
+
+00:13:19.260 --> 00:13:19.270 align:start position:0%
+the user clicks,
+ 
+
+00:13:19.270 --> 00:13:24.340 align:start position:0%
+the user clicks,
+clicks, <00:13:20.813><c>enters </c><00:13:22.356><c>the </c><00:13:23.899><c>login</c>
+
+00:13:24.340 --> 00:13:24.350 align:start position:0%
+clicks, enters the login
+ 
+
+00:13:24.350 --> 00:13:28.170 align:start position:0%
+clicks, enters the login
+or <00:13:24.513><c>password </c><00:13:24.676><c>in </c><00:13:24.839><c>the </c><00:13:25.002><c>field, </c><00:13:25.165><c>this </c><00:13:25.328><c>is </c><00:13:25.491><c>the </c><00:13:25.654><c>value </c><00:13:25.817><c>of </c><00:13:25.980><c>the </c><00:13:26.143><c>passport, </c><00:13:26.306><c>then </c><00:13:26.469><c>it </c><00:13:26.632><c>will </c><00:13:26.795><c>be</c>
+
+00:13:28.170 --> 00:13:28.180 align:start position:0%
+or password in the field, this is the value of the passport, then it will be
+ 
+
+00:13:28.180 --> 00:13:31.390 align:start position:0%
+or password in the field, this is the value of the passport, then it will be
+here, <00:13:29.625><c>also </c><00:13:31.070><c>the</c>
+
+00:13:31.390 --> 00:13:31.400 align:start position:0%
+here, also the
+ 
+
+00:13:31.400 --> 00:13:33.300 align:start position:0%
+here, also the
+passport,
+
+00:13:33.300 --> 00:13:33.310 align:start position:0%
+passport,
+ 
+
+00:13:33.310 --> 00:13:37.530 align:start position:0%
+passport,
+this <00:13:33.641><c>is </c><00:13:33.972><c>all </c><00:13:34.303><c>written </c><00:13:34.634><c>in </c><00:13:34.965><c>the </c><00:13:35.296><c>changes,</c>
+
+00:13:37.530 --> 00:13:37.540 align:start position:0%
+this is all written in the changes,
+ 
+
+00:13:37.540 --> 00:13:40.020 align:start position:0%
+this is all written in the changes,
+so <00:13:38.040><c>there </c><00:13:38.540><c>is</c>
+
+00:13:40.020 --> 00:13:40.030 align:start position:0%
+so there is
+ 
+
+00:13:40.030 --> 00:13:42.570 align:start position:0%
+so there is
+further <00:13:40.513><c>we </c><00:13:40.996><c>will </c><00:13:41.479><c>have</c>
+
+00:13:42.570 --> 00:13:42.580 align:start position:0%
+further we will have
+ 
+
+00:13:42.580 --> 00:13:45.240 align:start position:0%
+further we will have
+if <00:13:43.080><c>the </c><00:13:43.580><c>request,</c>
+
+00:13:45.240 --> 00:13:45.250 align:start position:0%
+if the request,
+ 
+
+00:13:45.250 --> 00:13:57.579 align:start position:0%
+if the request,
+in <00:13:45.735><c>general, </c><00:13:46.220><c>the </c><00:13:46.705><c>essence </c><00:13:47.190><c>of </c><00:13:47.675><c>the </c><00:13:48.160><c>task,</c>
+
+00:13:57.579 --> 00:13:57.589 align:start position:0%
+ 
+ 
+
+00:13:57.589 --> 00:14:02.199 align:start position:0%
+ 
+the <00:13:57.985><c>user </c><00:13:58.381><c>enters </c><00:13:58.777><c>the </c><00:13:59.173><c>login </c><00:13:59.569><c>password, </c><00:13:59.965><c>if</c>
+
+00:14:02.199 --> 00:14:02.209 align:start position:0%
+the user enters the login password, if
+ 
+
+00:14:02.209 --> 00:14:06.079 align:start position:0%
+the user enters the login password, if
+there <00:14:02.488><c>is </c><00:14:02.767><c>such </c><00:14:03.046><c>a </c><00:14:03.325><c>blog, </c><00:14:03.604><c>there </c><00:14:03.883><c>is </c><00:14:04.162><c>such </c><00:14:04.441><c>a </c><00:14:04.720><c>password </c><00:14:04.999><c>in </c><00:14:05.278><c>the</c>
+
+00:14:06.079 --> 00:14:06.089 align:start position:0%
+there is such a blog, there is such a password in the
+ 
+
+00:14:06.089 --> 00:14:08.570 align:start position:0%
+there is such a blog, there is such a password in the
+database  <00:14:06.332><c>data, </c><00:14:06.575><c>then </c><00:14:06.818><c>login </c><00:14:07.061><c>is </c><00:14:07.304><c>performed. </c><00:14:07.547><c>If </c><00:14:07.790><c>there </c><00:14:08.033><c>is</c>
+
+00:14:08.570 --> 00:14:08.580 align:start position:0%
+database  data, then login is performed. If there is
+ 
+
+00:14:08.580 --> 00:14:13.090 align:start position:0%
+database  data, then login is performed. If there is
+none, <00:14:09.410><c>then </c><00:14:10.240><c>sorry, </c><00:14:11.070><c>then</c>
+
+00:14:13.090 --> 00:14:13.100 align:start position:0%
+none, then sorry, then
+ 
+
+00:14:13.100 --> 00:14:17.170 align:start position:0%
+none, then sorry, then
+we <00:14:13.655><c>need </c><00:14:14.210><c>to </c><00:14:14.765><c>enter </c><00:14:15.320><c>the</c>
+
+00:14:17.170 --> 00:14:17.180 align:start position:0%
+we need to enter the
+ 
+
+00:14:17.180 --> 00:14:23.800 align:start position:0%
+we need to enter the
+login <00:14:17.644><c>and </c><00:14:18.108><c>password </c><00:14:18.572><c>into </c><00:14:19.036><c>the </c><00:14:19.500><c>database.</c>
+
+00:14:23.800 --> 00:14:23.810 align:start position:0%
+ 
+ 
+
+00:14:23.810 --> 00:14:28.220 align:start position:0%
+ 
+Of <00:14:24.421><c>course, </c><00:14:25.032><c>everything </c><00:14:25.643><c>is </c><00:14:26.254><c>done </c><00:14:26.865><c>differently, </c><00:14:27.476><c>but</c>
+
+00:14:28.220 --> 00:14:28.230 align:start position:0%
+Of course, everything is done differently, but
+ 
+
+00:14:28.230 --> 00:14:30.590 align:start position:0%
+Of course, everything is done differently, but
+since <00:14:28.414><c>we </c><00:14:28.598><c>have </c><00:14:28.782><c>a </c><00:14:28.966><c>course </c><00:14:29.150><c>for </c><00:14:29.334><c>beginners,</c>
+
+00:14:30.590 --> 00:14:30.600 align:start position:0%
+since we have a course for beginners,
+ 
+
+00:14:30.600 --> 00:14:33.470 align:start position:0%
+since we have a course for beginners,
+this <00:14:30.978><c>will </c><00:14:31.356><c>also </c><00:14:31.734><c>work. </c><00:14:32.112><c>In </c><00:14:32.490><c>general,</c>
+
+00:14:33.470 --> 00:14:33.480 align:start position:0%
+this will also work. In general,
+ 
+
+00:14:33.480 --> 00:14:35.860 align:start position:0%
+this will also work. In general,
+initially, <00:14:33.990><c>when </c><00:14:34.500><c>I</c>
+
+00:14:35.860 --> 00:14:35.870 align:start position:0%
+initially, when I
+ 
+
+00:14:35.870 --> 00:14:38.829 align:start position:0%
+initially, when I
+developed <00:14:36.427><c>simple </c><00:14:36.984><c>websites </c><00:14:37.541><c>for </c><00:14:38.098><c>clients,</c>
+
+00:14:38.829 --> 00:14:38.839 align:start position:0%
+developed simple websites for clients,
+ 
+
+00:14:38.839 --> 00:14:44.380 align:start position:0%
+developed simple websites for clients,
+I <00:14:39.722><c>used </c><00:14:40.605><c>this </c><00:14:41.488><c>method</c>
+
+00:14:44.380 --> 00:14:44.390 align:start position:0%
+I used this method
+ 
+
+00:14:44.390 --> 00:14:47.000 align:start position:0%
+I used this method
+only <00:14:44.788><c>if </c><00:14:45.186><c>clients </c><00:14:45.584><c>were </c><00:14:45.982><c>developing </c><00:14:46.380><c>a</c>
+
+00:14:47.000 --> 00:14:47.010 align:start position:0%
+only if clients were developing a
+ 
+
+00:14:47.010 --> 00:14:48.949 align:start position:0%
+only if clients were developing a
+site. <00:14:47.169><c>In </c><00:14:47.328><c>no </c><00:14:47.487><c>case </c><00:14:47.646><c>do </c><00:14:47.805><c>I </c><00:14:47.964><c>do </c><00:14:48.123><c>this </c><00:14:48.282><c>with </c><00:14:48.441><c>the </c><00:14:48.600><c>login</c>
+
+00:14:48.949 --> 00:14:48.959 align:start position:0%
+site. In no case do I do this with the login
+ 
+
+00:14:48.959 --> 00:14:51.530 align:start position:0%
+site. In no case do I do this with the login
+and <00:14:49.299><c>passports. </c><00:14:49.639><c>Admin, </c><00:14:49.979><c>come </c><00:14:50.319><c>up </c><00:14:50.659><c>with </c><00:14:50.999><c>something</c>
+
+00:14:51.530 --> 00:14:51.540 align:start position:0%
+and passports. Admin, come up with something
+ 
+
+00:14:51.540 --> 00:14:53.030 align:start position:0%
+and passports. Admin, come up with something
+else, <00:14:51.885><c>more </c><00:14:52.230><c>original. </c><00:14:52.575><c>Maybe </c><00:14:52.920><c>an</c>
+
+00:14:53.030 --> 00:14:53.040 align:start position:0%
+else, more original. Maybe an
+ 
+
+00:14:53.040 --> 00:14:55.269 align:start position:0%
+else, more original. Maybe an
+email <00:14:53.400><c>there </c><00:14:53.760><c>and </c><00:14:54.120><c>a</c>
+
+00:14:55.269 --> 00:14:55.279 align:start position:0%
+email there and a
+ 
+
+00:14:55.279 --> 00:15:02.650 align:start position:0%
+email there and a
+more <00:14:55.533><c>complex </c><00:14:55.787><c>password. </c><00:14:56.041><c>This </c><00:14:56.295><c>is </c><00:14:56.549><c>what </c><00:14:56.803><c>we </c><00:14:57.057><c>will </c><00:14:57.311><c>delete. </c><00:14:57.565><c>This </c><00:14:57.819><c>is </c><00:14:58.073><c>what </c><00:14:58.327><c>we </c><00:14:58.581><c>did.</c>
+
+00:15:02.650 --> 00:15:02.660 align:start position:0%
+ 
+ 
+
+00:15:02.660 --> 00:15:06.310 align:start position:0%
+ 
+Now <00:15:03.503><c>we </c><00:15:04.346><c>need </c><00:15:05.189><c>to</c>
+
+00:15:06.310 --> 00:15:06.320 align:start position:0%
+Now we need to
+ 
+
+00:15:06.320 --> 00:15:09.460 align:start position:0%
+Now we need to
+give <00:15:06.791><c>a </c><00:15:07.262><c>command </c><00:15:07.733><c>in </c><00:15:08.204><c>which </c><00:15:08.675><c>we </c><00:15:09.146><c>will</c>
+
+00:15:09.460 --> 00:15:09.470 align:start position:0%
+give a command in which we will
+ 
+
+00:15:09.470 --> 00:15:12.130 align:start position:0%
+give a command in which we will
+select <00:15:09.985><c>an </c><00:15:10.500><c>ID</c>
+
+00:15:12.130 --> 00:15:12.140 align:start position:0%
+select an ID
+ 
+
+00:15:12.140 --> 00:15:15.680 align:start position:0%
+select an ID
+where <00:15:12.464><c>the </c><00:15:12.788><c>login </c><00:15:13.112><c>is </c><00:15:13.436><c>such-and-such </c><00:15:13.760><c>and </c><00:15:14.084><c>the </c><00:15:14.408><c>password </c><00:15:14.732><c>is </c><00:15:15.056><c>such-and-such.</c>
+
+00:15:15.680 --> 00:15:15.690 align:start position:0%
+where the login is such-and-such and the password is such-and-such.
+ 
+
+00:15:15.690 --> 00:15:18.889 align:start position:0%
+where the login is such-and-such and the password is such-and-such.
+If <00:15:16.127><c>we </c><00:15:16.564><c>have </c><00:15:17.001><c>matches, </c><00:15:17.438><c>vodka, </c><00:15:17.875><c>sake, </c><00:15:18.312><c>and </c><00:15:18.749><c>login</c>
+
+00:15:18.889 --> 00:15:18.899 align:start position:0%
+If we have matches, vodka, sake, and login
+ 
+
+00:15:18.899 --> 00:15:22.389 align:start position:0%
+If we have matches, vodka, sake, and login
+will <00:15:19.369><c>be </c><00:15:19.839><c>performed, </c><00:15:20.309><c>we</c>
+
+00:15:22.389 --> 00:15:22.399 align:start position:0%
+will be performed, we
+ 
+
+00:15:22.399 --> 00:15:27.699 align:start position:0%
+will be performed, we
+write. <00:15:23.134><c>Now </c><00:15:23.869><c>we</c>
+
+00:15:27.699 --> 00:15:27.709 align:start position:0%
+ 
+ 
+
+00:15:27.709 --> 00:15:29.350 align:start position:0%
+ 
+say goodbye
+
+00:15:29.350 --> 00:15:29.360 align:start position:0%
+say goodbye
+ 
+
+00:15:29.360 --> 00:15:31.540 align:start position:0%
+say goodbye
+under the
+
+00:15:31.540 --> 00:15:31.550 align:start position:0%
+under the
+ 
+
+00:15:31.550 --> 00:15:37.960 align:start position:0%
+under the
+hood. <00:15:32.206><c>Rock, </c><00:15:32.862><c>this </c><00:15:33.518><c>is </c><00:15:34.174><c>the </c><00:15:34.830><c>variable </c><00:15:35.486><c>we</c>
+
+00:15:37.960 --> 00:15:37.970 align:start position:0%
+ 
+ 
+
+00:15:37.970 --> 00:15:39.760 align:start position:0%
+ 
+gave. <00:15:38.499><c>We </c><00:15:39.028><c>have</c>
+
+00:15:39.760 --> 00:15:39.770 align:start position:0%
+gave. We have
+ 
+
+00:15:39.770 --> 00:15:43.000 align:start position:0%
+gave. We have
+preparation <00:15:40.540><c>for </c><00:15:41.310><c>p.</c>
+
+00:15:43.000 --> 00:15:43.010 align:start position:0%
+preparation for p.
+ 
+
+00:15:43.010 --> 00:15:48.040 align:start position:0%
+preparation for p.
+Then <00:15:43.454><c>we </c><00:15:43.898><c>execute </c><00:15:44.342><c>the </c><00:15:44.786><c>query </c><00:15:45.230><c>itself.</c>
+
+00:15:48.040 --> 00:15:48.050 align:start position:0%
+Then we execute the query itself.
+ 
+
+00:15:48.050 --> 00:15:51.220 align:start position:0%
+Then we execute the query itself.
+Select.
+
+00:15:51.220 --> 00:15:51.230 align:start position:0%
+ 
+ 
+
+00:15:51.230 --> 00:15:54.630 align:start position:0%
+ 
+We <00:15:51.665><c>select </c><00:15:52.100><c>Olga</c>
+
+00:15:54.630 --> 00:15:54.640 align:start position:0%
+We select Olga
+ 
+
+00:15:54.640 --> 00:15:58.440 align:start position:0%
+We select Olga
+from <00:15:55.735><c>the </c><00:15:56.830><c>table.</c>
+
+00:15:58.440 --> 00:15:58.450 align:start position:0%
+from the table.
+ 
+
+00:15:58.450 --> 00:16:02.460 align:start position:0%
+from the table.
+Table <00:15:58.893><c>of </c><00:15:59.336><c>us. </c><00:15:59.779><c>Which</c>
+
+00:16:02.460 --> 00:16:02.470 align:start position:0%
+ 
+ 
+
+00:16:02.470 --> 00:16:09.480 align:start position:0%
+ 
+user is
+
+00:16:09.480 --> 00:16:09.490 align:start position:0%
+ 
+ 
+
+00:16:09.490 --> 00:16:12.960 align:start position:0%
+ 
+where the login is. For
+
+00:16:12.960 --> 00:16:12.970 align:start position:0%
+ 
+ 
+
+00:16:12.970 --> 00:16:15.660 align:start position:0%
+ 
+
+
+00:16:15.660 --> 00:16:15.670 align:start position:0%
+ 
+ 
+
+00:16:15.670 --> 00:16:19.990 align:start position:0%
+ 
+security, <00:16:16.347><c>a </c><00:16:17.024><c>colon </c><00:16:17.701><c>is </c><00:16:18.378><c>placed,</c>
+
+00:16:19.990 --> 00:16:20.000 align:start position:0%
+security, a colon is placed,
+ 
+
+00:16:20.000 --> 00:16:24.990 align:start position:0%
+security, a colon is placed,
+followed <00:16:20.330><c>by </c><00:16:20.660><c>the </c><00:16:20.990><c>login </c><00:16:21.320><c>and</c>
+
+00:16:24.990 --> 00:16:25.000 align:start position:0%
+ 
+ 
+
+00:16:25.000 --> 00:16:39.509 align:start position:0%
+ 
+password.
+
+00:16:39.509 --> 00:16:39.519 align:start position:0%
+ 
+ 
+
+00:16:39.519 --> 00:16:42.999 align:start position:0%
+ 
+This <00:16:40.017><c>is </c><00:16:40.515><c>what </c><00:16:41.013><c>we </c><00:16:41.511><c>call </c><00:16:42.009><c>prepared</c>
+
+00:16:42.999 --> 00:16:43.009 align:start position:0%
+This is what we call prepared
+ 
+
+00:16:43.009 --> 00:16:47.340 align:start position:0%
+This is what we call prepared
+queries
+
+00:16:47.340 --> 00:16:47.350 align:start position:0%
+ 
+ 
+
+00:16:47.350 --> 00:16:49.259 align:start position:0%
+ 
+.
+
+00:16:49.259 --> 00:16:49.269 align:start position:0%
+.
+ 
+
+00:16:49.269 --> 00:16:51.480 align:start position:0%
+.
+Next, <00:16:50.360><c>we</c>
+
+00:16:51.480 --> 00:16:51.490 align:start position:0%
+Next, we
+ 
+
+00:16:51.490 --> 00:16:55.559 align:start position:0%
+Next, we
+execute <00:16:52.119><c>the </c><00:16:52.748><c>query </c><00:16:53.377><c>itself, </c><00:16:54.006><c>door</c>
+
+00:16:55.559 --> 00:16:55.569 align:start position:0%
+execute the query itself, door
+ 
+
+00:16:55.569 --> 00:17:01.530 align:start position:0%
+execute the query itself, door
+skills
+
+00:17:01.530 --> 00:17:01.540 align:start position:0%
+ 
+ 
+
+00:17:01.540 --> 00:17:09.510 align:start position:0%
+ 
+through <00:17:02.205><c>with </c><00:17:02.870><c>you</c>
+
+00:17:09.510 --> 00:17:09.520 align:start position:0%
+ 
+ 
+
+00:17:09.520 --> 00:17:20.530 align:start position:0%
+ 
+burger
+
+00:17:20.530 --> 00:17:20.540 align:start position:0%
+ 
+ 
+
+00:17:20.540 --> 00:17:23.550 align:start position:0%
+ 
+login <00:17:20.845><c>is </c><00:17:21.150><c>equal </c><00:17:21.455><c>to </c><00:17:21.760><c>this, </c><00:17:22.065><c>here </c><00:17:22.370><c>is</c>
+
+00:17:23.550 --> 00:17:23.560 align:start position:0%
+login is equal to this, here is
+ 
+
+00:17:23.560 --> 00:17:25.290 align:start position:0%
+login is equal to this, here is
+the value of
+
+00:17:25.290 --> 00:17:25.300 align:start position:0%
+the value of
+ 
+
+00:17:25.300 --> 00:17:29.460 align:start position:0%
+the value of
+the <00:17:25.710><c>variable, </c><00:17:26.120><c>like </c><00:17:26.530><c>they</c>
+
+00:17:29.460 --> 00:17:29.470 align:start position:0%
+the variable, like they
+ 
+
+00:17:29.470 --> 00:17:39.919 align:start position:0%
+the variable, like they
+gave <00:17:30.470><c>password,</c>
+
+00:17:39.919 --> 00:17:39.929 align:start position:0%
+ 
+ 
+
+00:17:39.929 --> 00:17:42.830 align:start position:0%
+ 
+here <00:17:40.264><c>instead </c><00:17:40.599><c>of </c><00:17:40.934><c>this, </c><00:17:41.269><c>sunrise </c><00:17:41.604><c>is </c><00:17:41.939><c>supplied </c><00:17:42.274><c>here</c>
+
+00:17:42.830 --> 00:17:42.840 align:start position:0%
+here instead of this, sunrise is supplied here
+ 
+
+00:17:42.840 --> 00:17:44.779 align:start position:0%
+here instead of this, sunrise is supplied here
+
+
+00:17:44.779 --> 00:17:44.789 align:start position:0%
+ 
+ 
+
+00:17:44.789 --> 00:17:48.320 align:start position:0%
+ 
+.
+
+00:17:48.320 --> 00:17:48.330 align:start position:0%
+ 
+ 
+
+00:17:48.330 --> 00:18:08.450 align:start position:0%
+ 
+Next, <00:17:48.645><c>whether </c><00:17:48.960><c>you </c><00:17:49.275><c>want </c><00:17:49.590><c>rap</c>
+
+00:18:08.450 --> 00:18:08.460 align:start position:0%
+ 
+ 
+
+00:18:08.460 --> 00:18:12.080 align:start position:0%
+ 
+or <00:18:09.470><c>not, </c><00:18:10.480><c>you</c>
+
+00:18:12.080 --> 00:18:12.090 align:start position:0%
+or not, you
+ 
+
+00:18:12.090 --> 00:18:16.730 align:start position:0%
+or not, you
+only <00:18:12.985><c>need </c><00:18:13.880><c>to </c><00:18:14.775><c>extract </c><00:18:15.670><c>one</c>
+
+00:18:16.730 --> 00:18:16.740 align:start position:0%
+only need to extract one
+ 
+
+00:18:16.740 --> 00:18:20.750 align:start position:0%
+only need to extract one
+entry.
+
+00:18:20.750 --> 00:18:20.760 align:start position:0%
+ 
+ 
+
+00:18:20.760 --> 00:18:24.020 align:start position:0%
+ 
+So, <00:18:21.790><c>we'll</c>
+
+00:18:24.020 --> 00:18:24.030 align:start position:0%
+So, we'll
+ 
+
+00:18:24.030 --> 00:18:28.490 align:start position:0%
+So, we'll
+use <00:18:24.613><c>the </c><00:18:25.196><c>array </c><00:18:25.779><c>entry</c>
+
+00:18:28.490 --> 00:18:28.500 align:start position:0%
+use the array entry
+ 
+
+00:18:28.500 --> 00:18:33.980 align:start position:0%
+use the array entry
+lever.
+
+00:18:33.980 --> 00:18:33.990 align:start position:0%
+ 
+ 
+
+00:18:33.990 --> 00:18:37.520 align:start position:0%
+ 
+So, <00:18:34.920><c>we </c><00:18:35.850><c>check.</c>
+
+00:18:37.520 --> 00:18:37.530 align:start position:0%
+So, we check.
+ 
+
+00:18:37.530 --> 00:18:43.250 align:start position:0%
+So, we check.
+Next, <00:18:38.155><c>you </c><00:18:38.780><c>can </c><00:18:39.405><c>check </c><00:18:40.030><c>them </c><00:18:40.655><c>in </c><00:18:41.280><c>two </c><00:18:41.905><c>ways.</c>
+
+00:18:43.250 --> 00:18:43.260 align:start position:0%
+Next, you can check them in two ways.
+ 
+
+00:18:43.260 --> 00:18:45.470 align:start position:0%
+Next, you can check them in two ways.
+So, <00:18:43.985><c>let's </c><00:18:44.710><c>first</c>
+
+00:18:45.470 --> 00:18:45.480 align:start position:0%
+So, let's first
+ 
+
+00:18:45.480 --> 00:18:53.810 align:start position:0%
+So, let's first
+print out
+
+00:18:53.810 --> 00:18:53.820 align:start position:0%
+ 
+ 
+
+00:18:53.820 --> 00:19:19.760 align:start position:0%
+ 
+that <00:18:54.620><c>we </c><00:18:55.420><c>have</c>
+
+00:19:19.760 --> 00:19:19.770 align:start position:0%
+ 
+ 
+
+00:19:19.770 --> 00:19:25.790 align:start position:0%
+ 
+Heidi <00:19:20.375><c>there, </c><00:19:20.980><c>one.</c>
+
+00:19:25.790 --> 00:19:25.800 align:start position:0%
+ 
+ 
+
+00:19:25.800 --> 00:19:29.180 align:start position:0%
+ 
+So, <00:19:26.975><c>we </c><00:19:28.150><c>check</c>
+
+00:19:29.180 --> 00:19:29.190 align:start position:0%
+So, we check
+ 
+
+00:19:29.190 --> 00:19:32.330 align:start position:0%
+So, we check
+if
+
+00:19:32.330 --> 00:19:32.340 align:start position:0%
+ 
+ 
+
+00:19:32.340 --> 00:19:36.530 align:start position:0%
+ 
+the variable,
+
+00:19:36.530 --> 00:19:36.540 align:start position:0%
+ 
+ 
+
+00:19:36.540 --> 00:19:40.490 align:start position:0%
+ 
+if
+
+00:19:40.490 --> 00:19:40.500 align:start position:0%
+ 
+ 
+
+00:19:40.500 --> 00:19:43.970 align:start position:0%
+ 
+Ray,
+
+00:19:43.970 --> 00:19:43.980 align:start position:0%
+ 
+ 
+
+00:19:43.980 --> 00:19:48.170 align:start position:0%
+ 
+if <00:19:44.281><c>you </c><00:19:44.582><c>go </c><00:19:44.883><c>yourself, </c><00:19:45.184><c>the </c><00:19:45.485><c>nickname </c><00:19:45.786><c>is</c>
+
+00:19:48.170 --> 00:19:48.180 align:start position:0%
+ 
+ 
+
+00:19:48.180 --> 00:19:50.030 align:start position:0%
+ 
+greater <00:19:48.513><c>than </c><00:19:48.846><c>0. </c><00:19:49.179><c>I</c>
+
+00:19:50.030 --> 00:19:50.040 align:start position:0%
+greater than 0. I
+ 
+
+00:19:50.040 --> 00:19:53.520 align:start position:0%
+greater than 0. I
+mean, <00:19:50.395><c>not </c><00:19:50.750><c>that </c><00:19:51.105><c>his </c><00:19:51.460><c>login </c><00:19:51.815><c>is </c><00:19:52.170><c>equal </c><00:19:52.525><c>to</c>
+
+00:19:53.520 --> 00:19:53.530 align:start position:0%
+mean, not that his login is equal to
+ 
+
+00:19:53.530 --> 00:19:59.810 align:start position:0%
+mean, not that his login is equal to
+one <00:19:53.987><c>because </c><00:19:54.444><c>it </c><00:19:54.901><c>was </c><00:19:55.358><c>found.</c>
+
+00:19:59.810 --> 00:19:59.820 align:start position:0%
+ 
+ 
+
+00:19:59.820 --> 00:20:01.400 align:start position:0%
+ 
+Next,
+
+00:20:01.400 --> 00:20:01.410 align:start position:0%
+Next,
+ 
+
+00:20:01.410 --> 00:20:08.540 align:start position:0%
+Next,
+we'll <00:20:01.832><c>record </c><00:20:02.254><c>the </c><00:20:02.676><c>session </c><00:20:03.098><c>for</c>
+
+00:20:08.540 --> 00:20:08.550 align:start position:0%
+ 
+ 
+
+00:20:08.550 --> 00:20:11.180 align:start position:0%
+ 
+sessions
+
+00:20:11.180 --> 00:20:11.190 align:start position:0%
+sessions
+ 
+
+00:20:11.190 --> 00:20:14.750 align:start position:0%
+sessions
+[music].
+
+00:20:14.750 --> 00:20:14.760 align:start position:0%
+ 
+ 
+
+00:20:14.760 --> 00:20:20.030 align:start position:0%
+ 
+The login
+
+00:20:20.030 --> 00:20:20.040 align:start position:0%
+ 
+ 
+
+00:20:20.040 --> 00:20:23.130 align:start position:0%
+ 
+here <00:20:20.378><c>can </c><00:20:20.716><c>be </c><00:20:21.054><c>any </c><00:20:21.392><c>value, </c><00:20:21.730><c>be </c><00:20:22.068><c>it </c><00:20:22.406><c>something </c><00:20:22.744><c>like</c>
+
+00:20:23.130 --> 00:20:25.760 align:start position:0%
+here can be any value, be it something like
+ 
+
+00:20:25.760 --> 00:20:25.770 align:start position:0%
+ 
+ 
+
+00:20:25.770 --> 00:20:34.190 align:start position:0%
+ 
+Ruby. So, we'll record the
+
+00:20:34.190 --> 00:20:37.160 align:start position:0%
+ 
+ 
+
+00:20:37.160 --> 00:20:37.170 align:start position:0%
+ 
+ 
+
+00:20:37.170 --> 00:20:40.620 align:start position:0%
+ 
+login <00:20:37.550><c>itself, </c><00:20:37.930><c>which </c><00:20:38.310><c>is </c><00:20:38.690><c>from </c><00:20:39.070><c>the </c><00:20:39.450><c>database. </c><00:20:39.830><c>How </c><00:20:40.210><c>many</c>
+
+00:20:40.620 --> 00:20:40.630 align:start position:0%
+login itself, which is from the database. How many
+ 
+
+00:20:40.630 --> 00:20:43.250 align:start position:0%
+login itself, which is from the database. How many
+here? <00:20:40.825><c>Hover </c><00:20:41.020><c>over </c><00:20:41.215><c>it. </c><00:20:41.410><c>You </c><00:20:41.605><c>need </c><00:20:41.800><c>to </c><00:20:41.995><c>select </c><00:20:42.190><c>the </c><00:20:42.385><c>login </c><00:20:42.580><c>again.</c>
+
+00:20:43.250 --> 00:20:43.260 align:start position:0%
+here? Hover over it. You need to select the login again.
+ 
+
+00:20:43.260 --> 00:20:46.250 align:start position:0%
+here? Hover over it. You need to select the login again.
+
+
+00:20:46.250 --> 00:20:46.260 align:start position:0%
+ 
+ 
+
+00:20:46.260 --> 00:20:48.990 align:start position:0%
+ 
+Database. <00:20:46.754><c>Get </c><00:20:47.248><c>your </c><00:20:47.742><c>melancholy </c><00:20:48.236><c>and </c><00:20:48.730><c>magic.</c>
+
+00:20:48.990 --> 00:20:49.000 align:start position:0%
+Database. Get your melancholy and magic.
+ 
+
+00:20:49.000 --> 00:20:52.830 align:start position:0%
+Database. Get your melancholy and magic.
+Login. <00:20:49.540><c>This </c><00:20:50.080><c>is </c><00:20:50.620><c>what </c><00:20:51.160><c>your </c><00:20:51.700><c>database </c><00:20:52.240><c>login </c><00:20:52.780><c>is</c>
+
+00:20:52.830 --> 00:20:52.840 align:start position:0%
+Login. This is what your database login is
+ 
+
+00:20:52.840 --> 00:20:58.640 align:start position:0%
+Login. This is what your database login is
+assigned <00:20:53.596><c>to. </c><00:20:54.352><c>Cry </c><00:20:55.108><c>minus </c><00:20:55.864><c>Logan </c><00:20:56.620><c>himself.</c>
+
+00:20:58.640 --> 00:20:58.650 align:start position:0%
+assigned to. Cry minus Logan himself.
+ 
+
+00:20:58.650 --> 00:21:02.000 align:start position:0%
+assigned to. Cry minus Logan himself.
+So, <00:20:59.990><c>if </c><00:21:01.330><c>we</c>
+
+00:21:02.000 --> 00:21:02.010 align:start position:0%
+So, if we
+ 
+
+00:21:02.010 --> 00:21:05.460 align:start position:0%
+So, if we
+opened <00:21:02.375><c>it, </c><00:21:02.740><c>we </c><00:21:03.105><c>need </c><00:21:03.470><c>to </c><00:21:03.835><c>open </c><00:21:04.200><c>it </c><00:21:04.565><c>again.</c>
+
+00:21:05.460 --> 00:21:05.470 align:start position:0%
+opened it, we need to open it again.
+ 
+
+00:21:05.470 --> 00:21:08.120 align:start position:0%
+opened it, we need to open it again.
+
+
+00:21:08.120 --> 00:21:08.130 align:start position:0%
+ 
+ 
+
+00:21:08.130 --> 00:21:14.870 align:start position:0%
+ 
+This <00:21:08.454><c>is </c><00:21:08.778><c>done </c><00:21:09.102><c>using </c><00:21:09.426><c>the</c>
+
+00:21:14.870 --> 00:21:14.880 align:start position:0%
+ 
+ 
+
+00:21:14.880 --> 00:21:18.260 align:start position:0%
+ 
+
+
+00:21:18.260 --> 00:21:18.270 align:start position:0%
+ 
+ 
+
+00:21:18.270 --> 00:21:29.909 align:start position:0%
+ 
+Scart system,
+
+00:21:29.909 --> 00:21:29.919 align:start position:0%
+ 
+ 
+
+00:21:29.919 --> 00:21:33.779 align:start position:0%
+ 
+so <00:21:30.992><c>we'll </c><00:21:32.065><c>need </c><00:21:33.138><c>to</c>
+
+00:21:33.779 --> 00:21:33.789 align:start position:0%
+so we'll need to
+ 
+
+00:21:33.789 --> 00:21:36.399 align:start position:0%
+so we'll need to
+redirect <00:21:34.316><c>the </c><00:21:34.843><c>user </c><00:21:35.370><c>to </c><00:21:35.897><c>another</c>
+
+00:21:36.399 --> 00:21:36.409 align:start position:0%
+redirect the user to another
+ 
+
+00:21:36.409 --> 00:21:44.190 align:start position:0%
+redirect the user to another
+page.   <00:21:36.889><c>We</c>
+
+00:21:44.190 --> 00:21:44.200 align:start position:0%
+ 
+ 
+
+00:21:44.200 --> 00:21:48.600 align:start position:0%
+ 
+'re <00:21:44.685><c>doing </c><00:21:45.170><c>a </c><00:21:45.655><c>redirect. </c><00:21:46.140><c>I </c><00:21:46.625><c>have </c><00:21:47.110><c>a </c><00:21:47.595><c>video </c><00:21:48.080><c>tutorial.</c>
+
+00:21:48.600 --> 00:21:48.610 align:start position:0%
+'re doing a redirect. I have a video tutorial.
+ 
+
+00:21:48.610 --> 00:21:53.289 align:start position:0%
+'re doing a redirect. I have a video tutorial.
+I <00:21:49.076><c>saw </c><00:21:49.542><c>it </c><00:21:50.008><c>on </c><00:21:50.474><c>redirect. </c><00:21:50.940><c>We'll </c><00:21:51.406><c>be </c><00:21:51.872><c>coloring </c><00:21:52.338><c>the</c>
+
+00:21:53.289 --> 00:21:53.299 align:start position:0%
+I saw it on redirect. We'll be coloring the
+ 
+
+00:21:53.299 --> 00:21:56.580 align:start position:0%
+I saw it on redirect. We'll be coloring the
+admin's <00:21:54.034><c>Skype </c><00:21:54.769><c>page.</c>
+
+00:21:56.580 --> 00:21:56.590 align:start position:0%
+admin's Skype page.
+ 
+
+00:21:56.590 --> 00:22:02.460 align:start position:0%
+admin's Skype page.
+Look, <00:21:57.267><c>we </c><00:21:57.944><c>have </c><00:21:58.621><c>all </c><00:21:59.298><c>of </c><00:21:59.975><c>this </c><00:22:00.652><c>under </c><00:22:01.329><c>one</c>
+
+00:22:02.460 --> 00:22:02.470 align:start position:0%
+Look, we have all of this under one
+ 
+
+00:22:02.470 --> 00:22:05.710 align:start position:0%
+Look, we have all of this under one
+admin.  <00:22:02.970><c>and </c><00:22:03.470><c>there </c><00:22:03.970><c>is </c><00:22:04.470><c>processing </c><00:22:04.970><c>of</c>
+
+00:22:05.710 --> 00:22:05.720 align:start position:0%
+admin.  and there is processing of
+ 
+
+00:22:05.720 --> 00:22:09.340 align:start position:0%
+admin.  and there is processing of
+the <00:22:05.945><c>page </c><00:22:06.170><c>itself </c><00:22:06.395><c>with </c><00:22:06.620><c>the </c><00:22:06.845><c>admin </c><00:22:07.070><c>panel, </c><00:22:07.295><c>but </c><00:22:07.520><c>the </c><00:22:07.745><c>closed </c><00:22:07.970><c>page </c><00:22:08.195><c>itself </c><00:22:08.420><c>will </c><00:22:08.645><c>be </c><00:22:08.870><c>located</c>
+
+00:22:09.340 --> 00:22:09.350 align:start position:0%
+the page itself with the admin panel, but the closed page itself will be located
+ 
+
+00:22:09.350 --> 00:22:12.930 align:start position:0%
+the page itself with the admin panel, but the closed page itself will be located
+at <00:22:09.800><c>this </c><00:22:10.250><c>address,</c>
+
+00:22:12.930 --> 00:22:16.409 align:start position:0%
+ 
+ 
+
+00:22:16.409 --> 00:22:16.419 align:start position:0%
+ 
+ 
+
+00:22:16.419 --> 00:22:19.289 align:start position:0%
+ 
+
+
+00:22:19.289 --> 00:22:26.700 align:start position:0%
+ 
+ 
+
+00:22:26.700 --> 00:22:26.710 align:start position:0%
+ 
+ 
+
+00:22:26.710 --> 00:22:32.340 align:start position:0%
+ 
+otherwise <00:22:27.083><c>we </c><00:22:27.456><c>will </c><00:22:27.829><c>be</c>
+
+00:22:32.340 --> 00:22:32.350 align:start position:0%
+ 
+ 
+
+00:22:32.350 --> 00:22:35.369 align:start position:0%
+ 
+redrawn <00:22:32.954><c>to </c><00:22:33.558><c>the</c>
+
+00:22:35.369 --> 00:22:35.379 align:start position:0%
+redrawn to the
+ 
+
+00:22:35.379 --> 00:22:36.940 align:start position:0%
+redrawn to the
+login <00:22:36.379><c>page.</c>
+
+00:22:36.940 --> 00:22:36.950 align:start position:0%
+login page.
+ 
+
+00:22:36.950 --> 00:22:44.750 align:start position:0%
+login page.
+[music]
+
+00:22:44.750 --> 00:22:44.760 align:start position:0%
+ 
+ 
+
+00:22:44.760 --> 00:22:53.330 align:start position:0%
+ 
+as <00:22:45.041><c>it </c><00:22:45.322><c>will </c><00:22:45.603><c>be </c><00:22:45.884><c>necessary </c><00:22:46.165><c>for </c><00:22:46.446><c>the </c><00:22:46.727><c>USA </c><00:22:47.008><c>to </c><00:22:47.289><c>start,</c>
+
+00:22:53.330 --> 00:22:53.340 align:start position:0%
+ 
+ 
+
+00:22:53.340 --> 00:22:59.450 align:start position:0%
+ 
+insert <00:22:53.840><c>it </c><00:22:54.340><c>here</c>
+
+00:22:59.450 --> 00:22:59.460 align:start position:0%
+ 
+ 
+
+00:22:59.460 --> 00:23:02.080 align:start position:0%
+ 
+and
+
+00:23:02.080 --> 00:23:02.090 align:start position:0%
+ 
+ 
+
+00:23:02.090 --> 00:23:04.090 align:start position:0%
+ 
+
+
+00:23:04.090 --> 00:23:04.100 align:start position:0%
+ 
+ 
+
+00:23:04.100 --> 00:23:17.149 align:start position:0%
+ 
+write <00:23:04.600><c>here </c><00:23:05.100><c>what</c>
+
+00:23:17.149 --> 00:23:17.159 align:start position:0%
+ 
+ 
+
+00:23:17.159 --> 00:23:39.640 align:start position:0%
+ 
+you <00:23:17.659><c>will </c><00:23:18.159><c>take,</c>
+
+00:23:39.640 --> 00:23:39.650 align:start position:0%
+ 
+ 
+
+00:23:39.650 --> 00:23:41.260 align:start position:0%
+ 
+so
+
+00:23:41.260 --> 00:23:41.270 align:start position:0%
+so
+ 
+
+00:23:41.270 --> 00:23:44.500 align:start position:0%
+so
+we check the
+
+00:23:44.500 --> 00:23:44.510 align:start position:0%
+ 
+ 
+
+00:23:44.510 --> 00:23:50.350 align:start position:0%
+ 
+g.  <00:23:45.383><c>There's </c><00:23:46.256><c>something </c><00:23:47.129><c>incomprehensible,</c>
+
+00:23:50.350 --> 00:23:50.360 align:start position:0%
+ 
+ 
+
+00:23:50.360 --> 00:23:55.960 align:start position:0%
+ 
+betten <00:23:51.360><c>1</c>
+
+00:23:55.960 --> 00:23:55.970 align:start position:0%
+ 
+ 
+
+00:23:55.970 --> 00:23:58.990 align:start position:0%
+ 
+x <00:23:56.970><c>1</c>
+
+00:23:58.990 --> 00:23:59.000 align:start position:0%
+x 1
+ 
+
+00:23:59.000 --> 00:24:05.100 align:start position:0%
+x 1
+day,
+
+00:24:05.100 --> 00:24:05.110 align:start position:0%
+ 
+ 
+
+00:24:05.110 --> 00:24:10.180 align:start position:0%
+ 
+log <00:24:05.563><c>in, </c><00:24:06.016><c>and </c><00:24:06.469><c>the </c><00:24:06.922><c>object </c><00:24:07.375><c>we </c><00:24:07.828><c>have </c><00:24:08.281><c>isn't </c><00:24:08.734><c>all </c><00:24:09.187><c>there.</c>
+
+00:24:10.180 --> 00:24:10.190 align:start position:0%
+log in, and the object we have isn't all there.
+ 
+
+00:24:10.190 --> 00:24:12.430 align:start position:0%
+log in, and the object we have isn't all there.
+Why <00:24:10.460><c>did </c><00:24:10.730><c>it </c><00:24:11.000><c>happen? </c><00:24:11.270><c>About </c><00:24:11.540><c>some </c><00:24:11.810><c>address </c><00:24:12.080><c>for </c><00:24:12.350><c>a</c>
+
+00:24:12.430 --> 00:24:12.440 align:start position:0%
+Why did it happen? About some address for a
+ 
+
+00:24:12.440 --> 00:24:14.590 align:start position:0%
+Why did it happen? About some address for a
+flight, <00:24:12.631><c>and </c><00:24:12.822><c>something </c><00:24:13.013><c>is </c><00:24:13.204><c>clear. </c><00:24:13.395><c>Something </c><00:24:13.586><c>is </c><00:24:13.777><c>being </c><00:24:13.968><c>processed</c>
+
+00:24:14.590 --> 00:24:14.600 align:start position:0%
+flight, and something is clear. Something is being processed
+ 
+
+00:24:14.600 --> 00:24:18.300 align:start position:0%
+flight, and something is clear. Something is being processed
+here. We're tying up the
+
+00:24:18.300 --> 00:24:18.310 align:start position:0%
+ 
+ 
+
+00:24:18.310 --> 00:24:25.080 align:start position:0%
+ 
+location. <00:24:19.310><c>I</c>
+
+00:24:25.080 --> 00:24:25.090 align:start position:0%
+ 
+ 
+
+00:24:25.090 --> 00:24:29.590 align:start position:0%
+ 
+raised <00:24:25.866><c>the </c><00:24:26.642><c>issue </c><00:24:27.418><c>here. </c><00:24:28.194><c>So, </c><00:24:28.970><c>now</c>
+
+00:24:29.590 --> 00:24:36.120 align:start position:0%
+raised the issue here. So, now
+ 
+
+00:24:36.120 --> 00:24:36.130 align:start position:0%
+ 
+ 
+
+00:24:36.130 --> 00:24:40.080 align:start position:0%
+ 
+again <00:24:36.883><c>in </c><00:24:37.636><c>the </c><00:24:38.389><c>water,</c>
+
+00:24:40.080 --> 00:24:40.090 align:start position:0%
+again in the water,
+ 
+
+00:24:40.090 --> 00:24:44.110 align:start position:0%
+again in the water,
+so <00:24:40.468><c>something's </c><00:24:40.846><c>been </c><00:24:41.224><c>unclear </c><00:24:41.602><c>for </c><00:24:41.980><c>an </c><00:24:42.358><c>hour. </c><00:24:42.736><c>It's </c><00:24:43.114><c>so</c>
+
+00:24:44.110 --> 00:24:44.120 align:start position:0%
+so something's been unclear for an hour. It's so
+ 
+
+00:24:44.120 --> 00:24:48.030 align:start position:0%
+so something's been unclear for an hour. It's so
+good <00:24:44.890><c>here, </c><00:24:45.660><c>one </c><00:24:46.430><c>view.</c>
+
+00:24:48.030 --> 00:24:48.040 align:start position:0%
+good here, one view.
+ 
+
+00:24:48.040 --> 00:24:52.740 align:start position:0%
+good here, one view.
+So, <00:24:48.450><c>you're </c><00:24:48.860><c>in </c><00:24:49.270><c>the </c><00:24:49.680><c>admin </c><00:24:50.090><c>panel.</c>
+
+00:24:52.740 --> 00:24:52.750 align:start position:0%
+ 
+ 
+
+00:24:52.750 --> 00:24:56.580 align:start position:0%
+ 
+The <00:24:53.081><c>lesson </c><00:24:53.412><c>turned </c><00:24:53.743><c>out </c><00:24:54.074><c>to </c><00:24:54.405><c>be </c><00:24:54.736><c>too </c><00:24:55.067><c>long. </c><00:24:55.398><c>Let's</c>
+
+00:24:56.580 --> 00:24:56.590 align:start position:0%
+The lesson turned out to be too long. Let's
+ 
+
+00:24:56.590 --> 00:24:58.690 align:start position:0%
+The lesson turned out to be too long. Let's
+continue
+
+00:24:58.690 --> 00:24:58.700 align:start position:0%
+continue
+ 
+
+00:24:58.700 --> 00:25:00.550 align:start position:0%
+continue
+improving <00:24:59.180><c>the </c><00:24:59.660><c>admin</c>
+
+00:25:00.550 --> 00:25:00.560 align:start position:0%
+improving the admin
+ 
+
+00:25:00.560 --> 00:25:04.200 align:start position:0%
+improving the admin
+panel. <00:25:01.022><c>That's </c><00:25:01.484><c>all </c><00:25:01.946><c>for </c><00:25:02.408><c>me.</c>
+
+00:25:04.200 --> 00:25:04.210 align:start position:0%
+panel. That's all for me.
+ 
+
+00:25:04.210 --> 00:25:06.400 align:start position:0%
+panel. That's all for me.
+Subscribe <00:25:04.602><c>to </c><00:25:04.994><c>the </c><00:25:05.386><c>channel, </c><00:25:05.778><c>like,</c>
+
+00:25:06.400 --> 00:25:06.410 align:start position:0%
+Subscribe to the channel, like,
+ 
+
+00:25:06.410 --> 00:25:08.140 align:start position:0%
+Subscribe to the channel, like,
+write <00:25:06.710><c>comments, </c><00:25:07.010><c>reply </c><00:25:07.310><c>to </c><00:25:07.610><c>everyone. </c><00:25:07.910><c>Goodbye.</c>
+
+00:25:08.140 --> 00:25:08.150 align:start position:0%
+write comments, reply to everyone. Goodbye.
+ 
+
+00:25:08.150 --> 00:25:10.720 align:start position:0%
+write comments, reply to everyone. Goodbye.
+
+
