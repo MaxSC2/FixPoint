@@ -82,6 +82,44 @@ final class HelpersTest extends TestCase
         $this->assertSame('a@example.test', old_value(['email' => 'a@example.test'], 'email'));
     }
 
+    public function testRussianPluralHelperHandlesNumberBoundaries(): void
+    {
+        $cases = [
+            0 => 'заявок',
+            1 => 'заявка',
+            2 => 'заявки',
+            4 => 'заявки',
+            5 => 'заявок',
+            10 => 'заявок',
+            11 => 'заявок',
+            12 => 'заявок',
+            14 => 'заявок',
+            15 => 'заявок',
+            20 => 'заявок',
+            21 => 'заявка',
+            22 => 'заявки',
+            24 => 'заявки',
+            25 => 'заявок',
+            31 => 'заявка',
+            101 => 'заявка',
+            111 => 'заявок',
+            114 => 'заявок',
+            121 => 'заявка',
+        ];
+
+        foreach ($cases as $number => $expected) {
+            $this->assertSame(
+                $expected,
+                ru_plural($number, 'заявка', 'заявки', 'заявок'),
+                'Unexpected Russian plural for ' . $number
+            );
+        }
+
+        $this->assertSame('услуга', ru_plural(1, 'услуга', 'услуги', 'услуг'));
+        $this->assertSame('услуги', ru_plural(3, 'услуга', 'услуги', 'услуг'));
+        $this->assertSame('услуг', ru_plural(8, 'услуга', 'услуги', 'услуг'));
+    }
+
     public function testBasePathPointsToRepositoryRoot(): void
     {
         $this->assertSame(BASE_PATH, base_path());
