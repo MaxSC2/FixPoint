@@ -314,6 +314,87 @@ final class TechnicianHttpTest extends IntegrationTestCase
         $this->assertSame(null, $this->requestRow($terminal)['diagnostic_result']);
     }
 
+    public function testTechnicianCannotBypassOrChangeSubmittedEstimate(): void
+    {
+        $diagnostic = 'TASK004: обнаружена неисправность системы охлаждения.';
+        $requestId = $this->createFixture([
+            'status' => 'diagnostics',
+            'diagnostic_result' => $diagnostic,
+            'estimated_cost' => '15000.49',
+            'estimated_ready_at' => '2026-12-01 15:30:00',
+        ]);
+        $this->loginAs(self::TECHNICIAN);
+
+        // A quote exists, so neither direct repair nor parts-waiting may
+        // bypass the customer's explicit approval.
+        $directRepair = $this->post('/technician/requests/' . $requestId . '/status', [
+            'status' => 'repairing',
+        ]);
+        $this->assertSame(302, $directRepair->status());
+        $this->assertSame('diagnostics', $this->requestRow($requestId)['status']);
+
+        $partsBypass = $this->post('/technician/requests/' . $requestId . '/status', [
+            'status' => 'awaiting_parts',
+        ]);
+        $this->assertSame(302, $partsBypass->status());
+        $this->assertSame('diagnostics', $this->requestRow($requestId)['status']);
+
+        $this->assertContains(
+            'Сначала отправьте смету клиенту',
+            app()->handle(Request::create('GET', '/technician/requests/' . $requestId))->body()
+        );
+
+        $submitted = $this->post('/technician/requests/' . $requestId . '/status', [
+            'status' => 'awaiting_customer_approval',
+            'reason' => 'TASK004: смета отправлена клиенту.',
+        ]);
+        $this->assertSame(302, $submitted->status());
+        $this->assertSame('awaiting_customer_approval', $this->requestRow($requestId)['status']);
+
+        // Once submitted, the technician cannot silently change or clear the
+        // amount, diagnosis or readiness date while the customer is deciding.
+        $mutationWhilePending = $this->post('/technician/requests/' . $requestId . '/diagnosis', [
+            'diagnostic_result' => 'TASK004: новая диагностика с другой стоимостью.',
+            'estimated_cost' => '20000.00',
+            'estimated_ready_at' => '2026-12-05T15:30',
+        ]);
+        $this->assertSame(302, $mutationWhilePending->status());
+        $pendingRow = $this->requestRow($requestId);
+        $this->assertSame($diagnostic, $pendingRow['diagnostic_result']);
+        $this->assertSame('15000.49', $pendingRow['estimated_cost']);
+        $this->assertSame('2026-12-01 15:30:00', $pendingRow['estimated_ready_at']);
+
+        // Staff cannot approve or reject on behalf of the customer.
+        foreach (['repairing', 'cancelled'] as $staffDecision) {
+            $staffAttempt = $this->post('/technician/requests/' . $requestId . '/status', [
+                'status' => $staffDecision,
+            ]);
+            $this->assertSame(302, $staffAttempt->status());
+            $this->assertSame('awaiting_customer_approval', $this->requestRow($requestId)['status']);
+        }
+
+        $this->logout();
+        $this->loginAs(self::CUSTOMER);
+        $customerApproval = $this->post('/requests/' . $requestId . '/estimate-decision', [
+            'decision' => 'approve',
+        ]);
+        $this->assertSame(302, $customerApproval->status());
+        $this->assertSame('repairing', $this->requestRow($requestId)['status']);
+
+        $this->logout();
+        $this->loginAs(self::TECHNICIAN);
+        $mutationAfterApproval = $this->post('/technician/requests/' . $requestId . '/diagnosis', [
+            'diagnostic_result' => 'TASK004: попытка переписать согласованную стоимость.',
+            'estimated_cost' => '25000.00',
+            'estimated_ready_at' => '2026-12-10T15:30',
+        ]);
+        $this->assertSame(302, $mutationAfterApproval->status());
+        $approvedRow = $this->requestRow($requestId);
+        $this->assertSame($diagnostic, $approvedRow['diagnostic_result']);
+        $this->assertSame('15000.49', $approvedRow['estimated_cost']);
+        $this->assertSame('2026-12-01 15:30:00', $approvedRow['estimated_ready_at']);
+    }
+
     public function testStatusTransitionsUseMatrixAndHistory(): void
     {
         $requestId = $this->createFixture(['status' => 'repairing']);
