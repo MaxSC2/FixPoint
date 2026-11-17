@@ -436,13 +436,15 @@ final class RequestService
         $isAdmin = $role === 'admin';
         $isAssigned = $role === 'technician'
             && (int) ($request['technician_id'] ?? 0) === (int) ($user['id'] ?? 0);
-        $canAct = ($isAdmin || $isAssigned)
-            && !$this->statuses->isTerminal((string) ($request['status'] ?? ''));
+        $status = (string) ($request['status'] ?? '');
+        $canAct = ($isAdmin || $isAssigned) && !$this->statuses->isTerminal($status);
+        $isAwaitingCustomerDecision = $status === 'awaiting_customer_approval';
 
         return [
-            'can_edit_diagnosis' => $canAct,
+            'can_edit_diagnosis' => $canAct && $status === 'diagnostics',
             'can_change_status' => $canAct
-                && $this->statuses->allowedTransitions((string) ($request['status'] ?? '')) !== [],
+                && !$isAwaitingCustomerDecision
+                && $this->statuses->allowedTransitions($status) !== [],
             'can_comment' => $isAdmin || $isAssigned,
         ];
     }
@@ -474,9 +476,15 @@ final class RequestService
         if ($request === null) {
             throw new HttpException(404, 'Request not found');
         }
-        if ($this->statuses->isTerminal((string) $request['status'])) {
+        $currentStatus = (string) $request['status'];
+        if ($this->statuses->isTerminal($currentStatus)) {
             throw new ValidationException([
                 'general' => 'Завершённую заявку нельзя редактировать.',
+            ]);
+        }
+        if ($currentStatus !== 'diagnostics') {
+            throw new ValidationException([
+                'general' => 'Диагностику и смету можно изменить только на этапе диагностики. После отправки сметы клиенту изменения заблокированы.',
             ]);
         }
 
@@ -495,14 +503,17 @@ final class RequestService
         $estimatedCost = null;
         $rawCost = $this->scalar($input['estimated_cost'] ?? '');
         if ($rawCost !== '') {
-            if (!is_numeric($rawCost)) {
-                $errors['estimated_cost'] = 'Укажите стоимость числом.';
+            if (!preg_match('/\\A\\d+(?:\\.\\d{1,2})?\\z/', $rawCost)) {
+                $errors['estimated_cost'] = 'Укажите сумму числом, не более чем с двумя знаками после запятой.';
             } else {
-                $amount = (float) $rawCost;
-                if ($amount < 0 || $amount > 99999999.99) {
+                [$wholePart, $fractionPart] = array_pad(explode('.', $rawCost, 2), 2, '');
+                $wholePart = ltrim($wholePart, '0');
+                $wholePart = $wholePart === '' ? '0' : $wholePart;
+
+                if (strlen($wholePart) > 8) {
                     $errors['estimated_cost'] = 'Стоимость должна быть в диапазоне от 0 до 99 999 999,99.';
                 } else {
-                    $estimatedCost = number_format($amount, 2, '.', '');
+                    $estimatedCost = $wholePart . '.' . str_pad($fractionPart, 2, '0');
                 }
             }
         }
@@ -521,7 +532,11 @@ final class RequestService
             throw new ValidationException($errors);
         }
 
-        $this->requests->updateDiagnosis($requestId, $diagnostic, $estimatedCost, $estimatedReadyAt);
+        if (!$this->requests->updateDiagnosis($requestId, $diagnostic, $estimatedCost, $estimatedReadyAt)) {
+            throw new ValidationException([
+                'general' => 'Этап заявки изменился. Обновите страницу: отправленную клиенту смету редактировать нельзя.',
+            ]);
+        }
     }
 
     /**
@@ -544,6 +559,23 @@ final class RequestService
                 'general' => 'Завершённую заявку нельзя изменить.',
             ]);
         }
+        if ($fromStatus === 'awaiting_customer_approval') {
+            throw new ValidationException([
+                'general' => 'Ожидается решение клиента по смете. Мастер не может подтвердить или отклонить её вместо клиента.',
+            ]);
+        }
+
+        $hasEstimate = $request['estimated_cost'] !== null
+            && (string) $request['estimated_cost'] !== '';
+        if ($hasEstimate
+            && in_array($fromStatus, ['diagnostics', 'awaiting_parts'], true)
+            && in_array($toStatus, ['awaiting_parts', 'repairing'], true)
+        ) {
+            throw new ValidationException([
+                'general' => 'Сначала отправьте смету клиенту и дождитесь его решения. Начинать ремонт или обходить согласование нельзя.',
+            ]);
+        }
+
         $this->statuses->assertTransition($fromStatus, $toStatus);
 
         $reason = trim($reason);
@@ -628,6 +660,11 @@ final class RequestService
         if ((string) $request['status'] !== 'awaiting_customer_approval') {
             throw new ValidationException([
                 'general' => 'Смета уже обработана или заявка находится в другом статусе.',
+            ]);
+        }
+        if ($request['estimated_cost'] === null || (string) $request['estimated_cost'] === '') {
+            throw new ValidationException([
+                'general' => 'Нельзя принять решение: мастер ещё не подготовил сумму сметы.',
             ]);
         }
 
