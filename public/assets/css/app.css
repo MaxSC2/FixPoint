@@ -2201,7 +2201,8 @@ h1 { font-weight: 760; }
 
 
 /* UX remediation pass — task-first authentication, stable hero callouts and legible data. */
-.auth-story { min-height: 560px; }
+.auth-story { grid-column: 1; grid-row: 1; min-height: 560px; }
+.auth-panel { grid-column: 2; grid-row: 1; }
 .auth-story h1 {
     max-width: 100%;
     font-size: clamp(2.55rem, 3.55vw, 3.4rem);
@@ -2210,8 +2211,8 @@ h1 { font-weight: 760; }
 .auth-story__steps small { font-size: .78rem; }
 .auth-panel__privacy { font-size: .74rem; }
 @media (max-width: 900px) {
-    /* On compact screens the form is the task; supporting copy follows it. */
-    .auth-panel { order: -1; }
+    /* The document order is form-first on compact screens, matching the visual order. */
+    .auth-story, .auth-panel { grid-column: 1; grid-row: auto; }
 }
 @media (max-width: 640px) {
     .auth-story h1 {
