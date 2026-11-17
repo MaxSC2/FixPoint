@@ -180,6 +180,7 @@ Seed создаёт 5 категорий, 10 услуг, 4 заявки, 15 за
 | POST | `/admin/categories` | `admin` | Создание категории каталога |
 | GET | `/admin/categories/{id}/edit` | `admin` | Форма редактирования категории |
 | POST | `/admin/categories/{id}/edit` | `admin` | Сохранение категории и её активности |
+| GET | `/admin/statistics` | `admin` | Агрегаты заявок за период; `from` и `to` в формате `ГГГГ-ММ-ДД` |
 
 Гость, открывший защищённый URL, получает redirect на
 `/login?return_to=...`; возврат разрешён только на локальный путь. Чужая роль
@@ -283,7 +284,7 @@ app/
   Middleware/            # Auth, Role, CSRF, SecurityHeaders
   Repositories/          # весь SQL (PDO prepared statements)
   Security/              # Auth, Csrf, PasswordHasher
-  Services/              # Auth, Catalog, AdminCatalog, Request, RequestStatus, DatabaseHealth
+  Services/              # Auth, Catalog, AdminCatalog, AdminStatistics, Request, RequestStatus, DatabaseHealth
   Support/views/         # временные backend-fallback страницы
 config/routes.php        # явная таблица маршрутов
 database/migrations/     # 6 forward-only SQL-миграций
@@ -349,8 +350,8 @@ DB_DATABASE=fixpoint_test APP_ENV=testing php tests/run.php
 Smoke-тест требует уже применённые миграции и seed в рабочей БД; порт
 переопределяется `SMOKE_PORT` (по умолчанию `8091`).
 
-Текущий результат на MySQL 8.4.6: линтер — 130/130 файлов, тесты — 173 passed,
-0 failed, 1622 assertions, smoke — 30/30 проверок.
+Текущий результат на MySQL 8.4.6: линтер — 133/133 файлов, тесты — 180 passed,
+0 failed, 1722 assertions, smoke — 30/30 проверок.
 
 ## Безопасность
 
@@ -384,16 +385,15 @@ Smoke-тест требует уже применённые миграции и 
   редактирование профиля и активности, защита последнего администратора.
   Управление каталогом работает: CRUD услуг и категорий, уникальные slug,
   валидация цены и времени, деактивация категории без удаления услуг.
-  Статистика — следующий этап TASK-005.
+  Статистика работает: агрегаты по периоду, распределение статусов, динамика
+  по месяцам без пропусков, топ-5 услуг и явная ошибка для некорректного
+  периода.
 - Публичная часть, auth-страницы, клиентские заявки, рабочее место мастера,
-  админ-дашборд, реестр заявок, пользователи, услуги и категории переведены на
-  общий UI-слой (адаптив, reveal-анимации, состояния форм). Ссылки на
-  `/admin/services` и `/admin/categories` рабочие; `/admin/statistics` пока
-  остаётся ссылкой без маршрута.
+  админ-дашборд, реестр заявок, пользователи, услуги, категории и статистика
+  переведены на общий UI-слой (адаптив, reveal-анимации, состояния форм).
+  Все ссылки админ-навигации ведут на рабочие маршруты.
 - `/about` и `/contacts` имеют реальные контроллеры и шаблоны в `app/Views`;
   backend-fallback остаётся страховкой для шаблонов, которых ещё нет.
-- Раздел статистики пока не выполняет запросов и не имеет маршрута; он
-  появится на следующем этапе TASK-005.
 - `request_status_history.created_at` остаётся в схеме; для view-модели он
   отдаётся alias-ом `changed_at` (решение зафиксировано).
 - `request_status_history.changed_by` остаётся `NOT NULL`: все переходы MVP

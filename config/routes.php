@@ -7,6 +7,7 @@ use FixPoint\Controllers\AdminCategoryController;
 use FixPoint\Controllers\AdminController;
 use FixPoint\Controllers\AdminRequestController;
 use FixPoint\Controllers\AdminServiceController;
+use FixPoint\Controllers\AdminStatisticsController;
 use FixPoint\Controllers\AdminUserController;
 use FixPoint\Controllers\AuthController;
 use FixPoint\Controllers\HealthController;
@@ -87,4 +88,5 @@ return static function (Router $router, App $app): void {
     $router->post('/admin/categories', [AdminCategoryController::class, 'store'], $adminOnly);
     $router->get('/admin/categories/{id:\d+}/edit', [AdminCategoryController::class, 'showEdit'], $adminOnly);
     $router->post('/admin/categories/{id:\d+}/edit', [AdminCategoryController::class, 'update'], $adminOnly);
+    $router->get('/admin/statistics', [AdminStatisticsController::class, 'index'], $adminOnly);
 };
