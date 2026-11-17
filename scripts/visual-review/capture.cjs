@@ -148,11 +148,14 @@ async function captureRoute(page, role, route, viewport, results, axeResults, fa
     if (metrics.horizontalOverflow) fatalErrors.push(role + ' ' + route + ' @ ' + viewport.name + ': horizontal overflow (' + metrics.documentWidth + 'px > ' + viewport.width + 'px)');
     if (metrics.duplicateMobileCustomerNavigation) fatalErrors.push(role + ' ' + route + ' @ ' + viewport.name + ': duplicate customer navigation is visible on mobile');
 
-    if (viewport.name === 'desktop-1440') {
+    const shouldRunAxe = viewport.name === 'desktop-1440'
+        || (role === 'public' && route === '/login'
+            && ['mobile-390', 'small-mobile-360'].includes(viewport.name));
+    if (shouldRunAxe) {
         try {
             const axe = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze();
             axeResults.push({
-                role, route,
+                role, route, viewport: viewport.name,
                 violations: axe.violations.map((v) => ({
                     id: v.id, impact: v.impact, description: v.description, help: v.help,
                     helpUrl: v.helpUrl, nodes: v.nodes.length,
@@ -269,7 +272,7 @@ async function main() {
     for (const item of axeResults) {
         for (const violation of item.violations || []) {
             if (['critical', 'serious'].includes(violation.impact)) {
-                fatalErrors.push(item.role + ' ' + item.route + ': serious accessibility violation ' + violation.id + ' (' + violation.nodes.length + ' node(s))');
+                fatalErrors.push(item.role + ' ' + item.route + ' @ ' + (item.viewport || 'desktop-1440') + ': serious accessibility violation ' + violation.id + ' (' + violation.nodes.length + ' node(s))');
             }
         }
     }
@@ -309,7 +312,7 @@ async function main() {
         ...(fatalErrors.length ? fatalErrors.map((item) => '- ' + item) : ['- None']),
         '', '## Accessibility findings', '',
         ...axeResults.flatMap((item) => (item.violations || []).map((v) =>
-            '- **' + item.role + ' ' + item.route + '**: ' + v.id + ' (' + v.impact + '), ' + v.nodes + ' node(s). ' + v.help
+            '- **' + item.role + ' ' + item.route + ' @ ' + (item.viewport || 'desktop-1440') + '**: ' + v.id + ' (' + v.impact + '), ' + v.nodes + ' node(s). ' + v.help
         )),
         '', '## Interaction checks', '',
         ...interactionChecks.map((item) => '- **' + item.route + ' / ' + item.feature + '**: ' + [
@@ -318,7 +321,7 @@ async function main() {
         ].map((key) => key + '=' + item[key]).join(', ')),
         '', '## Notes', '',
         'Screenshots are captured from the running PHP application backed by a fresh MySQL 8 database seeded from database/seeds/local_data.php. They are not concept mockups. Mobile captures include both full-page and true viewport screenshots so fixed navigation can be checked at its actual screen position.\nA serious/critical axe violation or duplicate customer navigation on mobile fails the workflow.',
-        'Axe results are automated indicators, not a substitute for manual keyboard and screen-reader review.',
+        'Axe scans run on all desktop-1440 captures and on public /login at mobile-390 and small-mobile-360. These are automated indicators, not a substitute for manual keyboard and screen-reader review.',
     ].join('\n') + '\n';
     await fs.writeFile(path.join(OUTPUT_DIR, 'report.md'), markdown);
 
