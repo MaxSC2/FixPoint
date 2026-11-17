@@ -28,7 +28,7 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
                                 <?php foreach ($categories as $category): ?>
                                     <?php $categoryId = (string) ($category['id'] ?? ''); $active = !empty($category['is_active']); ?>
                                     <tr>
-                                        <td><span class="admin-request-primary"><?= e((string) ($category['name'] ?? 'Без названия')) ?><small><?= e((string) ($category['description'] ?? '')) ?></small></span></td>
+                                        <td><a class="admin-request-primary" href="/admin/categories/<?= e(rawurlencode($categoryId)) ?>/edit"><?= e((string) ($category['name'] ?? 'Без названия')) ?><small><?= e((string) ($category['description'] ?? '')) ?></small></a></td>
                                         <td><code><?= e((string) ($category['slug'] ?? '')) ?></code></td>
                                         <td><?= e((string) ($category['sort_order'] ?? 0)) ?></td>
                                         <td><span class="admin-state-chip <?= $active ? 'is-active' : 'is-inactive' ?>"><?= $active ? 'Активна' : 'Отключена' ?></span></td>
@@ -38,6 +38,7 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
                             </tbody>
                         </table>
                     </div>
+                    <p class="admin-table-scroll-hint">На узком экране прокрутите таблицу вправо, чтобы увидеть остальные столбцы →</p>
                 <?php else: ?>
                     <?php $title = 'Категорий пока нет'; $description = 'Создайте категории, чтобы сгруппировать опубликованные услуги.'; $actionLabel = ''; $actionHref = ''; require dirname(__DIR__, 3) . '/components/empty-state.php'; ?>
                 <?php endif; ?>
