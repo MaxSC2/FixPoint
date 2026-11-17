@@ -188,20 +188,50 @@ final class RequestRepository
         string $diagnosticResult,
         ?string $estimatedCost,
         ?string $estimatedReadyAt
-    ): void {
-        $statement = $this->database->connection()->prepare(
-            'UPDATE repair_requests
-             SET diagnostic_result = :diagnostic_result,
-                 estimated_cost = :estimated_cost,
-                 estimated_ready_at = :estimated_ready_at
-             WHERE id = :id'
-        );
-        $statement->execute([
-            'diagnostic_result' => $diagnosticResult,
-            'estimated_cost' => $estimatedCost,
-            'estimated_ready_at' => $estimatedReadyAt,
-            'id' => $requestId,
-        ]);
+    ): bool {
+        $pdo = $this->database->connection();
+        $pdo->beginTransaction();
+
+        try {
+            // Lock and re-check the stage inside the same transaction. This
+            // prevents a stale technician form from overwriting a quote after
+            // the customer-approval transition has committed.
+            $lock = $pdo->prepare(
+                'SELECT status FROM repair_requests WHERE id = :id FOR UPDATE'
+            );
+            $lock->execute(['id' => $requestId]);
+            $current = $lock->fetch();
+
+            if (!is_array($current) || (string) ($current['status'] ?? '') !== 'diagnostics') {
+                $pdo->rollBack();
+
+                return false;
+            }
+
+            $statement = $pdo->prepare(
+                'UPDATE repair_requests
+                 SET diagnostic_result = :diagnostic_result,
+                     estimated_cost = :estimated_cost,
+                     estimated_ready_at = :estimated_ready_at
+                 WHERE id = :id AND status = \'diagnostics\''
+            );
+            $statement->execute([
+                'diagnostic_result' => $diagnosticResult,
+                'estimated_cost' => $estimatedCost,
+                'estimated_ready_at' => $estimatedReadyAt,
+                'id' => $requestId,
+            ]);
+
+            $pdo->commit();
+
+            return true;
+        } catch (Throwable $exception) {
+            if ($pdo->inTransaction()) {
+                $pdo->rollBack();
+            }
+
+            throw $exception;
+        }
     }
 
     /** @return list<array<string, mixed>> */
