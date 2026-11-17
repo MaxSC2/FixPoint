@@ -227,7 +227,7 @@ final class TechnicianHttpTest extends IntegrationTestCase
         $this->assertContains('Спасибо, буду ждать.', $body);
         $this->assertContains('Внутренняя заметка', $body);
         $this->assertContains('name="is_internal"', $body);
-        $this->assertContains('/diagnosis"', $body);
+        $this->assertNotContains('/diagnosis"', $body);
         $this->assertContains('/status"', $body);
         $this->assertContains('<option value="awaiting_parts"', $body);
         $this->assertContains('<option value="ready_for_pickup"', $body);
