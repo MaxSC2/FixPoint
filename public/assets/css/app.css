@@ -867,7 +867,7 @@ h1 { font-weight: 760; }
     .atelier-visual-note { right: -5px; }
 }
 @media (max-width: 900px) {
-    .site-header__inner { min-height: 72px; }
+    .site-header__inner { min-height: 72px; gap: 12px; }
     .site-nav { padding: 8px 0 10px; }
     .atelier-hero { padding-top: 54px; }
     .atelier-hero::before { top: auto; bottom: 0; width: 100%; height: 42%; }
