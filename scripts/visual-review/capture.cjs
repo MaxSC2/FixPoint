@@ -238,69 +238,82 @@ async function captureRoute(page, role, route, viewport, results, axeResults, fa
 }
 
 async function verifyPublicInteractions(page, fatalErrors) {
-    const fail = (message) => fatalErrors.push('public interactions: ' + message);
+    const fail = (stage, message) => fatalErrors.push('public interactions (' + stage + '): ' + message);
+    const waitForPath = async (stage, target) => {
+        try {
+            await page.waitForURL((url) => url.pathname === target, { waitUntil: 'domcontentloaded', timeout: 10000 });
+            if (new URL(page.url()).pathname !== target) fail(stage, 'expected ' + target + ', got ' + new URL(page.url()).pathname);
+        } catch (error) {
+            fail(stage, 'navigation to ' + target + ' did not complete: ' + error.message);
+        }
+    };
+
+    await page.setViewportSize({ width: 390, height: 844 });
     try {
-        await page.setViewportSize({ width: 390, height: 844 });
         await page.goto(BASE_URL + '/', { waitUntil: 'domcontentloaded' });
         await page.locator('body').waitFor({ state: 'visible', timeout: 5000 });
+    } catch (error) {
+        fail('mobile menu setup', error.message);
+        return;
+    }
 
-        const toggle = page.locator('[data-nav-toggle]');
-        const navigation = page.locator('[data-site-nav]');
-        if (!await toggle.isVisible()) {
-            fail('mobile navigation toggle is not visible');
-        } else {
+    const toggle = page.locator('[data-nav-toggle]');
+    const navigation = page.locator('[data-site-nav]');
+    if (!await toggle.isVisible()) {
+        fail('mobile menu open', 'mobile navigation toggle is not visible');
+    } else {
+        try {
             await toggle.click();
             if (await toggle.getAttribute('aria-expanded') !== 'true' || !await navigation.isVisible()) {
-                fail('mobile navigation did not open or expose aria-expanded=true');
+                fail('mobile menu open', 'menu did not open or aria-expanded is not true');
             }
             await page.keyboard.press('Escape');
             if (await toggle.getAttribute('aria-expanded') !== 'false' || await navigation.isVisible()) {
-                fail('Escape did not close mobile navigation');
+                fail('mobile menu Escape', 'Escape did not close navigation');
             }
             await toggle.click();
             const servicesLink = navigation.locator('a[href="/services"]').first();
             if (!await servicesLink.isVisible()) {
-                fail('mobile navigation does not expose the services link when opened');
+                fail('mobile menu services link', 'services link is not visible after opening menu');
             } else {
                 await servicesLink.click();
-                await page.waitForURL((url) => url.pathname === '/services', { timeout: 10000 });
-                if (new URL(page.url()).pathname !== '/services') {
-                    fail('mobile services navigation did not open /services');
-                }
+                await waitForPath('mobile menu services link', '/services');
             }
+        } catch (error) {
+            fail('mobile menu interaction', error.message);
         }
+    }
 
+    try {
         await page.goto(BASE_URL + '/services', { waitUntil: 'domcontentloaded' });
         const pointerCard = page.locator('a.service-card').first();
         const pointerHref = await pointerCard.getAttribute('href');
+        await pointerCard.scrollIntoViewIfNeeded();
         const pointerBox = await pointerCard.boundingBox();
         if (!pointerHref || !pointerBox) {
-            fail('first full-card service link is missing or has no visible area');
+            fail('service card pointer', 'first full-card link is missing or has no visible area');
         } else {
             await page.mouse.click(pointerBox.x + pointerBox.width / 2, pointerBox.y + pointerBox.height / 2);
-            const pointerTarget = new URL(pointerHref, BASE_URL).pathname;
-            await page.waitForURL((url) => url.pathname === pointerTarget, { timeout: 10000 });
-            if (new URL(page.url()).pathname !== pointerTarget) {
-                fail('clicking the middle of a service card did not navigate to ' + pointerTarget);
-            }
+            await waitForPath('service card pointer', new URL(pointerHref, BASE_URL).pathname);
         }
+    } catch (error) {
+        fail('service card pointer', error.message);
+    }
 
+    try {
         await page.goto(BASE_URL + '/services', { waitUntil: 'domcontentloaded' });
         const keyboardCard = page.locator('a.service-card').nth(1);
         const keyboardHref = await keyboardCard.getAttribute('href');
         if (!keyboardHref) {
-            fail('second service card has no destination for keyboard activation');
+            fail('service card keyboard', 'second service card has no href');
         } else {
+            await keyboardCard.scrollIntoViewIfNeeded();
             await keyboardCard.focus();
             await page.keyboard.press('Enter');
-            const keyboardTarget = new URL(keyboardHref, BASE_URL).pathname;
-            await page.waitForURL((url) => url.pathname === keyboardTarget, { timeout: 10000 });
-            if (new URL(page.url()).pathname !== keyboardTarget) {
-                fail('Enter on a focused service card did not navigate to ' + keyboardTarget);
-            }
+            await waitForPath('service card keyboard', new URL(keyboardHref, BASE_URL).pathname);
         }
     } catch (error) {
-        fail('interaction sequence threw: ' + error.message);
+        fail('service card keyboard', error.message);
     }
 }
 
