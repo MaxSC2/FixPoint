@@ -15,7 +15,7 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
             <span class="admin-record-count"><strong><?= e((string) count($categories)) ?></strong><small>в текущем списке</small></span>
         </div>
         <nav class="workspace-nav" aria-label="Разделы администратора" data-reveal>
-            <a class="workspace-nav__link" href="/admin">Обзор</a><a class="workspace-nav__link" href="/admin/requests">Заявки</a><a class="workspace-nav__link" href="/admin/users">Пользователи</a><a class="workspace-nav__link" href="/admin/services">Услуги</a><a class="workspace-nav__link is-active" href="/admin/categories" aria-current="page">Категории</a><a class="workspace-nav__link" href="/admin/statistics">Статистика</a>
+            <a class="workspace-nav__link" href="/admin">Обзор</a><a class="workspace-nav__link" href="/admin/requests">Заявки</a><a class="workspace-nav__link" href="/admin/users">Пользователи</a><a class="workspace-nav__link" href="/admin/services">Услуги</a><a class="workspace-nav__link is-active" href="/admin/categories" aria-current="page">Категории</a><a class="workspace-nav__link" href="/admin/content/about">Контент</a><a class="workspace-nav__link" href="/admin/statistics">Статистика</a>
         </nav>
         <div class="admin-crud-layout">
             <section class="staff-list-panel" data-reveal>

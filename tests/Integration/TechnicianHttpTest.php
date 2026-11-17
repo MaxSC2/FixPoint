@@ -231,6 +231,8 @@ final class TechnicianHttpTest extends IntegrationTestCase
         $this->assertContains('/status"', $body);
         $this->assertContains('<option value="awaiting_parts"', $body);
         $this->assertContains('<option value="ready_for_pickup"', $body);
+        $this->assertContains('>Ожидает запчасти</option>', $body);
+        $this->assertContains('>Готова к выдаче</option>', $body);
         $this->assertNotContains('<option value="completed"', $body);
 
         $completed = app()->handle(Request::create('GET', '/technician/requests/' . $this->seedRequestId('FP-2026-000004')));

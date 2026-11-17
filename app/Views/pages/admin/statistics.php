@@ -46,7 +46,7 @@ require dirname(__DIR__, 2) . '/layouts/header.php';
             <span class="admin-record-count"><strong><?= e(number_format($totalRequests, 0, ',', ' ')) ?></strong><small>заявок за период</small></span>
         </div>
         <nav class="workspace-nav" aria-label="Разделы администратора" data-reveal>
-            <a class="workspace-nav__link" href="/admin">Обзор</a><a class="workspace-nav__link" href="/admin/requests">Заявки</a><a class="workspace-nav__link" href="/admin/users">Пользователи</a><a class="workspace-nav__link" href="/admin/services">Услуги</a><a class="workspace-nav__link" href="/admin/categories">Категории</a><a class="workspace-nav__link is-active" href="/admin/statistics" aria-current="page">Статистика</a>
+            <a class="workspace-nav__link" href="/admin">Обзор</a><a class="workspace-nav__link" href="/admin/requests">Заявки</a><a class="workspace-nav__link" href="/admin/users">Пользователи</a><a class="workspace-nav__link" href="/admin/services">Услуги</a><a class="workspace-nav__link" href="/admin/categories">Категории</a><a class="workspace-nav__link" href="/admin/content/about">Контент</a><a class="workspace-nav__link is-active" href="/admin/statistics" aria-current="page">Статистика</a>
         </nav>
 
         <?php if ($periodError !== ''): ?><div class="alert alert--error" role="alert"><span class="alert__marker" aria-hidden="true"></span><p><?= e($periodError) ?></p></div><?php endif; ?>

@@ -46,7 +46,7 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
             <a class="workspace-nav__link" href="/admin/users">Пользователи</a>
             <a class="workspace-nav__link" href="/admin/services">Услуги</a>
             <a class="workspace-nav__link" href="/admin/categories">Категории</a>
-            <a class="workspace-nav__link" href="/admin/statistics">Статистика</a>
+            <a class="workspace-nav__link" href="/admin/content/about">Контент</a><a class="workspace-nav__link" href="/admin/statistics">Статистика</a>
         </nav>
 
         <section class="staff-list-panel" data-reveal>

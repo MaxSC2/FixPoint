@@ -33,6 +33,29 @@ final class AdminContentHttpTest extends IntegrationTestCase
         $this->logout();
     }
 
+    public function testAdminNavigationIsConsistentAcrossWorkspaces(): void
+    {
+        $this->loginAs(self::ADMIN);
+
+        $routes = [
+            '/admin',
+            '/admin/requests',
+            '/admin/users',
+            '/admin/services',
+            '/admin/categories',
+            '/admin/content/about',
+            '/admin/statistics',
+        ];
+
+        foreach ($routes as $route) {
+            $response = app()->handle(Request::create('GET', $route));
+            $this->assertSame(200, $response->status(), $route);
+            $body = $response->body();
+            $this->assertContains('href="/admin/content/about"', $body, $route . ' lacks the content link');
+            $this->assertContains('href="/admin/statistics"', $body, $route . ' lacks the statistics link');
+        }
+    }
+
     public function testAdminCanEditAboutContentAndPublicPageEscapesIt(): void
     {
         $before = $this->aboutRow();

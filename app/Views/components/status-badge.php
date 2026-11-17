@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 $status = isset($status) ? (string) $status : '';
-$statusLabels = [
+$statusBadgeLabels = [
     'new' => ['label' => 'Новая', 'tone' => 'info'],
     'accepted' => ['label' => 'Принята', 'tone' => 'info'],
     'diagnostics' => ['label' => 'Диагностика', 'tone' => 'info'],
@@ -14,6 +14,6 @@ $statusLabels = [
     'cancelled' => ['label' => 'Отменена', 'tone' => 'neutral'],
     'rejected' => ['label' => 'Отклонена', 'tone' => 'danger'],
 ];
-$statusView = $statusLabels[$status] ?? ['label' => 'Статус уточняется', 'tone' => 'neutral'];
+$statusBadgeView = $statusBadgeLabels[$status] ?? ['label' => 'Статус уточняется', 'tone' => 'neutral'];
 ?>
-<span class="status-badge status-badge--<?= e($statusView['tone']) ?>"><?= e($statusView['label']) ?></span>
+<span class="status-badge status-badge--<?= e($statusBadgeView['tone']) ?>"><?= e($statusBadgeView['label']) ?></span>

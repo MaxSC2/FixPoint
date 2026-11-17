@@ -358,8 +358,8 @@ DB_DATABASE=fixpoint_test APP_ENV=testing php tests/run.php
 Smoke-тест требует уже применённые миграции и seed в рабочей БД; порт
 переопределяется `SMOKE_PORT` (по умолчанию `8091`).
 
-Текущий результат на MySQL 8.4.6: линтер — 138/138 файлов, тесты — 185 passed,
-0 failed, 1851 assertions, smoke — 30/30 проверок.
+Текущий результат на MySQL 8.4.6: линтер — 138/138 файлов, тесты — 186 passed,
+0 failed, 1876 assertions, smoke — 30/30 проверок.
 
 ## Безопасность
 
