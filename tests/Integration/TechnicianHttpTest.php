@@ -339,10 +339,11 @@ final class TechnicianHttpTest extends IntegrationTestCase
         $this->assertSame(302, $partsBypass->status());
         $this->assertSame('diagnostics', $this->requestRow($requestId)['status']);
 
-        $this->assertContains(
-            'Сначала отправьте смету клиенту',
-            app()->handle(Request::create('GET', '/technician/requests/' . $requestId))->body()
-        );
+        $diagnosticsPage = app()->handle(Request::create('GET', '/technician/requests/' . $requestId))->body();
+        $this->assertContains('Сначала отправьте смету клиенту', $diagnosticsPage);
+        $this->assertContains('<option value="awaiting_customer_approval"', $diagnosticsPage);
+        $this->assertNotContains('<option value="awaiting_parts"', $diagnosticsPage);
+        $this->assertNotContains('<option value="repairing"', $diagnosticsPage);
 
         $submitted = $this->post('/technician/requests/' . $requestId . '/status', [
             'status' => 'awaiting_customer_approval',
@@ -350,6 +351,9 @@ final class TechnicianHttpTest extends IntegrationTestCase
         ]);
         $this->assertSame(302, $submitted->status());
         $this->assertSame('awaiting_customer_approval', $this->requestRow($requestId)['status']);
+        $pendingPage = app()->handle(Request::create('GET', '/technician/requests/' . $requestId))->body();
+        $this->assertNotContains('action="/technician/requests/' . $requestId . '/diagnosis"', $pendingPage);
+        $this->assertNotContains('name="status"', $pendingPage);
 
         // Once submitted, the technician cannot silently change or clear the
         // amount, diagnosis or readiness date while the customer is deciding.
