@@ -13,18 +13,6 @@ require dirname(__DIR__, 2) . '/layouts/header.php';
 ?>
 <section class="auth-page auth-page--register">
     <div class="container auth-page__grid">
-        <div class="auth-story" data-reveal>
-            <span class="eyebrow">Новый аккаунт / FixPoint</span>
-            <h1>Ваш ремонт.<br><em>Всё по делу.</em></h1>
-            <p>Создайте личный кабинет, чтобы сохранить заявку и видеть её историю в одном месте.</p>
-            <div class="auth-story__steps">
-                <div><span>01</span><strong>Опишите устройство</strong><small>Модель и симптомы неисправности</small></div>
-                <div><span>02</span><strong>Получите диагностику</strong><small>Результат проверки и смету</small></div>
-                <div><span>03</span><strong>Решите, как поступить</strong><small>Согласуйте или отклоните предложенные работы</small></div>
-            </div>
-            <span class="auth-story__signature">ПОНЯТНЫЙ ПРОЦЕСС · FIXPOINT</span>
-        </div>
-
         <div class="auth-panel" data-reveal>
             <div class="auth-panel__head">
                 <span class="auth-panel__overline">ЛИЧНЫЙ КАБИНЕТ</span>
@@ -80,6 +68,18 @@ require dirname(__DIR__, 2) . '/layouts/header.php';
                 <a href="/login">Войти <span aria-hidden="true">↗</span></a>
             </div>
             <p class="auth-panel__privacy">Создавая аккаунт, вы получаете доступ к личной истории обращений и согласованию сметы.</p>
+        </div>
+
+        <div class="auth-story" data-reveal>
+            <span class="eyebrow">Новый аккаунт / FixPoint</span>
+            <h1>Ваш ремонт.<br><em>Всё по делу.</em></h1>
+            <p>Создайте личный кабинет, чтобы сохранить заявку и видеть её историю в одном месте.</p>
+            <div class="auth-story__steps">
+                <div><span>01</span><strong>Опишите устройство</strong><small>Модель и симптомы неисправности</small></div>
+                <div><span>02</span><strong>Получите диагностику</strong><small>Результат проверки и смету</small></div>
+                <div><span>03</span><strong>Решите, как поступить</strong><small>Согласуйте или отклоните предложенные работы</small></div>
+            </div>
+            <span class="auth-story__signature">ПОНЯТНЫЙ ПРОЦЕСС · FIXPOINT</span>
         </div>
     </div>
 </section>
