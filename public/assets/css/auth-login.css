@@ -106,3 +106,62 @@
     .auth-page--login .auth-story { padding: 23px 21px; }
     .auth-page--login .auth-story__details { margin-top: 16px; }
 }
+
+
+/* Keep guidance visibly secondary to the sign-in task. */
+.auth-page--login .auth-story {
+    min-height: 0;
+    padding: 25px 27px;
+    border: 1px solid #dce2d7;
+    background: #e9ede5;
+    color: #25363a;
+}
+.auth-page--login .auth-story::before,
+.auth-page--login .auth-story::after { opacity: .12; }
+.auth-page--login .auth-story .eyebrow {
+    color: #64756b;
+    font-size: .62rem;
+}
+.auth-page--login .auth-story h2 {
+    margin: 7px 0 8px;
+    color: #25363a;
+    font-size: clamp(1.25rem, 1.8vw, 1.55rem);
+    line-height: 1.2;
+}
+.auth-page--login .auth-story > p {
+    max-width: 42ch;
+    color: #596a64;
+    font-size: .82rem;
+    line-height: 1.5;
+}
+.auth-page--login .auth-story__details {
+    margin-top: 15px;
+    border-color: #cbd4c8;
+}
+.auth-page--login .auth-story__details summary {
+    min-height: 46px;
+    color: #263a37;
+    font-size: .82rem;
+}
+.auth-page--login .auth-story__details summary::after {
+    color: #506d47;
+}
+.auth-page--login .auth-story__steps > div {
+    border-color: #cbd4c8;
+}
+.auth-page--login .auth-story__steps > div > span {
+    color: #526b4b;
+}
+.auth-page--login .auth-story__steps strong {
+    color: #263a37;
+}
+.auth-page--login .auth-story__steps small,
+.auth-page--login .auth-story__signature {
+    color: #61716a;
+}
+@media (max-width: 900px) {
+    .auth-page--login .auth-story { padding: 22px 24px; }
+}
+@media (max-width: 640px) {
+    .auth-page--login .auth-story { padding: 20px 21px; }
+}
