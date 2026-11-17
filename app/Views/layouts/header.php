@@ -36,6 +36,7 @@ $userName = is_array($authUser) ? (string) ($authUser['full_name'] ?? 'Акка�
     <meta name="description" content="FixPoint — сервисный центр. Оформление и отслеживание заявок на ремонт техники.">
     <title><?= e($pageTitle) ?> · FixPoint</title>
     <link rel="stylesheet" href="/assets/css/app.css">
+    <?php if ($pageTitle === 'Вход в личный кабинет'): ?><link rel="stylesheet" href="/assets/css/auth-login.css"><?php endif; ?>
     <script src="/assets/js/app.js" defer></script>
 </head>
 <body>
