@@ -94,6 +94,14 @@ Request detail дополнительно: `history[]` (from_status,to_status,re
 
 Переходы: new → accepted/rejected/cancelled; accepted → diagnostics/cancelled; diagnostics → awaiting_customer_approval/awaiting_parts/repairing/rejected; awaiting_customer_approval → repairing/cancelled; repairing → awaiting_parts/ready_for_pickup; awaiting_parts → repairing; ready_for_pickup → completed. completed/cancelled/rejected — конечные. Все переходы проверяются единым RequestStatusService и логируются транзакционно.
 
+Дополнительные бизнес-ограничения поверх матрицы:
+- `awaiting_customer_approval` — зона решения владельца заявки. Мастер и администратор не могут через staff-маршрут перевести такую заявку в `repairing` или `cancelled`; согласование/отказ выполняется только через `POST /requests/{id}/estimate-decision` владельцем.
+- В `awaiting_customer_approval` можно перейти только при наличии сохранённого `estimated_cost`. Клиент не может принять решение по отсутствующей смете.
+- Если `estimated_cost` заполнен, staff не может обойти согласование переходом `diagnostics → repairing` или `diagnostics → awaiting_parts → repairing`. Сначала смета переводится в ожидание решения клиента.
+- Диагностика, сумма и ориентир готовности редактируются только в `diagnostics`. После выхода из стадии диагностики отправленная или согласованная смета неизменяема через staff-форму.
+- Сохранение диагностики повторно проверяет статус под `SELECT … FOR UPDATE` в транзакции, чтобы устаревшая форма не могла перезаписать смету одновременно с отправкой на согласование.
+
+
 ## Списки
 ```php
 ['items'=>[], 'pagination'=>['current_page'=>1,'last_page'=>1,'per_page'=>10,'total'=>0],
