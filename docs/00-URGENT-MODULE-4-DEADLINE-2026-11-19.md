@@ -262,3 +262,21 @@ A new integration test `testCompleteRepairLifecycleAcrossCustomerAdminAndTechnic
 - Commit `54381e2` had an intermediate Browser QA run cancelled by a newer push; it is **CANCELLED/SUPERSEDED**, not a code failure. The subsequent complete QA runs on `fbbe5e1` and `94a9090` passed.
 
 **Current release boundary:** private photo uploads, technician capability profiles/matching, real-time chat, push, AI triage, official SVG brand logos and public deployment remain unimplemented. Do not claim otherwise in the submission.
+
+---
+
+## Актуализация 17 ноября 2026 — единая точка handoff
+
+**Актуальный проверенный кодовый HEAD до добавления этой записи:** `11c6d5a582b4b8648169231cac433f94459b3efc`.
+
+- CI [#43905942977](https://github.com/MaxSC2/FixPoint/actions/runs/43905942977): PASS — lint 138 files; 175 tests passed, 0 failed, **1715 assertions**; 30 smoke checks; Docker Compose runtime passed.
+- Browser Visual QA [#43905942899](https://github.com/MaxSC2/FixPoint/actions/runs/43905942899): PASS — 139 captures; zero HTTP errors, horizontal overflow, axe violations, browser errors and fatal errors.
+- Module 4 source audit [#43905942915](https://github.com/MaxSC2/FixPoint/actions/runs/43905942915): 56 paragraphs, 31 unique links; YouTube blocked automated caption checks. Captions are UNVERIFIED, not absent.
+- Screenshot artifact: `fixpoint-visual-review-73`, available from the Browser QA run above, 14-day retention.
+
+The 17 November repo audit, ER diagram, current routes, exact schema, architecture, screenshot index, agent operating rules and P0 checklist are consolidated in [docs/29-AGENT-HANDOFF-FINAL-AUDIT-2026-11-17.md](29-AGENT-HANDOFF-FINAL-AUDIT-2026-11-17.md).
+
+**Important documentation correction:** previous sections list earlier commits and 1711 assertions. They remain historical. The latest confirmed CI at 11c6d5a reports 1715 assertions. Re-run all workflows after any new code or documentation push and update this record only with results for the exact new HEAD.
+
+The remaining release work is manual browser validation of the complete customer → admin → technician → customer workflow, negative access/CSRF/internal-note checks, final DB demonstration readiness, and final regression on one exact HEAD. Do not implement speculative photo upload/AI/matching features before the deadline unless a verified assignment requirement demands them.
+
