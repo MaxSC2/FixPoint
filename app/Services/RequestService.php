@@ -567,6 +567,11 @@ final class RequestService
 
         $hasEstimate = $request['estimated_cost'] !== null
             && (string) $request['estimated_cost'] !== '';
+        if ($toStatus === 'awaiting_customer_approval' && !$hasEstimate) {
+            throw new ValidationException([
+                'general' => 'Сначала сохраните сумму сметы. Клиент должен видеть стоимость до принятия решения.',
+            ]);
+        }
         if ($hasEstimate
             && in_array($fromStatus, ['diagnostics', 'awaiting_parts'], true)
             && in_array($toStatus, ['awaiting_parts', 'repairing'], true)
