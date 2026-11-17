@@ -307,6 +307,17 @@ final class RequestRepository
                 $sql .= ', completed_at = UTC_TIMESTAMP()';
             }
             $sql .= ' WHERE id = :id AND status = :from_status';
+            // Keep workflow invariants atomic with the row update. Service-level
+            // checks improve the error message, but stale concurrent requests
+            // must not bypass estimate submission or the customer's decision.
+            if ($toStatus === 'awaiting_customer_approval' || $fromStatus === 'awaiting_customer_approval') {
+                $sql .= ' AND estimated_cost IS NOT NULL';
+            }
+            if (in_array($fromStatus, ['diagnostics', 'awaiting_parts'], true)
+                && in_array($toStatus, ['awaiting_parts', 'repairing'], true)
+            ) {
+                $sql .= ' AND estimated_cost IS NULL';
+            }
 
             $statement = $pdo->prepare($sql);
             $statement->execute([

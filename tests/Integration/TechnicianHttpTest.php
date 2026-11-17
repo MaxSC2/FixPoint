@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace FixPoint\Tests\Integration;
 
+use FixPoint\Core\Config;
+use FixPoint\Core\Database;
 use FixPoint\Core\Env;
+use FixPoint\Repositories\RequestRepository;
 use FixPoint\Core\Request;
 use FixPoint\Core\Response;
 use FixPoint\Tests\IntegrationTestCase;
@@ -409,6 +412,57 @@ final class TechnicianHttpTest extends IntegrationTestCase
         $this->assertSame($diagnostic, $approvedRow['diagnostic_result']);
         $this->assertSame('15000.49', $approvedRow['estimated_cost']);
         $this->assertSame('2026-12-01 15:30:00', $approvedRow['estimated_ready_at']);
+    }
+
+    public function testRepositoryTransitionRechecksEstimateInAtomicUpdate(): void
+    {
+        // Exercise the repository directly so the SQL-level predicate is
+        // tested independently of RequestService's friendly validation.
+        $repository = new RequestRepository(new Database(Config::fromEnvironment(BASE_PATH)));
+        $technicianId = $this->userId(self::TECHNICIAN);
+        $customerId = $this->userId(self::CUSTOMER);
+
+        $pricedDiagnostics = $this->createFixture([
+            'status' => 'diagnostics',
+            'estimated_cost' => '15000.49',
+        ]);
+        $pricedRepairBypass = $repository->transitionStatus(
+            $pricedDiagnostics,
+            'diagnostics',
+            'repairing',
+            $technicianId,
+            'stale request must not bypass estimate approval'
+        );
+        $this->assertFalse($pricedRepairBypass);
+        $this->assertSame('diagnostics', $this->requestRow($pricedDiagnostics)['status']);
+
+        $missingQuote = $this->createFixture([
+            'status' => 'diagnostics',
+            'estimated_cost' => null,
+        ]);
+        $approvalWithoutQuote = $repository->transitionStatus(
+            $missingQuote,
+            'diagnostics',
+            'awaiting_customer_approval',
+            $technicianId,
+            'customer must receive an actual estimate'
+        );
+        $this->assertFalse($approvalWithoutQuote);
+        $this->assertSame('diagnostics', $this->requestRow($missingQuote)['status']);
+
+        $pendingWithoutQuote = $this->createFixture([
+            'status' => 'awaiting_customer_approval',
+            'estimated_cost' => null,
+        ]);
+        $decisionWithoutQuote = $repository->transitionStatus(
+            $pendingWithoutQuote,
+            'awaiting_customer_approval',
+            'repairing',
+            $customerId,
+            'customer decision requires a persisted estimate'
+        );
+        $this->assertFalse($decisionWithoutQuote);
+        $this->assertSame('awaiting_customer_approval', $this->requestRow($pendingWithoutQuote)['status']);
     }
 
     public function testStatusTransitionsUseMatrixAndHistory(): void
