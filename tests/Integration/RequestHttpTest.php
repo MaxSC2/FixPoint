@@ -432,6 +432,21 @@ final class RequestHttpTest extends IntegrationTestCase
         $this->assertNotContains('Согласовать предложенную смету?', $updated);
     }
 
+    public function testCustomerCannotDecideWithoutAnEstimate(): void
+    {
+        $this->loginAs(self::CUSTOMER);
+        $requestId = $this->createEstimateFixture();
+        $this->pdo()->prepare('UPDATE repair_requests SET estimated_cost = NULL WHERE id = :id')
+            ->execute(['id' => $requestId]);
+
+        $decision = $this->post('/requests/' . $requestId . '/estimate-decision', ['decision' => 'approve']);
+        $this->assertSame(302, $decision->status());
+        $this->assertSame('awaiting_customer_approval', $this->requestRow($requestId)['status']);
+
+        $page = app()->handle(Request::create('GET', '/requests/' . $requestId))->body();
+        $this->assertContains('Нельзя принять решение: мастер ещё не подготовил сумму сметы.', $page);
+    }
+
     public function testEstimateRejectionCancelsRequest(): void
     {
         $this->loginAs(self::CUSTOMER);
