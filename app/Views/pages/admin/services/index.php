@@ -36,7 +36,7 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
                                     $active = !empty($service['is_active']);
                                     ?>
                                     <tr>
-                                        <td><span class="admin-request-primary"><?= e((string) ($service['name'] ?? 'Без названия')) ?><small><?= e((string) ($service['slug'] ?? '')) ?></small></span></td>
+                                        <td><a class="admin-request-primary" href="/admin/services/<?= e(rawurlencode($serviceId)) ?>/edit"><?= e((string) ($service['name'] ?? 'Без названия')) ?><small><?= e((string) ($service['slug'] ?? '')) ?></small></a></td>
                                         <td><?= e((string) ($service['category_name'] ?? '—')) ?></td>
                                         <td><?= e($priceLabel) ?></td>
                                         <td><?= e($timeLabel) ?></td>
@@ -47,6 +47,7 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
                             </tbody>
                         </table>
                     </div>
+                    <p class="admin-table-scroll-hint">На узком экране прокрутите таблицу вправо, чтобы увидеть остальные столбцы →</p>
                 <?php else: ?>
                     <?php $title = 'Услуг пока нет'; $description = 'Добавьте услуги, чтобы они появились в публичном каталоге.'; $actionLabel = ''; $actionHref = ''; require dirname(__DIR__, 3) . '/components/empty-state.php'; ?>
                 <?php endif; ?>
