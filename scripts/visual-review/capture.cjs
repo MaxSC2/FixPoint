@@ -22,10 +22,10 @@ const SMALL_MOBILE_VIEWPORT = { name: 'small-mobile-360', width: 360, height: 80
 const PUBLIC_ROUTES = ['/', '/services', '/services/laptop-cleaning', '/about', '/contacts', '/login', '/register'];
 
 const ROLE_SESSIONS = [
-    { role: 'customer-kovalev', email: 'customer.kovalev@fixpoint.test', routes: ['/account', '/requests', '/requests/create', '/requests/1', '/requests/3'] },
-    { role: 'technician-ivanov', email: 'master.ivanov@fixpoint.test', routes: ['/technician/requests', '/technician/requests/1'] },
-    { role: 'technician-smirnova', email: 'master.smirnova@fixpoint.test', routes: ['/technician/requests/3'] },
-    { role: 'admin', email: 'admin@fixpoint.test', routes: ['/admin', '/admin/requests', '/admin/requests/1/assign', '/admin/users', '/admin/users/1/edit', '/admin/users/2/edit', '/admin/services', '/admin/services/1/edit', '/admin/categories', '/admin/categories/1/edit', '/admin/content/about', '/admin/statistics'] },
+    { role: 'customer-kovalev', email: 'customer.kovalev@fixpoint.test', routes: ['/', '/account', '/requests', '/requests/create', '/requests/1', '/requests/3'] },
+    { role: 'technician-ivanov', email: 'master.ivanov@fixpoint.test', routes: ['/', '/technician/requests', '/technician/requests/1'] },
+    { role: 'technician-smirnova', email: 'master.smirnova@fixpoint.test', routes: ['/', '/technician/requests/3'] },
+    { role: 'admin', email: 'admin@fixpoint.test', routes: ['/', '/admin', '/admin/requests', '/admin/requests/1/assign', '/admin/users', '/admin/users/1/edit', '/admin/users/2/edit', '/admin/services', '/admin/services/1/edit', '/admin/categories', '/admin/categories/1/edit', '/admin/content/about', '/admin/statistics'] },
 ];
 const SMALL_MOBILE_ROUTES = new Set([
     ...PUBLIC_ROUTES,
@@ -93,6 +93,51 @@ async function inspectPage(page) {
         const duplicateMobileCustomerNavigation = window.innerWidth <= 760
             && Boolean(mobileCustomerNav)
             && workspaceNavVisible;
+        const headerLayoutIssue = (() => {
+            if (window.innerWidth > 900) return null;
+            const brand = document.querySelector('.site-header .brand');
+            const actions = document.querySelector('.site-header__actions');
+            const toggle = document.querySelector('.site-header .nav-toggle');
+            if (!brand || !actions || !toggle) return 'mobile header controls are missing';
+            const brandRect = brand.getBoundingClientRect();
+            const actionsRect = actions.getBoundingClientRect();
+            const toggleRect = toggle.getBoundingClientRect();
+            const gap = toggleRect.left - actionsRect.right;
+            if (actionsRect.left < brandRect.right - 1) return 'account action overlaps the brand';
+            if (gap < -1 || gap > 24) return 'account action and menu toggle are not a compact group (gap ' + Math.round(gap) + 'px)';
+            if (getComputedStyle(toggle).marginLeft === 'auto') return 'menu toggle still consumes an independent auto margin';
+            return null;
+        })();
+        const serviceCardIssues = (() => {
+            if (window.location.pathname !== '/services') return [];
+            const cards = Array.from(document.querySelectorAll('.service-card'));
+            const issues = [];
+            if (cards.length === 0) return ['service catalogue rendered no cards'];
+            if (cards.some((card) => card.tagName !== 'A')) issues.push('service cards are not full-card links');
+            if (cards.some((card) => card.querySelectorAll('a[href]').length !== 0)) issues.push('service card contains a nested link');
+            if (cards.some((card) => !card.querySelector('.service-card__action'))) issues.push('service card has no visible action label');
+            const categories = new Set(cards.map((card) => card.getAttribute('data-category-slug')).filter(Boolean));
+            const icons = new Set(cards.map((card) => card.querySelector('.service-card__icon svg')?.outerHTML || ''));
+            if (categories.size > 1 && icons.size < Math.min(4, categories.size)) issues.push('category icon mapping is not distinct enough (' + icons.size + ' icons for ' + categories.size + ' categories)');
+            return issues;
+        })();
+        const aboutLayoutIssues = (() => {
+            if (window.location.pathname !== '/about') return [];
+            const crumbs = document.querySelector('.breadcrumbs');
+            const visual = document.querySelector('.about-visual');
+            const card = document.querySelector('.about-process-card');
+            if (!crumbs || !visual || !card) return ['about page process panel or breadcrumbs are missing'];
+            const a = crumbs.getBoundingClientRect();
+            const b = visual.getBoundingClientRect();
+            const overlapX = Math.min(a.right, b.right) - Math.max(a.left, b.left);
+            const overlapY = Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top);
+            const issues = [];
+            if (overlapX > 1 && overlapY > 1) issues.push('about visual intersects the breadcrumb area');
+            if (window.innerWidth <= 900 && b.top - a.bottom < 8) issues.push('about process panel is too close to breadcrumbs');
+            if (card.querySelectorAll('.about-process-step').length !== 3) issues.push('about process panel does not show all three stages');
+            return issues;
+        })();
+        const homeHeroPrimaryHref = document.querySelector('.atelier-hero__actions .button--primary')?.getAttribute('href') || null;
         return {
             title: document.title,
             hasMobileCustomerNav: Boolean(mobileCustomerNav),
@@ -109,6 +154,10 @@ async function inspectPage(page) {
             linksWithoutName: links.filter((el) => !hasName(el)).map((el) => el.href),
             imagesWithoutAlt: imgs.filter((el) => !el.hasAttribute('alt')).map((el) => el.src),
             imageLoadFailures: imgs.filter((el) => !el.complete || el.naturalWidth === 0).map((el) => el.src),
+            headerLayoutIssue,
+            serviceCardIssues,
+            aboutLayoutIssues,
+            homeHeroPrimaryHref,
         };
     });
 }
@@ -147,6 +196,20 @@ async function captureRoute(page, role, route, viewport, results, axeResults, fa
     if (row.redirected && !(route === '/login' && finalPath === '/login')) fatalErrors.push(role + ' ' + route + ' @ ' + viewport.name + ': redirected to ' + finalPath);
     if (metrics.horizontalOverflow) fatalErrors.push(role + ' ' + route + ' @ ' + viewport.name + ': horizontal overflow (' + metrics.documentWidth + 'px > ' + viewport.width + 'px)');
     if (metrics.duplicateMobileCustomerNavigation) fatalErrors.push(role + ' ' + route + ' @ ' + viewport.name + ': duplicate customer navigation is visible on mobile');
+    if (metrics.headerLayoutIssue) fatalErrors.push(role + ' ' + route + ' @ ' + viewport.name + ': ' + metrics.headerLayoutIssue);
+    for (const issue of metrics.serviceCardIssues || []) fatalErrors.push(role + ' ' + route + ' @ ' + viewport.name + ': ' + issue);
+    for (const issue of metrics.aboutLayoutIssues || []) fatalErrors.push(role + ' ' + route + ' @ ' + viewport.name + ': ' + issue);
+    if (route === '/') {
+        const expectedHeroHref = {
+            'customer-kovalev': '/requests/create',
+            'technician-ivanov': '/technician/requests',
+            'technician-smirnova': '/technician/requests',
+            admin: '/admin',
+        }[role];
+        if (expectedHeroHref && metrics.homeHeroPrimaryHref !== expectedHeroHref) {
+            fatalErrors.push(role + ' / @ ' + viewport.name + ': home CTA points to ' + metrics.homeHeroPrimaryHref + ', expected ' + expectedHeroHref);
+        }
+    }
 
     if (viewport.name === 'desktop-1440') {
         try {

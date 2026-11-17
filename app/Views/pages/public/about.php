@@ -20,11 +20,31 @@ require dirname(__DIR__, 2) . '/layouts/header.php';
             <p><?= e($lead) ?></p>
             <nav class="breadcrumbs" aria-label="Хлебные крошки"><a href="/">Главная</a><span aria-hidden="true">/</span><span aria-current="page">О сервисе</span></nav>
         </div>
-        <div class="about-visual" aria-hidden="true">
-            <div class="about-visual__ring"></div><div class="about-visual__core"><span>FP</span><small>FIXPOINT</small></div>
-            <span class="about-visual__label about-visual__label--one">Диагностика</span>
-            <span class="about-visual__label about-visual__label--two">Согласование</span>
-            <span class="about-visual__label about-visual__label--three">Результат</span>
+        <div class="about-visual">
+            <div class="about-process-card" aria-label="Три ключевых этапа ремонта">
+                <div class="about-process-card__head">
+                    <span>Как устроен процесс</span>
+                    <small>3 ЭТАПА</small>
+                </div>
+                <ol class="about-process-list">
+                    <li class="about-process-step">
+                        <span class="about-process-step__number">01</span>
+                        <span class="about-process-step__copy"><strong>Диагностика</strong><small>Мастер выясняет причину неисправности</small></span>
+                        <span class="about-process-step__state" aria-hidden="true">01</span>
+                    </li>
+                    <li class="about-process-step">
+                        <span class="about-process-step__number">02</span>
+                        <span class="about-process-step__copy"><strong>Смета и согласование</strong><small>Клиент видит стоимость до начала ремонта</small></span>
+                        <span class="about-process-step__state" aria-hidden="true">02</span>
+                    </li>
+                    <li class="about-process-step">
+                        <span class="about-process-step__number">03</span>
+                        <span class="about-process-step__copy"><strong>Ремонт и выдача</strong><small>Статусы и результат остаются в истории</small></span>
+                        <span class="about-process-step__state" aria-hidden="true">03</span>
+                    </li>
+                </ol>
+                <p class="about-process-card__note"><span aria-hidden="true"></span> Решение о начале работ всегда остаётся за клиентом</p>
+            </div>
         </div>
     </div>
 </section>
