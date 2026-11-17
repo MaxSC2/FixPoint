@@ -38,11 +38,20 @@ $pageTitle = $publicNumber;
 $activeNav = 'requests';
 
 $formatMoney = static function (mixed $amount): string {
-    if (!is_numeric($amount) || (float) $amount < 0) {
+    $raw = trim((string) $amount);
+    if (!preg_match('/\\A(\\d+)(?:\\.(\\d{1,2}))?\\z/', $raw, $matches)) {
         return 'Не определена';
     }
 
-    return number_format((float) $amount, 0, ',', ' ') . ' ₸';
+    $whole = ltrim($matches[1], '0');
+    $whole = $whole === '' ? '0' : $whole;
+    $fraction = str_pad($matches[2] ?? '', 2, '0');
+    $formatted = number_format((int) $whole, 0, ',', ' ');
+    if ($fraction !== '00') {
+        $formatted .= ',' . $fraction;
+    }
+
+    return $formatted . ' ₸';
 };
 $formatDate = static function (string $value, bool $withTime = false): string {
     if ($value === '') {
@@ -119,7 +128,7 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
                             </form>
                         </div>
                     <?php elseif ($requestStatus === 'awaiting_customer_approval'): ?>
-                        <p class="workspace-footnote">Решение по смете уже отправлено или ожидает обновления. Актуальное состояние будет показано после обновления заявки.</p>
+                        <p class="workspace-footnote">Смета ещё не подготовлена. Мастер должен сохранить стоимость, прежде чем вы сможете принять решение.</p>
                     <?php endif; ?>
                 </section>
 

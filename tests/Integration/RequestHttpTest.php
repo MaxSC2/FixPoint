@@ -288,7 +288,7 @@ final class RequestHttpTest extends IntegrationTestCase
         $diagnostic = 'Обнаружено загрязнение системы охлаждения и износ термопасты.';
         $diagnosis = $this->post('/technician/requests/' . $requestId . '/diagnosis', [
             'diagnostic_result' => $diagnostic,
-            'estimated_cost' => '15000.00',
+            'estimated_cost' => '15000.49',
             'estimated_ready_at' => '2026-12-01T15:30',
         ]);
         $this->assertSame(302, $diagnosis->status());
@@ -306,7 +306,7 @@ final class RequestHttpTest extends IntegrationTestCase
         $estimatePage = app()->handle(Request::create('GET', '/requests/' . $requestId));
         $this->assertSame(200, $estimatePage->status());
         $this->assertContains('Согласовать предложенную смету?', $estimatePage->body());
-        $this->assertContains('15 000 ₸', $estimatePage->body());
+        $this->assertContains('15 000,49 ₸', $estimatePage->body());
 
         $approval = $this->post('/requests/' . $requestId . '/estimate-decision', ['decision' => 'approve']);
         $this->assertSame(302, $approval->status());
@@ -314,6 +314,9 @@ final class RequestHttpTest extends IntegrationTestCase
 
         $this->logout();
         $this->loginAs(self::TECHNICIAN);
+        $technicianAfterApproval = app()->handle(Request::create('GET', '/technician/requests/' . $requestId));
+        $this->assertSame(200, $technicianAfterApproval->status());
+        $this->assertContains('15 000,49 ₸', $technicianAfterApproval->body());
         foreach ([
             ['ready_for_pickup', 'Ремонт завершён, устройство готово к выдаче.'],
             ['completed', 'Устройство передано клиенту.'],
@@ -427,6 +430,21 @@ final class RequestHttpTest extends IntegrationTestCase
         $this->assertContains('Клиент согласовал смету.', $updated);
         $this->assertContains('В ремонте', $updated);
         $this->assertNotContains('Согласовать предложенную смету?', $updated);
+    }
+
+    public function testCustomerCannotDecideWithoutAnEstimate(): void
+    {
+        $this->loginAs(self::CUSTOMER);
+        $requestId = $this->createEstimateFixture();
+        $this->pdo()->prepare('UPDATE repair_requests SET estimated_cost = NULL WHERE id = :id')
+            ->execute(['id' => $requestId]);
+
+        $decision = $this->post('/requests/' . $requestId . '/estimate-decision', ['decision' => 'approve']);
+        $this->assertSame(302, $decision->status());
+        $this->assertSame('awaiting_customer_approval', $this->requestRow($requestId)['status']);
+
+        $page = app()->handle(Request::create('GET', '/requests/' . $requestId))->body();
+        $this->assertContains('Нельзя принять решение: мастер ещё не подготовил сумму сметы.', $page);
     }
 
     public function testEstimateRejectionCancelsRequest(): void

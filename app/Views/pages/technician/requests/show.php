@@ -49,10 +49,20 @@ $formatDate = static function (string $value, bool $withTime = false): string {
     }
 };
 $formatMoney = static function (mixed $value): string {
-    if (!is_numeric($value) || (float) $value < 0) {
+    $raw = trim((string) $value);
+    if (!preg_match('/\\A(\\d+)(?:\\.(\\d{1,2}))?\\z/', $raw, $matches)) {
         return 'Не определена';
     }
-    return number_format((float) $value, 0, ',', ' ') . ' ₸';
+
+    $whole = ltrim($matches[1], '0');
+    $whole = $whole === '' ? '0' : $whole;
+    $fraction = str_pad($matches[2] ?? '', 2, '0');
+    $formatted = number_format((int) $whole, 0, ',', ' ');
+    if ($fraction !== '00') {
+        $formatted .= ',' . $fraction;
+    }
+
+    return $formatted . ' ₸';
 };
 require dirname(__DIR__, 3) . '/layouts/header.php';
 ?>
