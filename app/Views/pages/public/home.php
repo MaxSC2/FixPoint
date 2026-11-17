@@ -24,6 +24,7 @@ $featuredServices = isset($featuredServices) && is_array($featuredServices) ? $f
         </div>
 
         <div class="atelier-hero__visual" data-reveal>
+            <span class="atelier-visual-index" aria-hidden="true">Схема 01 / Устройство изнутри</span>
             <div class="atelier-art-frame">
                 <img
                     src="/assets/images/repair-dossier.svg"
@@ -39,7 +40,6 @@ $featuredServices = isset($featuredServices) && is_array($featuredServices) ? $f
                 <span class="atelier-visual-note__marker" aria-hidden="true">↗</span>
                 <span><strong>Каждый шаг зафиксирован</strong><small>История ремонта остаётся в заявке</small></span>
             </div>
-            <span class="atelier-visual-index" aria-hidden="true">Схема 01 / Устройство изнутри</span>
         </div>
     </div>
     <div class="container atelier-hero__bottom" data-reveal>
