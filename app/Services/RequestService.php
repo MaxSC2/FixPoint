@@ -462,7 +462,25 @@ final class RequestService
             return [];
         }
 
-        return $this->statuses->allowedTransitions((string) ($request['status'] ?? ''));
+        $status = (string) ($request['status'] ?? '');
+        $allowed = $this->statuses->allowedTransitions($status);
+        $hasEstimate = ($request['estimated_cost'] ?? null) !== null
+            && (string) ($request['estimated_cost'] ?? '') !== '';
+
+        if ($status === 'diagnostics') {
+            if ($hasEstimate) {
+                // A quoted job must be sent to the customer, not routed around
+                // approval through repair or parts waiting.
+                $allowed = array_values(array_diff($allowed, ['awaiting_parts', 'repairing']));
+            } else {
+                // Do not offer an approval stage until there is an amount.
+                $allowed = array_values(array_diff($allowed, ['awaiting_customer_approval']));
+            }
+        } elseif ($status === 'awaiting_parts' && $hasEstimate) {
+            $allowed = array_values(array_diff($allowed, ['repairing']));
+        }
+
+        return $allowed;
     }
 
     /**
