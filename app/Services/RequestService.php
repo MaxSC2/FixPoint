@@ -304,7 +304,9 @@ final class RequestService
         return [
             'can_comment' => $isOwner || $isAssigned || $isAdmin,
             'can_decide_estimate' => $isOwner
-                && (string) ($request['status'] ?? '') === 'awaiting_customer_approval',
+                && (string) ($request['status'] ?? '') === 'awaiting_customer_approval'
+                && ($request['estimated_cost'] ?? null) !== null
+                && (string) ($request['estimated_cost'] ?? '') !== '',
         ];
     }
 
