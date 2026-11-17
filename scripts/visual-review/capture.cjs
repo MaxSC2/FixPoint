@@ -237,6 +237,93 @@ async function captureRoute(page, role, route, viewport, results, axeResults, fa
     }
 }
 
+async function verifyPublicInteractions(page, fatalErrors) {
+    const fail = (message) => fatalErrors.push('public interactions: ' + message);
+    try {
+        await page.setViewportSize({ width: 390, height: 844 });
+        await page.goto(BASE_URL + '/', { waitUntil: 'domcontentloaded' });
+        await page.locator('body').waitFor({ state: 'visible', timeout: 5000 });
+
+        const toggle = page.locator('[data-nav-toggle]');
+        const navigation = page.locator('[data-site-nav]');
+        if (!await toggle.isVisible()) {
+            fail('mobile navigation toggle is not visible');
+        } else {
+            await toggle.click();
+            if (await toggle.getAttribute('aria-expanded') !== 'true' || !await navigation.isVisible()) {
+                fail('mobile navigation did not open or expose aria-expanded=true');
+            }
+            await page.keyboard.press('Escape');
+            if (await toggle.getAttribute('aria-expanded') !== 'false' || await navigation.isVisible()) {
+                fail('Escape did not close mobile navigation');
+            }
+            await toggle.click();
+            const servicesLink = navigation.locator('a[href="/services"]').first();
+            if (!await servicesLink.isVisible()) {
+                fail('mobile navigation does not expose the services link when opened');
+            } else {
+                await servicesLink.click();
+                await page.waitForURL((url) => url.pathname === '/services', { timeout: 10000 });
+                if (new URL(page.url()).pathname !== '/services') {
+                    fail('mobile services navigation did not open /services');
+                }
+            }
+        }
+
+        await page.goto(BASE_URL + '/services', { waitUntil: 'domcontentloaded' });
+        const pointerCard = page.locator('a.service-card').first();
+        const pointerHref = await pointerCard.getAttribute('href');
+        const pointerBox = await pointerCard.boundingBox();
+        if (!pointerHref || !pointerBox) {
+            fail('first full-card service link is missing or has no visible area');
+        } else {
+            await page.mouse.click(pointerBox.x + pointerBox.width / 2, pointerBox.y + pointerBox.height / 2);
+            const pointerTarget = new URL(pointerHref, BASE_URL).pathname;
+            await page.waitForURL((url) => url.pathname === pointerTarget, { timeout: 10000 });
+            if (new URL(page.url()).pathname !== pointerTarget) {
+                fail('clicking the middle of a service card did not navigate to ' + pointerTarget);
+            }
+        }
+
+        await page.goto(BASE_URL + '/services', { waitUntil: 'domcontentloaded' });
+        const keyboardCard = page.locator('a.service-card').nth(1);
+        const keyboardHref = await keyboardCard.getAttribute('href');
+        if (!keyboardHref) {
+            fail('second service card has no destination for keyboard activation');
+        } else {
+            await keyboardCard.focus();
+            await page.keyboard.press('Enter');
+            const keyboardTarget = new URL(keyboardHref, BASE_URL).pathname;
+            await page.waitForURL((url) => url.pathname === keyboardTarget, { timeout: 10000 });
+            if (new URL(page.url()).pathname !== keyboardTarget) {
+                fail('Enter on a focused service card did not navigate to ' + keyboardTarget);
+            }
+        }
+    } catch (error) {
+        fail('interaction sequence threw: ' + error.message);
+    }
+}
+
+async function verifyRoleHomeAction(page, role, expectedPath, fatalErrors) {
+    try {
+        await page.setViewportSize({ width: 1440, height: 1000 });
+        await page.goto(BASE_URL + '/', { waitUntil: 'domcontentloaded' });
+        const action = page.locator('.atelier-hero__actions .button--primary');
+        const href = await action.getAttribute('href');
+        if (href !== expectedPath) {
+            fatalErrors.push(role + ' home CTA target mismatch: ' + href + ', expected ' + expectedPath);
+            return;
+        }
+        await action.click();
+        await page.waitForURL((url) => url.pathname === expectedPath, { timeout: 10000 });
+        if (new URL(page.url()).pathname !== expectedPath) {
+            fatalErrors.push(role + ' home CTA did not navigate to ' + expectedPath);
+        }
+    } catch (error) {
+        fatalErrors.push(role + ' home CTA interaction failed: ' + error.message);
+    }
+}
+
 async function main() {
     await fs.mkdir(OUTPUT_DIR, { recursive: true });
     const results = [];
@@ -258,6 +345,7 @@ async function main() {
                 await captureRoute(publicPage, 'public', route, viewport, results, axeResults, fatalErrors);
             }
         }
+        await verifyPublicInteractions(publicPage, fatalErrors);
 
         for (const session of ROLE_SESSIONS) {
             const context = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
@@ -274,6 +362,15 @@ async function main() {
                     for (const viewport of viewports) {
                         await captureRoute(page, session.role, route, viewport, results, axeResults, fatalErrors);
                     }
+                }
+                const expectedHomeTarget = {
+                    'customer-kovalev': '/requests/create',
+                    'technician-ivanov': '/technician/requests',
+                    'technician-smirnova': '/technician/requests',
+                    admin: '/admin',
+                }[session.role];
+                if (expectedHomeTarget) {
+                    await verifyRoleHomeAction(page, session.role, expectedHomeTarget, fatalErrors);
                 }
             } catch (error) {
                 fatalErrors.push(error.message);
