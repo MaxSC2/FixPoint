@@ -128,7 +128,7 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
                             </form>
                         </div>
                     <?php elseif ($requestStatus === 'awaiting_customer_approval'): ?>
-                        <p class="workspace-footnote">Решение по смете уже отправлено или ожидает обновления. Актуальное состояние будет показано после обновления заявки.</p>
+                        <p class="workspace-footnote">Смета ещё не подготовлена. Мастер должен сохранить стоимость, прежде чем вы сможете принять решение.</p>
                     <?php endif; ?>
                 </section>
 
