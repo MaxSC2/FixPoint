@@ -6,6 +6,11 @@
     gap: 28px;
     max-width: 1080px;
 }
+.auth-page--login .auth-panel__head h1 {
+    margin: 11px 0 8px;
+    font-size: clamp(1.9rem, 3vw, 2.45rem);
+    line-height: 1.12;
+}
 .auth-page--login .auth-panel {
     grid-column: 1;
     grid-row: 1;
