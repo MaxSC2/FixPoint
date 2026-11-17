@@ -4,17 +4,19 @@ declare(strict_types=1);
 
 namespace FixPoint\Controllers;
 
-use DateTimeImmutable;
 use FixPoint\Core\Config;
 use FixPoint\Core\Request;
 use FixPoint\Core\Response;
 use FixPoint\Core\Session;
 use FixPoint\Core\ViewRenderer;
-use FixPoint\Repositories\AdminStatisticsRepository;
 use FixPoint\Security\Auth;
 use FixPoint\Security\Csrf;
+use FixPoint\Services\AdminStatisticsService;
 
-/** Admin reporting screen backed by date-scoped database aggregates. */
+/**
+ * Administrator analytics page. The route is admin-only; the service re-checks
+ * the role and validates the optional period before running aggregates.
+ */
 final class AdminStatisticsController extends Controller
 {
     public function __construct(
@@ -23,53 +25,34 @@ final class AdminStatisticsController extends Controller
         Auth $auth,
         Csrf $csrf,
         Session $session,
-        private readonly AdminStatisticsRepository $statistics
+        private readonly AdminStatisticsService $statistics
     ) {
         parent::__construct($config, $view, $auth, $csrf, $session);
     }
 
     public function index(Request $request, array $params = []): Response
     {
-        $today = new DateTimeImmutable('today');
-        $defaultFrom = $today->modify('first day of -5 months');
-        $from = $this->validDate($request->query('from'), $defaultFrom);
-        $to = $this->validDate($request->query('to'), $today);
-
-        // A reversed range is corrected deterministically rather than returning
-        // an empty chart that looks like a backend failure.
-        if ($from > $to) {
-            [$from, $to] = [$to, $from];
+        $user = $this->auth->user();
+        if ($user === null) {
+            $this->abort(403, 'Authentication required');
         }
 
-        $filters = ['from' => $from, 'to' => $to];
+        $report = $this->statistics->report(
+            $user,
+            $this->queryString($request, 'from'),
+            $this->queryString($request, 'to')
+        );
 
-        return $this->renderPage('pages/admin/statistics', [
+        return $this->renderPage('pages/admin/statistics', array_merge($report, [
             'pageTitle' => 'Статистика — ' . $this->config->get('app.name'),
             'activeNav' => 'admin',
-            'filters' => $filters,
-            'summary' => $this->statistics->summary($filters),
-            'statusBreakdown' => $this->statistics->statusBreakdown($filters),
-            'monthlyRequests' => $this->statistics->monthlyRequests($filters),
-            'topServices' => $this->statistics->topServices($filters),
-        ]);
+        ]));
     }
 
-    private function validDate(mixed $value, DateTimeImmutable $fallback): string
+    private function queryString(Request $request, string $key): string
     {
-        if (!is_string($value) || $value === '') {
-            return $fallback->format('Y-m-d');
-        }
+        $value = $request->query($key, '');
 
-        $date = DateTimeImmutable::createFromFormat('!Y-m-d', $value);
-        $errors = DateTimeImmutable::getLastErrors();
-
-        if (!$date instanceof DateTimeImmutable
-            || ($errors !== false && ($errors['warning_count'] > 0 || $errors['error_count'] > 0))
-            || $date->format('Y-m-d') !== $value
-        ) {
-            return $fallback->format('Y-m-d');
-        }
-
-        return $date->format('Y-m-d');
+        return is_string($value) ? trim($value) : '';
     }
 }

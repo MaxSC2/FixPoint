@@ -23,7 +23,7 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
         <div class="workspace-heading workspace-heading--compact" data-reveal>
             <div><nav class="breadcrumbs" aria-label="Хлебные крошки"><a href="/admin">Панель администратора</a><span aria-hidden="true">/</span><a href="/admin/services">Услуги</a><span aria-hidden="true">/</span><span aria-current="page">Редактирование</span></nav><span class="eyebrow">Публичный каталог / FixPoint</span><h1>Редактировать услугу</h1><p><?= e($name) ?></p></div>
         </div>
-        <nav class="workspace-nav" aria-label="Разделы администратора" data-reveal><a class="workspace-nav__link" href="/admin">Обзор</a><a class="workspace-nav__link" href="/admin/requests">Заявки</a><a class="workspace-nav__link" href="/admin/users">Пользователи</a><a class="workspace-nav__link is-active" href="/admin/services" aria-current="page">Услуги</a><a class="workspace-nav__link" href="/admin/categories">Категории</a></nav>
+        <nav class="workspace-nav" aria-label="Разделы администратора" data-reveal><a class="workspace-nav__link" href="/admin">Обзор</a><a class="workspace-nav__link" href="/admin/requests">Заявки</a><a class="workspace-nav__link" href="/admin/users">Пользователи</a><a class="workspace-nav__link is-active" href="/admin/services" aria-current="page">Услуги</a><a class="workspace-nav__link" href="/admin/categories">Категории</a><a class="workspace-nav__link" href="/admin/statistics">Статистика</a></nav>
 
         <div class="admin-edit-layout">
             <section class="request-form-panel" data-reveal>

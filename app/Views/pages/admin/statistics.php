@@ -8,6 +8,7 @@ $statusBreakdown = isset($statusBreakdown) && is_array($statusBreakdown) ? array
 $monthlyRequests = isset($monthlyRequests) && is_array($monthlyRequests) ? array_values(array_filter($monthlyRequests, 'is_array')) : [];
 $topServices = isset($topServices) && is_array($topServices) ? array_values(array_filter($topServices, 'is_array')) : [];
 $filters = isset($filters) && is_array($filters) ? $filters : [];
+$periodError = isset($periodError) && is_string($periodError) ? $periodError : '';
 $from = (string) ($filters['from'] ?? '');
 $to = (string) ($filters['to'] ?? '');
 $totalRequests = max(0, (int) ($summary['total_requests'] ?? 0));
@@ -47,6 +48,8 @@ require dirname(__DIR__, 2) . '/layouts/header.php';
         <nav class="workspace-nav" aria-label="Разделы администратора" data-reveal>
             <a class="workspace-nav__link" href="/admin">Обзор</a><a class="workspace-nav__link" href="/admin/requests">Заявки</a><a class="workspace-nav__link" href="/admin/users">Пользователи</a><a class="workspace-nav__link" href="/admin/services">Услуги</a><a class="workspace-nav__link" href="/admin/categories">Категории</a><a class="workspace-nav__link is-active" href="/admin/statistics" aria-current="page">Статистика</a>
         </nav>
+
+        <?php if ($periodError !== ''): ?><div class="alert alert--error" role="alert"><span class="alert__marker" aria-hidden="true"></span><p><?= e($periodError) ?></p></div><?php endif; ?>
 
         <form class="admin-period-filter" method="get" action="/admin/statistics" data-reveal>
             <div><span class="eyebrow">Период анализа</span><strong>Выберите даты для отчёта</strong></div>

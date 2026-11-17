@@ -251,12 +251,13 @@ Category rows contain id, name, slug, description, sort_order and is_active. Cre
 
 | Route | Logical view | Required view-model keys |
 |---|---|---|
-| GET /admin/statistics | pages/admin/statistics | summary, statusBreakdown[], monthlyRequests[], topServices[], filters |
+| GET /admin/statistics | pages/admin/statistics | summary, statusBreakdown[], monthlyRequests[], topServices[], filters, periodError |
 
 - summary: total_requests, requests_completed, requests_in_progress, requests_waiting_approval, requests_rejected. Counts are non-negative integers derived from the selected period.
 - statusBreakdown[]: status and request_count.
 - monthlyRequests[]: month_label and request_count, ordered chronologically.
 - topServices[]: name and request_count, ordered by request count descending.
 - filters: from and to date strings (YYYY-MM-DD) reflecting the applied period.
+- periodError: an empty string when the period is valid, or a user-facing message. An invalid or reversed period is never silently applied: the controller renders the message and builds the report without a date filter.
 
 The template calculates completion share from supplied counts only and guards division by zero. Empty aggregate arrays render explanatory empty states. The controller validates date ranges and computes every aggregate from database records; no chart data is hardcoded.

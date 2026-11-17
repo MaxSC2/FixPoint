@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace FixPoint\Repositories;
 
 use FixPoint\Core\Database;
+use DateTimeImmutable;
 use Throwable;
 
 /**
@@ -489,6 +490,149 @@ final class RequestRepository
     public function latest(int $limit = 8): array
     {
         return $this->listAll($limit, 0);
+    }
+
+    /**
+     * Aggregates for the administrator statistics page. The optional dates are
+     * already validated by AdminStatisticsService and are applied to
+     * created_at as an inclusive day range in UTC.
+     *
+     * @return array{
+     *   total_requests: int,
+     *   requests_completed: int,
+     *   requests_in_progress: int,
+     *   requests_waiting_approval: int,
+     *   requests_rejected: int
+     * }
+     */
+    public function statisticsSummary(?string $fromDate, ?string $toDate): array
+    {
+        [$where, $params] = $this->statisticsPeriod($fromDate, $toDate);
+        $statement = $this->database->connection()->prepare(
+            "SELECT
+                COUNT(*) AS total_requests,
+                COALESCE(SUM(status = 'completed'), 0) AS requests_completed,
+                COALESCE(SUM(status IN
+                    ('accepted', 'diagnostics', 'awaiting_parts', 'repairing', 'ready_for_pickup')
+                ), 0) AS requests_in_progress,
+                COALESCE(SUM(status = 'awaiting_customer_approval'), 0) AS requests_waiting_approval,
+                COALESCE(SUM(status = 'rejected'), 0) AS requests_rejected
+             FROM repair_requests r
+             WHERE " . $where
+        );
+        $statement->execute($params);
+        $row = $statement->fetch();
+
+        return [
+            'total_requests' => (int) ($row['total_requests'] ?? 0),
+            'requests_completed' => (int) ($row['requests_completed'] ?? 0),
+            'requests_in_progress' => (int) ($row['requests_in_progress'] ?? 0),
+            'requests_waiting_approval' => (int) ($row['requests_waiting_approval'] ?? 0),
+            'requests_rejected' => (int) ($row['requests_rejected'] ?? 0),
+        ];
+    }
+
+    /**
+     * @return list<array{status: string, request_count: int}>
+     */
+    public function statusBreakdownForPeriod(?string $fromDate, ?string $toDate): array
+    {
+        [$where, $params] = $this->statisticsPeriod($fromDate, $toDate);
+        $statement = $this->database->connection()->prepare(
+            "SELECT status, COUNT(*) AS request_count
+             FROM repair_requests r
+             WHERE " . $where . "
+             GROUP BY status
+             ORDER BY FIELD(status,
+                'new', 'accepted', 'diagnostics', 'awaiting_customer_approval',
+                'awaiting_parts', 'repairing', 'ready_for_pickup', 'completed',
+                'cancelled', 'rejected'
+             ), status ASC"
+        );
+        $statement->execute($params);
+
+        return array_map(
+            static fn (array $row): array => [
+                'status' => (string) ($row['status'] ?? ''),
+                'request_count' => (int) ($row['request_count'] ?? 0),
+            ],
+            $statement->fetchAll()
+        );
+    }
+
+    /**
+     * @return list<array{month_key: string, request_count: int}>
+     */
+    public function monthlyCountsForPeriod(?string $fromDate, ?string $toDate): array
+    {
+        [$where, $params] = $this->statisticsPeriod($fromDate, $toDate);
+        $statement = $this->database->connection()->prepare(
+            "SELECT DATE_FORMAT(created_at, '%Y-%m') AS month_key, COUNT(*) AS request_count
+             FROM repair_requests r
+             WHERE " . $where . "
+             GROUP BY month_key
+             ORDER BY month_key ASC"
+        );
+        $statement->execute($params);
+
+        return array_map(
+            static fn (array $row): array => [
+                'month_key' => (string) ($row['month_key'] ?? ''),
+                'request_count' => (int) ($row['request_count'] ?? 0),
+            ],
+            $statement->fetchAll()
+        );
+    }
+
+    /**
+     * @return list<array{name: string, request_count: int}>
+     */
+    public function topServicesForPeriod(?string $fromDate, ?string $toDate, int $limit = 5): array
+    {
+        [$where, $params] = $this->statisticsPeriod($fromDate, $toDate);
+        $limit = max(1, min(10, $limit));
+        $statement = $this->database->connection()->prepare(
+            'SELECT s.name, COUNT(*) AS request_count
+             FROM repair_requests r
+             INNER JOIN services s ON s.id = r.service_id
+             WHERE ' . $where . '
+             GROUP BY s.id, s.name
+             ORDER BY request_count DESC, s.name ASC
+             LIMIT ' . $limit
+        );
+        $statement->execute($params);
+
+        return array_map(
+            static fn (array $row): array => [
+                'name' => (string) ($row['name'] ?? ''),
+                'request_count' => (int) ($row['request_count'] ?? 0),
+            ],
+            $statement->fetchAll()
+        );
+    }
+
+    /**
+     * @return array{0: string, 1: array<string, string>}
+     */
+    private function statisticsPeriod(?string $fromDate, ?string $toDate): array
+    {
+        $where = [];
+        $params = [];
+
+        if ($fromDate !== null) {
+            $where[] = 'r.created_at >= :statistics_from';
+            $params['statistics_from'] = $fromDate . ' 00:00:00';
+        }
+
+        if ($toDate !== null) {
+            $nextDay = (new DateTimeImmutable($toDate . ' 00:00:00'))
+                ->modify('+1 day')
+                ->format('Y-m-d H:i:s');
+            $where[] = 'r.created_at < :statistics_to';
+            $params['statistics_to'] = $nextDay;
+        }
+
+        return [$where === [] ? '1 = 1' : implode(' AND ', $where), $params];
     }
 
     /**
