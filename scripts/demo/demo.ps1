@@ -5,7 +5,7 @@
 .DESCRIPTION
     Starts the local portable MySQL on 127.0.0.1:3307 (if it is not running),
     prepares the fixpoint_demo database, extracts the demo application source
-    from the catalogue PR branch into a runtime folder and serves it with the
+    from the selected git ref into a runtime folder and serves it with the
     PHP built-in server. Adminer is served next to it for database inspection.
 
     The launcher never changes the working tree, main or develop. The source is
@@ -35,7 +35,8 @@
     Adminer port. Default: 8096.
 
 .PARAMETER Ref
-    Git ref used for the demo application. Default: the catalogue PR branch.
+    Git ref used for the demo application. Default: the verified application
+    commit c6860b8 (catalogue + password-whitespace fix).
 
 .EXAMPLE
     .\start-demo.cmd
@@ -55,10 +56,17 @@ param(
     [switch]$Reseed,
     [int]$AppPort = 8095,
     [int]$AdminerPort = 8096,
-    [string]$Ref = 'origin/feature/catalog-and-demo-data-2026-11-18'
+    [string]$Ref = 'c6860b8b61e4dcf299184b0902f2b519a8c1a860'
 )
 
 $ErrorActionPreference = 'Stop'
+
+# The launcher must never pass a database root password or a seed password to
+# the PHP application. The repository .env is not copied: it may contain
+# DB_ROOT_PASSWORD. The runtime .env is generated from an allowlist below.
+foreach ($secretName in @('DB_ROOT_PASSWORD', 'SEED_PASSWORD')) {
+    [Environment]::SetEnvironmentVariable($secretName, $null, 'Process')
+}
 
 try {
     [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
@@ -284,6 +292,18 @@ if (-not (Test-Port $DbPort)) {
     Write-Host 'MySQL is already running on port 3307.'
 }
 
+# Refuse to use a MySQL instance that is reachable beyond loopback. This also
+# verifies that the local root account is usable before any grant is changed.
+$bindAddress = (& $MysqlExe --protocol=TCP -h $DbHost -P $DbPort -u root --skip-column-names --batch -e 'SELECT @@bind_address;' 2>$null | Select-Object -First 1)
+if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrWhiteSpace($bindAddress)) {
+    throw 'Cannot verify the MySQL bind address. Is the local root account available?'
+}
+$bindAddress = $bindAddress.Trim()
+if ($bindAddress -notin @('127.0.0.1', 'localhost')) {
+    throw "MySQL is listening on '$bindAddress', not loopback only. Refusing to continue."
+}
+Write-Host ("MySQL bind address: {0}" -f $bindAddress)
+
 # ------------------------------------------------------- database and grants
 Write-Host 'Preparing the demo database and account...'
 
@@ -293,12 +313,10 @@ CREATE USER IF NOT EXISTS '$DbUser'@'localhost' IDENTIFIED BY '$DbPass';
 CREATE USER IF NOT EXISTS '$DbUser'@'127.0.0.1' IDENTIFIED BY '$DbPass';
 ALTER USER '$DbUser'@'localhost' IDENTIFIED BY '$DbPass';
 ALTER USER '$DbUser'@'127.0.0.1' IDENTIFIED BY '$DbPass';
-GRANT ALL PRIVILEGES ON fixpoint.* TO '$DbUser'@'localhost';
-GRANT ALL PRIVILEGES ON fixpoint.* TO '$DbUser'@'127.0.0.1';
+REVOKE ALL PRIVILEGES, GRANT OPTION FROM '$DbUser'@'localhost';
+REVOKE ALL PRIVILEGES, GRANT OPTION FROM '$DbUser'@'127.0.0.1';
 GRANT ALL PRIVILEGES ON fixpoint_demo.* TO '$DbUser'@'localhost';
 GRANT ALL PRIVILEGES ON fixpoint_demo.* TO '$DbUser'@'127.0.0.1';
-GRANT ALL PRIVILEGES ON fixpoint_test.* TO '$DbUser'@'localhost';
-GRANT ALL PRIVILEGES ON fixpoint_test.* TO '$DbUser'@'127.0.0.1';
 FLUSH PRIVILEGES;
 "@
 
@@ -360,10 +378,29 @@ if (-not $reuseApp) {
     $Ref = $state.ref
 }
 
-$sourceEnv = Join-Path $RepoRoot '.env'
-if ((Test-Path -LiteralPath $sourceEnv) -and (Test-Path -LiteralPath $AppDir)) {
-    Copy-Item -LiteralPath $sourceEnv -Destination (Join-Path $AppDir '.env') -Force
-}
+# The runtime .env is generated from an allowlist. Do not copy the repository
+# .env: it may contain DB_ROOT_PASSWORD or other local secrets. The application
+# process also receives only the variables set below.
+$runtimeEnv = @"
+APP_NAME=FixPoint
+APP_ENV=local
+APP_DEBUG=true
+APP_URL=$appUrl
+APP_TIMEZONE=Asia/Almaty
+DB_HOST=$DbHost
+DB_PORT=$DbPort
+DB_DATABASE=$DbName
+DB_USERNAME=$DbUser
+DB_PASSWORD=$DbPass
+DB_CHARSET=utf8mb4
+SESSION_NAME=fixpoint_demo_session
+SESSION_LIFETIME=120
+SESSION_SECURE=false
+SESSION_SAMESITE=Lax
+CATALOG_PER_PAGE=12
+"@
+$utf8NoBom = New-Object System.Text.UTF8Encoding($false)
+[System.IO.File]::WriteAllText((Join-Path $AppDir '.env'), $runtimeEnv, $utf8NoBom)
 
 # Process environment wins over .env because the application loader does not
 # overwrite variables that are already present.
@@ -378,8 +415,9 @@ $env:DB_USERNAME = $DbUser
 $env:DB_PASSWORD = $DbPass
 $env:DB_CHARSET = 'utf8mb4'
 $env:SESSION_NAME = 'fixpoint_demo_session'
-$env:SEED_PASSWORD = $SeedPassword
 $env:CATALOG_PER_PAGE = '12'
+[Environment]::SetEnvironmentVariable('DB_ROOT_PASSWORD', $null, 'Process')
+[Environment]::SetEnvironmentVariable('SEED_PASSWORD', $null, 'Process')
 
 # --------------------------------------------------------- schema and demo data
 Write-Host 'Applying migrations...'
@@ -398,9 +436,16 @@ try {
 
     if ($Reseed -or $serviceCount -lt 100) {
         Write-Host 'Running the demo seed...'
-        & $PhpExe database/seed.php
-        if ($LASTEXITCODE -ne 0) {
-            throw 'Seeding failed.'
+        try {
+            # The seed password is needed only by this short-lived CLI process.
+            # It is removed again before the web server starts.
+            $env:SEED_PASSWORD = $SeedPassword
+            & $PhpExe database/seed.php
+            if ($LASTEXITCODE -ne 0) {
+                throw 'Seeding failed.'
+            }
+        } finally {
+            [Environment]::SetEnvironmentVariable('SEED_PASSWORD', $null, 'Process')
         }
 
         $serviceCountRaw = & $MysqlExe --protocol=TCP -h $DbHost -P $DbPort -u $DbUser "-p$DbPass" --skip-column-names --batch -e "SELECT COUNT(*) FROM $DbName.services;" 2>$null
@@ -420,6 +465,20 @@ try {
 }
 
 # ------------------------------------------------------------- application
+# Hard guard: the web server must not inherit root or seed credentials.
+[Environment]::SetEnvironmentVariable('DB_ROOT_PASSWORD', $null, 'Process')
+[Environment]::SetEnvironmentVariable('SEED_PASSWORD', $null, 'Process')
+if ($env:DB_ROOT_PASSWORD -or $env:SEED_PASSWORD) {
+    throw 'Refusing to start the application with root/seed secrets in its environment.'
+}
+$runtimeEnvPath = Join-Path $AppDir '.env'
+if (Test-Path -LiteralPath $runtimeEnvPath) {
+    $leakedSecret = Select-String -Path $runtimeEnvPath -Pattern '^(DB_ROOT_PASSWORD|SEED_PASSWORD)=' -Quiet
+    if ($leakedSecret) {
+        throw "Refusing to start the application: $runtimeEnvPath contains a root or seed secret."
+    }
+}
+
 $appPid = $null
 if (-not $reuseApp) {
     Write-Host 'Starting the application...'
@@ -466,6 +525,13 @@ if (Test-Port $AdminerPort) {
     }
 } else {
     $adminerFile = Join-Path $AdminerDir 'adminer.php'
+    $bundledAdminer = Join-Path (Split-Path $RepoRoot -Parent) 'local\adminer\adminer.php'
+    if (-not (Test-Path -LiteralPath $adminerFile) -and (Test-Path -LiteralPath $bundledAdminer)) {
+        New-Item -ItemType Directory -Force -Path $AdminerDir | Out-Null
+        Copy-Item -LiteralPath $bundledAdminer -Destination $adminerFile -Force
+        Write-Host 'Using the bundled Adminer copy.'
+    }
+
     if (-not (Test-Path -LiteralPath $adminerFile)) {
         New-Item -ItemType Directory -Force -Path $AdminerDir | Out-Null
         Write-Host 'Downloading Adminer...'
@@ -524,7 +590,7 @@ if ($adminerAvailable) {
     Write-Host '  Adminer     : not available (see warnings above)'
 }
 Write-Host ("  Database    : {0}:{1}/{2}" -f $DbHost, $DbPort, $DbName)
-Write-Host ("  DB login    : {0} / {1}  (ALL PRIVILEGES)" -f $DbUser, $DbPass)
+Write-Host ("  DB login    : {0} / {1}  (ALL PRIVILEGES on {2} only)" -f $DbUser, $DbPass, $DbName)
 Write-Host ("  Source      : {0} @ {1}" -f $Ref, $sha.Substring(0, 7))
 Write-Host ("  Runtime dir : {0}" -f $RuntimeRoot)
 Write-Host ''
