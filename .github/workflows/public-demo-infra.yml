@@ -33,6 +33,8 @@ jobs:
           jq -e '([.services.caddy.ports[] | select(.target == 443 and .published == "443" and .protocol == "tcp")] | length) == 1' /tmp/fixpoint-compose.json
           grep -Fxq "backups/" .dockerignore
           grep -Fxq "*.sql.gz" .dockerignore
+          bash -n scripts/deploy.sh scripts/backup.sh scripts/restore.sh
+          sh -n docker/php/entrypoint.sh
 
       - name: Validate Caddyfile syntax
         run: |
