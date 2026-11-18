@@ -78,8 +78,9 @@ docker compose up --build
 - Приложение: http://localhost:8080
 - Проверка состояния: http://localhost:8080/health
 - MySQL доступен только внутри compose-сети; данные хранятся в volume `db_data`.
-- Контейнер приложения ждёт healthcheck БД, выполняет миграции, затем seed
-  (`RUN_MIGRATIONS=true`, `SEED_DATABASE=true`).
+- Одноразовый контейнер `init` ждёт healthcheck БД, выполняет миграции и seed
+  (`RUN_MIGRATIONS=true`, `SEED_DATABASE=true`); Apache стартует только после
+  успешного завершения `init` и не получает bootstrap-пароли root/seed.
 - Порт приложения переопределяется через `APP_PORT` (по умолчанию `8080`).
 
 Остановка:
