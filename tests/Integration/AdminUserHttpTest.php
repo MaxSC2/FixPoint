@@ -163,6 +163,37 @@ final class AdminUserHttpTest extends IntegrationTestCase
         $this->assertSame('technician', app()->auth()->role());
     }
 
+    public function testAdminCreatedPasswordPreservesLeadingAndTrailingWhitespace(): void
+    {
+        $email = $this->email('whitespace-password');
+        $password = '  StrongPass1  ';
+        $this->loginAs(self::ADMIN);
+
+        $response = $this->post('/admin/users', [
+            'full_name' => 'TASK005B Whitespace Password',
+            'email' => $email,
+            'phone' => '',
+            'role' => 'technician',
+            'password' => $password,
+        ]);
+
+        $this->assertSame(302, $response->status());
+        $this->assertSame('/admin/users', $response->header('Location'));
+
+        $row = $this->userRow($this->userId($email));
+        $this->assertTrue(password_verify($password, (string) $row['password_hash']));
+
+        $this->logout();
+        $login = $this->post('/login', [
+            'email' => $email,
+            'password' => $password,
+        ]);
+
+        $this->assertSame(302, $login->status());
+        $this->assertSame('/technician/requests', $login->header('Location'));
+        $this->assertSame('technician', app()->auth()->role());
+    }
+
     public function testCreateValidatesInputAndKeepsOldValues(): void
     {
         $before = $this->countUsers();

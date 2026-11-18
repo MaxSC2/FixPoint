@@ -44,7 +44,7 @@ final class AuthController extends Controller
     public function login(Request $request, array $params = []): Response
     {
         $email = $this->stringPost($request, 'email');
-        $password = $this->stringPost($request, 'password');
+        $password = $this->rawStringPost($request, 'password');
         $returnTo = $this->safeReturnTo($request->post('return_to', $request->query('return_to')));
 
         if (!$this->authService->attempt($email, $password)) {
@@ -73,8 +73,8 @@ final class AuthController extends Controller
         $fullName = $this->stringPost($request, 'full_name');
         $email = $this->stringPost($request, 'email');
         $phone = $this->stringPost($request, 'phone');
-        $password = $this->stringPost($request, 'password');
-        $confirmation = $this->stringPost($request, 'password_confirmation');
+        $password = $this->rawStringPost($request, 'password');
+        $confirmation = $this->rawStringPost($request, 'password_confirmation');
 
         try {
             $this->authService->register($fullName, $email, $phone, $password, $confirmation);
@@ -133,4 +133,13 @@ final class AuthController extends Controller
             ? '/login'
             : '/login?return_to=' . rawurlencode($returnTo);
     }
+
+    /** Passwords are opaque credentials: surrounding whitespace is significant. */
+    private function rawStringPost(Request $request, string $key): string
+    {
+        $value = $request->post($key, '');
+
+        return is_string($value) ? $value : '';
+    }
+
 }

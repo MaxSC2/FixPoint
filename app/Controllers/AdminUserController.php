@@ -51,7 +51,7 @@ final class AdminUserController extends Controller
             'email' => $this->stringPost($request, 'email'),
             'phone' => $this->stringPost($request, 'phone'),
             'role' => $this->stringPost($request, 'role'),
-            'password' => $this->stringPost($request, 'password'),
+            'password' => $this->rawStringPost($request, 'password'),
         ];
 
         try {
@@ -150,4 +150,13 @@ final class AdminUserController extends Controller
             $this->session->flashErrors($errors);
         }
     }
+
+    /** Passwords are opaque credentials: surrounding whitespace is significant. */
+    private function rawStringPost(Request $request, string $key): string
+    {
+        $value = $request->post($key, '');
+
+        return is_string($value) ? $value : '';
+    }
+
 }

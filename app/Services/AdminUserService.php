@@ -64,7 +64,7 @@ final class AdminUserService
         $data = $this->validateProfile($input, null);
         $errors = [];
 
-        $password = $this->scalar($input['password'] ?? '');
+        $password = $this->rawScalar($input['password'] ?? '');
         $passwordLength = mb_strlen($password);
         if ($passwordLength < 8) {
             $errors['password'] = 'Пароль должен быть не короче 8 символов.';
@@ -247,4 +247,11 @@ final class AdminUserService
     {
         return is_string($value) || is_numeric($value) ? trim((string) $value) : '';
     }
+
+    /** Passwords are opaque credentials: do not trim characters that belong to the secret. */
+    private function rawScalar(mixed $value): string
+    {
+        return is_string($value) || is_numeric($value) ? (string) $value : '';
+    }
+
 }
