@@ -3,8 +3,9 @@
 **Дата:** 18.11.2026  
 **Ветка:** `docs/module4-audit-corrections-2026-11-17`  
 **Корректирующий коммит:** `23a8544` — `docs: correct Module 4 transcript audit findings`  
+**Checkpoint-коммиты:** `7ce3f50`, `1051c1d` (только документация)  
 **База:** `84bd094` (`qa/browser-visual-capture`)  
-**QA-ветка после fast-forward:** `23a8544`  
+**QA-ветка:** содержит `23a8544`; последующие коммиты — только docs.  
 **PR #21:** OPEN, Draft, base `develop`, не влит. `main` и `develop` не изменялись.
 
 ## 1. Что вошло в корректирующий коммит
@@ -86,6 +87,16 @@ External YouTube probe: 31 videos returned blocked_by_youtube. This describes th
 | CI | [44283729740](https://github.com/MaxSC2/FixPoint/actions/runs/44283729740) | ✅ PASS | Lint 138; 190 tests, 0 failed, 1954 assertions; smoke 30/30; Docker Compose runtime success |
 | Browser Visual QA | [44283729544](https://github.com/MaxSC2/FixPoint/actions/runs/44283729544) | ✅ PASS | 159 captures; 0 HTTP errors; 0 horizontal overflow; 0 browser errors; 0 fatal errors; 0 accessibility violations; artifact `fixpoint-visual-review-97` |
 | Module 4 source audit | [44283729513](https://github.com/MaxSC2/FixPoint/actions/runs/44283729513) | ✅ PASS | 56 абзацев DOCX; 31 видео; локальный пакет PASS; live probe blocked |
+
+### 4.1. Проверка checkpoint-коммита `7ce3f50`
+
+Тот же набор проверок на `7ce3f50` (добавлены только `docs/36`, `docs/37` и ссылка в `docs/00`):
+
+| Workflow | Run | Статус | Результат |
+|---|---|---|---|
+| CI | [44285284398](https://github.com/MaxSC2/FixPoint/actions/runs/44285284398) | ✅ PASS | Lint 138; 190 tests, 0 failed, 1954 assertions; smoke 30/30 |
+| Browser Visual QA | [44285284383](https://github.com/MaxSC2/FixPoint/actions/runs/44285284383) | ✅ PASS | 159 captures; 0 HTTP/overflow/browser/fatal/accessibility errors |
+| Module 4 source audit | [44285284460](https://github.com/MaxSC2/FixPoint/actions/runs/44285284460) | ✅ PASS | Локальный пакет PASS 31/31; live probe 31 × `blocked_by_youtube` |
 
 ## 5. Статусы шести UX-замечаний
 
