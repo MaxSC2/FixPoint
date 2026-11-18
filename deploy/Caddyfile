@@ -1,0 +1,16 @@
+{$DEMO_DOMAIN} {
+    encode zstd gzip
+
+    # Caddy obtains and renews the public TLS certificate automatically.
+    reverse_proxy app:80
+
+    header {
+        Strict-Transport-Security "max-age=31536000; includeSubDomains"
+        -Server
+    }
+
+    log {
+        output stdout
+        format console
+    }
+}
