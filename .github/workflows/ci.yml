@@ -6,6 +6,7 @@ on:
       - develop
       - main
       - 'feature/**'
+      - 'ui/login-form-first-2026-11-17'
   pull_request:
     branches:
       - develop

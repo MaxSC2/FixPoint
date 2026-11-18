@@ -211,11 +211,14 @@ async function captureRoute(page, role, route, viewport, results, axeResults, fa
         }
     }
 
-    if (viewport.name === 'desktop-1440') {
+    const shouldRunAxe = viewport.name === 'desktop-1440'
+        || (role === 'public' && route === '/login'
+            && ['mobile-390', 'small-mobile-360'].includes(viewport.name));
+    if (shouldRunAxe) {
         try {
             const axe = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze();
             axeResults.push({
-                role, route,
+                role, route, viewport: viewport.name,
                 violations: axe.violations.map((v) => ({
                     id: v.id, impact: v.impact, description: v.description, help: v.help,
                     helpUrl: v.helpUrl, nodes: v.nodes.length,
@@ -343,6 +346,7 @@ async function main() {
     const axeResults = [];
     const fatalErrors = [];
     const browserErrors = [];
+    const interactionChecks = [];
     const browser = await chromium.launch({ headless: true });
 
     try {
@@ -359,6 +363,49 @@ async function main() {
             }
         }
         await verifyPublicInteractions(publicPage, fatalErrors);
+
+        // The login guidance is a native disclosure. Verify the default state,
+        // pointer activation and keyboard activation rather than only capturing
+        // its collapsed appearance.
+        try {
+            await publicPage.setViewportSize({ width: 390, height: 844 });
+            await publicPage.goto(BASE_URL + '/login', { waitUntil: 'domcontentloaded' });
+            const disclosure = publicPage.locator('.auth-story__details');
+            const disclosureCount = await disclosure.count();
+            if (disclosureCount !== 1) {
+                throw new Error('Expected exactly one login help disclosure, found ' + disclosureCount);
+            }
+
+            const summary = disclosure.locator('summary');
+            const closedByDefault = !(await disclosure.evaluate((element) => element.open));
+            const hiddenByDefault = !(await disclosure.locator('.auth-story__steps').isVisible());
+
+            await summary.click();
+            const opensByPointer = await disclosure.evaluate((element) => element.open);
+            const stepsVisibleWhenOpen = await disclosure.locator('.auth-story__steps').isVisible();
+
+            await summary.focus();
+            await publicPage.keyboard.press('Enter');
+            const closesByKeyboard = !(await disclosure.evaluate((element) => element.open));
+
+            const check = {
+                role: 'public',
+                route: '/login',
+                feature: 'help-disclosure',
+                viewport: 'mobile-390',
+                closedByDefault,
+                hiddenByDefault,
+                opensByPointer,
+                stepsVisibleWhenOpen,
+                closesByKeyboard,
+            };
+            interactionChecks.push(check);
+            if (Object.values(check).some((value) => value === false)) {
+                fatalErrors.push('public /login: help disclosure interaction check failed: ' + JSON.stringify(check));
+            }
+        } catch (error) {
+            fatalErrors.push('public /login: help disclosure interaction check: ' + error.message);
+        }
 
         for (const session of ROLE_SESSIONS) {
             const context = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
@@ -398,7 +445,7 @@ async function main() {
     for (const item of axeResults) {
         for (const violation of item.violations || []) {
             if (['critical', 'serious'].includes(violation.impact)) {
-                fatalErrors.push(item.role + ' ' + item.route + ': serious accessibility violation ' + violation.id + ' (' + violation.nodes.length + ' node(s))');
+                fatalErrors.push(item.role + ' ' + item.route + ' @ ' + (item.viewport || 'desktop-1440') + ': serious accessibility violation ' + violation.id + ' (' + violation.nodes.length + ' node(s))');
             }
         }
     }
@@ -416,6 +463,7 @@ async function main() {
         accessibilityViolationGroups: axeResults.reduce((sum, item) => sum + (item.violations || []).length, 0),
         accessibilityViolationNodes: axeResults.reduce((sum, item) => sum + (item.violations || []).reduce((subtotal, violation) => subtotal + violation.nodes, 0), 0),
         accessibilityViolationCount: axeResults.reduce((sum, item) => sum + (item.violations || []).reduce((subtotal, violation) => subtotal + violation.nodes, 0), 0),
+        interactionChecks,
     };
     await fs.writeFile(path.join(OUTPUT_DIR, 'report.json'), JSON.stringify(report, null, 2) + '\n');
 
@@ -437,11 +485,16 @@ async function main() {
         ...(fatalErrors.length ? fatalErrors.map((item) => '- ' + item) : ['- None']),
         '', '## Accessibility findings', '',
         ...axeResults.flatMap((item) => (item.violations || []).map((v) =>
-            '- **' + item.role + ' ' + item.route + '**: ' + v.id + ' (' + v.impact + '), ' + v.nodes + ' node(s). ' + v.help
+            '- **' + item.role + ' ' + item.route + ' @ ' + (item.viewport || 'desktop-1440') + '**: ' + v.id + ' (' + v.impact + '), ' + v.nodes + ' node(s). ' + v.help
         )),
+        '', '## Interaction checks', '',
+        ...interactionChecks.map((item) => '- **' + item.route + ' / ' + item.feature + '**: ' + [
+            'closedByDefault', 'hiddenByDefault', 'opensByPointer',
+            'stepsVisibleWhenOpen', 'closesByKeyboard',
+        ].map((key) => key + '=' + item[key]).join(', ')),
         '', '## Notes', '',
         'Screenshots are captured from the running PHP application backed by a fresh MySQL 8 database seeded from database/seeds/local_data.php. They are not concept mockups. Mobile captures include both full-page and true viewport screenshots so fixed navigation can be checked at its actual screen position.\nA serious/critical axe violation or duplicate customer navigation on mobile fails the workflow.',
-        'Axe results are automated indicators, not a substitute for manual keyboard and screen-reader review.',
+        'Axe scans run on all desktop-1440 captures and on public /login at mobile-390 and small-mobile-360. These are automated indicators, not a substitute for manual keyboard and screen-reader review.',
     ].join('\n') + '\n';
     await fs.writeFile(path.join(OUTPUT_DIR, 'report.md'), markdown);
 
@@ -450,6 +503,7 @@ async function main() {
     console.log('Horizontal overflows:', report.overflowCount);
     console.log('Accessibility violations:', report.accessibilityViolationCount);
     console.log('Browser errors:', browserErrors.length);
+    console.log('Interaction checks:', interactionChecks.length);
     console.log('Fatal errors:', fatalErrors.length);
     if (fatalErrors.length > 0) {
         console.error(fatalErrors.join('\n'));
