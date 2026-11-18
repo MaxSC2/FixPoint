@@ -3,8 +3,9 @@
 **Дата:** 18.11.2026  
 **Ветка:** `docs/module4-audit-corrections-2026-11-17`  
 **Корректирующий коммит:** `23a8544` — `docs: correct Module 4 transcript audit findings`  
+**Checkpoint-коммиты:** `7ce3f50`, `1051c1d` (только документация)  
 **База:** `84bd094` (`qa/browser-visual-capture`)  
-**QA-ветка после fast-forward:** `23a8544`  
+**QA-ветка:** содержит `23a8544`; последующие коммиты — только docs.  
 **PR #21:** OPEN, Draft, base `develop`, не влит. `main` и `develop` не изменялись.
 
 ## 1. Что вошло в корректирующий коммит
