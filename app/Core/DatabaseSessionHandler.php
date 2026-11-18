@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace FixPoint\\Core;
+namespace FixPoint\Core;
 
 use PDO;
 use SessionHandlerInterface;
@@ -43,7 +43,6 @@ final class DatabaseSessionHandler implements SessionHandlerInterface, SessionUp
         $lock->execute(['lock_name' => $this->lockName]);
         if ((int) $lock->fetchColumn() !== 1) {
             $this->lockName = null;
-
             return false;
         }
 
