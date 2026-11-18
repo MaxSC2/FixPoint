@@ -7,7 +7,7 @@ $serviceName = (string) ($service['name'] ?? 'Услуга');
 $serviceSlug = (string) ($service['slug'] ?? '');
 $serviceDescription = (string) ($service['short_description'] ?? '');
 $serviceCategory = trim((string) ($service['category_name'] ?? ''));
-$categorySlug = (string) ($service['category_slug'] ?? '');
+$categorySlug = (string) ($service['category_slug'] ?? ($service['category']['slug'] ?? ''));
 $priceFrom = $service['price_from'] ?? null;
 $hasPrice = is_numeric($priceFrom) && (float) $priceFrom > 0;
 $serviceUrl = $serviceSlug !== '' ? '/services/' . rawurlencode($serviceSlug) : '/services';
@@ -17,6 +17,8 @@ $iconVariant = match ($categorySlug) {
     'peripherals' => 'peripherals',
     'network' => 'network',
     'diagnostics' => 'diagnostics',
+    'software' => 'software',
+    'storage' => 'storage',
     default => 'general',
 };
 ?>

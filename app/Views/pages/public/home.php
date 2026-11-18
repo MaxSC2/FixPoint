@@ -183,7 +183,7 @@ $featuredServices = isset($featuredServices) && is_array($featuredServices) ? $f
             <a class="text-link" href="/services">Все услуги <span aria-hidden="true">↗</span></a>
         </div>
         <div class="service-grid" data-reveal>
-            <?php foreach (array_slice($featuredServices, 0, 3) as $service): ?>
+            <?php foreach (array_slice($featuredServices, 0, 6) as $service): ?>
                 <?php require dirname(__DIR__, 2) . '/components/service-card.php'; ?>
             <?php endforeach; ?>
         </div>
