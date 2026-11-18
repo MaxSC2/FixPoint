@@ -52,6 +52,11 @@ final class Config
             throw new InvalidArgumentException('SESSION_SAMESITE=None requires SESSION_SECURE=true.');
         }
 
+        $sessionDriver = strtolower(Env::get('SESSION_DRIVER', 'file') ?? 'file');
+        if (!in_array($sessionDriver, ['file', 'database'], true)) {
+            throw new InvalidArgumentException('SESSION_DRIVER must be file or database.');
+        }
+
         $debugDefault = in_array($environment, ['local', 'testing'], true);
         $perPage = Env::int('CATALOG_PER_PAGE', 12);
         if ($perPage < 1 || $perPage > 50) {
@@ -76,6 +81,7 @@ final class Config
                 'collation' => 'utf8mb4_unicode_ci',
             ],
             'session' => [
+                'driver' => $sessionDriver,
                 'name' => Env::get('SESSION_NAME', 'fixpoint_session') ?: 'fixpoint_session',
                 'lifetime' => max(1, Env::int('SESSION_LIFETIME', 120)),
                 'secure' => $secureSession,
