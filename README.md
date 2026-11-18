@@ -12,8 +12,9 @@ FixPoint — учебное веб-приложение для сервисно�
 
 - GitHub: https://github.com/MaxSC2/FixPoint
 - Visibility: public
-- `main`: стабильная версия
-- `develop`: интеграционная ветка
+- `main`: default branch GitHub; на 18.11.2026 приложение ещё не опубликовано в `main`, поэтому эту ветку нельзя считать текущей проверенной сборкой.
+- `develop`: интеграционная ветка; перенос QA baseline отслеживается в Draft PR #21.
+- Текущая цепочка изменений: Draft PR #26 (каталог и demo seed) → Draft PR #27 (исправление обработки паролей). Оба PR ещё не влиты.
 - Оригинальное задание: [assignment/Модуль 4.docx](assignment/%D0%9C%D0%BE%D0%B4%D1%83%D0%BB%D1%8C%204.docx)
 
 ## Документы проекта
@@ -144,11 +145,11 @@ php database/seed.php --force       # seed в production только осозн
 | Клиент | `customer.ivanova@fixpoint.test` |
 | Неактивный клиент | `inactive@fixpoint.test` |
 
-Seed создаёт 5 категорий, 10 услуг, 4 заявки, 15 записей истории статусов и
-5 комментариев (включая внутренний). Повторный запуск идемпотентен и не
-перезаписывает уже изменённые пользователем записи.
+Seed создаёт 14 пользователей, 7 категорий, 100 услуг, 24 заявки, 95 записей истории статусов и
+30 комментариев (включая внутренние), а также контентный блок страницы «О сервисе».
+Повторный запуск идемпотентен и не перезаписывает уже изменённые пользователем записи.
 
-## Маршруты backend foundation
+## Основные маршруты приложения
 
 | Метод | URL | Назначение |
 |---|---|---|
@@ -295,7 +296,7 @@ app/
   Services/              # Auth, Catalog, AdminCatalog, Request, RequestStatus, DatabaseHealth
   Support/views/         # временные backend-fallback страницы
 config/routes.php        # явная таблица маршрутов
-database/migrations/     # 6 forward-only SQL-миграций
+database/migrations/     # 8 forward-only SQL-миграций
 database/seeds/          # локальные демо-данные
 docker/                  # php.ini, Apache vhost, entrypoint, wait-for-db
 public/                  # единственный document root, index.php, .htaccess
@@ -358,8 +359,14 @@ DB_DATABASE=fixpoint_test APP_ENV=testing php tests/run.php
 Smoke-тест требует уже применённые миграции и seed в рабочей БД; порт
 переопределяется `SMOKE_PORT` (по умолчанию `8091`).
 
-Текущий результат на MySQL 8.4.6: линтер — 138/138 файлов, тесты — 186 passed,
-0 failed, 1876 assertions, smoke — 30/30 проверок.
+Последняя полная CI-проверка на коммите `c6860b8b61e4dcf299184b0902f2b519a8c1a860`
+(18.11.2026, PHP 8.3 + MySQL 8): [GitHub Actions #44313644546](https://github.com/MaxSC2/FixPoint/actions/runs/44313644546) — PASS.
+
+- PHP lint: 138/138 файлов.
+- Unit + integration: 193 passed, 0 failed, 1975 assertions.
+- HTTP smoke: 30/30 проверок.
+- Миграции и seed повторно выполняются без ошибок.
+- Docker Compose runtime: сборка образа, запуск MySQL и приложения, health check, публичные маршруты и security headers — PASS.
 
 ## Безопасность
 
