@@ -184,7 +184,7 @@ final class AdminHttpTest extends IntegrationTestCase
             'updated_at' => '2025-12-01 10:00:00',
         ]);
 
-        $byUpdate = app()->handle(Request::create('GET', '/admin/requests?sort=updated'))->body();
+        $byUpdate = app()->handle(Request::create('GET', '/admin/requests?q=TASK005-&sort=updated'))->body();
         $this->assertTrue(
             $this->positionOf('TASK005-UPDATED', $byUpdate) < $this->positionOf('TASK005-OLDER-UPDATE', $byUpdate),
             'The most recently updated request must come first.'
