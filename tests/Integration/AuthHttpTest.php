@@ -92,6 +92,7 @@ final class AuthHttpTest extends IntegrationTestCase
         $this->assertNotContains('different', $body);
     }
 
+    // Regression contract: credentials are opaque strings; surrounding spaces are significant.
     public function testRegistrationPreservesLeadingAndTrailingPasswordWhitespace(): void
     {
         $email = self::TEST_EMAIL_PREFIX . 'whitespace-register@fixpoint.test';
