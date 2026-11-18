@@ -150,6 +150,7 @@ final class AdminUserController extends Controller
             $this->session->flashErrors($errors);
         }
     }
+
     /** Passwords are opaque credentials: surrounding whitespace is significant. */
     private function rawStringPost(Request $request, string $key): string
     {

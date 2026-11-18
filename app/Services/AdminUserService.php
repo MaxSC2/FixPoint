@@ -247,6 +247,7 @@ final class AdminUserService
     {
         return is_string($value) || is_numeric($value) ? trim((string) $value) : '';
     }
+
     /** Passwords are opaque credentials: do not trim characters that belong to the secret. */
     private function rawScalar(mixed $value): string
     {

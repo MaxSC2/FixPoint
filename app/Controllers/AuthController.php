@@ -73,7 +73,7 @@ final class AuthController extends Controller
         $fullName = $this->stringPost($request, 'full_name');
         $email = $this->stringPost($request, 'email');
         $phone = $this->stringPost($request, 'phone');
-        $password = $this->stringPost($request, 'password');
+        $password = $this->rawStringPost($request, 'password');
         $confirmation = $this->rawStringPost($request, 'password_confirmation');
 
         try {
@@ -133,6 +133,7 @@ final class AuthController extends Controller
             ? '/login'
             : '/login?return_to=' . rawurlencode($returnTo);
     }
+
     /** Passwords are opaque credentials: surrounding whitespace is significant. */
     private function rawStringPost(Request $request, string $key): string
     {
