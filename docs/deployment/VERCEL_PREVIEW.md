@@ -27,6 +27,9 @@ Set these on the Vercel Preview environment only:
 | `DB_DATABASE` | Database name |
 | `DB_USERNAME` | Restricted application user |
 | `DB_PASSWORD` | Secret from the database provider |
+| `DB_SSL` | `true` |
+| `DB_SSL_CA` | `/etc/ssl/certs/ca-certificates.crt` (or provider CA path) |
+| `DB_CONNECT_TIMEOUT` | `15` (increase if the provider has cold starts) |
 | `SESSION_DRIVER` | `database` |
 | `SESSION_SECURE` | `true` |
 | `SESSION_SAMESITE` | `Lax` |
