@@ -16,13 +16,13 @@ final class RepositoryTest extends IntegrationTestCase
     {
         $repository = new ServiceRepository(app()->database());
 
-        $this->assertSame(10, $repository->countAllActive());
-        $this->assertSame(10, $repository->countActive());
-        $this->assertSame(5, $repository->countActive('', 'computers-laptops'));
+        $this->assertSame(100, $repository->countAllActive());
+        $this->assertSame(100, $repository->countActive());
+        $this->assertSame(22, $repository->countActive('', 'computers-laptops'));
         $this->assertGreaterThan(0, $repository->countActive('экран'));
 
         $page = $repository->paginateActive('', 'computers-laptops', 10, 0);
-        $this->assertCount(5, $page);
+        $this->assertCount(10, $page);
         foreach ($page as $row) {
             $this->assertSame('computers-laptops', $row['category_slug']);
         }
@@ -40,8 +40,8 @@ final class RepositoryTest extends IntegrationTestCase
 
         $pdo->exec("UPDATE service_categories SET is_active = 0 WHERE slug = 'diagnostics'");
         try {
-            $this->assertSame(8, $repository->countAllActive());
-            $this->assertSame(8, $repository->countActive());
+            $this->assertSame(88, $repository->countAllActive());
+            $this->assertSame(88, $repository->countActive());
         } finally {
             $pdo->exec("UPDATE service_categories SET is_active = 1 WHERE slug = 'diagnostics'");
         }
@@ -50,7 +50,7 @@ final class RepositoryTest extends IntegrationTestCase
     public function testCategoryRepositoryReturnsActiveCategoriesInOrder(): void
     {        $categories = (new ServiceCategoryRepository(app()->database()))->allActive();
 
-        $this->assertCount(5, $categories);
+        $this->assertCount(7, $categories);
         $this->assertSame('computers-laptops', $categories[0]['slug']);
         $this->assertSame('diagnostics', $categories[4]['slug']);
     }
@@ -78,11 +78,11 @@ final class RepositoryTest extends IntegrationTestCase
         $this->assertArrayHasKey('items', $result);
         $this->assertArrayHasKey('pagination', $result);
         $this->assertArrayHasKey('filters', $result);
-        $this->assertSame(10, $result['pagination']['total']);
+        $this->assertSame(100, $result['pagination']['total']);
         $this->assertSame(1, $result['pagination']['current_page']);
-        $this->assertSame(10, $result['pagination']['per_page']);
-        $this->assertCount(10, $result['items']);
-        $this->assertSame('laptop-screen-replacement', $result['items'][0]['slug']);
+        $this->assertSame(12, $result['pagination']['per_page']);
+        $this->assertCount(12, $result['items']);
+        $this->assertContains('laptop-screen-replacement', array_column($result['items'], 'slug'));
 
         $detail = $catalog->findBySlug('laptop-cleaning');
         $this->assertNotNull($detail);
@@ -91,7 +91,7 @@ final class RepositoryTest extends IntegrationTestCase
         $this->assertArrayHasKey('description', $detail);
 
         $filtered = $catalog->search('', 'diagnostics', 1);
-        $this->assertSame(2, $filtered['pagination']['total']);
+        $this->assertSame(12, $filtered['pagination']['total']);
         $this->assertSame('diagnostics', $filtered['filters']['category']);
     }
 }

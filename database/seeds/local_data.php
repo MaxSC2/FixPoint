@@ -1258,8 +1258,8 @@ return [
         ],
         [
             'public_number' => 'FP-2026-000005',
-            'customer' => 'customer_kovalev',
-            'technician' => null,
+            'customer' => 'customer_petrov',
+            'technician' => 'tech_orlov',
             'service' => 'laptop-cleaning',
             'status' => 'new',
             'priority' => 'high',
@@ -1272,14 +1272,14 @@ return [
             'final_cost' => null,
             'estimated_ready_at' => null,
             'customer_contact' => '+7 700 000 20 10',
-            'created_at' => '2026-11-01 09:00:00',
-            'updated_at' => '2026-11-01 16:00:00',
+            'created_at' => '2026-10-01 09:00:00',
+            'updated_at' => '2026-10-01 16:00:00',
             'completed_at' => null
         ],
         [
             'public_number' => 'FP-2026-000006',
-            'customer' => 'customer_ivanova',
-            'technician' => 'tech_smirnova',
+            'customer' => 'customer_sidorova',
+            'technician' => 'tech_kim',
             'service' => 'laptop-fan-replacement',
             'status' => 'accepted',
             'priority' => 'normal',
@@ -1292,14 +1292,14 @@ return [
             'final_cost' => null,
             'estimated_ready_at' => null,
             'customer_contact' => '+7 700 000 21 11',
-            'created_at' => '2026-11-02 09:00:00',
-            'updated_at' => '2026-11-02 16:00:00',
+            'created_at' => '2026-10-02 09:00:00',
+            'updated_at' => '2026-10-02 16:00:00',
             'completed_at' => null
         ],
         [
             'public_number' => 'FP-2026-000007',
-            'customer' => 'customer_petrov',
-            'technician' => 'tech_orlov',
+            'customer' => 'customer_karimov',
+            'technician' => 'tech_volkov',
             'service' => 'ram-upgrade',
             'status' => 'diagnostics',
             'priority' => 'normal',
@@ -1312,14 +1312,14 @@ return [
             'final_cost' => null,
             'estimated_ready_at' => null,
             'customer_contact' => '+7 700 000 22 12',
-            'created_at' => '2026-11-03 09:00:00',
-            'updated_at' => '2026-11-03 16:00:00',
+            'created_at' => '2026-10-03 09:00:00',
+            'updated_at' => '2026-10-03 16:00:00',
             'completed_at' => null
         ],
         [
             'public_number' => 'FP-2026-000008',
-            'customer' => 'customer_sidorova',
-            'technician' => 'tech_kim',
+            'customer' => 'customer_nurpeisova',
+            'technician' => 'tech_akimova',
             'service' => 'desktop-cooling-service',
             'status' => 'awaiting_customer_approval',
             'priority' => 'normal',
@@ -1330,16 +1330,16 @@ return [
             'diagnostic_result' => 'Проведена первичная проверка. Неисправность локализована, дальнейшие действия зафиксированы в карточке.',
             'estimated_cost' => '13550.00',
             'final_cost' => null,
-            'estimated_ready_at' => '2026-11-04 18:00:00',
+            'estimated_ready_at' => '2026-10-04 18:00:00',
             'customer_contact' => '+7 700 000 23 13',
-            'created_at' => '2026-11-04 09:00:00',
-            'updated_at' => '2026-11-04 16:00:00',
+            'created_at' => '2026-10-04 09:00:00',
+            'updated_at' => '2026-10-04 16:00:00',
             'completed_at' => null
         ],
         [
             'public_number' => 'FP-2026-000009',
-            'customer' => 'customer_karimov',
-            'technician' => 'tech_volkov',
+            'customer' => 'customer_petrov',
+            'technician' => 'tech_orlov',
             'service' => 'smartphone-camera-replacement',
             'status' => 'repairing',
             'priority' => 'normal',
@@ -1350,16 +1350,16 @@ return [
             'diagnostic_result' => 'Проведена первичная проверка. Неисправность локализована, дальнейшие действия зафиксированы в карточке.',
             'estimated_cost' => '15900.00',
             'final_cost' => null,
-            'estimated_ready_at' => '2026-11-05 18:00:00',
+            'estimated_ready_at' => '2026-10-05 18:00:00',
             'customer_contact' => '+7 700 000 24 14',
-            'created_at' => '2026-11-05 09:00:00',
-            'updated_at' => '2026-11-05 16:00:00',
+            'created_at' => '2026-10-05 09:00:00',
+            'updated_at' => '2026-10-05 16:00:00',
             'completed_at' => null
         ],
         [
             'public_number' => 'FP-2026-000010',
-            'customer' => 'customer_nurpeisova',
-            'technician' => 'tech_akimova',
+            'customer' => 'customer_sidorova',
+            'technician' => 'tech_kim',
             'service' => 'smartphone-data-transfer',
             'status' => 'awaiting_parts',
             'priority' => 'low',
@@ -1370,16 +1370,16 @@ return [
             'diagnostic_result' => 'Проведена первичная проверка. Неисправность локализована, дальнейшие действия зафиксированы в карточке.',
             'estimated_cost' => '18250.00',
             'final_cost' => null,
-            'estimated_ready_at' => '2026-11-06 18:00:00',
+            'estimated_ready_at' => '2026-10-06 18:00:00',
             'customer_contact' => '+7 700 000 25 15',
-            'created_at' => '2026-11-06 09:00:00',
-            'updated_at' => '2026-11-06 16:00:00',
+            'created_at' => '2026-10-06 09:00:00',
+            'updated_at' => '2026-10-06 16:00:00',
             'completed_at' => null
         ],
         [
             'public_number' => 'FP-2026-000011',
-            'customer' => 'customer_kovalev',
-            'technician' => null,
+            'customer' => 'customer_karimov',
+            'technician' => 'tech_volkov',
             'service' => 'mouse-cable-replacement',
             'status' => 'ready_for_pickup',
             'priority' => 'normal',
@@ -1390,16 +1390,16 @@ return [
             'diagnostic_result' => 'Проведена первичная проверка. Неисправность локализована, дальнейшие действия зафиксированы в карточке.',
             'estimated_cost' => '20600.00',
             'final_cost' => null,
-            'estimated_ready_at' => '2026-11-07 18:00:00',
+            'estimated_ready_at' => '2026-10-07 18:00:00',
             'customer_contact' => '+7 700 000 26 16',
-            'created_at' => '2026-11-07 09:00:00',
-            'updated_at' => '2026-11-07 16:00:00',
+            'created_at' => '2026-10-07 09:00:00',
+            'updated_at' => '2026-10-07 16:00:00',
             'completed_at' => null
         ],
         [
             'public_number' => 'FP-2026-000012',
-            'customer' => 'customer_ivanova',
-            'technician' => 'tech_smirnova',
+            'customer' => 'customer_nurpeisova',
+            'technician' => 'tech_akimova',
             'service' => 'monitor-repair',
             'status' => 'completed',
             'priority' => 'high',
@@ -1410,11 +1410,11 @@ return [
             'diagnostic_result' => 'Проведена первичная проверка. Неисправность локализована, дальнейшие действия зафиксированы в карточке.',
             'estimated_cost' => '22950.00',
             'final_cost' => '22950.00',
-            'estimated_ready_at' => '2026-11-08 18:00:00',
+            'estimated_ready_at' => '2026-10-08 18:00:00',
             'customer_contact' => '+7 700 000 27 17',
-            'created_at' => '2026-11-08 09:00:00',
-            'updated_at' => '2026-11-08 16:00:00',
-            'completed_at' => '2026-11-08 16:00:00'
+            'created_at' => '2026-10-08 09:00:00',
+            'updated_at' => '2026-10-08 16:00:00',
+            'completed_at' => '2026-10-08 16:00:00'
         ],
         [
             'public_number' => 'FP-2026-000013',
@@ -1432,8 +1432,8 @@ return [
             'final_cost' => null,
             'estimated_ready_at' => null,
             'customer_contact' => '+7 700 000 28 18',
-            'created_at' => '2026-11-09 09:00:00',
-            'updated_at' => '2026-11-09 16:00:00',
+            'created_at' => '2026-10-09 09:00:00',
+            'updated_at' => '2026-10-09 16:00:00',
             'completed_at' => null
         ],
         [
@@ -1452,14 +1452,14 @@ return [
             'final_cost' => null,
             'estimated_ready_at' => null,
             'customer_contact' => '+7 700 000 29 19',
-            'created_at' => '2026-11-10 09:00:00',
-            'updated_at' => '2026-11-10 16:00:00',
+            'created_at' => '2026-10-10 09:00:00',
+            'updated_at' => '2026-10-10 16:00:00',
             'completed_at' => null
         ],
         [
             'public_number' => 'FP-2026-000015',
             'customer' => 'customer_karimov',
-            'technician' => null,
+            'technician' => 'tech_volkov',
             'service' => 'stress-stability-test',
             'status' => 'new',
             'priority' => 'low',
@@ -1472,8 +1472,8 @@ return [
             'final_cost' => null,
             'estimated_ready_at' => null,
             'customer_contact' => '+7 700 000 30 20',
-            'created_at' => '2026-11-11 09:00:00',
-            'updated_at' => '2026-11-11 16:00:00',
+            'created_at' => '2026-10-11 09:00:00',
+            'updated_at' => '2026-10-11 16:00:00',
             'completed_at' => null
         ],
         [
@@ -1492,14 +1492,14 @@ return [
             'final_cost' => null,
             'estimated_ready_at' => null,
             'customer_contact' => '+7 700 000 31 21',
-            'created_at' => '2026-11-12 09:00:00',
-            'updated_at' => '2026-11-12 16:00:00',
+            'created_at' => '2026-10-12 09:00:00',
+            'updated_at' => '2026-10-12 16:00:00',
             'completed_at' => null
         ],
         [
             'public_number' => 'FP-2026-000017',
-            'customer' => 'customer_kovalev',
-            'technician' => null,
+            'customer' => 'customer_petrov',
+            'technician' => 'tech_orlov',
             'service' => 'remote-desktop-setup',
             'status' => 'diagnostics',
             'priority' => 'normal',
@@ -1512,14 +1512,14 @@ return [
             'final_cost' => null,
             'estimated_ready_at' => null,
             'customer_contact' => '+7 700 000 32 22',
-            'created_at' => '2026-11-13 09:00:00',
-            'updated_at' => '2026-11-13 16:00:00',
+            'created_at' => '2026-10-13 09:00:00',
+            'updated_at' => '2026-10-13 16:00:00',
             'completed_at' => null
         ],
         [
             'public_number' => 'FP-2026-000018',
-            'customer' => 'customer_ivanova',
-            'technician' => 'tech_smirnova',
+            'customer' => 'customer_sidorova',
+            'technician' => 'tech_kim',
             'service' => 'deleted-file-recovery',
             'status' => 'awaiting_customer_approval',
             'priority' => 'normal',
@@ -1530,16 +1530,16 @@ return [
             'diagnostic_result' => 'Проведена первичная проверка. Неисправность локализована, дальнейшие действия зафиксированы в карточке.',
             'estimated_cost' => '37050.00',
             'final_cost' => null,
-            'estimated_ready_at' => '2026-11-14 18:00:00',
+            'estimated_ready_at' => '2026-10-14 18:00:00',
             'customer_contact' => '+7 700 000 33 23',
-            'created_at' => '2026-11-14 09:00:00',
-            'updated_at' => '2026-11-14 16:00:00',
+            'created_at' => '2026-10-14 09:00:00',
+            'updated_at' => '2026-10-14 16:00:00',
             'completed_at' => null
         ],
         [
             'public_number' => 'FP-2026-000019',
-            'customer' => 'customer_petrov',
-            'technician' => 'tech_orlov',
+            'customer' => 'customer_karimov',
+            'technician' => 'tech_volkov',
             'service' => 'ssd-upgrade',
             'status' => 'repairing',
             'priority' => 'high',
@@ -1550,16 +1550,16 @@ return [
             'diagnostic_result' => 'Проведена первичная проверка. Неисправность локализована, дальнейшие действия зафиксированы в карточке.',
             'estimated_cost' => '7400.00',
             'final_cost' => null,
-            'estimated_ready_at' => '2026-11-15 18:00:00',
+            'estimated_ready_at' => '2026-10-15 18:00:00',
             'customer_contact' => '+7 700 000 34 24',
-            'created_at' => '2026-11-15 09:00:00',
-            'updated_at' => '2026-11-15 16:00:00',
+            'created_at' => '2026-10-15 09:00:00',
+            'updated_at' => '2026-10-15 16:00:00',
             'completed_at' => null
         ],
         [
             'public_number' => 'FP-2026-000020',
-            'customer' => 'customer_sidorova',
-            'technician' => 'tech_kim',
+            'customer' => 'customer_nurpeisova',
+            'technician' => 'tech_akimova',
             'service' => 'laptop-hinge-repair',
             'status' => 'awaiting_parts',
             'priority' => 'low',
@@ -1570,16 +1570,16 @@ return [
             'diagnostic_result' => 'Проведена первичная проверка. Неисправность локализована, дальнейшие действия зафиксированы в карточке.',
             'estimated_cost' => '9750.00',
             'final_cost' => null,
-            'estimated_ready_at' => '2026-11-16 18:00:00',
+            'estimated_ready_at' => '2026-10-16 18:00:00',
             'customer_contact' => '+7 700 000 35 25',
-            'created_at' => '2026-11-16 09:00:00',
-            'updated_at' => '2026-11-16 16:00:00',
+            'created_at' => '2026-10-16 09:00:00',
+            'updated_at' => '2026-10-16 16:00:00',
             'completed_at' => null
         ],
         [
             'public_number' => 'FP-2026-000021',
-            'customer' => 'customer_karimov',
-            'technician' => 'tech_volkov',
+            'customer' => 'customer_petrov',
+            'technician' => 'tech_orlov',
             'service' => 'desktop-psu-replacement',
             'status' => 'ready_for_pickup',
             'priority' => 'normal',
@@ -1590,16 +1590,16 @@ return [
             'diagnostic_result' => 'Проведена первичная проверка. Неисправность локализована, дальнейшие действия зафиксированы в карточке.',
             'estimated_cost' => '12100.00',
             'final_cost' => null,
-            'estimated_ready_at' => '2026-11-17 18:00:00',
+            'estimated_ready_at' => '2026-10-17 18:00:00',
             'customer_contact' => '+7 700 000 36 26',
-            'created_at' => '2026-11-17 09:00:00',
-            'updated_at' => '2026-11-17 16:00:00',
+            'created_at' => '2026-10-17 09:00:00',
+            'updated_at' => '2026-10-17 16:00:00',
             'completed_at' => null
         ],
         [
             'public_number' => 'FP-2026-000022',
-            'customer' => 'customer_nurpeisova',
-            'technician' => 'tech_akimova',
+            'customer' => 'customer_sidorova',
+            'technician' => 'tech_kim',
             'service' => 'smartphone-power-button-repair',
             'status' => 'completed',
             'priority' => 'normal',
@@ -1610,16 +1610,16 @@ return [
             'diagnostic_result' => 'Проведена первичная проверка. Неисправность локализована, дальнейшие действия зафиксированы в карточке.',
             'estimated_cost' => '14450.00',
             'final_cost' => '14450.00',
-            'estimated_ready_at' => '2026-11-18 18:00:00',
+            'estimated_ready_at' => '2026-10-18 18:00:00',
             'customer_contact' => '+7 700 000 37 27',
-            'created_at' => '2026-11-18 09:00:00',
-            'updated_at' => '2026-11-18 16:00:00',
-            'completed_at' => '2026-11-18 16:00:00'
+            'created_at' => '2026-10-18 09:00:00',
+            'updated_at' => '2026-10-18 16:00:00',
+            'completed_at' => '2026-10-18 16:00:00'
         ],
         [
             'public_number' => 'FP-2026-000023',
-            'customer' => 'customer_kovalev',
-            'technician' => null,
+            'customer' => 'customer_karimov',
+            'technician' => 'tech_volkov',
             'service' => 'tablet-battery-replacement',
             'status' => 'cancelled',
             'priority' => 'normal',
@@ -1632,14 +1632,14 @@ return [
             'final_cost' => null,
             'estimated_ready_at' => null,
             'customer_contact' => '+7 700 000 38 28',
-            'created_at' => '2026-11-19 09:00:00',
-            'updated_at' => '2026-11-19 16:00:00',
+            'created_at' => '2026-10-19 09:00:00',
+            'updated_at' => '2026-10-19 16:00:00',
             'completed_at' => null
         ],
         [
             'public_number' => 'FP-2026-000024',
-            'customer' => 'customer_ivanova',
-            'technician' => 'tech_smirnova',
+            'customer' => 'customer_nurpeisova',
+            'technician' => 'tech_akimova',
             'service' => 'mechanical-keyboard-repair',
             'status' => 'rejected',
             'priority' => 'normal',
@@ -1652,8 +1652,8 @@ return [
             'final_cost' => null,
             'estimated_ready_at' => null,
             'customer_contact' => '+7 700 000 39 29',
-            'created_at' => '2026-11-20 09:00:00',
-            'updated_at' => '2026-11-20 16:00:00',
+            'created_at' => '2026-10-20 09:00:00',
+            'updated_at' => '2026-10-20 16:00:00',
             'completed_at' => null
         ]
     ],
@@ -1783,88 +1783,88 @@ return [
             'from' => null,
             'to' => 'new',
             'reason' => 'Заявка зарегистрирована клиентом.',
-            'changed_by' => 'customer_kovalev',
-            'created_at' => '2026-11-01 09:00:00'
-        ],
-        [
-            'request' => 'FP-2026-000006',
-            'from' => null,
-            'to' => 'new',
-            'reason' => 'Заявка зарегистрирована клиентом.',
-            'changed_by' => 'customer_ivanova',
-            'created_at' => '2026-11-02 09:00:00'
-        ],
-        [
-            'request' => 'FP-2026-000006',
-            'from' => 'new',
-            'to' => 'accepted',
-            'reason' => 'Заявка принята администратором.',
-            'changed_by' => 'admin',
-            'created_at' => '2026-11-02 10:00:00'
-        ],
-        [
-            'request' => 'FP-2026-000007',
-            'from' => null,
-            'to' => 'new',
-            'reason' => 'Заявка зарегистрирована клиентом.',
             'changed_by' => 'customer_petrov',
-            'created_at' => '2026-11-03 09:00:00'
+            'created_at' => '2026-10-01 09:00:00'
         ],
         [
-            'request' => 'FP-2026-000007',
-            'from' => 'new',
-            'to' => 'accepted',
-            'reason' => 'Заявка принята администратором.',
-            'changed_by' => 'admin',
-            'created_at' => '2026-11-03 10:00:00'
-        ],
-        [
-            'request' => 'FP-2026-000007',
-            'from' => 'accepted',
-            'to' => 'diagnostics',
-            'reason' => 'Устройство передано на диагностику.',
-            'changed_by' => 'tech_orlov',
-            'created_at' => '2026-11-03 11:00:00'
-        ],
-        [
-            'request' => 'FP-2026-000008',
+            'request' => 'FP-2026-000006',
             'from' => null,
             'to' => 'new',
             'reason' => 'Заявка зарегистрирована клиентом.',
             'changed_by' => 'customer_sidorova',
-            'created_at' => '2026-11-04 09:00:00'
+            'created_at' => '2026-10-02 09:00:00'
         ],
         [
-            'request' => 'FP-2026-000008',
+            'request' => 'FP-2026-000006',
             'from' => 'new',
             'to' => 'accepted',
             'reason' => 'Заявка принята администратором.',
             'changed_by' => 'admin',
-            'created_at' => '2026-11-04 10:00:00'
+            'created_at' => '2026-10-02 10:00:00'
         ],
         [
-            'request' => 'FP-2026-000008',
-            'from' => 'accepted',
-            'to' => 'diagnostics',
-            'reason' => 'Устройство передано на диагностику.',
-            'changed_by' => 'tech_kim',
-            'created_at' => '2026-11-04 11:00:00'
-        ],
-        [
-            'request' => 'FP-2026-000008',
-            'from' => 'diagnostics',
-            'to' => 'awaiting_customer_approval',
-            'reason' => 'Смета подготовлена и ожидает решения клиента.',
-            'changed_by' => 'tech_kim',
-            'created_at' => '2026-11-04 12:00:00'
-        ],
-        [
-            'request' => 'FP-2026-000009',
+            'request' => 'FP-2026-000007',
             'from' => null,
             'to' => 'new',
             'reason' => 'Заявка зарегистрирована клиентом.',
             'changed_by' => 'customer_karimov',
-            'created_at' => '2026-11-05 09:00:00'
+            'created_at' => '2026-10-03 09:00:00'
+        ],
+        [
+            'request' => 'FP-2026-000007',
+            'from' => 'new',
+            'to' => 'accepted',
+            'reason' => 'Заявка принята администратором.',
+            'changed_by' => 'admin',
+            'created_at' => '2026-10-03 10:00:00'
+        ],
+        [
+            'request' => 'FP-2026-000007',
+            'from' => 'accepted',
+            'to' => 'diagnostics',
+            'reason' => 'Устройство передано на диагностику.',
+            'changed_by' => 'tech_volkov',
+            'created_at' => '2026-10-03 11:00:00'
+        ],
+        [
+            'request' => 'FP-2026-000008',
+            'from' => null,
+            'to' => 'new',
+            'reason' => 'Заявка зарегистрирована клиентом.',
+            'changed_by' => 'customer_nurpeisova',
+            'created_at' => '2026-10-04 09:00:00'
+        ],
+        [
+            'request' => 'FP-2026-000008',
+            'from' => 'new',
+            'to' => 'accepted',
+            'reason' => 'Заявка принята администратором.',
+            'changed_by' => 'admin',
+            'created_at' => '2026-10-04 10:00:00'
+        ],
+        [
+            'request' => 'FP-2026-000008',
+            'from' => 'accepted',
+            'to' => 'diagnostics',
+            'reason' => 'Устройство передано на диагностику.',
+            'changed_by' => 'tech_akimova',
+            'created_at' => '2026-10-04 11:00:00'
+        ],
+        [
+            'request' => 'FP-2026-000008',
+            'from' => 'diagnostics',
+            'to' => 'awaiting_customer_approval',
+            'reason' => 'Смета подготовлена и ожидает решения клиента.',
+            'changed_by' => 'tech_akimova',
+            'created_at' => '2026-10-04 12:00:00'
+        ],
+        [
+            'request' => 'FP-2026-000009',
+            'from' => null,
+            'to' => 'new',
+            'reason' => 'Заявка зарегистрирована клиентом.',
+            'changed_by' => 'customer_petrov',
+            'created_at' => '2026-10-05 09:00:00'
         ],
         [
             'request' => 'FP-2026-000009',
@@ -1872,39 +1872,39 @@ return [
             'to' => 'accepted',
             'reason' => 'Заявка принята администратором.',
             'changed_by' => 'admin',
-            'created_at' => '2026-11-05 10:00:00'
+            'created_at' => '2026-10-05 10:00:00'
         ],
         [
             'request' => 'FP-2026-000009',
             'from' => 'accepted',
             'to' => 'diagnostics',
             'reason' => 'Устройство передано на диагностику.',
-            'changed_by' => 'tech_volkov',
-            'created_at' => '2026-11-05 11:00:00'
+            'changed_by' => 'tech_orlov',
+            'created_at' => '2026-10-05 11:00:00'
         ],
         [
             'request' => 'FP-2026-000009',
             'from' => 'diagnostics',
             'to' => 'awaiting_customer_approval',
             'reason' => 'Смета подготовлена и ожидает решения клиента.',
-            'changed_by' => 'tech_volkov',
-            'created_at' => '2026-11-05 12:00:00'
+            'changed_by' => 'tech_orlov',
+            'created_at' => '2026-10-05 12:00:00'
         ],
         [
             'request' => 'FP-2026-000009',
             'from' => 'awaiting_customer_approval',
             'to' => 'repairing',
             'reason' => 'Клиент согласовал работы, ремонт начат.',
-            'changed_by' => 'tech_volkov',
-            'created_at' => '2026-11-05 13:00:00'
+            'changed_by' => 'tech_orlov',
+            'created_at' => '2026-10-05 13:00:00'
         ],
         [
             'request' => 'FP-2026-000010',
             'from' => null,
             'to' => 'new',
             'reason' => 'Заявка зарегистрирована клиентом.',
-            'changed_by' => 'customer_nurpeisova',
-            'created_at' => '2026-11-06 09:00:00'
+            'changed_by' => 'customer_sidorova',
+            'created_at' => '2026-10-06 09:00:00'
         ],
         [
             'request' => 'FP-2026-000010',
@@ -1912,143 +1912,143 @@ return [
             'to' => 'accepted',
             'reason' => 'Заявка принята администратором.',
             'changed_by' => 'admin',
-            'created_at' => '2026-11-06 10:00:00'
+            'created_at' => '2026-10-06 10:00:00'
         ],
         [
             'request' => 'FP-2026-000010',
             'from' => 'accepted',
             'to' => 'diagnostics',
             'reason' => 'Устройство передано на диагностику.',
-            'changed_by' => 'tech_akimova',
-            'created_at' => '2026-11-06 11:00:00'
+            'changed_by' => 'tech_kim',
+            'created_at' => '2026-10-06 11:00:00'
         ],
         [
             'request' => 'FP-2026-000010',
             'from' => 'diagnostics',
             'to' => 'awaiting_customer_approval',
             'reason' => 'Смета подготовлена и ожидает решения клиента.',
-            'changed_by' => 'tech_akimova',
-            'created_at' => '2026-11-06 12:00:00'
+            'changed_by' => 'tech_kim',
+            'created_at' => '2026-10-06 12:00:00'
         ],
         [
             'request' => 'FP-2026-000010',
             'from' => 'awaiting_customer_approval',
             'to' => 'repairing',
             'reason' => 'Клиент согласовал работы, ремонт начат.',
-            'changed_by' => 'tech_akimova',
-            'created_at' => '2026-11-06 13:00:00'
+            'changed_by' => 'tech_kim',
+            'created_at' => '2026-10-06 13:00:00'
         ],
         [
             'request' => 'FP-2026-000010',
             'from' => 'repairing',
             'to' => 'awaiting_parts',
             'reason' => 'Для ремонта требуется заказ комплектующих.',
+            'changed_by' => 'tech_kim',
+            'created_at' => '2026-10-06 14:00:00'
+        ],
+        [
+            'request' => 'FP-2026-000011',
+            'from' => null,
+            'to' => 'new',
+            'reason' => 'Заявка зарегистрирована клиентом.',
+            'changed_by' => 'customer_karimov',
+            'created_at' => '2026-10-07 09:00:00'
+        ],
+        [
+            'request' => 'FP-2026-000011',
+            'from' => 'new',
+            'to' => 'accepted',
+            'reason' => 'Заявка принята администратором.',
+            'changed_by' => 'admin',
+            'created_at' => '2026-10-07 10:00:00'
+        ],
+        [
+            'request' => 'FP-2026-000011',
+            'from' => 'accepted',
+            'to' => 'diagnostics',
+            'reason' => 'Устройство передано на диагностику.',
+            'changed_by' => 'tech_volkov',
+            'created_at' => '2026-10-07 11:00:00'
+        ],
+        [
+            'request' => 'FP-2026-000011',
+            'from' => 'diagnostics',
+            'to' => 'awaiting_customer_approval',
+            'reason' => 'Смета подготовлена и ожидает решения клиента.',
+            'changed_by' => 'tech_volkov',
+            'created_at' => '2026-10-07 12:00:00'
+        ],
+        [
+            'request' => 'FP-2026-000011',
+            'from' => 'awaiting_customer_approval',
+            'to' => 'repairing',
+            'reason' => 'Клиент согласовал работы, ремонт начат.',
+            'changed_by' => 'tech_volkov',
+            'created_at' => '2026-10-07 13:00:00'
+        ],
+        [
+            'request' => 'FP-2026-000011',
+            'from' => 'repairing',
+            'to' => 'ready_for_pickup',
+            'reason' => 'Работы завершены, устройство готово к выдаче.',
+            'changed_by' => 'tech_volkov',
+            'created_at' => '2026-10-07 14:00:00'
+        ],
+        [
+            'request' => 'FP-2026-000012',
+            'from' => null,
+            'to' => 'new',
+            'reason' => 'Заявка зарегистрирована клиентом.',
+            'changed_by' => 'customer_nurpeisova',
+            'created_at' => '2026-10-08 09:00:00'
+        ],
+        [
+            'request' => 'FP-2026-000012',
+            'from' => 'new',
+            'to' => 'accepted',
+            'reason' => 'Заявка принята администратором.',
+            'changed_by' => 'admin',
+            'created_at' => '2026-10-08 10:00:00'
+        ],
+        [
+            'request' => 'FP-2026-000012',
+            'from' => 'accepted',
+            'to' => 'diagnostics',
+            'reason' => 'Устройство передано на диагностику.',
             'changed_by' => 'tech_akimova',
-            'created_at' => '2026-11-06 14:00:00'
-        ],
-        [
-            'request' => 'FP-2026-000011',
-            'from' => null,
-            'to' => 'new',
-            'reason' => 'Заявка зарегистрирована клиентом.',
-            'changed_by' => 'customer_kovalev',
-            'created_at' => '2026-11-07 09:00:00'
-        ],
-        [
-            'request' => 'FP-2026-000011',
-            'from' => 'new',
-            'to' => 'accepted',
-            'reason' => 'Заявка принята администратором.',
-            'changed_by' => 'admin',
-            'created_at' => '2026-11-07 10:00:00'
-        ],
-        [
-            'request' => 'FP-2026-000011',
-            'from' => 'accepted',
-            'to' => 'diagnostics',
-            'reason' => 'Устройство передано на диагностику.',
-            'changed_by' => 'admin',
-            'created_at' => '2026-11-07 11:00:00'
-        ],
-        [
-            'request' => 'FP-2026-000011',
-            'from' => 'diagnostics',
-            'to' => 'awaiting_customer_approval',
-            'reason' => 'Смета подготовлена и ожидает решения клиента.',
-            'changed_by' => 'admin',
-            'created_at' => '2026-11-07 12:00:00'
-        ],
-        [
-            'request' => 'FP-2026-000011',
-            'from' => 'awaiting_customer_approval',
-            'to' => 'repairing',
-            'reason' => 'Клиент согласовал работы, ремонт начат.',
-            'changed_by' => 'admin',
-            'created_at' => '2026-11-07 13:00:00'
-        ],
-        [
-            'request' => 'FP-2026-000011',
-            'from' => 'repairing',
-            'to' => 'ready_for_pickup',
-            'reason' => 'Работы завершены, устройство готово к выдаче.',
-            'changed_by' => 'admin',
-            'created_at' => '2026-11-07 14:00:00'
-        ],
-        [
-            'request' => 'FP-2026-000012',
-            'from' => null,
-            'to' => 'new',
-            'reason' => 'Заявка зарегистрирована клиентом.',
-            'changed_by' => 'customer_ivanova',
-            'created_at' => '2026-11-08 09:00:00'
-        ],
-        [
-            'request' => 'FP-2026-000012',
-            'from' => 'new',
-            'to' => 'accepted',
-            'reason' => 'Заявка принята администратором.',
-            'changed_by' => 'admin',
-            'created_at' => '2026-11-08 10:00:00'
-        ],
-        [
-            'request' => 'FP-2026-000012',
-            'from' => 'accepted',
-            'to' => 'diagnostics',
-            'reason' => 'Устройство передано на диагностику.',
-            'changed_by' => 'tech_smirnova',
-            'created_at' => '2026-11-08 11:00:00'
+            'created_at' => '2026-10-08 11:00:00'
         ],
         [
             'request' => 'FP-2026-000012',
             'from' => 'diagnostics',
             'to' => 'awaiting_customer_approval',
             'reason' => 'Смета подготовлена и ожидает решения клиента.',
-            'changed_by' => 'tech_smirnova',
-            'created_at' => '2026-11-08 12:00:00'
+            'changed_by' => 'tech_akimova',
+            'created_at' => '2026-10-08 12:00:00'
         ],
         [
             'request' => 'FP-2026-000012',
             'from' => 'awaiting_customer_approval',
             'to' => 'repairing',
             'reason' => 'Клиент согласовал работы, ремонт начат.',
-            'changed_by' => 'tech_smirnova',
-            'created_at' => '2026-11-08 13:00:00'
+            'changed_by' => 'tech_akimova',
+            'created_at' => '2026-10-08 13:00:00'
         ],
         [
             'request' => 'FP-2026-000012',
             'from' => 'repairing',
             'to' => 'ready_for_pickup',
             'reason' => 'Работы завершены, устройство готово к выдаче.',
-            'changed_by' => 'tech_smirnova',
-            'created_at' => '2026-11-08 14:00:00'
+            'changed_by' => 'tech_akimova',
+            'created_at' => '2026-10-08 14:00:00'
         ],
         [
             'request' => 'FP-2026-000012',
             'from' => 'ready_for_pickup',
             'to' => 'completed',
             'reason' => 'Устройство выдано клиенту.',
-            'changed_by' => 'tech_smirnova',
-            'created_at' => '2026-11-08 15:00:00'
+            'changed_by' => 'tech_akimova',
+            'created_at' => '2026-10-08 15:00:00'
         ],
         [
             'request' => 'FP-2026-000013',
@@ -2056,15 +2056,15 @@ return [
             'to' => 'new',
             'reason' => 'Заявка зарегистрирована клиентом.',
             'changed_by' => 'customer_petrov',
-            'created_at' => '2026-11-09 09:00:00'
+            'created_at' => '2026-10-09 09:00:00'
         ],
         [
             'request' => 'FP-2026-000013',
             'from' => 'new',
             'to' => 'cancelled',
             'reason' => 'Заявка отменена.',
-            'changed_by' => 'tech_orlov',
-            'created_at' => '2026-11-09 10:00:00'
+            'changed_by' => 'admin',
+            'created_at' => '2026-10-09 10:00:00'
         ],
         [
             'request' => 'FP-2026-000014',
@@ -2072,7 +2072,7 @@ return [
             'to' => 'new',
             'reason' => 'Заявка зарегистрирована клиентом.',
             'changed_by' => 'customer_sidorova',
-            'created_at' => '2026-11-10 09:00:00'
+            'created_at' => '2026-10-10 09:00:00'
         ],
         [
             'request' => 'FP-2026-000014',
@@ -2080,7 +2080,7 @@ return [
             'to' => 'accepted',
             'reason' => 'Заявка принята администратором.',
             'changed_by' => 'admin',
-            'created_at' => '2026-11-10 10:00:00'
+            'created_at' => '2026-10-10 10:00:00'
         ],
         [
             'request' => 'FP-2026-000014',
@@ -2088,7 +2088,7 @@ return [
             'to' => 'rejected',
             'reason' => 'Заявка отклонена после проверки.',
             'changed_by' => 'admin',
-            'created_at' => '2026-11-10 11:00:00'
+            'created_at' => '2026-10-10 11:00:00'
         ],
         [
             'request' => 'FP-2026-000015',
@@ -2096,7 +2096,7 @@ return [
             'to' => 'new',
             'reason' => 'Заявка зарегистрирована клиентом.',
             'changed_by' => 'customer_karimov',
-            'created_at' => '2026-11-11 09:00:00'
+            'created_at' => '2026-10-11 09:00:00'
         ],
         [
             'request' => 'FP-2026-000016',
@@ -2104,7 +2104,7 @@ return [
             'to' => 'new',
             'reason' => 'Заявка зарегистрирована клиентом.',
             'changed_by' => 'customer_nurpeisova',
-            'created_at' => '2026-11-12 09:00:00'
+            'created_at' => '2026-10-12 09:00:00'
         ],
         [
             'request' => 'FP-2026-000016',
@@ -2112,71 +2112,71 @@ return [
             'to' => 'accepted',
             'reason' => 'Заявка принята администратором.',
             'changed_by' => 'admin',
-            'created_at' => '2026-11-12 10:00:00'
+            'created_at' => '2026-10-12 10:00:00'
         ],
         [
             'request' => 'FP-2026-000017',
-            'from' => null,
-            'to' => 'new',
-            'reason' => 'Заявка зарегистрирована клиентом.',
-            'changed_by' => 'customer_kovalev',
-            'created_at' => '2026-11-13 09:00:00'
-        ],
-        [
-            'request' => 'FP-2026-000017',
-            'from' => 'new',
-            'to' => 'accepted',
-            'reason' => 'Заявка принята администратором.',
-            'changed_by' => 'admin',
-            'created_at' => '2026-11-13 10:00:00'
-        ],
-        [
-            'request' => 'FP-2026-000017',
-            'from' => 'accepted',
-            'to' => 'diagnostics',
-            'reason' => 'Устройство передано на диагностику.',
-            'changed_by' => 'admin',
-            'created_at' => '2026-11-13 11:00:00'
-        ],
-        [
-            'request' => 'FP-2026-000018',
-            'from' => null,
-            'to' => 'new',
-            'reason' => 'Заявка зарегистрирована клиентом.',
-            'changed_by' => 'customer_ivanova',
-            'created_at' => '2026-11-14 09:00:00'
-        ],
-        [
-            'request' => 'FP-2026-000018',
-            'from' => 'new',
-            'to' => 'accepted',
-            'reason' => 'Заявка принята администратором.',
-            'changed_by' => 'admin',
-            'created_at' => '2026-11-14 10:00:00'
-        ],
-        [
-            'request' => 'FP-2026-000018',
-            'from' => 'accepted',
-            'to' => 'diagnostics',
-            'reason' => 'Устройство передано на диагностику.',
-            'changed_by' => 'tech_smirnova',
-            'created_at' => '2026-11-14 11:00:00'
-        ],
-        [
-            'request' => 'FP-2026-000018',
-            'from' => 'diagnostics',
-            'to' => 'awaiting_customer_approval',
-            'reason' => 'Смета подготовлена и ожидает решения клиента.',
-            'changed_by' => 'tech_smirnova',
-            'created_at' => '2026-11-14 12:00:00'
-        ],
-        [
-            'request' => 'FP-2026-000019',
             'from' => null,
             'to' => 'new',
             'reason' => 'Заявка зарегистрирована клиентом.',
             'changed_by' => 'customer_petrov',
-            'created_at' => '2026-11-15 09:00:00'
+            'created_at' => '2026-10-13 09:00:00'
+        ],
+        [
+            'request' => 'FP-2026-000017',
+            'from' => 'new',
+            'to' => 'accepted',
+            'reason' => 'Заявка принята администратором.',
+            'changed_by' => 'admin',
+            'created_at' => '2026-10-13 10:00:00'
+        ],
+        [
+            'request' => 'FP-2026-000017',
+            'from' => 'accepted',
+            'to' => 'diagnostics',
+            'reason' => 'Устройство передано на диагностику.',
+            'changed_by' => 'tech_orlov',
+            'created_at' => '2026-10-13 11:00:00'
+        ],
+        [
+            'request' => 'FP-2026-000018',
+            'from' => null,
+            'to' => 'new',
+            'reason' => 'Заявка зарегистрирована клиентом.',
+            'changed_by' => 'customer_sidorova',
+            'created_at' => '2026-10-14 09:00:00'
+        ],
+        [
+            'request' => 'FP-2026-000018',
+            'from' => 'new',
+            'to' => 'accepted',
+            'reason' => 'Заявка принята администратором.',
+            'changed_by' => 'admin',
+            'created_at' => '2026-10-14 10:00:00'
+        ],
+        [
+            'request' => 'FP-2026-000018',
+            'from' => 'accepted',
+            'to' => 'diagnostics',
+            'reason' => 'Устройство передано на диагностику.',
+            'changed_by' => 'tech_kim',
+            'created_at' => '2026-10-14 11:00:00'
+        ],
+        [
+            'request' => 'FP-2026-000018',
+            'from' => 'diagnostics',
+            'to' => 'awaiting_customer_approval',
+            'reason' => 'Смета подготовлена и ожидает решения клиента.',
+            'changed_by' => 'tech_kim',
+            'created_at' => '2026-10-14 12:00:00'
+        ],
+        [
+            'request' => 'FP-2026-000019',
+            'from' => null,
+            'to' => 'new',
+            'reason' => 'Заявка зарегистрирована клиентом.',
+            'changed_by' => 'customer_karimov',
+            'created_at' => '2026-10-15 09:00:00'
         ],
         [
             'request' => 'FP-2026-000019',
@@ -2184,39 +2184,39 @@ return [
             'to' => 'accepted',
             'reason' => 'Заявка принята администратором.',
             'changed_by' => 'admin',
-            'created_at' => '2026-11-15 10:00:00'
+            'created_at' => '2026-10-15 10:00:00'
         ],
         [
             'request' => 'FP-2026-000019',
             'from' => 'accepted',
             'to' => 'diagnostics',
             'reason' => 'Устройство передано на диагностику.',
-            'changed_by' => 'tech_orlov',
-            'created_at' => '2026-11-15 11:00:00'
+            'changed_by' => 'tech_volkov',
+            'created_at' => '2026-10-15 11:00:00'
         ],
         [
             'request' => 'FP-2026-000019',
             'from' => 'diagnostics',
             'to' => 'awaiting_customer_approval',
             'reason' => 'Смета подготовлена и ожидает решения клиента.',
-            'changed_by' => 'tech_orlov',
-            'created_at' => '2026-11-15 12:00:00'
+            'changed_by' => 'tech_volkov',
+            'created_at' => '2026-10-15 12:00:00'
         ],
         [
             'request' => 'FP-2026-000019',
             'from' => 'awaiting_customer_approval',
             'to' => 'repairing',
             'reason' => 'Клиент согласовал работы, ремонт начат.',
-            'changed_by' => 'tech_orlov',
-            'created_at' => '2026-11-15 13:00:00'
+            'changed_by' => 'tech_volkov',
+            'created_at' => '2026-10-15 13:00:00'
         ],
         [
             'request' => 'FP-2026-000020',
             'from' => null,
             'to' => 'new',
             'reason' => 'Заявка зарегистрирована клиентом.',
-            'changed_by' => 'customer_sidorova',
-            'created_at' => '2026-11-16 09:00:00'
+            'changed_by' => 'customer_nurpeisova',
+            'created_at' => '2026-10-16 09:00:00'
         ],
         [
             'request' => 'FP-2026-000020',
@@ -2224,151 +2224,151 @@ return [
             'to' => 'accepted',
             'reason' => 'Заявка принята администратором.',
             'changed_by' => 'admin',
-            'created_at' => '2026-11-16 10:00:00'
+            'created_at' => '2026-10-16 10:00:00'
         ],
         [
             'request' => 'FP-2026-000020',
             'from' => 'accepted',
             'to' => 'diagnostics',
             'reason' => 'Устройство передано на диагностику.',
-            'changed_by' => 'tech_kim',
-            'created_at' => '2026-11-16 11:00:00'
+            'changed_by' => 'tech_akimova',
+            'created_at' => '2026-10-16 11:00:00'
         ],
         [
             'request' => 'FP-2026-000020',
             'from' => 'diagnostics',
             'to' => 'awaiting_customer_approval',
             'reason' => 'Смета подготовлена и ожидает решения клиента.',
-            'changed_by' => 'tech_kim',
-            'created_at' => '2026-11-16 12:00:00'
+            'changed_by' => 'tech_akimova',
+            'created_at' => '2026-10-16 12:00:00'
         ],
         [
             'request' => 'FP-2026-000020',
             'from' => 'awaiting_customer_approval',
             'to' => 'repairing',
             'reason' => 'Клиент согласовал работы, ремонт начат.',
-            'changed_by' => 'tech_kim',
-            'created_at' => '2026-11-16 13:00:00'
+            'changed_by' => 'tech_akimova',
+            'created_at' => '2026-10-16 13:00:00'
         ],
         [
             'request' => 'FP-2026-000020',
             'from' => 'repairing',
             'to' => 'awaiting_parts',
             'reason' => 'Для ремонта требуется заказ комплектующих.',
+            'changed_by' => 'tech_akimova',
+            'created_at' => '2026-10-16 14:00:00'
+        ],
+        [
+            'request' => 'FP-2026-000021',
+            'from' => null,
+            'to' => 'new',
+            'reason' => 'Заявка зарегистрирована клиентом.',
+            'changed_by' => 'customer_petrov',
+            'created_at' => '2026-10-17 09:00:00'
+        ],
+        [
+            'request' => 'FP-2026-000021',
+            'from' => 'new',
+            'to' => 'accepted',
+            'reason' => 'Заявка принята администратором.',
+            'changed_by' => 'admin',
+            'created_at' => '2026-10-17 10:00:00'
+        ],
+        [
+            'request' => 'FP-2026-000021',
+            'from' => 'accepted',
+            'to' => 'diagnostics',
+            'reason' => 'Устройство передано на диагностику.',
+            'changed_by' => 'tech_orlov',
+            'created_at' => '2026-10-17 11:00:00'
+        ],
+        [
+            'request' => 'FP-2026-000021',
+            'from' => 'diagnostics',
+            'to' => 'awaiting_customer_approval',
+            'reason' => 'Смета подготовлена и ожидает решения клиента.',
+            'changed_by' => 'tech_orlov',
+            'created_at' => '2026-10-17 12:00:00'
+        ],
+        [
+            'request' => 'FP-2026-000021',
+            'from' => 'awaiting_customer_approval',
+            'to' => 'repairing',
+            'reason' => 'Клиент согласовал работы, ремонт начат.',
+            'changed_by' => 'tech_orlov',
+            'created_at' => '2026-10-17 13:00:00'
+        ],
+        [
+            'request' => 'FP-2026-000021',
+            'from' => 'repairing',
+            'to' => 'ready_for_pickup',
+            'reason' => 'Работы завершены, устройство готово к выдаче.',
+            'changed_by' => 'tech_orlov',
+            'created_at' => '2026-10-17 14:00:00'
+        ],
+        [
+            'request' => 'FP-2026-000022',
+            'from' => null,
+            'to' => 'new',
+            'reason' => 'Заявка зарегистрирована клиентом.',
+            'changed_by' => 'customer_sidorova',
+            'created_at' => '2026-10-18 09:00:00'
+        ],
+        [
+            'request' => 'FP-2026-000022',
+            'from' => 'new',
+            'to' => 'accepted',
+            'reason' => 'Заявка принята администратором.',
+            'changed_by' => 'admin',
+            'created_at' => '2026-10-18 10:00:00'
+        ],
+        [
+            'request' => 'FP-2026-000022',
+            'from' => 'accepted',
+            'to' => 'diagnostics',
+            'reason' => 'Устройство передано на диагностику.',
             'changed_by' => 'tech_kim',
-            'created_at' => '2026-11-16 14:00:00'
-        ],
-        [
-            'request' => 'FP-2026-000021',
-            'from' => null,
-            'to' => 'new',
-            'reason' => 'Заявка зарегистрирована клиентом.',
-            'changed_by' => 'customer_karimov',
-            'created_at' => '2026-11-17 09:00:00'
-        ],
-        [
-            'request' => 'FP-2026-000021',
-            'from' => 'new',
-            'to' => 'accepted',
-            'reason' => 'Заявка принята администратором.',
-            'changed_by' => 'admin',
-            'created_at' => '2026-11-17 10:00:00'
-        ],
-        [
-            'request' => 'FP-2026-000021',
-            'from' => 'accepted',
-            'to' => 'diagnostics',
-            'reason' => 'Устройство передано на диагностику.',
-            'changed_by' => 'tech_volkov',
-            'created_at' => '2026-11-17 11:00:00'
-        ],
-        [
-            'request' => 'FP-2026-000021',
-            'from' => 'diagnostics',
-            'to' => 'awaiting_customer_approval',
-            'reason' => 'Смета подготовлена и ожидает решения клиента.',
-            'changed_by' => 'tech_volkov',
-            'created_at' => '2026-11-17 12:00:00'
-        ],
-        [
-            'request' => 'FP-2026-000021',
-            'from' => 'awaiting_customer_approval',
-            'to' => 'repairing',
-            'reason' => 'Клиент согласовал работы, ремонт начат.',
-            'changed_by' => 'tech_volkov',
-            'created_at' => '2026-11-17 13:00:00'
-        ],
-        [
-            'request' => 'FP-2026-000021',
-            'from' => 'repairing',
-            'to' => 'ready_for_pickup',
-            'reason' => 'Работы завершены, устройство готово к выдаче.',
-            'changed_by' => 'tech_volkov',
-            'created_at' => '2026-11-17 14:00:00'
-        ],
-        [
-            'request' => 'FP-2026-000022',
-            'from' => null,
-            'to' => 'new',
-            'reason' => 'Заявка зарегистрирована клиентом.',
-            'changed_by' => 'customer_nurpeisova',
-            'created_at' => '2026-11-18 09:00:00'
-        ],
-        [
-            'request' => 'FP-2026-000022',
-            'from' => 'new',
-            'to' => 'accepted',
-            'reason' => 'Заявка принята администратором.',
-            'changed_by' => 'admin',
-            'created_at' => '2026-11-18 10:00:00'
-        ],
-        [
-            'request' => 'FP-2026-000022',
-            'from' => 'accepted',
-            'to' => 'diagnostics',
-            'reason' => 'Устройство передано на диагностику.',
-            'changed_by' => 'tech_akimova',
-            'created_at' => '2026-11-18 11:00:00'
+            'created_at' => '2026-10-18 11:00:00'
         ],
         [
             'request' => 'FP-2026-000022',
             'from' => 'diagnostics',
             'to' => 'awaiting_customer_approval',
             'reason' => 'Смета подготовлена и ожидает решения клиента.',
-            'changed_by' => 'tech_akimova',
-            'created_at' => '2026-11-18 12:00:00'
+            'changed_by' => 'tech_kim',
+            'created_at' => '2026-10-18 12:00:00'
         ],
         [
             'request' => 'FP-2026-000022',
             'from' => 'awaiting_customer_approval',
             'to' => 'repairing',
             'reason' => 'Клиент согласовал работы, ремонт начат.',
-            'changed_by' => 'tech_akimova',
-            'created_at' => '2026-11-18 13:00:00'
+            'changed_by' => 'tech_kim',
+            'created_at' => '2026-10-18 13:00:00'
         ],
         [
             'request' => 'FP-2026-000022',
             'from' => 'repairing',
             'to' => 'ready_for_pickup',
             'reason' => 'Работы завершены, устройство готово к выдаче.',
-            'changed_by' => 'tech_akimova',
-            'created_at' => '2026-11-18 14:00:00'
+            'changed_by' => 'tech_kim',
+            'created_at' => '2026-10-18 14:00:00'
         ],
         [
             'request' => 'FP-2026-000022',
             'from' => 'ready_for_pickup',
             'to' => 'completed',
             'reason' => 'Устройство выдано клиенту.',
-            'changed_by' => 'tech_akimova',
-            'created_at' => '2026-11-18 15:00:00'
+            'changed_by' => 'tech_kim',
+            'created_at' => '2026-10-18 15:00:00'
         ],
         [
             'request' => 'FP-2026-000023',
             'from' => null,
             'to' => 'new',
             'reason' => 'Заявка зарегистрирована клиентом.',
-            'changed_by' => 'customer_kovalev',
-            'created_at' => '2026-11-19 09:00:00'
+            'changed_by' => 'customer_karimov',
+            'created_at' => '2026-10-19 09:00:00'
         ],
         [
             'request' => 'FP-2026-000023',
@@ -2376,15 +2376,15 @@ return [
             'to' => 'cancelled',
             'reason' => 'Заявка отменена.',
             'changed_by' => 'admin',
-            'created_at' => '2026-11-19 10:00:00'
+            'created_at' => '2026-10-19 10:00:00'
         ],
         [
             'request' => 'FP-2026-000024',
             'from' => null,
             'to' => 'new',
             'reason' => 'Заявка зарегистрирована клиентом.',
-            'changed_by' => 'customer_ivanova',
-            'created_at' => '2026-11-20 09:00:00'
+            'changed_by' => 'customer_nurpeisova',
+            'created_at' => '2026-10-20 09:00:00'
         ],
         [
             'request' => 'FP-2026-000024',
@@ -2392,7 +2392,7 @@ return [
             'to' => 'accepted',
             'reason' => 'Заявка принята администратором.',
             'changed_by' => 'admin',
-            'created_at' => '2026-11-20 10:00:00'
+            'created_at' => '2026-10-20 10:00:00'
         ],
         [
             'request' => 'FP-2026-000024',
@@ -2400,7 +2400,7 @@ return [
             'to' => 'rejected',
             'reason' => 'Заявка отклонена после проверки.',
             'changed_by' => 'admin',
-            'created_at' => '2026-11-20 11:00:00'
+            'created_at' => '2026-10-20 11:00:00'
         ]
     ],
     'comments' => [
@@ -2444,175 +2444,174 @@ return [
             'author' => 'admin',
             'body' => 'Приняли устройство, проверим указанные симптомы и сообщим результат.',
             'is_internal' => 1,
-            'created_at' => '2026-11-01 10:30:00'
+            'created_at' => '2026-10-01 10:30:00'
         ],
         [
             'request' => 'FP-2026-000006',
-            'author' => 'customer_ivanova',
+            'author' => 'customer_sidorova',
             'body' => 'Первичная проверка выполнена. Уточняем причину неисправности.',
             'is_internal' => 0,
-            'created_at' => '2026-11-02 11:30:00'
+            'created_at' => '2026-10-02 11:30:00'
         ],
         [
             'request' => 'FP-2026-000007',
-            'author' => 'tech_orlov',
+            'author' => 'tech_volkov',
             'body' => 'Подготовили информацию по дальнейшим работам.',
             'is_internal' => 0,
-            'created_at' => '2026-11-03 12:30:00'
+            'created_at' => '2026-10-03 12:30:00'
         ],
         [
             'request' => 'FP-2026-000008',
-            'author' => 'customer_sidorova',
+            'author' => 'customer_nurpeisova',
             'body' => 'Проверили совместимость комплектующих перед ремонтом.',
             'is_internal' => 0,
-            'created_at' => '2026-11-04 13:30:00'
+            'created_at' => '2026-10-04 13:30:00'
         ],
         [
             'request' => 'FP-2026-000009',
-            'author' => 'tech_volkov',
+            'author' => 'tech_orlov',
             'body' => 'После выполнения работ проведём контрольное тестирование.',
             'is_internal' => 0,
-            'created_at' => '2026-11-05 14:30:00'
+            'created_at' => '2026-10-05 14:30:00'
         ],
         [
             'request' => 'FP-2026-000010',
-            'author' => 'customer_nurpeisova',
+            'author' => 'customer_sidorova',
             'body' => 'Приняли устройство, проверим указанные симптомы и сообщим результат.',
             'is_internal' => 0,
-            'created_at' => '2026-11-06 15:30:00'
+            'created_at' => '2026-10-06 15:30:00'
         ],
         [
             'request' => 'FP-2026-000011',
             'author' => 'admin',
             'body' => 'Первичная проверка выполнена. Уточняем причину неисправности.',
             'is_internal' => 1,
-            'created_at' => '2026-11-07 16:30:00'
+            'created_at' => '2026-10-07 16:30:00'
         ],
         [
             'request' => 'FP-2026-000012',
-            'author' => 'customer_ivanova',
+            'author' => 'customer_nurpeisova',
             'body' => 'Подготовили информацию по дальнейшим работам.',
             'is_internal' => 0,
-            'created_at' => '2026-11-08 17:30:00'
+            'created_at' => '2026-10-08 17:30:00'
         ],
         [
             'request' => 'FP-2026-000013',
             'author' => 'tech_orlov',
             'body' => 'Проверили совместимость комплектующих перед ремонтом.',
             'is_internal' => 0,
-            'created_at' => '2026-11-09 10:30:00'
+            'created_at' => '2026-10-09 10:30:00'
         ],
         [
             'request' => 'FP-2026-000014',
             'author' => 'customer_sidorova',
             'body' => 'После выполнения работ проведём контрольное тестирование.',
             'is_internal' => 0,
-            'created_at' => '2026-11-10 11:30:00'
+            'created_at' => '2026-10-10 11:30:00'
         ],
         [
             'request' => 'FP-2026-000015',
             'author' => 'admin',
             'body' => 'Приняли устройство, проверим указанные симптомы и сообщим результат.',
             'is_internal' => 0,
-            'created_at' => '2026-11-11 12:30:00'
+            'created_at' => '2026-10-11 12:30:00'
         ],
         [
             'request' => 'FP-2026-000016',
             'author' => 'customer_nurpeisova',
             'body' => 'Первичная проверка выполнена. Уточняем причину неисправности.',
             'is_internal' => 0,
-            'created_at' => '2026-11-12 13:30:00'
+            'created_at' => '2026-10-12 13:30:00'
         ],
         [
             'request' => 'FP-2026-000017',
             'author' => 'admin',
             'body' => 'Подготовили информацию по дальнейшим работам.',
             'is_internal' => 1,
-            'created_at' => '2026-11-13 14:30:00'
+            'created_at' => '2026-10-13 14:30:00'
         ],
         [
             'request' => 'FP-2026-000018',
-            'author' => 'customer_ivanova',
+            'author' => 'customer_sidorova',
             'body' => 'Проверили совместимость комплектующих перед ремонтом.',
             'is_internal' => 0,
-            'created_at' => '2026-11-14 15:30:00'
+            'created_at' => '2026-10-14 15:30:00'
         ],
         [
             'request' => 'FP-2026-000019',
-            'author' => 'tech_orlov',
+            'author' => 'tech_volkov',
             'body' => 'После выполнения работ проведём контрольное тестирование.',
             'is_internal' => 0,
-            'created_at' => '2026-11-15 16:30:00'
+            'created_at' => '2026-10-15 16:30:00'
         ],
         [
             'request' => 'FP-2026-000020',
-            'author' => 'customer_sidorova',
+            'author' => 'customer_nurpeisova',
             'body' => 'Приняли устройство, проверим указанные симптомы и сообщим результат.',
             'is_internal' => 0,
-            'created_at' => '2026-11-16 17:30:00'
+            'created_at' => '2026-10-16 17:30:00'
         ],
         [
             'request' => 'FP-2026-000021',
-            'author' => 'tech_volkov',
+            'author' => 'tech_orlov',
             'body' => 'Первичная проверка выполнена. Уточняем причину неисправности.',
             'is_internal' => 0,
-            'created_at' => '2026-11-17 10:30:00'
+            'created_at' => '2026-10-17 10:30:00'
         ],
         [
             'request' => 'FP-2026-000022',
-            'author' => 'customer_nurpeisova',
+            'author' => 'customer_sidorova',
             'body' => 'Подготовили информацию по дальнейшим работам.',
             'is_internal' => 0,
-            'created_at' => '2026-11-18 11:30:00'
+            'created_at' => '2026-10-18 11:30:00'
         ],
         [
             'request' => 'FP-2026-000023',
             'author' => 'admin',
             'body' => 'Проверили совместимость комплектующих перед ремонтом.',
             'is_internal' => 1,
-            'created_at' => '2026-11-19 12:30:00'
+            'created_at' => '2026-10-19 12:30:00'
         ],
         [
             'request' => 'FP-2026-000024',
-            'author' => 'customer_ivanova',
+            'author' => 'customer_nurpeisova',
             'body' => 'После выполнения работ проведём контрольное тестирование.',
             'is_internal' => 0,
-            'created_at' => '2026-11-20 13:30:00'
+            'created_at' => '2026-10-20 13:30:00'
         ]
-    ],
         [
             'request' => "FP-2026-000005",
-            'author' => "customer_petrov",
+            'author' => 'customer_petrov',
             'body' => "Подтверждаю, устройство можно оставить на диагностику.",
             'is_internal' => 0,
-            'created_at' => '2026-11-10 17:30:00',
+            'created_at' => '2026-10-10 17:30:00',
         ],
         [
             'request' => "FP-2026-000006",
-            'author' => "tech_orlov",
+            'author' => 'tech_kim',
             'body' => "Проверили разъём и кабель, причина нестабильного контакта подтверждена.",
             'is_internal' => 0,
-            'created_at' => '2026-11-11 17:30:00',
+            'created_at' => '2026-10-11 17:30:00',
         ],
         [
             'request' => "FP-2026-000007",
-            'author' => "customer_sidorova",
+            'author' => 'customer_karimov',
             'body' => "Спасибо за подробное объяснение по смете.",
             'is_internal' => 0,
-            'created_at' => '2026-11-12 17:30:00',
+            'created_at' => '2026-10-12 17:30:00',
         ],
         [
             'request' => "FP-2026-000008",
-            'author' => "tech_kim",
+            'author' => 'tech_akimova',
             'body' => "После ремонта проверили запуск и работу основных функций.",
             'is_internal' => 0,
-            'created_at' => '2026-11-13 17:30:00',
+            'created_at' => '2026-10-13 17:30:00',
         ],
         [
             'request' => "FP-2026-000009",
-            'author' => "customer_karimov",
+            'author' => 'customer_petrov',
             'body' => "Удобно, что все изменения статуса видны в карточке.",
             'is_internal' => 0,
-            'created_at' => '2026-11-14 17:30:00',
+            'created_at' => '2026-10-14 17:30:00',
         ]
 ];

@@ -6,6 +6,7 @@ on:
       - develop
     paths:
       - assignment/Модуль 4.docx
+      - assignment/subtitles/**
       - scripts/assignment/**
       - .github/workflows/module4-source-audit.yml
   workflow_dispatch:
@@ -15,9 +16,9 @@ permissions:
 
 jobs:
   extract-assignment:
-    name: Extract original rubric and check video captions
+    name: Extract rubric, probe video captions and validate local transcripts
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 20
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -25,10 +26,17 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Run transcript validator unit tests
+        run: python -m unittest discover -s scripts/assignment/tests -v
       - name: Install caption metadata utility
         run: python -m pip install --disable-pip-version-check yt-dlp
-      - name: Extract DOCX and inspect video subtitle availability
-        run: python scripts/assignment/extract_module4.py --input 'assignment/Модуль 4.docx' --output artifacts/module4 --check-video-captions
+      - name: Extract DOCX, probe live captions and validate local transcript package
+        run: >-
+          python scripts/assignment/extract_module4.py
+          --input 'assignment/Модуль 4.docx'
+          --output artifacts/module4
+          --check-video-captions
+          --local-transcripts assignment/subtitles
       - name: Upload extracted requirements and subtitle availability report
         uses: actions/upload-artifact@v4
         with:

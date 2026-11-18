@@ -141,7 +141,7 @@ final class AdminHttpTest extends IntegrationTestCase
         $this->assertContains('FP-2026-000001', $invalid);
         $this->assertContains('TASK005-REGISTRY', $invalid);
 
-        $empty = app()->handle(Request::create('GET', '/admin/requests?status=rejected'))->body();
+        $empty = app()->handle(Request::create('GET', '/admin/requests?q=TASK005-NO-SUCH-REQUEST'))->body();
         $this->assertContains('Заявки не найдены', $empty);
     }
 
@@ -156,20 +156,19 @@ final class AdminHttpTest extends IntegrationTestCase
             ]);
         }
 
-        $first = app()->handle(Request::create('GET', '/admin/requests'))->body();
+        $first = app()->handle(Request::create('GET', '/admin/requests?q=TASK005-Page-'))->body();
         $this->assertContains('Страница 1 из 2', $first);
         $this->assertSame(8, substr_count($first, 'class="admin-request-primary"'));
 
-        $second = app()->handle(Request::create('GET', '/admin/requests?page=2'))->body();
+        $second = app()->handle(Request::create('GET', '/admin/requests?q=TASK005-Page-&page=2'))->body();
         $this->assertContains('Страница 2 из 2', $second);
-        $this->assertSame(5, substr_count($second, 'class="admin-request-primary"'));
-        $this->assertContains('TASK005-Page-1', $second);
-        $this->assertContains('TASK005-Page-5', $second);
+        $this->assertSame(1, substr_count($second, 'class="admin-request-primary"'));
+        $this->assertContains('TASK005-Page-9', $second);
 
-        $clamped = app()->handle(Request::create('GET', '/admin/requests?page=999'))->body();
+        $clamped = app()->handle(Request::create('GET', '/admin/requests?q=TASK005-Page-&page=999'))->body();
         $this->assertContains('Страница 2 из 2', $clamped);
 
-        $invalid = app()->handle(Request::create('GET', '/admin/requests?page=abc'))->body();
+        $invalid = app()->handle(Request::create('GET', '/admin/requests?q=TASK005-Page-&page=abc'))->body();
         $this->assertContains('Страница 1 из 2', $invalid);
 
         $this->createRequest([
