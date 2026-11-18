@@ -10,11 +10,12 @@ use SessionUpdateTimestampHandlerInterface;
 
 /**
  * MySQL-backed PHP sessions for stateless/ephemeral application containers.
- * A MySQL advisory lock serializes requests sharing the same session ID.
+ * Advisory locks serialize concurrent requests sharing the same session ID.
  */
 final class DatabaseSessionHandler implements SessionHandlerInterface, SessionUpdateTimestampHandlerInterface
 {
-    private ?string $lockName = null;
+    /** @var list<string> */
+    private array $lockNames = [];
 
     public function __construct(private readonly PDO $pdo)
     {
@@ -27,24 +28,24 @@ final class DatabaseSessionHandler implements SessionHandlerInterface, SessionUp
 
     public function close(): bool
     {
-        if ($this->lockName !== null) {
+        foreach ($this->lockNames as $lockName) {
             $statement = $this->pdo->prepare('SELECT RELEASE_LOCK(:lock_name)');
-            $statement->execute(['lock_name' => $this->lockName]);
-            $this->lockName = null;
+            $statement->execute(['lock_name' => $lockName]);
         }
+        $this->lockNames = [];
 
         return true;
     }
 
     public function read(string $id): string|false
     {
-        $this->lockName = 'fp_session_' . substr(hash('sha256', $id), 0, 48);
+        $lockName = 'fp_session_' . substr(hash('sha256', $id), 0, 48);
         $lock = $this->pdo->prepare('SELECT GET_LOCK(:lock_name, 10)');
-        $lock->execute(['lock_name' => $this->lockName]);
+        $lock->execute(['lock_name' => $lockName]);
         if ((int) $lock->fetchColumn() !== 1) {
-            $this->lockName = null;
             return false;
         }
+        $this->lockNames[] = $lockName;
 
         $statement = $this->pdo->prepare(
             'SELECT payload FROM app_sessions WHERE session_id = :session_id AND expires_at > :now'
@@ -71,6 +72,7 @@ final class DatabaseSessionHandler implements SessionHandlerInterface, SessionUp
     public function destroy(string $id): bool
     {
         $statement = $this->pdo->prepare('DELETE FROM app_sessions WHERE session_id = :session_id');
+
         return $statement->execute(['session_id' => $id]);
     }
 
@@ -99,11 +101,9 @@ final class DatabaseSessionHandler implements SessionHandlerInterface, SessionUp
         $statement = $this->pdo->prepare(
             'UPDATE app_sessions SET expires_at = :expires_at WHERE session_id = :session_id'
         );
-        $statement->execute([
+        return $statement->execute([
             'expires_at' => time() + (int) ini_get('session.gc_maxlifetime'),
             'session_id' => $id,
         ]);
-
-        return $statement->rowCount() > 0;
     }
 }
