@@ -56,8 +56,7 @@ return [
             'role' => 'customer',
             'is_active' => 0,
         ],
-    ],
-    'users' => [
+        
         [
             'key' => 'tech_orlov',
             'full_name' => 'Дмитрий Орлов',
@@ -158,8 +157,7 @@ return [
             'description' => 'Поиск неисправностей, чистка и профилактическое обслуживание.',
             'sort_order' => 50,
             'is_active' => 1,
-        ],
-    ],
+        ],,
         [
             'name' => 'Программное обеспечение',
             'slug' => 'software',
@@ -275,8 +273,7 @@ return [
             'price_from' => '10000.00',
             'estimated_minutes' => 90,
             'is_active' => 1,
-        ],
-    ],
+        ],,
         [
             'category' => 'computers-laptops',
             'name' => 'Замена клавиатуры ноутбука',
@@ -1258,8 +1255,7 @@ return [
             'created_at' => '2026-10-20 10:05:00',
             'updated_at' => '2026-10-22 14:30:00',
             'completed_at' => '2026-10-22 14:30:00',
-        ],
-    ],
+        ],,
         [
             'public_number' => 'FP-2026-000005',
             'customer' => 'customer_kovalev',
@@ -1781,8 +1777,7 @@ return [
             'reason' => 'Устройство выдано клиенту.',
             'changed_by' => 'tech_ivanov',
             'created_at' => '2026-10-22 14:30:00',
-        ],
-    ],
+        ],,
         [
             'request' => 'FP-2026-000005',
             'from' => null,
@@ -2443,8 +2438,7 @@ return [
             'body' => 'SSD установлен, система перенесена. Устройство готово к выдаче.',
             'is_internal' => 0,
             'created_at' => '2026-10-22 14:05:00',
-        ],
-    ],
+        ],,
         [
             'request' => 'FP-2026-000005',
             'author' => 'admin',
@@ -2585,5 +2579,40 @@ return [
             'is_internal' => 0,
             'created_at' => '2026-11-20 13:30:00'
         ]
-    ],
+    ],,
+        [
+            'request' => "FP-2026-000005",
+            'author' => "customer_petrov",
+            'body' => "Подтверждаю, устройство можно оставить на диагностику.",
+            'is_internal' => 0,
+            'created_at' => '2026-11-10 17:30:00',
+        ],
+        [
+            'request' => "FP-2026-000006",
+            'author' => "tech_orlov",
+            'body' => "Проверили разъём и кабель, причина нестабильного контакта подтверждена.",
+            'is_internal' => 0,
+            'created_at' => '2026-11-11 17:30:00',
+        ],
+        [
+            'request' => "FP-2026-000007",
+            'author' => "customer_sidorova",
+            'body' => "Спасибо за подробное объяснение по смете.",
+            'is_internal' => 0,
+            'created_at' => '2026-11-12 17:30:00',
+        ],
+        [
+            'request' => "FP-2026-000008",
+            'author' => "tech_kim",
+            'body' => "После ремонта проверили запуск и работу основных функций.",
+            'is_internal' => 0,
+            'created_at' => '2026-11-13 17:30:00',
+        ],
+        [
+            'request' => "FP-2026-000009",
+            'author' => "customer_karimov",
+            'body' => "Удобно, что все изменения статуса видны в карточке.",
+            'is_internal' => 0,
+            'created_at' => '2026-11-14 17:30:00',
+        ]
 ];
