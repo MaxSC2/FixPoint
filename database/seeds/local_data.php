@@ -157,7 +157,7 @@ return [
             'description' => 'Поиск неисправностей, чистка и профилактическое обслуживание.',
             'sort_order' => 50,
             'is_active' => 1,
-        ],,
+        ],
         [
             'name' => 'Программное обеспечение',
             'slug' => 'software',
@@ -273,7 +273,7 @@ return [
             'price_from' => '10000.00',
             'estimated_minutes' => 90,
             'is_active' => 1,
-        ],,
+        ],
         [
             'category' => 'computers-laptops',
             'name' => 'Замена клавиатуры ноутбука',
@@ -1255,7 +1255,7 @@ return [
             'created_at' => '2026-10-20 10:05:00',
             'updated_at' => '2026-10-22 14:30:00',
             'completed_at' => '2026-10-22 14:30:00',
-        ],,
+        ],
         [
             'public_number' => 'FP-2026-000005',
             'customer' => 'customer_kovalev',
@@ -1777,7 +1777,7 @@ return [
             'reason' => 'Устройство выдано клиенту.',
             'changed_by' => 'tech_ivanov',
             'created_at' => '2026-10-22 14:30:00',
-        ],,
+        ],
         [
             'request' => 'FP-2026-000005',
             'from' => null,
@@ -2438,7 +2438,7 @@ return [
             'body' => 'SSD установлен, система перенесена. Устройство готово к выдаче.',
             'is_internal' => 0,
             'created_at' => '2026-10-22 14:05:00',
-        ],,
+        ],
         [
             'request' => 'FP-2026-000005',
             'author' => 'admin',
@@ -2579,7 +2579,7 @@ return [
             'is_internal' => 0,
             'created_at' => '2026-11-20 13:30:00'
         ]
-    ],,
+    ],
         [
             'request' => "FP-2026-000005",
             'author' => "customer_petrov",
