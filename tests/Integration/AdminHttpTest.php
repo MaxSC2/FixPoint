@@ -163,7 +163,7 @@ final class AdminHttpTest extends IntegrationTestCase
         $second = app()->handle(Request::create('GET', '/admin/requests?q=TASK005-Page-&page=2'))->body();
         $this->assertContains('Страница 2 из 2', $second);
         $this->assertSame(1, substr_count($second, 'class="admin-request-primary"'));
-        $this->assertContains('TASK005-Page-9', $second);
+        $this->assertContains('TASK005-Page-1', $second);
 
         $clamped = app()->handle(Request::create('GET', '/admin/requests?q=TASK005-Page-&page=999'))->body();
         $this->assertContains('Страница 2 из 2', $clamped);

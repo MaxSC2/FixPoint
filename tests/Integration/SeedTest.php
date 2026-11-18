@@ -18,7 +18,7 @@ final class SeedTest extends IntegrationTestCase
         $this->assertSame(7, $this->count('service_categories'));
         $this->assertSame(100, $this->count('services'));
         $this->assertSame(24, $this->count('repair_requests'));
-        $this->assertSame(15 + 78, $this->count('request_status_history'));
+        $this->assertSame(95, $this->count('request_status_history'));
         $this->assertSame(30, $this->count('request_comments'));
 
         $admin = $pdo->query("SELECT * FROM users WHERE email = 'admin@fixpoint.test'")->fetch();

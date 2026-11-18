@@ -2085,8 +2085,16 @@ return [
         [
             'request' => 'FP-2026-000014',
             'from' => 'accepted',
+            'to' => 'diagnostics',
+            'reason' => 'Заявка передана мастеру для дополнительной проверки.',
+            'changed_by' => 'tech_kim',
+            'created_at' => '2026-10-10 10:30:00'
+        ],
+        [
+            'request' => 'FP-2026-000014',
+            'from' => 'diagnostics',
             'to' => 'rejected',
-            'reason' => 'Заявка отклонена после проверки.',
+            'reason' => 'После диагностики подтверждено отсутствие возможности выполнить ремонт.',
             'changed_by' => 'admin',
             'created_at' => '2026-10-10 11:00:00'
         ],
@@ -2397,8 +2405,16 @@ return [
         [
             'request' => 'FP-2026-000024',
             'from' => 'accepted',
+            'to' => 'diagnostics',
+            'reason' => 'Заявка передана мастеру для дополнительной проверки.',
+            'changed_by' => 'tech_akimova',
+            'created_at' => '2026-10-20 10:30:00'
+        ],
+        [
+            'request' => 'FP-2026-000024',
+            'from' => 'diagnostics',
             'to' => 'rejected',
-            'reason' => 'Заявка отклонена после проверки.',
+            'reason' => 'После диагностики подтверждено отсутствие возможности выполнить ремонт.',
             'changed_by' => 'admin',
             'created_at' => '2026-10-20 11:00:00'
         ]

@@ -82,7 +82,7 @@ final class RepositoryTest extends IntegrationTestCase
         $this->assertSame(1, $result['pagination']['current_page']);
         $this->assertSame(12, $result['pagination']['per_page']);
         $this->assertCount(12, $result['items']);
-        $this->assertContains('laptop-screen-replacement', array_column($result['items'], 'slug'));
+        $this->assertTrue(in_array('laptop-screen-replacement', array_column($result['items'], 'slug'), true));
 
         $detail = $catalog->findBySlug('laptop-cleaning');
         $this->assertNotNull($detail);
