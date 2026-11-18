@@ -92,6 +92,57 @@ final class AuthHttpTest extends IntegrationTestCase
         $this->assertNotContains('different', $body);
     }
 
+    public function testRegistrationPreservesLeadingAndTrailingPasswordWhitespace(): void
+    {
+        $email = self::TEST_EMAIL_PREFIX . 'whitespace-register@fixpoint.test';
+        $password = '  StrongPass1  ';
+
+        $response = $this->post('/register', [
+            'full_name' => 'Пользователь с пробелами',
+            'email' => $email,
+            'phone' => '',
+            'password' => $password,
+            'password_confirmation' => $password,
+        ]);
+
+        $this->assertSame(302, $response->status());
+        $this->assertSame('/account', $response->header('Location'));
+
+        $statement = app()->database()->connection()->prepare(
+            'SELECT password_hash FROM users WHERE email = :email'
+        );
+        $statement->execute(['email' => $email]);
+        $hash = $statement->fetchColumn();
+
+        $this->assertTrue(is_string($hash) && password_verify($password, $hash));
+    }
+
+    public function testLoginPreservesLeadingAndTrailingPasswordWhitespace(): void
+    {
+        $email = self::TEST_EMAIL_PREFIX . 'whitespace-login@fixpoint.test';
+        $password = '  StrongPass1  ';
+        $users = app()->make(\FixPoint\Repositories\UserRepository::class);
+        $hasher = app()->make(\FixPoint\Security\PasswordHasher::class);
+        $users->createWithRole(
+            'Пользователь с пробелами',
+            $email,
+            null,
+            $hasher->hash($password),
+            'customer',
+            true
+        );
+
+        $response = $this->post('/login', [
+            'email' => $email,
+            'password' => $password,
+        ]);
+
+        $this->assertSame(302, $response->status());
+        $this->assertSame('/account', $response->header('Location'));
+        $this->assertTrue(app()->auth()->check());
+        $this->assertSame($email, app()->auth()->user()['email'] ?? null);
+    }
+
     public function testDuplicateEmailIsRejected(): void
     {
         $response = $this->post('/register', [
