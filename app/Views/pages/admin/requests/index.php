@@ -46,6 +46,7 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
             <a class="workspace-nav__link" href="/admin/users">Пользователи</a>
             <a class="workspace-nav__link" href="/admin/services">Услуги</a>
             <a class="workspace-nav__link" href="/admin/categories">Категории</a>
+            <a class="workspace-nav__link" href="/admin/content/about">Контент</a><a class="workspace-nav__link" href="/admin/statistics">Статистика</a>
         </nav>
 
         <section class="staff-list-panel" data-reveal>
@@ -60,7 +61,7 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
             </form>
 
             <?php if ($items !== []): ?>
-                <div class="admin-request-table-wrap">
+                <div class="admin-request-table-wrap" role="region" aria-label="Таблица заявок, прокручиваемая по горизонтали" tabindex="0">
                     <table class="admin-request-table">
                         <thead><tr><th>Заявка / устройство</th><th>Клиент</th><th>Мастер</th><th>Статус</th><th>Приоритет</th><th>Создана</th><th><span class="sr-only">Открыть</span></th></tr></thead>
                         <tbody>

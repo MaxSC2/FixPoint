@@ -11,6 +11,7 @@ use FixPoint\Core\Config;
 use FixPoint\Core\Request;
 use FixPoint\Core\ViewRenderer;
 use FixPoint\Services\CatalogService;
+use FixPoint\Services\SiteContentService;
 use FixPoint\Tests\IntegrationTestCase;
 
 /**
@@ -115,7 +116,8 @@ final class ControllerContractTest extends IntegrationTestCase
             new ViewRenderer($aboutConfig),
             app()->auth(),
             app()->csrf(),
-            app()->session()
+            app()->session(),
+            app()->make(SiteContentService::class)
         );
         $aboutResponse = $about->about(Request::create('GET', '/about'));
         $this->assertSame('about', json_decode($aboutResponse->body(), true)['marker'] ?? null);
@@ -129,7 +131,8 @@ final class ControllerContractTest extends IntegrationTestCase
             new ViewRenderer($contactsConfig),
             app()->auth(),
             app()->csrf(),
-            app()->session()
+            app()->session(),
+            app()->make(SiteContentService::class)
         );
         $contactsResponse = $contacts->contacts(Request::create('GET', '/contacts'));
         $this->assertSame('', json_decode($contactsResponse->body(), true)['phone'] ?? null);

@@ -43,5 +43,34 @@ declare(strict_types=1);
         <span>Понятный процесс. Зафиксированный результат.</span>
     </div>
 </footer>
+<?php if (isset($authUser['role']) && $authUser['role'] === 'customer'): ?>
+    <?php
+    $currentPath = parse_url((string) ($_SERVER['REQUEST_URI'] ?? '/account'), PHP_URL_PATH) ?: '/account';
+    $mobileItems = [
+        ['label' => 'Обзор', 'href' => '/account', 'icon' => '⌂'],
+        ['label' => 'Заявки', 'href' => '/requests', 'icon' => '▤'],
+        ['label' => 'Создать', 'href' => '/requests/create', 'icon' => '+'],
+        ['label' => 'Услуги', 'href' => '/services', 'icon' => '◇'],
+    ];
+    ?>
+    <nav class="mobile-customer-nav" aria-label="Быстрая навигация">
+        <?php foreach ($mobileItems as $item): ?>
+            <?php
+            $isCurrent = $item['href'] === '/account'
+                ? $currentPath === '/account'
+                : ($item['href'] === '/requests'
+                    ? ($currentPath === '/requests' || preg_match('#^/requests/\\d+$#', $currentPath) === 1)
+                    : ($item['href'] === '/services'
+                        ? str_starts_with($currentPath, '/services')
+                        : $currentPath === $item['href']));
+            ?>
+            <a class="mobile-customer-nav__item<?= $isCurrent ? ' is-active' : '' ?><?= $item['href'] === '/requests/create' ? ' mobile-customer-nav__item--create' : '' ?>"
+               href="<?= e($item['href']) ?>"<?= $isCurrent ? ' aria-current="page"' : '' ?>>
+                <span class="mobile-customer-nav__icon" aria-hidden="true"><?= e($item['icon']) ?></span>
+                <span><?= e($item['label']) ?></span>
+            </a>
+        <?php endforeach; ?>
+    </nav>
+<?php endif; ?>
 </body>
 </html>

@@ -62,6 +62,9 @@ foreach ($directories as $directory) {
         $class = $namespace . basename($file, '.php');
         if (class_exists($class) && is_subclass_of($class, TestCase::class)) {
             $classes[] = $class;
+        } else {
+            fwrite(STDERR, "No test class {$class} found in {$file}\n");
+            exit(1);
         }
     }
 }

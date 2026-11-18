@@ -56,6 +56,12 @@ if ($files === []) {
 
 $failures = [];
 foreach ($files as $file) {
+    $contents = file_get_contents($file);
+    if ($contents === false || !str_contains($contents, '<?php')) {
+        $failures[] = $file . ': missing <?php opening tag';
+        continue;
+    }
+
     $command = [PHP_BINARY, '-d', 'display_errors=1', '-l', $file];
     $descriptors = [
         0 => ['pipe', 'r'],

@@ -14,7 +14,7 @@ final class MigrationTest extends IntegrationTestCase
         $migrator = new Migrator(app()->config(), app()->logger());
 
         $status = $migrator->status();
-        $this->assertCount(6, $status);
+        $this->assertCount(8, $status);
         foreach ($status as $row) {
             $this->assertFalse($row['pending'], 'Pending migration: ' . $row['migration']);
         }
@@ -53,6 +53,7 @@ final class MigrationTest extends IntegrationTestCase
             'fk_history_user',
             'fk_comments_request',
             'fk_comments_author',
+            'fk_site_content_updated_by',
         ] as $constraint) {
             $this->assertTrue(in_array($constraint, $rows, true), 'Missing FK: ' . $constraint);
         }
@@ -64,9 +65,26 @@ final class MigrationTest extends IntegrationTestCase
             'SELECT migration, checksum FROM schema_migrations ORDER BY migration'
         )->fetchAll();
 
-        $this->assertCount(6, $rows);
+        $this->assertCount(8, $rows);
         foreach ($rows as $row) {
             $this->assertSame(64, strlen((string) $row['checksum']));
         }
+    }
+
+    public function testSeededAboutContentUsesQuotedReservedLeadColumn(): void
+    {
+        $row = app()->database()->connection()->query(
+            "SELECT block_key, title, `lead`, section_heading, section_body
+             FROM site_content_blocks
+             WHERE block_key = 'about'
+             LIMIT 1"
+        )->fetch();
+
+        $this->assertTrue(is_array($row), 'Seeded about content block is missing');
+        $this->assertSame('about', $row['block_key']);
+        $this->assertNotSame('', trim((string) $row['title']));
+        $this->assertNotSame('', trim((string) $row['lead']));
+        $this->assertNotSame('', trim((string) $row['section_heading']));
+        $this->assertNotSame('', trim((string) $row['section_body']));
     }
 }

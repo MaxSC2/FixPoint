@@ -64,6 +64,66 @@
         });
     });
 
+    // Quick device-type choices keep free-text entry available as a fallback.
+    const deviceTypeInput = document.querySelector('#request-device-type');
+    const deviceTypeOptions = Array.from(document.querySelectorAll('[data-device-type]'));
+    if (deviceTypeInput && deviceTypeOptions.length > 0) {
+        const syncDeviceType = () => {
+            deviceTypeOptions.forEach((option) => {
+                const selected = option.dataset.deviceType === deviceTypeInput.value.trim();
+                option.classList.toggle('is-selected', selected);
+                option.setAttribute('aria-pressed', String(selected));
+            });
+        };
+        syncDeviceType();
+        deviceTypeInput.addEventListener('input', syncDeviceType);
+        deviceTypeOptions.forEach((option) => {
+            option.addEventListener('click', () => {
+                deviceTypeInput.value = option.dataset.deviceType || '';
+                deviceTypeInput.dispatchEvent(new Event('input', { bubbles: true }));
+                syncDeviceType();
+                deviceTypeInput.focus();
+            });
+        });
+    }
+
+    // Progressive manufacturer picker: native text entry remains the fallback.
+    const brandInput = document.querySelector('#request-device-brand');
+    const brandSearch = document.querySelector('#request-brand-search');
+    const brandOptions = document.querySelector('#request-brand-options');
+
+    if (brandInput && brandSearch && brandOptions) {
+        const options = Array.from(brandOptions.querySelectorAll('[data-brand]'));
+        const normalize = (value) => value.toLocaleLowerCase('ru').trim();
+        const setSelected = (value) => {
+            options.forEach((option) => {
+                const selected = option.dataset.brand === value;
+                option.classList.toggle('is-selected', selected);
+                option.setAttribute('aria-pressed', String(selected));
+            });
+        };
+
+        setSelected(brandInput.value.trim());
+        brandInput.addEventListener('input', () => setSelected(brandInput.value.trim()));
+
+        brandSearch.addEventListener('input', () => {
+            const query = normalize(brandSearch.value);
+            options.forEach((option) => {
+                option.hidden = !normalize(option.dataset.brand || '').includes(query);
+            });
+        });
+
+        options.forEach((option) => {
+            option.setAttribute('aria-pressed', String(option.dataset.brand === brandInput.value.trim()));
+            option.addEventListener('click', () => {
+                brandInput.value = option.dataset.brand || '';
+                brandInput.dispatchEvent(new Event('input', { bubbles: true }));
+                setSelected(brandInput.value);
+                brandInput.focus();
+            });
+        });
+    }
+
     // Reveal content as it enters the viewport. The page remains fully readable
     // when JavaScript, IntersectionObserver, or motion preferences require fallback.
     const revealTargets = Array.from(document.querySelectorAll('[data-reveal]'));

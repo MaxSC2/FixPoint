@@ -217,6 +217,35 @@ if (!function_exists('format_datetime')) {
     }
 }
 
+if (!function_exists('ru_plural')) {
+    /**
+     * Return the correct Russian noun form for an integer count.
+     *
+     * @param string $one Form for 1 (заявка).
+     * @param string $few Form for 2–4 (заявки).
+     * @param string $many Form for 0, 5–20, etc. (заявок).
+     */
+    function ru_plural(int $number, string $one, string $few, string $many): string
+    {
+        $lastTwoDigits = abs($number % 100);
+        $lastDigit = $lastTwoDigits % 10;
+
+        if ($lastTwoDigits >= 11 && $lastTwoDigits <= 14) {
+            return $many;
+        }
+
+        if ($lastDigit === 1) {
+            return $one;
+        }
+
+        if ($lastDigit >= 2 && $lastDigit <= 4) {
+            return $few;
+        }
+
+        return $many;
+    }
+}
+
 if (!function_exists('status_label')) {
     function status_label(string $status): string
     {

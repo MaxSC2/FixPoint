@@ -80,6 +80,9 @@ final class RequestHttpTest extends IntegrationTestCase
         $this->assertContains('FP-2026-000003', $body);
         $this->assertNotContains('FP-2026-000002', $body);
         $this->assertNotContains('FP-2026-000004', $body);
+        $this->assertContains('mobile-customer-nav', $body);
+        $this->assertContains('Быстрая навигация', $body);
+        $this->assertContains('href="/requests/create"', $body);
 
         $filtered = app()->handle(Request::create('GET', '/requests?status=awaiting_customer_approval'))->body();
         $this->assertContains('FP-2026-000003', $filtered);
@@ -156,6 +159,12 @@ final class RequestHttpTest extends IntegrationTestCase
         $this->assertContains('action="/requests/create"', $form->body());
         $this->assertContains('name="_token"', $form->body());
         $this->assertContains('name="problem_description"', $form->body());
+        $this->assertContains('data-device-type="Ноутбук"', $form->body());
+        $this->assertContains('data-device-type="Игровая консоль"', $form->body());
+        $this->assertContains('id="request-brand-search"', $form->body());
+        $this->assertContains('data-brand="ASUS"', $form->body());
+        $this->assertContains('data-brand="Samsung"', $form->body());
+        $this->assertContains('Не нашли бренд? Просто введите его название.', $form->body());
 
         $contact = $this->contact('create');
         $problem = 'Ноутбук перезагружается под нагрузкой, нужна диагностика.';
@@ -206,6 +215,7 @@ final class RequestHttpTest extends IntegrationTestCase
 
         $dashboard = app()->handle(Request::create('GET', '/account'))->body();
         $this->assertContains((string) $row['public_number'], $dashboard);
+        $this->assertContains('mobile-customer-nav', $dashboard);
     }
 
     public function testCreateValidationKeepsInputButNeverWrites(): void
@@ -247,6 +257,102 @@ final class RequestHttpTest extends IntegrationTestCase
         $this->assertSame(0, $this->fixtureRequestCount());
     }
 
+    public function testCompleteRepairLifecycleAcrossCustomerAdminAndTechnician(): void
+    {
+        $this->loginAs(self::CUSTOMER);
+        $requestId = $this->createRequest('full-lifecycle');
+        $this->assertSame('new', $this->requestRow($requestId)['status']);
+
+        $this->logout();
+        $this->loginAs(self::ADMIN);
+        $assigned = $this->post('/admin/requests/' . $requestId . '/assign', [
+            'technician_id' => (string) $this->userId(self::TECHNICIAN),
+        ]);
+        $this->assertSame(302, $assigned->status());
+        $this->assertSame($this->userId(self::TECHNICIAN), (int) $this->requestRow($requestId)['technician_id']);
+
+        $this->logout();
+        $this->loginAs(self::TECHNICIAN);
+        foreach ([
+            ['accepted', 'Мастер принял заявку в работу.'],
+            ['diagnostics', 'Начата диагностика устройства.'],
+        ] as [$status, $reason]) {
+            $response = $this->post('/technician/requests/' . $requestId . '/status', [
+                'status' => $status,
+                'reason' => $reason,
+            ]);
+            $this->assertSame(302, $response->status());
+            $this->assertSame($status, $this->requestRow($requestId)['status']);
+        }
+
+        $diagnostic = 'Обнаружено загрязнение системы охлаждения и износ термопасты.';
+        $diagnosis = $this->post('/technician/requests/' . $requestId . '/diagnosis', [
+            'diagnostic_result' => $diagnostic,
+            'estimated_cost' => '15000.49',
+            'estimated_ready_at' => '2026-12-01T15:30',
+        ]);
+        $this->assertSame(302, $diagnosis->status());
+        $this->assertSame($diagnostic, $this->requestRow($requestId)['diagnostic_result']);
+
+        $estimate = $this->post('/technician/requests/' . $requestId . '/status', [
+            'status' => 'awaiting_customer_approval',
+            'reason' => 'Диагностика завершена, смета подготовлена.',
+        ]);
+        $this->assertSame(302, $estimate->status());
+        $this->assertSame('awaiting_customer_approval', $this->requestRow($requestId)['status']);
+
+        $this->logout();
+        $this->loginAs(self::CUSTOMER);
+        $estimatePage = app()->handle(Request::create('GET', '/requests/' . $requestId));
+        $this->assertSame(200, $estimatePage->status());
+        $this->assertContains('Согласовать предложенную смету?', $estimatePage->body());
+        $this->assertContains('15 000,49 ₸', $estimatePage->body());
+
+        $approval = $this->post('/requests/' . $requestId . '/estimate-decision', ['decision' => 'approve']);
+        $this->assertSame(302, $approval->status());
+        $this->assertSame('repairing', $this->requestRow($requestId)['status']);
+
+        $this->logout();
+        $this->loginAs(self::TECHNICIAN);
+        $technicianAfterApproval = app()->handle(Request::create('GET', '/technician/requests/' . $requestId));
+        $this->assertSame(200, $technicianAfterApproval->status());
+        $this->assertContains('15 000,49 ₸', $technicianAfterApproval->body());
+        foreach ([
+            ['ready_for_pickup', 'Ремонт завершён, устройство готово к выдаче.'],
+            ['completed', 'Устройство передано клиенту.'],
+        ] as [$status, $reason]) {
+            $response = $this->post('/technician/requests/' . $requestId . '/status', [
+                'status' => $status,
+                'reason' => $reason,
+            ]);
+            $this->assertSame(302, $response->status());
+            $this->assertSame($status, $this->requestRow($requestId)['status']);
+        }
+
+        $history = $this->pdo()->prepare(
+            'SELECT from_status, to_status FROM request_status_history
+             WHERE request_id = :id ORDER BY id ASC'
+        );
+        $history->execute(['id' => $requestId]);
+        $events = $history->fetchAll();
+        $this->assertCount(7, $events);
+        $this->assertSame(
+            ['new', 'accepted', 'diagnostics', 'awaiting_customer_approval', 'repairing', 'ready_for_pickup', 'completed'],
+            array_column($events, 'to_status')
+        );
+        $this->assertSame(
+            [null, 'new', 'accepted', 'diagnostics', 'awaiting_customer_approval', 'repairing', 'ready_for_pickup'],
+            array_column($events, 'from_status')
+        );
+
+        $this->logout();
+        $this->loginAs(self::CUSTOMER);
+        $completedPage = app()->handle(Request::create('GET', '/requests/' . $requestId));
+        $this->assertSame(200, $completedPage->status());
+        $this->assertContains('Завершена', $completedPage->body());
+        $this->assertContains('Устройство передано клиенту.', $completedPage->body());
+    }
+
     public function testCommentsAreVisibleAndInternalNotesAreHidden(): void
     {
         $this->loginAs(self::CUSTOMER);
@@ -263,6 +369,21 @@ final class RequestHttpTest extends IntegrationTestCase
         $this->assertContains('&lt;script&gt;alert(1)&lt;/script&gt;', $page);
         $this->assertNotContains('<script>alert(1)</script>', $page);
         $this->assertContains('Алексей Ковалёв', $page);
+
+        // A customer must not be able to create an internal note by forging
+        // the staff-only form field in a direct POST request.
+        $forgedInternal = $this->post('/requests/' . $requestId . '/comments', [
+            'body' => 'TASK003: forged internal flag must be ignored.',
+            'is_internal' => '1',
+        ]);
+        $this->assertSame(302, $forgedInternal->status());
+        $latestComment = $this->pdo()->query(
+            'SELECT body, is_internal FROM request_comments ORDER BY id DESC LIMIT 1'
+        )->fetch();
+        $this->assertSame('TASK003: forged internal flag must be ignored.', $latestComment['body']);
+        $this->assertSame(0, (int) $latestComment['is_internal']);
+        $forgedPage = app()->handle(Request::create('GET', '/requests/' . $requestId))->body();
+        $this->assertContains('TASK003: forged internal flag must be ignored.', $forgedPage);
 
         $this->pdo()->prepare(
             'INSERT INTO request_comments (request_id, author_id, body, is_internal)
@@ -309,6 +430,21 @@ final class RequestHttpTest extends IntegrationTestCase
         $this->assertContains('Клиент согласовал смету.', $updated);
         $this->assertContains('В ремонте', $updated);
         $this->assertNotContains('Согласовать предложенную смету?', $updated);
+    }
+
+    public function testCustomerCannotDecideWithoutAnEstimate(): void
+    {
+        $this->loginAs(self::CUSTOMER);
+        $requestId = $this->createEstimateFixture();
+        $this->pdo()->prepare('UPDATE repair_requests SET estimated_cost = NULL WHERE id = :id')
+            ->execute(['id' => $requestId]);
+
+        $decision = $this->post('/requests/' . $requestId . '/estimate-decision', ['decision' => 'approve']);
+        $this->assertSame(302, $decision->status());
+        $this->assertSame('awaiting_customer_approval', $this->requestRow($requestId)['status']);
+
+        $page = app()->handle(Request::create('GET', '/requests/' . $requestId))->body();
+        $this->assertContains('Нельзя принять решение: мастер ещё не подготовил сумму сметы.', $page);
     }
 
     public function testEstimateRejectionCancelsRequest(): void

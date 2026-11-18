@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 use FixPoint\Controllers\AccountController;
 use FixPoint\Controllers\AdminCategoryController;
+use FixPoint\Controllers\AdminContentController;
 use FixPoint\Controllers\AdminController;
 use FixPoint\Controllers\AdminRequestController;
 use FixPoint\Controllers\AdminServiceController;
+use FixPoint\Controllers\AdminStatisticsController;
 use FixPoint\Controllers\AdminUserController;
 use FixPoint\Controllers\AuthController;
 use FixPoint\Controllers\HealthController;
@@ -72,6 +74,9 @@ return static function (Router $router, App $app): void {
 
     $adminOnly = [AuthMiddleware::class, new RoleMiddleware($app->auth(), $app->session(), 'admin')];
     $router->get('/admin', [AdminController::class, 'index'], $adminOnly);
+    $router->get('/admin/statistics', [AdminStatisticsController::class, 'index'], $adminOnly);
+    $router->get('/admin/content/about', [AdminContentController::class, 'index'], $adminOnly);
+    $router->post('/admin/content/about', [AdminContentController::class, 'update'], $adminOnly);
     $router->get('/admin/requests', [AdminRequestController::class, 'index'], $adminOnly);
     $router->get('/admin/requests/{id:\d+}/assign', [AdminRequestController::class, 'showAssign'], $adminOnly);
     $router->post('/admin/requests/{id:\d+}/assign', [AdminRequestController::class, 'assign'], $adminOnly);

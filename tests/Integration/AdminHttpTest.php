@@ -114,6 +114,9 @@ final class AdminHttpTest extends IntegrationTestCase
         $this->assertContains('Иван Петров', $body);
         $this->assertContains('Не назначен', $body);
         $this->assertContains('/admin/requests/' . $fixture . '/assign', $body);
+        $this->assertContains('role="region"', $body);
+        $this->assertContains('Таблица заявок, прокручиваемая по горизонтали', $body);
+        $this->assertContains('tabindex="0"', $body);
 
         $byNumber = app()->handle(Request::create('GET', '/admin/requests?q=TASK005-REGISTRY'))->body();
         $this->assertContains('TASK005-REGISTRY', $byNumber);

@@ -1,0 +1,111 @@
+name: Browser visual QA
+
+on:
+  pull_request:
+    branches: [develop]
+    paths:
+      - '.github/workflows/visual-review.yml'
+      - 'scripts/visual-review/**'
+      - 'app/**'
+      - 'public/**'
+      - 'config/**'
+      - 'database/**'
+      - 'Dockerfile'
+      - 'composer.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: visual-review-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  browser-capture:
+    name: PHP + MySQL + Chromium screenshots
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root_visual_password
+          MYSQL_DATABASE: fixpoint
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -proot_visual_password --silent"
+          --health-interval=5s
+          --health-timeout=5s
+          --health-retries=30
+          --health-start-period=20s
+    env:
+      APP_NAME: FixPoint
+      APP_ENV: testing
+      APP_DEBUG: 'true'
+      APP_URL: http://127.0.0.1:8080
+      APP_TIMEZONE: Asia/Almaty
+      DB_HOST: 127.0.0.1
+      DB_PORT: 3306
+      DB_DATABASE: fixpoint
+      DB_USERNAME: root
+      DB_PASSWORD: root_visual_password
+      DB_CHARSET: utf8mb4
+      SEED_PASSWORD: FixPoint!VisualQA
+      SESSION_SECURE: 'false'
+      SESSION_SAMESITE: Lax
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: mbstring, pdo_mysql, curl
+          coverage: none
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Wait for MySQL
+        run: |
+          for attempt in $(seq 1 60); do
+            if mysqladmin ping -h 127.0.0.1 -uroot -proot_visual_password --silent; then exit 0; fi
+            sleep 2
+          done
+          echo 'MySQL did not become ready.'
+          exit 1
+      - name: Migrate and seed isolated visual-QA database
+        run: |
+          php database/migrate.php --fresh
+          php database/seed.php
+      - name: Start PHP application
+        run: |
+          nohup php -S 127.0.0.1:8080 -t public public/index.php > /tmp/fixpoint-visual-server.log 2>&1 &
+          for attempt in $(seq 1 60); do
+            if curl -fsS http://127.0.0.1:8080/health > /tmp/fixpoint-health.json; then
+              cat /tmp/fixpoint-health.json
+              exit 0
+            fi
+            sleep 2
+          done
+          cat /tmp/fixpoint-visual-server.log
+          exit 1
+      - name: Install Playwright and Chromium
+        run: |
+          npm install --no-save playwright @axe-core/playwright
+          npx playwright install --with-deps chromium
+      - name: Capture application pages and run browser checks
+        run: node scripts/visual-review/capture.cjs
+      - name: Upload screenshots and audit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fixpoint-visual-review-${{ github.run_number }}
+          path: artifacts/visual-review/
+          if-no-files-found: warn
+          retention-days: 14
+      - name: Show PHP server log on failure
+        if: failure()
+        run: cat /tmp/fixpoint-visual-server.log

@@ -1,0 +1,2212 @@
+WEBVTT
+Kind: captions
+Language: en
+
+00:00:00.719 --> 00:00:03.110 align:start position:0%
+ 
+The <00:00:01.111><c>process </c><00:00:01.503><c>of </c><00:00:01.895><c>improving </c><00:00:02.287><c>our </c><00:00:02.679><c>site</c>
+
+00:00:03.110 --> 00:00:03.120 align:start position:0%
+The process of improving our site
+ 
+
+00:00:03.120 --> 00:00:05.390 align:start position:0%
+The process of improving our site
+continues <00:00:03.536><c>and </c><00:00:03.952><c>in </c><00:00:04.368><c>this </c><00:00:04.784><c>lesson </c><00:00:05.200><c>we</c>
+
+00:00:05.390 --> 00:00:05.400 align:start position:0%
+continues and in this lesson we
+ 
+
+00:00:05.400 --> 00:00:08.509 align:start position:0%
+continues and in this lesson we
+will <00:00:05.860><c>work </c><00:00:06.320><c>on </c><00:00:06.780><c>the </c><00:00:07.240><c>lons</c>
+
+00:00:08.509 --> 00:00:08.519 align:start position:0%
+will work on the lons
+ 
+
+00:00:08.519 --> 00:00:12.390 align:start position:0%
+will work on the lons
+PHP <00:00:08.959><c>page, </c><00:00:09.399><c>we </c><00:00:09.839><c>will </c><00:00:10.279><c>create </c><00:00:10.719><c>several </c><00:00:11.159><c>lessons </c><00:00:11.599><c>for </c><00:00:12.039><c>our</c>
+
+00:00:12.390 --> 00:00:12.400 align:start position:0%
+PHP page, we will create several lessons for our
+ 
+
+00:00:12.400 --> 00:00:15.709 align:start position:0%
+PHP page, we will create several lessons for our
+site <00:00:12.900><c>that </c><00:00:13.400><c>we </c><00:00:13.900><c>will </c><00:00:14.400><c>display </c><00:00:14.900><c>on </c><00:00:15.400><c>this</c>
+
+00:00:15.709 --> 00:00:15.719 align:start position:0%
+site that we will display on this
+ 
+
+00:00:15.719 --> 00:00:18.710 align:start position:0%
+site that we will display on this
+page, <00:00:16.146><c>yes, </c><00:00:16.573><c>for </c><00:00:17.000><c>a</c>
+
+00:00:18.710 --> 00:00:18.720 align:start position:0%
+page, yes, for a
+ 
+
+00:00:18.720 --> 00:00:21.429 align:start position:0%
+page, yes, for a
+visual <00:00:19.183><c>example, </c><00:00:19.646><c>Yes, </c><00:00:20.109><c>what </c><00:00:20.572><c>should </c><00:00:21.035><c>turn</c>
+
+00:00:21.429 --> 00:00:21.439 align:start position:0%
+visual example, Yes, what should turn
+ 
+
+00:00:21.439 --> 00:00:24.189 align:start position:0%
+visual example, Yes, what should turn
+out <00:00:21.707><c>approximately </c><00:00:21.975><c>I </c><00:00:22.243><c>want </c><00:00:22.511><c>to </c><00:00:22.779><c>show </c><00:00:23.047><c>you </c><00:00:23.315><c>this</c>
+
+00:00:24.189 --> 00:00:24.199 align:start position:0%
+out approximately I want to show you this
+ 
+
+00:00:24.199 --> 00:00:28.029 align:start position:0%
+out approximately I want to show you this
+sat <00:00:24.791><c>sat </c><00:00:25.383><c>that </c><00:00:25.975><c>I </c><00:00:26.567><c>recently </c><00:00:27.159><c>Rava</c>
+
+00:00:28.029 --> 00:00:28.039 align:start position:0%
+sat sat that I recently Rava
+ 
+
+00:00:28.039 --> 00:00:30.109 align:start position:0%
+sat sat that I recently Rava
+for <00:00:28.139><c>my </c><00:00:28.239><c>own,</c>
+
+00:00:30.109 --> 00:00:30.119 align:start position:0%
+for my own,
+ 
+
+00:00:30.119 --> 00:00:33.709 align:start position:0%
+for my own,
+as <00:00:30.490><c>if </c><00:00:30.861><c>determining </c><00:00:31.232><c>what </c><00:00:31.603><c>kind </c><00:00:31.974><c>of </c><00:00:32.345><c>PHP </c><00:00:32.716><c>knowledge</c>
+
+00:00:33.709 --> 00:00:33.719 align:start position:0%
+as if determining what kind of PHP knowledge
+ 
+
+00:00:33.719 --> 00:00:36.709 align:start position:0%
+as if determining what kind of PHP knowledge
+you <00:00:34.199><c>will </c><00:00:34.679><c>need </c><00:00:35.159><c>to </c><00:00:35.639><c>create </c><00:00:36.119><c>websites </c><00:00:36.599><c>for</c>
+
+00:00:36.709 --> 00:00:36.719 align:start position:0%
+you will need to create websites for
+ 
+
+00:00:36.719 --> 00:00:39.029 align:start position:0%
+you will need to create websites for
+work <00:00:36.919><c>in </c><00:00:37.119><c>an </c><00:00:37.319><c>online </c><00:00:37.519><c>business,</c>
+
+00:00:39.029 --> 00:00:39.039 align:start position:0%
+work in an online business,
+ 
+
+00:00:39.039 --> 00:00:42.750 align:start position:0%
+work in an online business,
+and <00:00:39.387><c>here </c><00:00:39.735><c>I </c><00:00:40.083><c>made </c><00:00:40.431><c>a </c><00:00:40.779><c>conclusion </c><00:00:41.127><c>of </c><00:00:41.475><c>the </c><00:00:41.823><c>lessons </c><00:00:42.171><c>in </c><00:00:42.519><c>this</c>
+
+00:00:42.750 --> 00:00:42.760 align:start position:0%
+and here I made a conclusion of the lessons in this
+ 
+
+00:00:42.760 --> 00:00:44.510 align:start position:0%
+and here I made a conclusion of the lessons in this
+way, <00:00:43.040><c>that </c><00:00:43.320><c>is,</c>
+
+00:00:44.510 --> 00:00:44.520 align:start position:0%
+way, that is,
+ 
+
+00:00:44.520 --> 00:00:48.029 align:start position:0%
+way, that is,
+first <00:00:44.828><c>there </c><00:00:45.136><c>is </c><00:00:45.444><c>a </c><00:00:45.752><c>brief </c><00:00:46.060><c>description </c><00:00:46.368><c>of </c><00:00:46.676><c>the </c><00:00:46.984><c>lesson, </c><00:00:47.292><c>there </c><00:00:47.600><c>is</c>
+
+00:00:48.029 --> 00:00:48.039 align:start position:0%
+first there is a brief description of the lesson, there is
+ 
+
+00:00:48.039 --> 00:00:51.029 align:start position:0%
+first there is a brief description of the lesson, there is
+its <00:00:48.248><c>thumbnail, </c><00:00:48.457><c>there </c><00:00:48.666><c>is </c><00:00:48.875><c>the </c><00:00:49.084><c>title </c><00:00:49.293><c>of </c><00:00:49.502><c>the </c><00:00:49.711><c>lesson </c><00:00:49.920><c>in </c><00:00:50.129><c>the </c><00:00:50.338><c>form </c><00:00:50.547><c>of </c><00:00:50.756><c>a</c>
+
+00:00:51.029 --> 00:00:51.039 align:start position:0%
+its thumbnail, there is the title of the lesson in the form of a
+ 
+
+00:00:51.039 --> 00:00:53.950 align:start position:0%
+its thumbnail, there is the title of the lesson in the form of a
+link <00:00:51.304><c>and </c><00:00:51.569><c>at </c><00:00:51.834><c>the </c><00:00:52.099><c>bottom </c><00:00:52.364><c>there </c><00:00:52.629><c>is </c><00:00:52.894><c>some </c><00:00:53.159><c>statistics</c>
+
+00:00:53.950 --> 00:00:53.960 align:start position:0%
+link and at the bottom there is some statistics
+ 
+
+00:00:53.960 --> 00:00:56.510 align:start position:0%
+link and at the bottom there is some statistics
+When <00:00:54.251><c>a </c><00:00:54.542><c>lesson </c><00:00:54.833><c>is </c><00:00:55.124><c>added, </c><00:00:55.415><c>how </c><00:00:55.706><c>many </c><00:00:55.997><c>people</c>
+
+00:00:56.510 --> 00:00:56.520 align:start position:0%
+When a lesson is added, how many people
+ 
+
+00:00:56.520 --> 00:01:01.630 align:start position:0%
+When a lesson is added, how many people
+viewed <00:00:56.920><c>it </c><00:00:57.320><c>and </c><00:00:57.720><c>the </c><00:00:58.120><c>lesson </c><00:00:58.520><c>rating, </c><00:00:58.920><c>I </c><00:00:59.320><c>sing </c><00:00:59.720><c>on </c><00:01:00.120><c>the </c><00:01:00.520><c>link, </c><00:01:00.920><c>the</c>
+
+00:01:01.630 --> 00:01:01.640 align:start position:0%
+viewed it and the lesson rating, I sing on the link, the
+ 
+
+00:01:01.640 --> 00:01:04.990 align:start position:0%
+viewed it and the lesson rating, I sing on the link, the
+full <00:01:01.814><c>text </c><00:01:01.988><c>of </c><00:01:02.162><c>the </c><00:01:02.336><c>lesson </c><00:01:02.510><c>is </c><00:01:02.684><c>loaded </c><00:01:02.858><c>for </c><00:01:03.032><c>us.</c>
+
+00:01:04.990 --> 00:01:05.000 align:start position:0%
+full text of the lesson is loaded for us.
+ 
+
+00:01:05.000 --> 00:01:08.350 align:start position:0%
+full text of the lesson is loaded for us.
+That <00:01:05.368><c>is, </c><00:01:05.736><c>how </c><00:01:06.104><c>it </c><00:01:06.472><c>is </c><00:01:06.840><c>all</c>
+
+00:01:08.350 --> 00:01:08.360 align:start position:0%
+That is, how it is all
+ 
+
+00:01:08.360 --> 00:01:11.030 align:start position:0%
+That is, how it is all
+arranged <00:01:08.736><c>in </c><00:01:09.112><c>fact, </c><00:01:09.488><c>the </c><00:01:09.864><c>entire </c><00:01:10.240><c>text</c>
+
+00:01:11.030 --> 00:01:11.040 align:start position:0%
+arranged in fact, the entire text
+ 
+
+00:01:11.040 --> 00:01:14.910 align:start position:0%
+arranged in fact, the entire text
+part <00:01:11.328><c>of </c><00:01:11.616><c>the </c><00:01:11.904><c>lesson. </c><00:01:12.192><c>Yes, </c><00:01:12.480><c>this </c><00:01:12.768><c>text, </c><00:01:13.056><c>all </c><00:01:13.344><c>the </c><00:01:13.632><c>tags </c><00:01:13.920><c>with</c>
+
+00:01:14.910 --> 00:01:14.920 align:start position:0%
+part of the lesson. Yes, this text, all the tags with
+ 
+
+00:01:14.920 --> 00:01:18.190 align:start position:0%
+part of the lesson. Yes, this text, all the tags with
+which <00:01:15.285><c>it </c><00:01:15.650><c>is </c><00:01:16.015><c>made </c><00:01:16.380><c>are </c><00:01:16.745><c>stored </c><00:01:17.110><c>in </c><00:01:17.475><c>the </c><00:01:17.840><c>database.</c>
+
+00:01:18.190 --> 00:01:18.200 align:start position:0%
+which it is made are stored in the database.
+ 
+
+00:01:18.200 --> 00:01:20.789 align:start position:0%
+which it is made are stored in the database.
+Yes, <00:01:18.510><c>and </c><00:01:18.820><c>the </c><00:01:19.130><c>pictures </c><00:01:19.440><c>are </c><00:01:19.750><c>naturally </c><00:01:20.060><c>stored. </c><00:01:20.370><c>Links </c><00:01:20.680><c>to</c>
+
+00:01:20.789 --> 00:01:20.799 align:start position:0%
+Yes, and the pictures are naturally stored. Links to
+ 
+
+00:01:20.799 --> 00:01:23.310 align:start position:0%
+Yes, and the pictures are naturally stored. Links to
+them <00:01:21.025><c>are </c><00:01:21.251><c>stored </c><00:01:21.477><c>in </c><00:01:21.703><c>a </c><00:01:21.929><c>separate </c><00:01:22.155><c>folder </c><00:01:22.381><c>in </c><00:01:22.607><c>the </c><00:01:22.833><c>database.</c>
+
+00:01:23.310 --> 00:01:23.320 align:start position:0%
+them are stored in a separate folder in the database.
+ 
+
+00:01:23.320 --> 00:01:27.270 align:start position:0%
+them are stored in a separate folder in the database.
+Yes, <00:01:23.794><c>and </c><00:01:24.268><c>as </c><00:01:24.742><c>a </c><00:01:25.216><c>result, </c><00:01:25.690><c>when </c><00:01:26.164><c>we </c><00:01:26.638><c>request</c>
+
+00:01:27.270 --> 00:01:27.280 align:start position:0%
+Yes, and as a result, when we request
+ 
+
+00:01:27.280 --> 00:01:30.030 align:start position:0%
+Yes, and as a result, when we request
+a <00:01:28.360><c>lesson,</c>
+
+00:01:30.030 --> 00:01:30.040 align:start position:0%
+a lesson,
+ 
+
+00:01:30.040 --> 00:01:33.270 align:start position:0%
+a lesson,
+all <00:01:30.256><c>the </c><00:01:30.472><c>HTML </c><00:01:30.688><c>code </c><00:01:30.904><c>is </c><00:01:31.120><c>pulled </c><00:01:31.336><c>out </c><00:01:31.552><c>of </c><00:01:31.768><c>our </c><00:01:31.984><c>database </c><00:01:32.200><c>and </c><00:01:32.416><c>on </c><00:01:32.632><c>the</c>
+
+00:01:33.270 --> 00:01:33.280 align:start position:0%
+all the HTML code is pulled out of our database and on the
+ 
+
+00:01:33.280 --> 00:01:36.230 align:start position:0%
+all the HTML code is pulled out of our database and on the
+link, <00:01:33.591><c>in </c><00:01:33.902><c>place </c><00:01:34.213><c>of </c><00:01:34.524><c>the </c><00:01:34.835><c>links </c><00:01:35.146><c>that </c><00:01:35.457><c>lead </c><00:01:35.768><c>to </c><00:01:36.079><c>the</c>
+
+00:01:36.230 --> 00:01:36.240 align:start position:0%
+link, in place of the links that lead to the
+ 
+
+00:01:36.240 --> 00:01:39.389 align:start position:0%
+link, in place of the links that lead to the
+image, <00:01:36.640><c>we </c><00:01:37.040><c>insert</c>
+
+00:01:39.389 --> 00:01:39.399 align:start position:0%
+image, we insert
+ 
+
+00:01:39.399 --> 00:01:43.789 align:start position:0%
+image, we insert
+pictures, <00:01:39.814><c>that's </c><00:01:40.229><c>how </c><00:01:40.644><c>we </c><00:01:41.059><c>will </c><00:01:41.474><c>do </c><00:01:41.889><c>it. </c><00:01:42.304><c>Well, </c><00:01:42.719><c>in</c>
+
+00:01:43.789 --> 00:01:43.799 align:start position:0%
+pictures, that's how we will do it. Well, in
+ 
+
+00:01:43.799 --> 00:01:46.910 align:start position:0%
+pictures, that's how we will do it. Well, in
+this  <00:01:44.489><c>For </c><00:01:45.179><c>example, </c><00:01:45.869><c>we </c><00:01:46.559><c>won't</c>
+
+00:01:46.910 --> 00:01:46.920 align:start position:0%
+this  For example, we won't
+ 
+
+00:01:46.920 --> 00:01:49.630 align:start position:0%
+this  For example, we won't
+use <00:01:47.297><c>a </c><00:01:47.674><c>thumbnail, </c><00:01:48.051><c>we'll </c><00:01:48.428><c>do </c><00:01:48.805><c>this </c><00:01:49.182><c>in </c><00:01:49.559><c>the</c>
+
+00:01:49.630 --> 00:01:49.640 align:start position:0%
+use a thumbnail, we'll do this in the
+ 
+
+00:01:49.640 --> 00:01:52.749 align:start position:0%
+use a thumbnail, we'll do this in the
+next <00:01:50.232><c>course. </c><00:01:50.824><c>Because </c><00:01:51.416><c>now </c><00:01:52.008><c>we </c><00:01:52.600><c>don't</c>
+
+00:01:52.749 --> 00:01:52.759 align:start position:0%
+next course. Because now we don't
+ 
+
+00:01:52.759 --> 00:01:55.469 align:start position:0%
+next course. Because now we don't
+need <00:01:53.067><c>to </c><00:01:53.375><c>complicate </c><00:01:53.683><c>things </c><00:01:53.991><c>unnecessarily. </c><00:01:54.299><c>We'll </c><00:01:54.607><c>make </c><00:01:54.915><c>it</c>
+
+00:01:55.469 --> 00:01:55.479 align:start position:0%
+need to complicate things unnecessarily. We'll make it
+ 
+
+00:01:55.479 --> 00:01:57.389 align:start position:0%
+need to complicate things unnecessarily. We'll make it
+simpler. <00:01:55.659><c>We'll </c><00:01:55.839><c>make </c><00:01:56.019><c>a </c><00:01:56.199><c>title </c><00:01:56.379><c>for </c><00:01:56.559><c>the </c><00:01:56.739><c>lesson. </c><00:01:56.919><c>That's </c><00:01:57.099><c>it. </c><00:01:57.279><c>A</c>
+
+00:01:57.389 --> 00:01:57.399 align:start position:0%
+simpler. We'll make a title for the lesson. That's it. A
+ 
+
+00:01:57.399 --> 00:02:01.230 align:start position:0%
+simpler. We'll make a title for the lesson. That's it. A
+link, <00:01:57.912><c>then </c><00:01:58.425><c>we'll </c><00:01:58.938><c>make </c><00:01:59.451><c>a </c><00:01:59.964><c>description. </c><00:02:00.477><c>We'll</c>
+
+00:02:01.230 --> 00:02:01.240 align:start position:0%
+link, then we'll make a description. We'll
+ 
+
+00:02:01.240 --> 00:02:06.870 align:start position:0%
+link, then we'll make a description. We'll
+also <00:02:01.655><c>make </c><00:02:02.070><c>an </c><00:02:02.485><c>author. </c><00:02:02.900><c>Who </c><00:02:03.315><c>is </c><00:02:03.730><c>the </c><00:02:04.145><c>author </c><00:02:04.560><c>of</c>
+
+00:02:06.870 --> 00:02:06.880 align:start position:0%
+also make an author. Who is the author of
+ 
+
+00:02:06.880 --> 00:02:10.270 align:start position:0%
+also make an author. Who is the author of
+the <00:02:07.155><c>lesson? </c><00:02:07.430><c>We </c><00:02:07.705><c>can </c><00:02:07.980><c>make </c><00:02:08.255><c>a </c><00:02:08.530><c>date, </c><00:02:08.805><c>in </c><00:02:09.080><c>principle,</c>
+
+00:02:10.270 --> 00:02:10.280 align:start position:0%
+the lesson? We can make a date, in principle,
+ 
+
+00:02:10.280 --> 00:02:13.470 align:start position:0%
+the lesson? We can make a date, in principle,
+and <00:02:10.622><c>that's </c><00:02:10.964><c>enough </c><00:02:11.306><c>for </c><00:02:11.648><c>us </c><00:02:11.990><c>to </c><00:02:12.332><c>start </c><00:02:12.674><c>with. </c><00:02:13.016><c>In </c><00:02:13.358><c>the</c>
+
+00:02:13.470 --> 00:02:13.480 align:start position:0%
+and that's enough for us to start with. In the
+ 
+
+00:02:13.480 --> 00:02:16.430 align:start position:0%
+and that's enough for us to start with. In the
+next <00:02:13.959><c>courses, </c><00:02:14.438><c>we'll </c><00:02:14.917><c>deal </c><00:02:15.396><c>with </c><00:02:15.875><c>ratings,</c>
+
+00:02:16.430 --> 00:02:16.440 align:start position:0%
+next courses, we'll deal with ratings,
+ 
+
+00:02:16.440 --> 00:02:18.550 align:start position:0%
+next courses, we'll deal with ratings,
+views, <00:02:16.940><c>and </c><00:02:17.440><c>thumbnails.</c>
+
+00:02:18.550 --> 00:02:18.560 align:start position:0%
+views, and thumbnails.
+ 
+
+00:02:18.560 --> 00:02:21.229 align:start position:0%
+views, and thumbnails.
+So, <00:02:18.940><c>what </c><00:02:19.320><c>fields </c><00:02:19.700><c>do </c><00:02:20.080><c>we </c><00:02:20.460><c>need </c><00:02:20.840><c>to</c>
+
+00:02:21.229 --> 00:02:21.239 align:start position:0%
+So, what fields do we need to
+ 
+
+00:02:21.239 --> 00:02:23.949 align:start position:0%
+So, what fields do we need to
+store <00:02:21.749><c>lessons? </c><00:02:22.259><c>Let's </c><00:02:22.769><c>immediately </c><00:02:23.279><c>count</c>
+
+00:02:23.949 --> 00:02:23.959 align:start position:0%
+store lessons? Let's immediately count
+ 
+
+00:02:23.959 --> 00:02:27.710 align:start position:0%
+store lessons? Let's immediately count
+them <00:02:24.539><c>and </c><00:02:25.119><c>create </c><00:02:25.699><c>a </c><00:02:26.279><c>table </c><00:02:26.859><c>in </c><00:02:27.439><c>our</c>
+
+00:02:27.710 --> 00:02:27.720 align:start position:0%
+them and create a table in our
+ 
+
+00:02:27.720 --> 00:02:30.430 align:start position:0%
+them and create a table in our
+database <00:02:28.280><c>for </c><00:02:28.840><c>storage.</c>
+
+00:02:30.430 --> 00:02:30.440 align:start position:0%
+database for storage.
+ 
+
+00:02:30.440 --> 00:02:34.589 align:start position:0%
+database for storage.
+Well, <00:02:30.760><c>first, </c><00:02:31.080><c>this </c><00:02:31.400><c>is </c><00:02:31.720><c>the </c><00:02:32.040><c>title </c><00:02:32.360><c>of </c><00:02:32.680><c>the </c><00:02:33.000><c>lesson.</c>
+
+00:02:34.589 --> 00:02:34.599 align:start position:0%
+Well, first, this is the title of the lesson.
+ 
+
+00:02:34.599 --> 00:02:38.309 align:start position:0%
+Well, first, this is the title of the lesson.
+Yes, <00:02:35.039><c>then </c><00:02:35.479><c>we'll </c><00:02:35.919><c>need </c><00:02:36.359><c>Meta, </c><00:02:36.799><c>again </c><00:02:37.239><c>the </c><00:02:37.679><c>same.</c>
+
+00:02:38.309 --> 00:02:38.319 align:start position:0%
+Yes, then we'll need Meta, again the same.
+ 
+
+00:02:38.319 --> 00:02:42.509 align:start position:0%
+Yes, then we'll need Meta, again the same.
+Yes, <00:02:39.047><c>a </c><00:02:39.775><c>method </c><00:02:40.503><c>for </c><00:02:41.231><c>the </c><00:02:41.959><c>lesson,</c>
+
+00:02:42.509 --> 00:02:42.519 align:start position:0%
+Yes, a method for the lesson,
+ 
+
+00:02:42.519 --> 00:02:44.390 align:start position:0%
+Yes, a method for the lesson,
+keywords <00:02:42.772><c>for </c><00:02:43.025><c>the </c><00:02:43.278><c>lesson,</c>
+
+00:02:44.390 --> 00:02:44.400 align:start position:0%
+keywords for the lesson,
+ 
+
+00:02:44.400 --> 00:02:47.710 align:start position:0%
+keywords for the lesson,
+Meta, <00:02:45.179><c>then </c><00:02:45.958><c>the</c>
+
+00:02:47.710 --> 00:02:47.720 align:start position:0%
+Meta, then the
+ 
+
+00:02:47.720 --> 00:02:49.910 align:start position:0%
+Meta, then the
+creation <00:02:48.053><c>date. </c><00:02:48.386><c>This </c><00:02:48.719><c>is </c><00:02:49.052><c>the </c><00:02:49.385><c>description. </c><00:02:49.718><c>We'll</c>
+
+00:02:49.910 --> 00:02:49.920 align:start position:0%
+creation date. This is the description. We'll
+ 
+
+00:02:49.920 --> 00:02:52.710 align:start position:0%
+creation date. This is the description. We'll
+need, <00:02:50.268><c>of </c><00:02:50.616><c>course, </c><00:02:50.964><c>the </c><00:02:51.312><c>text </c><00:02:51.660><c>itself, </c><00:02:52.008><c>the </c><00:02:52.356><c>full</c>
+
+00:02:52.710 --> 00:02:52.720 align:start position:0%
+need, of course, the text itself, the full
+ 
+
+00:02:52.720 --> 00:02:54.990 align:start position:0%
+need, of course, the text itself, the full
+text <00:02:52.980><c>of </c><00:02:53.240><c>the </c><00:02:53.500><c>lesson. </c><00:02:53.760><c>Yes, </c><00:02:54.020><c>which </c><00:02:54.280><c>appears </c><00:02:54.540><c>when </c><00:02:54.800><c>you</c>
+
+00:02:54.990 --> 00:02:55.000 align:start position:0%
+text of the lesson. Yes, which appears when you
+ 
+
+00:02:55.000 --> 00:02:56.470 align:start position:0%
+text of the lesson. Yes, which appears when you
+click <00:02:55.259><c>on </c><00:02:55.518><c>the</c>
+
+00:02:56.470 --> 00:02:56.480 align:start position:0%
+click on the
+ 
+
+00:02:56.480 --> 00:03:00.830 align:start position:0%
+click on the
+links, <00:02:56.975><c>and </c><00:02:57.470><c>the </c><00:02:57.965><c>author </c><00:02:58.460><c>of </c><00:02:58.955><c>the </c><00:02:59.450><c>lesson. </c><00:02:59.945><c>So, </c><00:03:00.440><c>together</c>
+
+00:03:00.830 --> 00:03:00.840 align:start position:0%
+links, and the author of the lesson. So, together
+ 
+
+00:03:00.840 --> 00:03:02.790 align:start position:0%
+links, and the author of the lesson. So, together
+with <00:03:01.208><c>the </c><00:03:01.576><c>identifier </c><00:03:01.944><c>that </c><00:03:02.312><c>comes </c><00:03:02.680><c>by</c>
+
+00:03:02.790 --> 00:03:02.800 align:start position:0%
+with the identifier that comes by
+ 
+
+00:03:02.800 --> 00:03:05.149 align:start position:0%
+with the identifier that comes by
+default, <00:03:03.133><c>we'll </c><00:03:03.466><c>do </c><00:03:03.799><c>it </c><00:03:04.132><c>in </c><00:03:04.465><c>any </c><00:03:04.798><c>table,</c>
+
+00:03:05.149 --> 00:03:05.159 align:start position:0%
+default, we'll do it in any table,
+ 
+
+00:03:05.159 --> 00:03:07.869 align:start position:0%
+default, we'll do it in any table,
+and <00:03:05.439><c>as </c><00:03:05.719><c>a </c><00:03:05.999><c>result, </c><00:03:06.279><c>we'll </c><00:03:06.559><c>get </c><00:03:06.839><c>a </c><00:03:07.119><c>total </c><00:03:07.399><c>of</c>
+
+00:03:07.869 --> 00:03:07.879 align:start position:0%
+and as a result, we'll get a total of
+ 
+
+00:03:07.879 --> 00:03:12.430 align:start position:0%
+and as a result, we'll get a total of
+fields <00:03:08.383><c>in </c><00:03:08.887><c>the </c><00:03:09.391><c>database </c><00:03:09.895><c>that </c><00:03:10.399><c>we'll</c>
+
+00:03:12.430 --> 00:03:12.440 align:start position:0%
+fields in the database that we'll
+ 
+
+00:03:12.440 --> 00:03:16.710 align:start position:0%
+fields in the database that we'll
+store. <00:03:13.319><c>Let's </c><00:03:14.198><c>not </c><00:03:15.077><c>linger </c><00:03:15.956><c>long,</c>
+
+00:03:16.710 --> 00:03:16.720 align:start position:0%
+store. Let's not linger long,
+ 
+
+00:03:16.720 --> 00:03:21.229 align:start position:0%
+store. Let's not linger long,
+go <00:03:17.279><c>straight </c><00:03:17.838><c>to </c><00:03:18.397><c>PHP </c><00:03:18.956><c>My</c>
+
+00:03:21.229 --> 00:03:21.239 align:start position:0%
+ 
+ 
+
+00:03:21.239 --> 00:03:25.190 align:start position:0%
+ 
+Admin, <00:03:21.911><c>and </c><00:03:22.583><c>let's </c><00:03:23.255><c>start </c><00:03:23.927><c>creating </c><00:03:24.599><c>a</c>
+
+00:03:25.190 --> 00:03:25.200 align:start position:0%
+Admin, and let's start creating a
+ 
+
+00:03:25.200 --> 00:03:28.070 align:start position:0%
+Admin, and let's start creating a
+table <00:03:25.656><c>for </c><00:03:26.112><c>our </c><00:03:26.568><c>lessons. </c><00:03:27.024><c>Select </c><00:03:27.480><c>our</c>
+
+00:03:28.070 --> 00:03:28.080 align:start position:0%
+table for our lessons. Select our
+ 
+
+00:03:28.080 --> 00:03:31.390 align:start position:0%
+table for our lessons. Select our
+database. <00:03:28.359><c>I </c><00:03:28.638><c>remind </c><00:03:28.917><c>you </c><00:03:29.196><c>that </c><00:03:29.475><c>it's </c><00:03:29.754><c>called </c><00:03:30.033><c>that </c><00:03:30.312><c>here.</c>
+
+00:03:31.390 --> 00:03:31.400 align:start position:0%
+database. I remind you that it's called that here.
+ 
+
+00:03:31.400 --> 00:03:35.789 align:start position:0%
+database. I remind you that it's called that here.
+PHP <00:03:31.774><c>S </c><00:03:32.148><c>Here </c><00:03:32.522><c>it </c><00:03:32.896><c>is, </c><00:03:33.270><c>and </c><00:03:33.644><c>we </c><00:03:34.018><c>see </c><00:03:34.392><c>that </c><00:03:34.766><c>we </c><00:03:35.140><c>have </c><00:03:35.514><c>only</c>
+
+00:03:35.789 --> 00:03:35.799 align:start position:0%
+PHP S Here it is, and we see that we have only
+ 
+
+00:03:35.799 --> 00:03:39.990 align:start position:0%
+PHP S Here it is, and we see that we have only
+one <00:03:36.299><c>table </c><00:03:36.799><c>so </c><00:03:37.299><c>far, </c><00:03:37.799><c>we </c><00:03:38.299><c>need </c><00:03:38.799><c>another </c><00:03:39.299><c>one. </c><00:03:39.799><c>Yes,</c>
+
+00:03:39.990 --> 00:03:40.000 align:start position:0%
+one table so far, we need another one. Yes,
+ 
+
+00:03:40.000 --> 00:03:42.270 align:start position:0%
+one table so far, we need another one. Yes,
+here <00:03:40.199><c>we </c><00:03:40.398><c>enter </c><00:03:40.597><c>the </c><00:03:40.796><c>name </c><00:03:40.995><c>of </c><00:03:41.194><c>the </c><00:03:41.393><c>new </c><00:03:41.592><c>table</c>
+
+00:03:42.270 --> 00:03:42.280 align:start position:0%
+here we enter the name of the new table
+ 
+
+00:03:42.280 --> 00:03:45.429 align:start position:0%
+here we enter the name of the new table
+L, <00:03:42.575><c>let's </c><00:03:42.870><c>say </c><00:03:43.165><c>we </c><00:03:43.460><c>say </c><00:03:43.755><c>that </c><00:03:44.050><c>it </c><00:03:44.345><c>should </c><00:03:44.640><c>have </c><00:03:44.935><c>in </c><00:03:45.230><c>the</c>
+
+00:03:45.429 --> 00:03:45.439 align:start position:0%
+L, let's say we say that it should have in the
+ 
+
+00:03:45.439 --> 00:03:46.470 align:start position:0%
+L, let's say we say that it should have in the
+
+
+00:03:46.470 --> 00:03:46.480 align:start position:0%
+ 
+ 
+
+00:03:46.480 --> 00:03:50.869 align:start position:0%
+ 
+fields, <00:03:47.119><c>click </c><00:03:47.758><c>"Go", </c><00:03:48.397><c>so </c><00:03:49.036><c>here </c><00:03:49.675><c>we </c><00:03:50.314><c>indicate</c>
+
+00:03:50.869 --> 00:03:50.879 align:start position:0%
+fields, click "Go", so here we indicate
+ 
+
+00:03:50.879 --> 00:03:52.750 align:start position:0%
+fields, click "Go", so here we indicate
+what <00:03:51.119><c>fields </c><00:03:51.359><c>we </c><00:03:51.599><c>will </c><00:03:51.839><c>need </c><00:03:52.079><c>the </c><00:03:52.319><c>first</c>
+
+00:03:52.750 --> 00:03:52.760 align:start position:0%
+what fields we will need the first
+ 
+
+00:03:52.760 --> 00:03:55.270 align:start position:0%
+what fields we will need the first
+identifier, <00:03:53.106><c>as </c><00:03:53.452><c>usual, </c><00:03:53.798><c>we</c>
+
+00:03:55.270 --> 00:03:55.280 align:start position:0%
+identifier, as usual, we
+ 
+
+00:03:55.280 --> 00:03:58.949 align:start position:0%
+identifier, as usual, we
+put <00:03:55.577><c>the </c><00:03:55.874><c>length </c><00:03:56.171><c>here, </c><00:03:56.468><c>you </c><00:03:56.765><c>can </c><00:03:57.062><c>even </c><00:03:57.359><c>set </c><00:03:57.656><c>it, </c><00:03:57.953><c>that</c>
+
+00:03:58.949 --> 00:03:58.959 align:start position:0%
+put the length here, you can even set it, that
+ 
+
+00:03:58.959 --> 00:04:00.750 align:start position:0%
+put the length here, you can even set it, that
+is,
+
+00:04:00.750 --> 00:04:00.760 align:start position:0%
+is,
+ 
+
+00:04:00.760 --> 00:04:04.069 align:start position:0%
+is,
+if <00:04:02.179><c>we </c><00:04:03.598><c>have</c>
+
+00:04:04.069 --> 00:04:04.079 align:start position:0%
+if we have
+ 
+
+00:04:04.079 --> 00:04:06.990 align:start position:0%
+if we have
+several <00:04:04.311><c>thousand </c><00:04:04.543><c>lessons </c><00:04:04.775><c>in </c><00:04:05.007><c>the </c><00:04:05.239><c>database, </c><00:04:05.471><c>then </c><00:04:05.703><c>this </c><00:04:05.935><c>length </c><00:04:06.167><c>is </c><00:04:06.399><c>quite </c><00:04:06.631><c>enough.</c>
+
+00:04:06.990 --> 00:04:07.000 align:start position:0%
+several thousand lessons in the database, then this length is quite enough.
+ 
+
+00:04:07.000 --> 00:04:09.949 align:start position:0%
+several thousand lessons in the database, then this length is quite enough.
+Well, <00:04:08.280><c>as </c><00:04:09.560><c>usual,</c>
+
+00:04:09.949 --> 00:04:09.959 align:start position:0%
+Well, as usual,
+ 
+
+00:04:09.959 --> 00:04:12.190 align:start position:0%
+Well, as usual,
+autoincrement <00:04:10.479><c>and </c><00:04:10.999><c>primary</c>
+
+00:04:12.190 --> 00:04:12.200 align:start position:0%
+autoincrement and primary
+ 
+
+00:04:12.200 --> 00:04:15.229 align:start position:0%
+autoincrement and primary
+key, <00:04:12.610><c>then </c><00:04:13.020><c>we </c><00:04:13.430><c>have </c><00:04:13.840><c>the</c>
+
+00:04:15.229 --> 00:04:15.239 align:start position:0%
+key, then we have the
+ 
+
+00:04:15.239 --> 00:04:18.430 align:start position:0%
+key, then we have the
+field <00:04:15.567><c>tle, </c><00:04:15.895><c>the </c><00:04:16.223><c>name </c><00:04:16.551><c>of </c><00:04:16.879><c>the </c><00:04:17.207><c>lesson </c><00:04:17.535><c>that </c><00:04:17.863><c>will </c><00:04:18.191><c>be</c>
+
+00:04:18.430 --> 00:04:18.440 align:start position:0%
+field tle, the name of the lesson that will be
+ 
+
+00:04:18.440 --> 00:04:21.830 align:start position:0%
+field tle, the name of the lesson that will be
+displayed <00:04:18.885><c>between </c><00:04:19.330><c>the </c><00:04:19.775><c>tags </c><00:04:20.220><c>tle, </c><00:04:20.665><c>here </c><00:04:21.110><c>you </c><00:04:21.555><c>can</c>
+
+00:04:21.830 --> 00:04:21.840 align:start position:0%
+displayed between the tags tle, here you can
+ 
+
+00:04:21.840 --> 00:04:23.030 align:start position:0%
+displayed between the tags tle, here you can
+
+
+00:04:23.030 --> 00:04:23.040 align:start position:0%
+ 
+ 
+
+00:04:23.040 --> 00:04:29.950 align:start position:0%
+ 
+use <00:04:23.373><c>p </c><00:04:23.706><c>255, </c><00:04:24.039><c>the</c>
+
+00:04:29.950 --> 00:04:29.960 align:start position:0%
+ 
+ 
+
+00:04:29.960 --> 00:04:31.760 align:start position:0%
+ 
+most <00:04:30.960><c>META</c>
+
+00:04:31.760 --> 00:04:31.770 align:start position:0%
+most META
+ 
+
+00:04:31.770 --> 00:04:34.590 align:start position:0%
+most META
+[music]
+
+00:04:34.590 --> 00:04:34.600 align:start position:0%
+[music]
+ 
+
+00:04:34.600 --> 00:04:38.350 align:start position:0%
+[music]
+keywords, <00:04:35.000><c>and </c><00:04:35.400><c>then </c><00:04:35.800><c>We </c><00:04:36.200><c>will </c><00:04:36.600><c>have </c><00:04:37.000><c>the </c><00:04:37.400><c>date </c><00:04:37.800><c>of</c>
+
+00:04:38.350 --> 00:04:38.360 align:start position:0%
+keywords, and then We will have the date of
+ 
+
+00:04:38.360 --> 00:04:42.990 align:start position:0%
+keywords, and then We will have the date of
+creation <00:04:38.710><c>of </c><00:04:39.060><c>the </c><00:04:39.410><c>lesson, </c><00:04:39.760><c>we </c><00:04:40.110><c>will </c><00:04:40.460><c>write </c><00:04:40.810><c>Date </c><00:04:41.160><c>and </c><00:04:41.510><c>the </c><00:04:41.860><c>type </c><00:04:42.210><c>is </c><00:04:42.560><c>also</c>
+
+00:04:42.990 --> 00:04:43.000 align:start position:0%
+creation of the lesson, we will write Date and the type is also
+ 
+
+00:04:43.000 --> 00:04:44.670 align:start position:0%
+creation of the lesson, we will write Date and the type is also
+Date,
+
+00:04:44.670 --> 00:04:44.680 align:start position:0%
+Date,
+ 
+
+00:04:44.680 --> 00:04:48.469 align:start position:0%
+Date,
+and <00:04:44.976><c>then </c><00:04:45.272><c>We </c><00:04:45.568><c>will </c><00:04:45.864><c>have </c><00:04:46.160><c>the</c>
+
+00:04:48.469 --> 00:04:48.479 align:start position:0%
+ 
+ 
+
+00:04:48.479 --> 00:04:51.990 align:start position:0%
+ 
+field <00:04:49.179><c>description </c><00:04:49.879><c>for </c><00:04:50.579><c>a </c><00:04:51.279><c>brief</c>
+
+00:04:51.990 --> 00:04:52.000 align:start position:0%
+field description for a brief
+ 
+
+00:04:52.000 --> 00:04:53.749 align:start position:0%
+field description for a brief
+description <00:04:52.280><c>of </c><00:04:52.560><c>this</c>
+
+00:04:53.749 --> 00:04:53.759 align:start position:0%
+description of this
+ 
+
+00:04:53.759 --> 00:04:56.590 align:start position:0%
+description of this
+lesson, <00:04:54.205><c>for </c><00:04:54.651><c>this </c><00:04:55.097><c>kind </c><00:04:55.543><c>of </c><00:04:55.989><c>description, </c><00:04:56.435><c>Yes,</c>
+
+00:04:56.590 --> 00:04:56.600 align:start position:0%
+lesson, for this kind of description, Yes,
+ 
+
+00:04:56.600 --> 00:05:01.110 align:start position:0%
+lesson, for this kind of description, Yes,
+which <00:04:56.954><c>we </c><00:04:57.308><c>will </c><00:04:57.662><c>have </c><00:04:58.016><c>on </c><00:04:58.370><c>the </c><00:04:58.724><c>Lens </c><00:04:59.078><c>page,</c>
+
+00:05:01.110 --> 00:05:01.120 align:start position:0%
+which we will have on the Lens page,
+ 
+
+00:05:01.120 --> 00:05:03.710 align:start position:0%
+which we will have on the Lens page,
+so <00:05:01.354><c>here </c><00:05:01.588><c>you </c><00:05:01.822><c>can </c><00:05:02.056><c>specify </c><00:05:02.290><c>the </c><00:05:02.524><c>type </c><00:05:02.758><c>text,</c>
+
+00:05:03.710 --> 00:05:03.720 align:start position:0%
+so here you can specify the type text,
+ 
+
+00:05:03.720 --> 00:05:06.749 align:start position:0%
+so here you can specify the type text,
+and <00:05:04.040><c>then </c><00:05:04.360><c>we </c><00:05:04.680><c>will </c><00:05:05.000><c>have </c><00:05:05.320><c>the</c>
+
+00:05:06.749 --> 00:05:06.759 align:start position:0%
+and then we will have the
+ 
+
+00:05:06.759 --> 00:05:11.590 align:start position:0%
+and then we will have the
+text <00:05:07.234><c>of </c><00:05:07.709><c>the </c><00:05:08.184><c>lesson </c><00:05:08.659><c>itself, </c><00:05:09.134><c>also </c><00:05:09.609><c>the </c><00:05:10.084><c>type </c><00:05:10.559><c>text. </c><00:05:11.034><c>And</c>
+
+00:05:11.590 --> 00:05:11.600 align:start position:0%
+text of the lesson itself, also the type text. And
+ 
+
+00:05:11.600 --> 00:05:13.270 align:start position:0%
+text of the lesson itself, also the type text. And
+lastly,
+
+00:05:13.270 --> 00:05:13.280 align:start position:0%
+lastly,
+ 
+
+00:05:13.280 --> 00:05:17.150 align:start position:0%
+lastly,
+we <00:05:13.614><c>have </c><00:05:13.948><c>the </c><00:05:14.282><c>type </c><00:05:14.616><c>text </c><00:05:14.950><c>I </c><00:05:15.284><c>can’t </c><00:05:15.618><c>find, </c><00:05:15.952><c>here </c><00:05:16.286><c>it </c><00:05:16.620><c>is, </c><00:05:16.954><c>and</c>
+
+00:05:17.150 --> 00:05:17.160 align:start position:0%
+we have the type text I can’t find, here it is, and
+ 
+
+00:05:17.160 --> 00:05:20.070 align:start position:0%
+we have the type text I can’t find, here it is, and
+lastly, <00:05:17.468><c>we </c><00:05:17.776><c>will </c><00:05:18.084><c>have </c><00:05:18.392><c>the </c><00:05:18.700><c>author, </c><00:05:19.008><c>the </c><00:05:19.316><c>author</c>
+
+00:05:20.070 --> 00:05:20.080 align:start position:0%
+lastly, we will have the author, the author
+ 
+
+00:05:20.080 --> 00:05:24.550 align:start position:0%
+lastly, we will have the author, the author
+is <00:05:20.594><c>written </c><00:05:21.108><c>like </c><00:05:21.622><c>this, </c><00:05:22.136><c>so </c><00:05:22.650><c>here </c><00:05:23.164><c>Char </c><00:05:23.678><c>255</c>
+
+00:05:24.550 --> 00:05:24.560 align:start position:0%
+is written like this, so here Char 255
+ 
+
+00:05:24.560 --> 00:05:26.230 align:start position:0%
+is written like this, so here Char 255
+Let it be like this, in
+
+00:05:26.230 --> 00:05:26.240 align:start position:0%
+Let it be like this, in
+ 
+
+00:05:26.240 --> 00:05:28.870 align:start position:0%
+Let it be like this, in
+principle, <00:05:27.320><c>everything, </c><00:05:28.400><c>click</c>
+
+00:05:28.870 --> 00:05:28.880 align:start position:0%
+principle, everything, click
+ 
+
+00:05:28.880 --> 00:05:31.590 align:start position:0%
+principle, everything, click
+save <00:05:29.139><c>table.  </c><00:05:29.398><c>We </c><00:05:29.657><c>have </c><00:05:29.916><c>created </c><00:05:30.175><c>it </c><00:05:30.434><c>yet, </c><00:05:30.693><c>there </c><00:05:30.952><c>is </c><00:05:31.211><c>not </c><00:05:31.470><c>a</c>
+
+00:05:31.590 --> 00:05:31.600 align:start position:0%
+save table.  We have created it yet, there is not a
+ 
+
+00:05:31.600 --> 00:05:35.469 align:start position:0%
+save table.  We have created it yet, there is not a
+single <00:05:32.108><c>entry </c><00:05:32.616><c>in </c><00:05:33.124><c>it. </c><00:05:33.632><c>Here </c><00:05:34.140><c>we </c><00:05:34.648><c>are </c><00:05:35.156><c>now.</c>
+
+00:05:35.469 --> 00:05:35.479 align:start position:0%
+single entry in it. Here we are now.
+ 
+
+00:05:35.479 --> 00:05:38.270 align:start position:0%
+single entry in it. Here we are now.
+Let's <00:05:35.999><c>talk </c><00:05:36.519><c>about </c><00:05:37.039><c>how </c><00:05:37.559><c>best </c><00:05:38.079><c>to</c>
+
+00:05:38.270 --> 00:05:38.280 align:start position:0%
+Let's talk about how best to
+ 
+
+00:05:38.280 --> 00:05:40.909 align:start position:0%
+Let's talk about how best to
+create <00:05:39.026><c>these </c><00:05:39.772><c>lessons </c><00:05:40.518><c>before</c>
+
+00:05:40.909 --> 00:05:40.919 align:start position:0%
+create these lessons before
+ 
+
+00:05:40.919 --> 00:05:44.350 align:start position:0%
+create these lessons before
+adding <00:05:41.299><c>them </c><00:05:41.679><c>to </c><00:05:42.059><c>the </c><00:05:42.439><c>database. </c><00:05:42.819><c>I </c><00:05:43.199><c>personally </c><00:05:43.579><c>use </c><00:05:43.959><c>my</c>
+
+00:05:44.350 --> 00:05:44.360 align:start position:0%
+adding them to the database. I personally use my
+ 
+
+00:05:44.360 --> 00:05:46.710 align:start position:0%
+adding them to the database. I personally use my
+method. <00:05:44.605><c>Now </c><00:05:44.850><c>I </c><00:05:45.095><c>will </c><00:05:45.340><c>tell </c><00:05:45.585><c>you </c><00:05:45.830><c>about </c><00:05:46.075><c>it</c>
+
+00:05:46.710 --> 00:05:46.720 align:start position:0%
+method. Now I will tell you about it
+ 
+
+00:05:46.720 --> 00:05:49.629 align:start position:0%
+method. Now I will tell you about it
+if <00:05:47.152><c>you </c><00:05:47.584><c>like </c><00:05:48.016><c>it, </c><00:05:48.448><c>then </c><00:05:48.880><c>use</c>
+
+00:05:49.629 --> 00:05:49.639 align:start position:0%
+if you like it, then use
+ 
+
+00:05:49.639 --> 00:05:53.270 align:start position:0%
+if you like it, then use
+it <00:05:50.124><c>in </c><00:05:50.609><c>your </c><00:05:51.094><c>work. </c><00:05:51.579><c>Yes, </c><00:05:52.064><c>and </c><00:05:52.549><c>so </c><00:05:53.034><c>these</c>
+
+00:05:53.270 --> 00:05:53.280 align:start position:0%
+it in your work. Yes, and so these
+ 
+
+00:05:53.280 --> 00:05:55.029 align:start position:0%
+it in your work. Yes, and so these
+pictures <00:05:53.553><c>that </c><00:05:53.826><c>we </c><00:05:54.099><c>have </c><00:05:54.372><c>here </c><00:05:54.645><c>in </c><00:05:54.918><c>the</c>
+
+00:05:55.029 --> 00:05:55.039 align:start position:0%
+pictures that we have here in the
+ 
+
+00:05:55.039 --> 00:05:56.029 align:start position:0%
+pictures that we have here in the
+lesson. Yes, here
+
+00:05:56.029 --> 00:05:56.039 align:start position:0%
+lesson. Yes, here
+ 
+
+00:05:56.039 --> 00:05:59.710 align:start position:0%
+lesson. Yes, here
+they <00:05:56.639><c>are, </c><00:05:57.239><c>I </c><00:05:57.839><c>usually </c><00:05:58.439><c>create </c><00:05:59.039><c>a</c>
+
+00:05:59.710 --> 00:05:59.720 align:start position:0%
+they are, I usually create a
+ 
+
+00:05:59.720 --> 00:06:02.430 align:start position:0%
+they are, I usually create a
+separate <00:06:00.009><c>folder </c><00:06:00.298><c>for </c><00:06:00.587><c>them. </c><00:06:00.876><c>That </c><00:06:01.165><c>is, </c><00:06:01.454><c>on </c><00:06:01.743><c>our </c><00:06:02.032><c>website.</c>
+
+00:06:02.430 --> 00:06:02.440 align:start position:0%
+separate folder for them. That is, on our website.
+ 
+
+00:06:02.440 --> 00:06:05.629 align:start position:0%
+separate folder for them. That is, on our website.
+We <00:06:02.737><c>create </c><00:06:03.034><c>a </c><00:06:03.331><c>separate </c><00:06:03.628><c>folder </c><00:06:03.925><c>for </c><00:06:04.222><c>lessons, </c><00:06:04.519><c>yes, </c><00:06:04.816><c>that </c><00:06:05.113><c>is,</c>
+
+00:06:05.629 --> 00:06:05.639 align:start position:0%
+We create a separate folder for lessons, yes, that is,
+ 
+
+00:06:05.639 --> 00:06:07.469 align:start position:0%
+We create a separate folder for lessons, yes, that is,
+there <00:06:06.049><c>we </c><00:06:06.459><c>will </c><00:06:06.869><c>store </c><00:06:07.279><c>everything</c>
+
+00:06:07.469 --> 00:06:07.479 align:start position:0%
+there we will store everything
+ 
+
+00:06:07.479 --> 00:06:10.710 align:start position:0%
+there we will store everything
+related <00:06:07.764><c>to </c><00:06:08.049><c>lessons, </c><00:06:08.334><c>let's </c><00:06:08.619><c>call </c><00:06:08.904><c>it, </c><00:06:09.189><c>for </c><00:06:09.474><c>example,</c>
+
+00:06:10.710 --> 00:06:10.720 align:start position:0%
+related to lessons, let's call it, for example,
+ 
+
+00:06:10.720 --> 00:06:13.550 align:start position:0%
+related to lessons, let's call it, for example,
+lons. <00:06:10.976><c>Here </c><00:06:11.232><c>we </c><00:06:11.488><c>have </c><00:06:11.744><c>created </c><00:06:12.000><c>such </c><00:06:12.256><c>a </c><00:06:12.512><c>folder </c><00:06:12.768><c>on </c><00:06:13.024><c>our </c><00:06:13.280><c>website</c>
+
+00:06:13.550 --> 00:06:13.560 align:start position:0%
+lons. Here we have created such a folder on our website
+ 
+
+00:06:13.560 --> 00:06:17.469 align:start position:0%
+lons. Here we have created such a folder on our website
+and <00:06:14.287><c>inside </c><00:06:15.014><c>this </c><00:06:15.741><c>folder </c><00:06:16.468><c>we </c><00:06:17.195><c>create</c>
+
+00:06:17.469 --> 00:06:17.479 align:start position:0%
+and inside this folder we create
+ 
+
+00:06:17.479 --> 00:06:20.870 align:start position:0%
+and inside this folder we create
+another <00:06:17.919><c>folder </c><00:06:18.359><c>with </c><00:06:18.799><c>today's </c><00:06:19.239><c>date. </c><00:06:19.679><c>Yes, </c><00:06:20.119><c>so </c><00:06:20.559><c>that</c>
+
+00:06:20.870 --> 00:06:20.880 align:start position:0%
+another folder with today's date. Yes, so that
+ 
+
+00:06:20.880 --> 00:06:23.270 align:start position:0%
+another folder with today's date. Yes, so that
+we <00:06:21.246><c>do </c><00:06:21.612><c>not </c><00:06:21.978><c>have </c><00:06:22.344><c>any </c><00:06:22.710><c>confusion, </c><00:06:23.076><c>we</c>
+
+00:06:23.270 --> 00:06:23.280 align:start position:0%
+we do not have any confusion, we
+ 
+
+00:06:23.280 --> 00:06:25.589 align:start position:0%
+we do not have any confusion, we
+create <00:06:23.672><c>a </c><00:06:24.064><c>folder </c><00:06:24.456><c>with </c><00:06:24.848><c>today's </c><00:06:25.240><c>date.</c>
+
+00:06:25.589 --> 00:06:25.599 align:start position:0%
+create a folder with today's date.
+ 
+
+00:06:25.599 --> 00:06:30.189 align:start position:0%
+create a folder with today's date.
+Let's <00:06:25.999><c>say </c><00:06:26.399><c>today </c><00:06:26.799><c>is </c><00:06:27.199><c>August </c><00:06:27.599><c>28th </c><00:06:27.999><c>of </c><00:06:28.399><c>the</c>
+
+00:06:30.189 --> 00:06:30.199 align:start position:0%
+Let's say today is August 28th of the
+ 
+
+00:06:30.199 --> 00:06:33.189 align:start position:0%
+Let's say today is August 28th of the
+year, <00:06:30.553><c>so </c><00:06:30.907><c>after </c><00:06:31.261><c>the </c><00:06:31.615><c>date </c><00:06:31.969><c>is </c><00:06:32.323><c>created, </c><00:06:32.677><c>the</c>
+
+00:06:33.189 --> 00:06:33.199 align:start position:0%
+year, so after the date is created, the
+ 
+
+00:06:33.199 --> 00:06:35.909 align:start position:0%
+year, so after the date is created, the
+folder <00:06:33.519><c>with </c><00:06:33.839><c>the </c><00:06:34.159><c>date, </c><00:06:34.479><c>we </c><00:06:34.799><c>create </c><00:06:35.119><c>a </c><00:06:35.439><c>folder </c><00:06:35.759><c>with</c>
+
+00:06:35.909 --> 00:06:35.919 align:start position:0%
+folder with the date, we create a folder with
+ 
+
+00:06:35.919 --> 00:06:38.790 align:start position:0%
+folder with the date, we create a folder with
+the <00:06:36.290><c>name </c><00:06:36.661><c>of </c><00:06:37.032><c>this </c><00:06:37.403><c>lesson. </c><00:06:37.774><c>Let's </c><00:06:38.145><c>say </c><00:06:38.516><c>my</c>
+
+00:06:38.790 --> 00:06:38.800 align:start position:0%
+the name of this lesson. Let's say my
+ 
+
+00:06:38.800 --> 00:06:41.150 align:start position:0%
+the name of this lesson. Let's say my
+lesson <00:06:38.940><c>will </c><00:06:39.080><c>be</c>
+
+00:06:41.150 --> 00:06:41.160 align:start position:0%
+lesson will be
+ 
+
+00:06:41.160 --> 00:06:44.830 align:start position:0%
+lesson will be
+called <00:06:41.440><c>Well, </c><00:06:41.720><c>let </c><00:06:42.000><c>it </c><00:06:42.280><c>be </c><00:06:42.560><c>called</c>
+
+00:06:44.830 --> 00:06:44.840 align:start position:0%
+called Well, let it be called
+ 
+
+00:06:44.840 --> 00:06:48.270 align:start position:0%
+called Well, let it be called
+Russia, <00:06:45.250><c>it </c><00:06:45.660><c>doesn't </c><00:06:46.070><c>matter </c><00:06:46.480><c>here. </c><00:06:46.890><c>Yes, </c><00:06:47.300><c>and </c><00:06:47.710><c>in </c><00:06:48.120><c>this</c>
+
+00:06:48.270 --> 00:06:48.280 align:start position:0%
+Russia, it doesn't matter here. Yes, and in this
+ 
+
+00:06:48.280 --> 00:06:51.270 align:start position:0%
+Russia, it doesn't matter here. Yes, and in this
+folder <00:06:48.751><c>we </c><00:06:49.222><c>put </c><00:06:49.693><c>all </c><00:06:50.164><c>the </c><00:06:50.635><c>pictures</c>
+
+00:06:51.270 --> 00:06:51.280 align:start position:0%
+folder we put all the pictures
+ 
+
+00:06:51.280 --> 00:06:54.430 align:start position:0%
+folder we put all the pictures
+necessary <00:06:51.780><c>for </c><00:06:52.280><c>this</c>
+
+00:06:54.430 --> 00:06:54.440 align:start position:0%
+necessary for this
+ 
+
+00:06:54.440 --> 00:06:57.469 align:start position:0%
+necessary for this
+lesson. <00:06:55.000><c>Let's </c><00:06:55.560><c>say </c><00:06:56.120><c>we</c>
+
+00:06:57.469 --> 00:06:57.479 align:start position:0%
+lesson. Let's say we
+ 
+
+00:06:57.479 --> 00:07:00.830 align:start position:0%
+lesson. Let's say we
+prepared <00:06:57.930><c>the </c><00:06:58.381><c>ptino </c><00:06:58.832><c>for </c><00:06:59.283><c>this </c><00:06:59.734><c>in </c><00:07:00.185><c>Photoshop.  </c><00:07:00.636><c>For</c>
+
+00:07:00.830 --> 00:07:00.840 align:start position:0%
+prepared the ptino for this in Photoshop.  For
+ 
+
+00:07:00.840 --> 00:07:02.950 align:start position:0%
+prepared the ptino for this in Photoshop.  For
+example, <00:07:01.066><c>my </c><00:07:01.292><c>lesson </c><00:07:01.518><c>is </c><00:07:01.744><c>related </c><00:07:01.970><c>to </c><00:07:02.196><c>Google,</c>
+
+00:07:02.950 --> 00:07:02.960 align:start position:0%
+example, my lesson is related to Google,
+ 
+
+00:07:02.960 --> 00:07:05.670 align:start position:0%
+example, my lesson is related to Google,
+so <00:07:03.257><c>let </c><00:07:03.554><c>me </c><00:07:03.851><c>even </c><00:07:04.148><c>rename </c><00:07:04.445><c>it, </c><00:07:04.742><c>not </c><00:07:05.039><c>just </c><00:07:05.336><c>Sha. </c><00:07:05.633><c>Let</c>
+
+00:07:05.670 --> 00:07:05.680 align:start position:0%
+so let me even rename it, not just Sha. Let
+ 
+
+00:07:05.680 --> 00:07:08.070 align:start position:0%
+so let me even rename it, not just Sha. Let
+Google <00:07:06.169><c>be </c><00:07:06.658><c>called </c><00:07:07.147><c>something </c><00:07:07.636><c>meaningful.</c>
+
+00:07:08.070 --> 00:07:08.080 align:start position:0%
+Google be called something meaningful.
+ 
+
+00:07:08.080 --> 00:07:10.909 align:start position:0%
+Google be called something meaningful.
+Yes, <00:07:08.746><c>let's </c><00:07:09.412><c>say </c><00:07:10.078><c>I</c>
+
+00:07:10.909 --> 00:07:10.919 align:start position:0%
+Yes, let's say I
+ 
+
+00:07:10.919 --> 00:07:14.270 align:start position:0%
+Yes, let's say I
+have <00:07:11.495><c>five </c><00:07:12.071><c>pictures </c><00:07:12.647><c>for </c><00:07:13.223><c>a </c><00:07:13.799><c>lesson</c>
+
+00:07:14.270 --> 00:07:14.280 align:start position:0%
+have five pictures for a lesson
+ 
+
+00:07:14.280 --> 00:07:16.629 align:start position:0%
+have five pictures for a lesson
+about <00:07:14.626><c>Google, </c><00:07:14.972><c>that </c><00:07:15.318><c>is, </c><00:07:15.664><c>how </c><00:07:16.010><c>can </c><00:07:16.356><c>you</c>
+
+00:07:16.629 --> 00:07:16.639 align:start position:0%
+about Google, that is, how can you
+ 
+
+00:07:16.639 --> 00:07:20.670 align:start position:0%
+about Google, that is, how can you
+make <00:07:17.119><c>money </c><00:07:17.599><c>on </c><00:07:18.079><c>your </c><00:07:18.559><c>website </c><00:07:19.039><c>through </c><00:07:19.519><c>An. </c><00:07:19.999><c>Yes, </c><00:07:20.479><c>I</c>
+
+00:07:20.670 --> 00:07:20.680 align:start position:0%
+make money on your website through An. Yes, I
+ 
+
+00:07:20.680 --> 00:07:23.230 align:start position:0%
+make money on your website through An. Yes, I
+just <00:07:21.024><c>take </c><00:07:21.368><c>and </c><00:07:21.712><c>save </c><00:07:22.056><c>these </c><00:07:22.400><c>prepared</c>
+
+00:07:23.230 --> 00:07:23.240 align:start position:0%
+just take and save these prepared
+ 
+
+00:07:23.240 --> 00:07:25.670 align:start position:0%
+just take and save these prepared
+images <00:07:23.740><c>in </c><00:07:24.240><c>this</c>
+
+00:07:25.670 --> 00:07:25.680 align:start position:0%
+images in this
+ 
+
+00:07:25.680 --> 00:07:28.510 align:start position:0%
+images in this
+folder,
+
+00:07:28.510 --> 00:07:28.520 align:start position:0%
+folder,
+ 
+
+00:07:28.520 --> 00:07:34.029 align:start position:0%
+folder,
+select, <00:07:29.088><c>select </c><00:07:29.656><c>the </c><00:07:30.224><c>desired </c><00:07:30.792><c>format </c><00:07:31.360><c>and</c>
+
+00:07:34.029 --> 00:07:34.039 align:start position:0%
+ 
+ 
+
+00:07:34.039 --> 00:07:38.029 align:start position:0%
+ 
+save, <00:07:34.819><c>specify </c><00:07:35.599><c>Local </c><00:07:36.379><c>Host </c><00:07:37.159><c>3w.</c>
+
+00:07:38.029 --> 00:07:38.039 align:start position:0%
+save, specify Local Host 3w.
+ 
+
+00:07:38.039 --> 00:07:43.189 align:start position:0%
+save, specify Local Host 3w.
+Here <00:07:38.559><c>we </c><00:07:39.079><c>have </c><00:07:39.599><c>our </c><00:07:40.119><c>website, </c><00:07:40.639><c>PHP, </c><00:07:41.159><c>website, </c><00:07:41.679><c>lessons </c><00:07:42.199><c>2808,</c>
+
+00:07:43.189 --> 00:07:43.199 align:start position:0%
+Here we have our website, PHP, website, lessons 2808,
+ 
+
+00:07:43.199 --> 00:07:46.950 align:start position:0%
+Here we have our website, PHP, website, lessons 2808,
+Google, <00:07:44.099><c>and </c><00:07:44.999><c>the </c><00:07:45.899><c>first </c><00:07:46.799><c>image.</c>
+
+00:07:46.950 --> 00:07:46.960 align:start position:0%
+Google, and the first image.
+ 
+
+00:07:46.960 --> 00:07:50.869 align:start position:0%
+Google, and the first image.
+We <00:07:47.304><c>do </c><00:07:47.648><c>the </c><00:07:47.992><c>same </c><00:07:48.336><c>with </c><00:07:48.680><c>the</c>
+
+00:07:50.869 --> 00:07:50.879 align:start position:0%
+ 
+ 
+
+00:07:50.879 --> 00:07:53.909 align:start position:0%
+ 
+rest. <00:07:51.269><c>This </c><00:07:51.659><c>will </c><00:07:52.049><c>be </c><00:07:52.439><c>our</c>
+
+00:07:53.909 --> 00:07:53.919 align:start position:0%
+rest. This will be our
+ 
+
+00:07:53.919 --> 00:08:01.909 align:start position:0%
+rest. This will be our
+second, <00:07:54.163><c>this </c><00:07:54.407><c>will </c><00:07:54.651><c>be </c><00:07:54.895><c>our </c><00:07:55.139><c>third, </c><00:07:55.383><c>this </c><00:07:55.627><c>will </c><00:07:55.871><c>be </c><00:07:56.115><c>our </c><00:07:56.359><c>fourth,</c>
+
+00:08:01.909 --> 00:08:05.390 align:start position:0%
+ 
+ 
+
+00:08:05.390 --> 00:08:05.400 align:start position:0%
+ 
+ 
+
+00:08:05.400 --> 00:08:10.230 align:start position:0%
+ 
+and <00:08:05.832><c>this </c><00:08:06.264><c>will </c><00:08:06.696><c>be </c><00:08:07.128><c>our </c><00:08:07.560><c>fifth.</c>
+
+00:08:10.230 --> 00:08:10.240 align:start position:0%
+ 
+ 
+
+00:08:10.240 --> 00:08:14.230 align:start position:0%
+ 
+Excellent. <00:08:11.189><c>Yes, </c><00:08:12.138><c>we </c><00:08:13.087><c>have </c><00:08:14.036><c>prepared</c>
+
+00:08:14.230 --> 00:08:14.240 align:start position:0%
+Excellent. Yes, we have prepared
+ 
+
+00:08:14.240 --> 00:08:17.189 align:start position:0%
+Excellent. Yes, we have prepared
+all <00:08:14.484><c>the </c><00:08:14.728><c>pictures </c><00:08:14.972><c>necessary </c><00:08:15.216><c>for </c><00:08:15.460><c>the </c><00:08:15.704><c>lesson. </c><00:08:15.948><c>Now </c><00:08:16.192><c>let's</c>
+
+00:08:17.189 --> 00:08:17.199 align:start position:0%
+all the pictures necessary for the lesson. Now let's
+ 
+
+00:08:17.199 --> 00:08:19.430 align:start position:0%
+all the pictures necessary for the lesson. Now let's
+go <00:08:17.505><c>back </c><00:08:17.811><c>to </c><00:08:18.117><c>Dreamweaver </c><00:08:18.423><c>and </c><00:08:18.729><c>create </c><00:08:19.035><c>a</c>
+
+00:08:19.430 --> 00:08:19.440 align:start position:0%
+go back to Dreamweaver and create a
+ 
+
+00:08:19.440 --> 00:08:22.950 align:start position:0%
+go back to Dreamweaver and create a
+template <00:08:20.000><c>for </c><00:08:20.560><c>the </c><00:08:21.120><c>lessons </c><00:08:21.680><c>here. </c><00:08:22.240><c>We </c><00:08:22.800><c>will</c>
+
+00:08:22.950 --> 00:08:22.960 align:start position:0%
+template for the lessons here. We will
+ 
+
+00:08:22.960 --> 00:08:24.869 align:start position:0%
+template for the lessons here. We will
+need <00:08:23.233><c>the </c><00:08:23.506><c>template </c><00:08:23.779><c>so </c><00:08:24.052><c>that </c><00:08:24.325><c>we </c><00:08:24.598><c>can</c>
+
+00:08:24.869 --> 00:08:24.879 align:start position:0%
+need the template so that we can
+ 
+
+00:08:24.879 --> 00:08:26.869 align:start position:0%
+need the template so that we can
+normally <00:08:25.319><c>create </c><00:08:25.759><c>the</c>
+
+00:08:26.869 --> 00:08:26.879 align:start position:0%
+normally create the
+ 
+
+00:08:26.879 --> 00:08:30.230 align:start position:0%
+normally create the
+lesson <00:08:27.185><c>so </c><00:08:27.491><c>that </c><00:08:27.797><c>all </c><00:08:28.103><c>our </c><00:08:28.409><c>links </c><00:08:28.715><c>are</c>
+
+00:08:30.230 --> 00:08:30.240 align:start position:0%
+lesson so that all our links are
+ 
+
+00:08:30.240 --> 00:08:33.949 align:start position:0%
+lesson so that all our links are
+not <00:08:31.139><c>broken. </c><00:08:32.038><c>And </c><00:08:32.937><c>no </c><00:08:33.836><c>problems</c>
+
+00:08:33.949 --> 00:08:33.959 align:start position:0%
+not broken. And no problems
+ 
+
+00:08:33.959 --> 00:08:36.430 align:start position:0%
+not broken. And no problems
+arise. <00:08:34.256><c>The </c><00:08:34.553><c>template </c><00:08:34.850><c>can </c><00:08:35.147><c>be </c><00:08:35.444><c>created </c><00:08:35.741><c>from </c><00:08:36.038><c>any</c>
+
+00:08:36.430 --> 00:08:36.440 align:start position:0%
+arise. The template can be created from any
+ 
+
+00:08:36.440 --> 00:08:39.550 align:start position:0%
+arise. The template can be created from any
+file, <00:08:36.779><c>in </c><00:08:37.118><c>principle, </c><00:08:37.457><c>which </c><00:08:37.796><c>we </c><00:08:38.135><c>have </c><00:08:38.474><c>here.</c>
+
+00:08:39.550 --> 00:08:39.560 align:start position:0%
+file, in principle, which we have here.
+ 
+
+00:08:39.560 --> 00:08:44.550 align:start position:0%
+file, in principle, which we have here.
+Let's <00:08:41.060><c>save </c><00:08:42.560><c>as</c>
+
+00:08:44.550 --> 00:08:44.560 align:start position:0%
+Let's save as
+ 
+
+00:08:44.560 --> 00:08:48.150 align:start position:0%
+Let's save as
+we <00:08:45.060><c>choose </c><00:08:45.560><c>and</c>
+
+00:08:48.150 --> 00:08:48.160 align:start position:0%
+ 
+ 
+
+00:08:48.160 --> 00:08:55.710 align:start position:0%
+ 
+name <00:08:48.530><c>it, </c><00:08:48.900><c>that </c><00:08:49.270><c>is, </c><00:08:49.640><c>a </c><00:08:50.010><c>template </c><00:08:50.380><c>for </c><00:08:50.750><c>creating </c><00:08:51.120><c>a</c>
+
+00:08:55.710 --> 00:08:55.720 align:start position:0%
+ 
+ 
+
+00:08:55.720 --> 00:08:59.829 align:start position:0%
+ 
+lesson.
+
+00:08:59.829 --> 00:08:59.839 align:start position:0%
+ 
+ 
+
+00:08:59.839 --> 00:09:02.310 align:start position:0%
+ 
+Let's <00:09:00.359><c>say </c><00:09:00.879><c>here </c><00:09:01.399><c>you </c><00:09:01.919><c>can</c>
+
+00:09:02.310 --> 00:09:02.320 align:start position:0%
+Let's say here you can
+ 
+
+00:09:02.320 --> 00:09:04.030 align:start position:0%
+Let's say here you can
+even <00:09:02.509><c>write </c><00:09:02.698><c>the </c><00:09:02.887><c>name </c><00:09:03.076><c>of</c>
+
+00:09:04.030 --> 00:09:04.040 align:start position:0%
+even write the name of
+ 
+
+00:09:04.040 --> 00:09:08.150 align:start position:0%
+even write the name of
+the <00:09:04.355><c>template </c><00:09:04.670><c>so </c><00:09:04.985><c>as </c><00:09:05.300><c>not </c><00:09:05.615><c>to </c><00:09:05.930><c>forget. </c><00:09:06.245><c>Yes, </c><00:09:06.560><c>we</c>
+
+00:09:08.150 --> 00:09:08.160 align:start position:0%
+the template so as not to forget. Yes, we
+ 
+
+00:09:08.160 --> 00:09:11.150 align:start position:0%
+the template so as not to forget. Yes, we
+save <00:09:08.633><c>and  </c><00:09:09.106><c>Already </c><00:09:09.579><c>in </c><00:09:10.052><c>this </c><00:09:10.525><c>template </c><00:09:10.998><c>we</c>
+
+00:09:11.150 --> 00:09:11.160 align:start position:0%
+save and  Already in this template we
+ 
+
+00:09:11.160 --> 00:09:15.230 align:start position:0%
+save and  Already in this template we
+begin <00:09:11.702><c>to </c><00:09:12.244><c>create </c><00:09:12.786><c>our </c><00:09:13.328><c>lesson, </c><00:09:13.870><c>that </c><00:09:14.412><c>is, </c><00:09:14.954><c>we</c>
+
+00:09:15.230 --> 00:09:15.240 align:start position:0%
+begin to create our lesson, that is, we
+ 
+
+00:09:15.240 --> 00:09:16.710 align:start position:0%
+begin to create our lesson, that is, we
+write
+
+00:09:16.710 --> 00:09:16.720 align:start position:0%
+write
+ 
+
+00:09:16.720 --> 00:09:20.069 align:start position:0%
+write
+some <00:09:17.062><c>texts </c><00:09:17.404><c>here, </c><00:09:17.746><c>yes, </c><00:09:18.088><c>for </c><00:09:18.430><c>this </c><00:09:18.772><c>lesson, </c><00:09:19.114><c>we</c>
+
+00:09:20.069 --> 00:09:20.079 align:start position:0%
+some texts here, yes, for this lesson, we
+ 
+
+00:09:20.079 --> 00:09:23.590 align:start position:0%
+some texts here, yes, for this lesson, we
+immediately <00:09:20.447><c>do </c><00:09:20.815><c>not </c><00:09:21.183><c>forget </c><00:09:21.551><c>to </c><00:09:21.919><c>put </c><00:09:22.287><c>that </c><00:09:22.655><c>this </c><00:09:23.023><c>is </c><00:09:23.391><c>our</c>
+
+00:09:23.590 --> 00:09:23.600 align:start position:0%
+immediately do not forget to put that this is our
+ 
+
+00:09:23.600 --> 00:09:27.150 align:start position:0%
+immediately do not forget to put that this is our
+paragraph, <00:09:24.051><c>here </c><00:09:24.502><c>we </c><00:09:24.953><c>write </c><00:09:25.404><c>some </c><00:09:25.855><c>text, </c><00:09:26.306><c>here </c><00:09:26.757><c>we</c>
+
+00:09:27.150 --> 00:09:27.160 align:start position:0%
+paragraph, here we write some text, here we
+ 
+
+00:09:27.160 --> 00:09:29.430 align:start position:0%
+paragraph, here we write some text, here we
+insert <00:09:27.519><c>some </c><00:09:27.878><c>pictures, </c><00:09:28.237><c>I </c><00:09:28.596><c>have </c><00:09:28.955><c>already</c>
+
+00:09:29.430 --> 00:09:29.440 align:start position:0%
+insert some pictures, I have already
+ 
+
+00:09:29.440 --> 00:09:32.590 align:start position:0%
+insert some pictures, I have already
+prepared <00:09:29.807><c>the </c><00:09:30.174><c>text </c><00:09:30.541><c>for </c><00:09:30.908><c>this </c><00:09:31.275><c>lesson,</c>
+
+00:09:32.590 --> 00:09:32.600 align:start position:0%
+prepared the text for this lesson,
+ 
+
+00:09:32.600 --> 00:09:36.430 align:start position:0%
+prepared the text for this lesson,
+so <00:09:33.000><c>let's </c><00:09:33.400><c>say </c><00:09:33.800><c>we </c><00:09:34.200><c>copy </c><00:09:34.600><c>this </c><00:09:35.000><c>text,</c>
+
+00:09:36.430 --> 00:09:36.440 align:start position:0%
+so let's say we copy this text,
+ 
+
+00:09:36.440 --> 00:09:40.470 align:start position:0%
+so let's say we copy this text,
+go <00:09:36.871><c>to </c><00:09:37.302><c>the </c><00:09:37.733><c>code, </c><00:09:38.164><c>here </c><00:09:38.595><c>we </c><00:09:39.026><c>insert </c><00:09:39.457><c>it </c><00:09:39.888><c>into </c><00:09:40.319><c>the</c>
+
+00:09:40.470 --> 00:09:40.480 align:start position:0%
+go to the code, here we insert it into the
+ 
+
+00:09:40.480 --> 00:09:44.829 align:start position:0%
+go to the code, here we insert it into the
+main <00:09:40.559><c>part, </c><00:09:40.638><c>Well, </c><00:09:40.717><c>something </c><00:09:40.796><c>like </c><00:09:40.875><c>this, </c><00:09:40.954><c>yes,</c>
+
+00:09:44.829 --> 00:09:44.839 align:start position:0%
+ 
+ 
+
+00:09:44.839 --> 00:09:47.670 align:start position:0%
+ 
+you
+
+00:09:47.670 --> 00:09:47.680 align:start position:0%
+you
+ 
+
+00:09:47.680 --> 00:09:50.110 align:start position:0%
+you
+have <00:09:48.046><c>written </c><00:09:48.412><c>the </c><00:09:48.778><c>text, </c><00:09:49.144><c>here </c><00:09:49.510><c>we </c><00:09:49.876><c>insert</c>
+
+00:09:50.110 --> 00:09:50.120 align:start position:0%
+have written the text, here we insert
+ 
+
+00:09:50.120 --> 00:09:52.790 align:start position:0%
+have written the text, here we insert
+the <00:09:50.391><c>pictures </c><00:09:50.662><c>for </c><00:09:50.933><c>this </c><00:09:51.204><c>lesson </c><00:09:51.475><c>from </c><00:09:51.746><c>here, </c><00:09:52.017><c>here </c><00:09:52.288><c>we </c><00:09:52.559><c>have</c>
+
+00:09:52.790 --> 00:09:52.800 align:start position:0%
+the pictures for this lesson from here, here we have
+ 
+
+00:09:52.800 --> 00:09:56.269 align:start position:0%
+the pictures for this lesson from here, here we have
+prepared <00:09:53.680><c>them </c><00:09:54.560><c>and</c>
+
+00:09:56.269 --> 00:09:56.279 align:start position:0%
+prepared them and
+ 
+
+00:09:56.279 --> 00:09:59.389 align:start position:0%
+prepared them and
+inserted, <00:09:56.570><c>here </c><00:09:56.861><c>we </c><00:09:57.152><c>have </c><00:09:57.443><c>the </c><00:09:57.734><c>first </c><00:09:58.025><c>picture, </c><00:09:58.316><c>Let</c>
+
+00:09:59.389 --> 00:09:59.399 align:start position:0%
+inserted, here we have the first picture, Let
+ 
+
+00:09:59.399 --> 00:10:00.509 align:start position:0%
+inserted, here we have the first picture, Let
+
+
+00:10:00.509 --> 00:10:00.519 align:start position:0%
+ 
+ 
+
+00:10:00.519 --> 00:10:05.949 align:start position:0%
+ 
+'s <00:10:01.519><c>say,</c>
+
+00:10:05.949 --> 00:10:05.959 align:start position:0%
+ 
+ 
+
+00:10:05.959 --> 00:10:07.210 align:start position:0%
+ 
+the second
+
+00:10:07.210 --> 00:10:07.220 align:start position:0%
+the second
+ 
+
+00:10:07.220 --> 00:10:10.069 align:start position:0%
+the second
+[music],
+
+00:10:10.069 --> 00:10:10.079 align:start position:0%
+[music],
+ 
+
+00:10:10.079 --> 00:10:14.430 align:start position:0%
+[music],
+the <00:10:10.375><c>third, </c><00:10:10.671><c>Well, </c><00:10:10.967><c>and </c><00:10:11.263><c>so </c><00:10:11.559><c>on, </c><00:10:11.855><c>yes, </c><00:10:12.151><c>there </c><00:10:12.447><c>the </c><00:10:12.743><c>fourth </c><00:10:13.039><c>and</c>
+
+00:10:14.430 --> 00:10:14.440 align:start position:0%
+the third, Well, and so on, yes, there the fourth and
+ 
+
+00:10:14.440 --> 00:10:17.269 align:start position:0%
+the third, Well, and so on, yes, there the fourth and
+fifth, <00:10:14.739><c>you </c><00:10:15.038><c>can </c><00:10:15.337><c>immediately </c><00:10:15.636><c>align </c><00:10:15.935><c>them </c><00:10:16.234><c>in </c><00:10:16.533><c>the </c><00:10:16.832><c>center,</c>
+
+00:10:17.269 --> 00:10:17.279 align:start position:0%
+fifth, you can immediately align them in the center,
+ 
+
+00:10:17.279 --> 00:10:19.750 align:start position:0%
+fifth, you can immediately align them in the center,
+let's <00:10:17.599><c>say </c><00:10:17.919><c>these</c>
+
+00:10:19.750 --> 00:10:19.760 align:start position:0%
+let's say these
+ 
+
+00:10:19.760 --> 00:10:22.710 align:start position:0%
+let's say these
+pictures <00:10:19.993><c>are </c><00:10:20.226><c>like </c><00:10:20.459><c>this, </c><00:10:20.692><c>and </c><00:10:20.925><c>the </c><00:10:21.158><c>last </c><00:10:21.391><c>one, </c><00:10:21.624><c>let's </c><00:10:21.857><c>say, </c><00:10:22.090><c>we </c><00:10:22.323><c>have </c><00:10:22.556><c>a</c>
+
+00:10:22.710 --> 00:10:22.720 align:start position:0%
+pictures are like this, and the last one, let's say, we have a
+ 
+
+00:10:22.720 --> 00:10:27.269 align:start position:0%
+pictures are like this, and the last one, let's say, we have a
+
+
+00:10:27.269 --> 00:10:27.279 align:start position:0%
+ 
+ 
+
+00:10:27.279 --> 00:10:30.350 align:start position:0%
+ 
+picture <00:10:27.629><c>here, </c><00:10:27.979><c>so </c><00:10:28.329><c>let's </c><00:10:28.679><c>say </c><00:10:29.029><c>we </c><00:10:29.379><c>made </c><00:10:29.729><c>a </c><00:10:30.079><c>lesson,</c>
+
+00:10:30.350 --> 00:10:30.360 align:start position:0%
+picture here, so let's say we made a lesson,
+ 
+
+00:10:30.360 --> 00:10:35.310 align:start position:0%
+picture here, so let's say we made a lesson,
+Yes, <00:10:30.866><c>after </c><00:10:31.372><c>that </c><00:10:31.878><c>we </c><00:10:32.384><c>go </c><00:10:32.890><c>to </c><00:10:33.396><c>the </c><00:10:33.902><c>code </c><00:10:34.408><c>and </c><00:10:34.914><c>we</c>
+
+00:10:35.310 --> 00:10:35.320 align:start position:0%
+Yes, after that we go to the code and we
+ 
+
+00:10:35.320 --> 00:10:38.629 align:start position:0%
+Yes, after that we go to the code and we
+get <00:10:35.688><c>a </c><00:10:36.056><c>ready-made </c><00:10:36.424><c>code </c><00:10:36.792><c>for </c><00:10:37.160><c>this</c>
+
+00:10:38.629 --> 00:10:38.639 align:start position:0%
+get a ready-made code for this
+ 
+
+00:10:38.639 --> 00:10:42.350 align:start position:0%
+get a ready-made code for this
+lesson, <00:10:38.976><c>that </c><00:10:39.313><c>is, </c><00:10:39.650><c>here </c><00:10:39.987><c>it </c><00:10:40.324><c>is, </c><00:10:40.661><c>starting </c><00:10:40.998><c>from </c><00:10:41.335><c>here </c><00:10:41.672><c>and</c>
+
+00:10:42.350 --> 00:10:42.360 align:start position:0%
+lesson, that is, here it is, starting from here and
+ 
+
+00:10:42.360 --> 00:10:45.430 align:start position:0%
+lesson, that is, here it is, starting from here and
+ending <00:10:42.952><c>somewhere </c><00:10:43.544><c>here </c><00:10:44.136><c>we </c><00:10:44.728><c>see </c><00:10:45.320><c>that</c>
+
+00:10:45.430 --> 00:10:45.440 align:start position:0%
+ending somewhere here we see that
+ 
+
+00:10:45.440 --> 00:10:47.949 align:start position:0%
+ending somewhere here we see that
+we <00:10:45.725><c>have </c><00:10:46.010><c>a </c><00:10:46.295><c>ready-made </c><00:10:46.580><c>html </c><00:10:46.865><c>code </c><00:10:47.150><c>with </c><00:10:47.435><c>working</c>
+
+00:10:47.949 --> 00:10:47.959 align:start position:0%
+we have a ready-made html code with working
+ 
+
+00:10:47.959 --> 00:10:49.829 align:start position:0%
+we have a ready-made html code with working
+links, <00:10:48.145><c>yes, </c><00:10:48.331><c>that </c><00:10:48.517><c>is, </c><00:10:48.703><c>all </c><00:10:48.889><c>the </c><00:10:49.075><c>links </c><00:10:49.261><c>we </c><00:10:49.447><c>have </c><00:10:49.633><c>are</c>
+
+00:10:49.829 --> 00:10:49.839 align:start position:0%
+links, yes, that is, all the links we have are
+ 
+
+00:10:49.839 --> 00:10:54.230 align:start position:0%
+links, yes, that is, all the links we have are
+correct, <00:10:50.130><c>they </c><00:10:50.421><c>lead </c><00:10:50.712><c>to </c><00:10:51.003><c>the </c><00:10:51.294><c>pictures </c><00:10:51.585><c>we </c><00:10:51.876><c>need,</c>
+
+00:10:54.230 --> 00:10:54.240 align:start position:0%
+correct, they lead to the pictures we need,
+ 
+
+00:10:54.240 --> 00:10:57.430 align:start position:0%
+correct, they lead to the pictures we need,
+Now <00:10:54.820><c>we </c><00:10:55.400><c>take </c><00:10:55.980><c>this </c><00:10:56.560><c>code,</c>
+
+00:10:57.430 --> 00:10:57.440 align:start position:0%
+Now we take this code,
+ 
+
+00:10:57.440 --> 00:11:01.910 align:start position:0%
+Now we take this code,
+copy <00:10:57.826><c>it </c><00:10:58.212><c>and </c><00:10:58.598><c>we </c><00:10:58.984><c>can </c><00:10:59.370><c>fill </c><00:10:59.756><c>in </c><00:11:00.142><c>our  </c><00:11:00.528><c>the </c><00:11:00.914><c>table</c>
+
+00:11:01.910 --> 00:11:01.920 align:start position:0%
+copy it and we can fill in our  the table
+ 
+
+00:11:01.920 --> 00:11:03.870 align:start position:0%
+copy it and we can fill in our  the table
+with <00:11:02.209><c>the </c><00:11:02.498><c>lessons </c><00:11:02.787><c>that </c><00:11:03.076><c>we</c>
+
+00:11:03.870 --> 00:11:03.880 align:start position:0%
+with the lessons that we
+ 
+
+00:11:03.880 --> 00:11:07.269 align:start position:0%
+with the lessons that we
+created <00:11:04.279><c>here, </c><00:11:04.678><c>select </c><00:11:05.077><c>this </c><00:11:05.476><c>table, </c><00:11:05.875><c>we </c><00:11:06.274><c>don't </c><00:11:06.673><c>have </c><00:11:07.072><c>a</c>
+
+00:11:07.269 --> 00:11:07.279 align:start position:0%
+created here, select this table, we don't have a
+ 
+
+00:11:07.279 --> 00:11:10.150 align:start position:0%
+created here, select this table, we don't have a
+single <00:11:07.655><c>entry </c><00:11:08.031><c>in </c><00:11:08.407><c>it, </c><00:11:08.783><c>click </c><00:11:09.159><c>insert.</c>
+
+00:11:10.150 --> 00:11:10.160 align:start position:0%
+single entry in it, click insert.
+ 
+
+00:11:10.160 --> 00:11:13.150 align:start position:0%
+single entry in it, click insert.
+Here <00:11:10.712><c>we </c><00:11:11.264><c>paste </c><00:11:11.816><c>this </c><00:11:12.368><c>text </c><00:11:12.920><c>directly</c>
+
+00:11:13.150 --> 00:11:13.160 align:start position:0%
+Here we paste this text directly
+ 
+
+00:11:13.160 --> 00:11:15.389 align:start position:0%
+Here we paste this text directly
+into <00:11:13.720><c>this</c>
+
+00:11:15.389 --> 00:11:15.399 align:start position:0%
+into this
+ 
+
+00:11:15.399 --> 00:11:19.190 align:start position:0%
+into this
+text <00:11:16.103><c>area. </c><00:11:16.807><c>Yes, </c><00:11:17.511><c>and </c><00:11:18.215><c>here </c><00:11:18.919><c>we</c>
+
+00:11:19.190 --> 00:11:19.200 align:start position:0%
+text area. Yes, and here we
+ 
+
+00:11:19.200 --> 00:11:22.269 align:start position:0%
+text area. Yes, and here we
+fill <00:11:19.430><c>in </c><00:11:19.660><c>the </c><00:11:19.890><c>title </c><00:11:20.120><c>of </c><00:11:20.350><c>the </c><00:11:20.580><c>lesson </c><00:11:20.810><c>as </c><00:11:21.040><c>usual,</c>
+
+00:11:22.269 --> 00:11:22.279 align:start position:0%
+fill in the title of the lesson as usual,
+ 
+
+00:11:22.279 --> 00:11:25.350 align:start position:0%
+fill in the title of the lesson as usual,
+let's <00:11:22.612><c>say </c><00:11:22.945><c>How </c><00:11:23.278><c>to</c>
+
+00:11:25.350 --> 00:11:25.360 align:start position:0%
+let's say How to
+ 
+
+00:11:25.360 --> 00:11:31.910 align:start position:0%
+let's say How to
+make <00:11:25.800><c>money </c><00:11:26.240><c>with </c><00:11:26.680><c>Google</c>
+
+00:11:31.910 --> 00:11:31.920 align:start position:0%
+ 
+ 
+
+00:11:31.920 --> 00:11:35.389 align:start position:0%
+ 
+How <00:11:32.193><c>to </c><00:11:32.466><c>make </c><00:11:32.739><c>money </c><00:11:33.012><c>with </c><00:11:33.285><c>Google, </c><00:11:33.558><c>so</c>
+
+00:11:35.389 --> 00:11:35.399 align:start position:0%
+How to make money with Google, so
+ 
+
+00:11:35.399 --> 00:11:44.269 align:start position:0%
+How to make money with Google, so
+we'll <00:11:35.695><c>write </c><00:11:35.991><c>then </c><00:11:36.287><c>the </c><00:11:36.583><c>description, </c><00:11:36.879><c>let</c>
+
+00:11:44.269 --> 00:11:44.279 align:start position:0%
+ 
+ 
+
+00:11:44.279 --> 00:11:47.040 align:start position:0%
+ 
+'s <00:11:44.985><c>say </c><00:11:45.691><c>A </c><00:11:46.397><c>keywords</c>
+
+00:11:47.040 --> 00:11:47.050 align:start position:0%
+'s say A keywords
+ 
+
+00:11:47.050 --> 00:11:48.670 align:start position:0%
+'s say A keywords
+[music]
+
+00:11:48.670 --> 00:11:48.680 align:start position:0%
+[music]
+ 
+
+00:11:48.680 --> 00:11:51.710 align:start position:0%
+[music]
+Google, <00:11:49.420><c>let's </c><00:11:50.160><c>say</c>
+
+00:11:51.710 --> 00:11:51.720 align:start position:0%
+Google, let's say
+ 
+
+00:11:51.720 --> 00:11:56.910 align:start position:0%
+Google, let's say
+AdSense, <00:11:52.350><c>so </c><00:11:52.980><c>put </c><00:11:53.610><c>today's </c><00:11:54.240><c>date</c>
+
+00:11:56.910 --> 00:11:56.920 align:start position:0%
+AdSense, so put today's date
+ 
+
+00:11:56.920 --> 00:12:02.150 align:start position:0%
+AdSense, so put today's date
+2007, <00:11:57.475><c>month </c><00:11:58.030><c>eight </c><00:11:58.585><c>and </c><00:11:59.140><c>date </c><00:11:59.695><c>'t' </c><00:12:00.250><c>in, </c><00:12:00.805><c>let's </c><00:12:01.360><c>say</c>
+
+00:12:02.150 --> 00:12:02.160 align:start position:0%
+2007, month eight and date 't' in, let's say
+ 
+
+00:12:02.160 --> 00:12:06.790 align:start position:0%
+2007, month eight and date 't' in, let's say
+so, <00:12:02.593><c>and </c><00:12:03.026><c>here </c><00:12:03.459><c>we </c><00:12:03.892><c>give </c><00:12:04.325><c>a </c><00:12:04.758><c>short</c>
+
+00:12:06.790 --> 00:12:06.800 align:start position:0%
+so, and here we give a short
+ 
+
+00:12:06.800 --> 00:12:10.550 align:start position:0%
+so, and here we give a short
+description, <00:12:07.195><c>you </c><00:12:07.590><c>can </c><00:12:07.985><c>immediately </c><00:12:08.380><c>use </c><00:12:08.775><c>the </c><00:12:09.170><c>tags </c><00:12:09.565><c>p, </c><00:12:09.960><c>that </c><00:12:10.355><c>is,</c>
+
+00:12:10.550 --> 00:12:10.560 align:start position:0%
+description, you can immediately use the tags p, that is,
+ 
+
+00:12:10.560 --> 00:12:13.110 align:start position:0%
+description, you can immediately use the tags p, that is,
+paragraph <00:12:10.834><c>tags. </c><00:12:11.108><c>Yes, </c><00:12:11.382><c>you </c><00:12:11.656><c>can </c><00:12:11.930><c>use </c><00:12:12.204><c>them </c><00:12:12.478><c>without</c>
+
+00:12:13.110 --> 00:12:13.120 align:start position:0%
+paragraph tags. Yes, you can use them without
+ 
+
+00:12:13.120 --> 00:12:15.590 align:start position:0%
+paragraph tags. Yes, you can use them without
+them, <00:12:13.327><c>in </c><00:12:13.534><c>principle. </c><00:12:13.741><c>Let's </c><00:12:13.948><c>do </c><00:12:14.155><c>it </c><00:12:14.362><c>right </c><00:12:14.569><c>away </c><00:12:14.776><c>with </c><00:12:14.983><c>them, </c><00:12:15.190><c>that</c>
+
+00:12:15.590 --> 00:12:15.600 align:start position:0%
+them, in principle. Let's do it right away with them, that
+ 
+
+00:12:15.600 --> 00:12:18.430 align:start position:0%
+them, in principle. Let's do it right away with them, that
+is, <00:12:16.170><c>take </c><00:12:16.740><c>the </c><00:12:17.310><c>beginning </c><00:12:17.880><c>of</c>
+
+00:12:18.430 --> 00:12:18.440 align:start position:0%
+is, take the beginning of
+ 
+
+00:12:18.440 --> 00:12:21.710 align:start position:0%
+is, take the beginning of
+the <00:12:18.760><c>lesson </c><00:12:19.080><c>and </c><00:12:19.400><c>insert </c><00:12:19.720><c>it </c><00:12:20.040><c>as </c><00:12:20.360><c>a </c><00:12:20.680><c>description, </c><00:12:21.000><c>you </c><00:12:21.320><c>can</c>
+
+00:12:21.710 --> 00:12:21.720 align:start position:0%
+the lesson and insert it as a description, you can
+ 
+
+00:12:21.720 --> 00:12:24.470 align:start position:0%
+the lesson and insert it as a description, you can
+write <00:12:22.085><c>something </c><00:12:22.450><c>new, </c><00:12:22.815><c>something </c><00:12:23.180><c>of </c><00:12:23.545><c>your </c><00:12:23.910><c>own. </c><00:12:24.275><c>Yes,</c>
+
+00:12:24.470 --> 00:12:24.480 align:start position:0%
+write something new, something of your own. Yes,
+ 
+
+00:12:24.480 --> 00:12:28.150 align:start position:0%
+write something new, something of your own. Yes,
+and <00:12:24.656><c>here, </c><00:12:24.832><c>let's </c><00:12:25.008><c>say </c><00:12:25.184><c>we </c><00:12:25.360><c>write</c>
+
+00:12:28.150 --> 00:12:28.160 align:start position:0%
+ 
+ 
+
+00:12:28.160 --> 00:12:31.550 align:start position:0%
+ 
+the <00:12:28.429><c>author, </c><00:12:28.698><c>so </c><00:12:28.967><c>that's </c><00:12:29.236><c>all </c><00:12:29.505><c>we </c><00:12:29.774><c>have, </c><00:12:30.043><c>the </c><00:12:30.312><c>text </c><00:12:30.581><c>of </c><00:12:30.850><c>the </c><00:12:31.119><c>lesson</c>
+
+00:12:31.550 --> 00:12:31.560 align:start position:0%
+the author, so that's all we have, the text of the lesson
+ 
+
+00:12:31.560 --> 00:12:34.350 align:start position:0%
+the author, so that's all we have, the text of the lesson
+is <00:12:32.170><c>prepared, </c><00:12:32.780><c>click </c><00:12:33.390><c>go, </c><00:12:34.000><c>and</c>
+
+00:12:34.350 --> 00:12:34.360 align:start position:0%
+is prepared, click go, and
+ 
+
+00:12:34.360 --> 00:12:38.710 align:start position:0%
+is prepared, click go, and
+insert <00:12:34.780><c>a </c><00:12:35.200><c>new </c><00:12:35.620><c>entry, </c><00:12:36.040><c>so </c><00:12:36.460><c>that's </c><00:12:36.880><c>all </c><00:12:37.300><c>we </c><00:12:37.720><c>have,</c>
+
+00:12:38.710 --> 00:12:38.720 align:start position:0%
+insert a new entry, so that's all we have,
+ 
+
+00:12:38.720 --> 00:12:41.550 align:start position:0%
+insert a new entry, so that's all we have,
+look <00:12:39.108><c>at </c><00:12:39.496><c>this </c><00:12:39.884><c>table, </c><00:12:40.272><c>overview, </c><00:12:40.660><c>we </c><00:12:41.048><c>see </c><00:12:41.436><c>that</c>
+
+00:12:41.550 --> 00:12:41.560 align:start position:0%
+look at this table, overview, we see that
+ 
+
+00:12:41.560 --> 00:12:44.150 align:start position:0%
+look at this table, overview, we see that
+one <00:12:41.808><c>entry </c><00:12:42.056><c>for </c><00:12:42.304><c>this </c><00:12:42.552><c>lesson </c><00:12:42.800><c>has </c><00:12:43.048><c>appeared </c><00:12:43.296><c>in </c><00:12:43.544><c>the </c><00:12:43.792><c>table,</c>
+
+00:12:44.150 --> 00:12:44.160 align:start position:0%
+one entry for this lesson has appeared in the table,
+ 
+
+00:12:44.160 --> 00:12:47.269 align:start position:0%
+one entry for this lesson has appeared in the table,
+now <00:12:45.120><c>I'll </c><00:12:46.080><c>disconnect </c><00:12:47.040><c>and</c>
+
+00:12:47.269 --> 00:12:47.279 align:start position:0%
+now I'll disconnect and
+ 
+
+00:12:47.279 --> 00:12:50.990 align:start position:0%
+now I'll disconnect and
+add <00:12:47.729><c>another </c><00:12:48.179><c>lesson </c><00:12:48.629><c>in </c><00:12:49.079><c>the </c><00:12:49.529><c>same </c><00:12:49.979><c>way. </c><00:12:50.429><c>You, </c><00:12:50.879><c>in</c>
+
+00:12:50.990 --> 00:12:51.000 align:start position:0%
+add another lesson in the same way. You, in
+ 
+
+00:12:51.000 --> 00:12:52.509 align:start position:0%
+add another lesson in the same way. You, in
+principle, <00:12:51.248><c>can </c><00:12:51.496><c>do </c><00:12:51.744><c>the </c><00:12:51.992><c>same </c><00:12:52.240><c>so</c>
+
+00:12:52.509 --> 00:12:52.519 align:start position:0%
+principle, can do the same so
+ 
+
+00:12:52.519 --> 00:12:55.629 align:start position:0%
+principle, can do the same so
+that <00:12:52.884><c>we </c><00:12:53.249><c>have </c><00:12:53.614><c>at </c><00:12:53.979><c>least </c><00:12:54.344><c>two </c><00:12:54.709><c>lessons </c><00:12:55.074><c>for</c>
+
+00:12:55.629 --> 00:12:55.639 align:start position:0%
+that we have at least two lessons for
+ 
+
+00:12:55.639 --> 00:12:59.470 align:start position:0%
+that we have at least two lessons for
+output,
+
+00:12:59.470 --> 00:12:59.480 align:start position:0%
+ 
+ 
+
+00:12:59.480 --> 00:13:02.829 align:start position:0%
+ 
+and  <00:12:59.804><c>So </c><00:13:00.128><c>I'm </c><00:13:00.452><c>coming </c><00:13:00.776><c>back, </c><00:13:01.100><c>the </c><00:13:01.424><c>second </c><00:13:01.748><c>lesson </c><00:13:02.072><c>is</c>
+
+00:13:02.829 --> 00:13:02.839 align:start position:0%
+and  So I'm coming back, the second lesson is
+ 
+
+00:13:02.839 --> 00:13:05.750 align:start position:0%
+and  So I'm coming back, the second lesson is
+almost <00:13:03.204><c>added, </c><00:13:03.569><c>that </c><00:13:03.934><c>is, </c><00:13:04.299><c>the </c><00:13:04.664><c>same </c><00:13:05.029><c>thing. </c><00:13:05.394><c>Yes,</c>
+
+00:13:05.750 --> 00:13:05.760 align:start position:0%
+almost added, that is, the same thing. Yes,
+ 
+
+00:13:05.760 --> 00:13:09.269 align:start position:0%
+almost added, that is, the same thing. Yes,
+I <00:13:06.306><c>created </c><00:13:06.852><c>another </c><00:13:07.398><c>folder </c><00:13:07.944><c>in </c><00:13:08.490><c>folder </c><00:13:09.036><c>2808</c>
+
+00:13:09.269 --> 00:13:09.279 align:start position:0%
+I created another folder in folder 2808
+ 
+
+00:13:09.279 --> 00:13:11.230 align:start position:0%
+I created another folder in folder 2808
+for <00:13:09.719><c>a </c><00:13:10.159><c>new </c><00:13:10.599><c>lesson, </c><00:13:11.039><c>mine</c>
+
+00:13:11.230 --> 00:13:11.240 align:start position:0%
+for a new lesson, mine
+ 
+
+00:13:11.240 --> 00:13:13.870 align:start position:0%
+for a new lesson, mine
+is <00:13:11.712><c>called </c><00:13:12.184><c>rupay, </c><00:13:12.656><c>for </c><00:13:13.128><c>example, </c><00:13:13.600><c>I</c>
+
+00:13:13.870 --> 00:13:13.880 align:start position:0%
+is called rupay, for example, I
+ 
+
+00:13:13.880 --> 00:13:17.389 align:start position:0%
+is called rupay, for example, I
+also <00:13:14.245><c>uploaded </c><00:13:14.610><c>pictures </c><00:13:14.975><c>to </c><00:13:15.340><c>it, </c><00:13:15.705><c>I </c><00:13:16.070><c>also </c><00:13:16.435><c>indicated</c>
+
+00:13:17.389 --> 00:13:17.399 align:start position:0%
+also uploaded pictures to it, I also indicated
+ 
+
+00:13:17.399 --> 00:13:20.790 align:start position:0%
+also uploaded pictures to it, I also indicated
+these <00:13:17.789><c>pictures </c><00:13:18.179><c>in </c><00:13:18.569><c>the </c><00:13:18.959><c>code </c><00:13:19.349><c>in </c><00:13:19.739><c>the </c><00:13:20.129><c>code. </c><00:13:20.519><c>Yes,</c>
+
+00:13:20.790 --> 00:13:20.800 align:start position:0%
+these pictures in the code in the code. Yes,
+ 
+
+00:13:20.800 --> 00:13:23.590 align:start position:0%
+these pictures in the code in the code. Yes,
+I <00:13:21.056><c>wrote </c><00:13:21.312><c>the </c><00:13:21.568><c>text </c><00:13:21.824><c>of </c><00:13:22.080><c>the </c><00:13:22.336><c>lesson </c><00:13:22.592><c>and </c><00:13:22.848><c>took </c><00:13:23.104><c>this </c><00:13:23.360><c>code</c>
+
+00:13:23.590 --> 00:13:23.600 align:start position:0%
+I wrote the text of the lesson and took this code
+ 
+
+00:13:23.600 --> 00:13:26.670 align:start position:0%
+I wrote the text of the lesson and took this code
+through <00:13:24.399><c>a </c><00:13:25.198><c>Dream.</c>
+
+00:13:26.670 --> 00:13:26.680 align:start position:0%
+through a Dream.
+ 
+
+00:13:26.680 --> 00:13:30.910 align:start position:0%
+through a Dream.
+Yes, <00:13:27.234><c>and </c><00:13:27.788><c>then </c><00:13:28.342><c>I </c><00:13:28.896><c>pasted </c><00:13:29.450><c>this </c><00:13:30.004><c>code </c><00:13:30.558><c>here</c>
+
+00:13:30.910 --> 00:13:30.920 align:start position:0%
+Yes, and then I pasted this code here
+ 
+
+00:13:30.920 --> 00:13:34.350 align:start position:0%
+Yes, and then I pasted this code here
+in <00:13:31.290><c>the </c><00:13:31.660><c>text, </c><00:13:32.030><c>filled </c><00:13:32.400><c>in </c><00:13:32.770><c>the </c><00:13:33.140><c>remaining </c><00:13:33.510><c>fields </c><00:13:33.880><c>and</c>
+
+00:13:34.350 --> 00:13:34.360 align:start position:0%
+in the text, filled in the remaining fields and
+ 
+
+00:13:34.360 --> 00:13:37.870 align:start position:0%
+in the text, filled in the remaining fields and
+pressed, <00:13:34.990><c>we </c><00:13:35.620><c>have </c><00:13:36.250><c>added </c><00:13:36.880><c>another</c>
+
+00:13:37.870 --> 00:13:37.880 align:start position:0%
+pressed, we have added another
+ 
+
+00:13:37.880 --> 00:13:41.949 align:start position:0%
+pressed, we have added another
+lesson <00:13:38.264><c>to </c><00:13:38.648><c>the </c><00:13:39.032><c>table, </c><00:13:39.416><c>oh, </c><00:13:39.800><c>to </c><00:13:40.184><c>the </c><00:13:40.568><c>lons </c><00:13:40.952><c>table,</c>
+
+00:13:41.949 --> 00:13:41.959 align:start position:0%
+lesson to the table, oh, to the lons table,
+ 
+
+00:13:41.959 --> 00:13:44.310 align:start position:0%
+lesson to the table, oh, to the lons table,
+we <00:13:42.155><c>look </c><00:13:42.351><c>at </c><00:13:42.547><c>the </c><00:13:42.743><c>overview </c><00:13:42.939><c>and </c><00:13:43.135><c>see </c><00:13:43.331><c>that </c><00:13:43.527><c>we </c><00:13:43.723><c>already </c><00:13:43.919><c>have </c><00:13:44.115><c>two</c>
+
+00:13:44.310 --> 00:13:44.320 align:start position:0%
+we look at the overview and see that we already have two
+ 
+
+00:13:44.320 --> 00:13:45.590 align:start position:0%
+we look at the overview and see that we already have two
+lessons <00:13:44.500><c>in </c><00:13:44.680><c>the</c>
+
+00:13:45.590 --> 00:13:45.600 align:start position:0%
+lessons in the
+ 
+
+00:13:45.600 --> 00:13:48.949 align:start position:0%
+lessons in the
+table <00:13:46.034><c>and </c><00:13:46.468><c>we </c><00:13:46.902><c>can </c><00:13:47.336><c>work </c><00:13:47.770><c>with </c><00:13:48.204><c>them. </c><00:13:48.638><c>If,</c>
+
+00:13:48.949 --> 00:13:48.959 align:start position:0%
+table and we can work with them. If,
+ 
+
+00:13:48.959 --> 00:13:51.110 align:start position:0%
+table and we can work with them. If,
+for <00:13:49.295><c>example, </c><00:13:49.631><c>you </c><00:13:49.967><c>add </c><00:13:50.303><c>the </c><00:13:50.639><c>next</c>
+
+00:13:51.110 --> 00:13:51.120 align:start position:0%
+for example, you add the next
+ 
+
+00:13:51.120 --> 00:13:55.509 align:start position:0%
+for example, you add the next
+lesson <00:13:51.544><c>the </c><00:13:51.968><c>next </c><00:13:52.392><c>day, </c><00:13:52.816><c>then </c><00:13:53.240><c>I </c><00:13:53.664><c>will </c><00:13:54.088><c>create </c><00:13:54.512><c>a</c>
+
+00:13:55.509 --> 00:13:55.519 align:start position:0%
+lesson the next day, then I will create a
+ 
+
+00:13:55.519 --> 00:13:59.230 align:start position:0%
+lesson the next day, then I will create a
+new <00:13:55.865><c>folder </c><00:13:56.211><c>in </c><00:13:56.557><c>the </c><00:13:56.903><c>folder </c><00:13:57.249><c>with </c><00:13:57.595><c>another </c><00:13:57.941><c>Date. </c><00:13:58.287><c>Yes, </c><00:13:58.633><c>from</c>
+
+00:13:59.230 --> 00:13:59.240 align:start position:0%
+new folder in the folder with another Date. Yes, from
+ 
+
+00:13:59.240 --> 00:14:03.110 align:start position:0%
+new folder in the folder with another Date. Yes, from
+tomorrow. <00:13:59.605><c>So, </c><00:13:59.970><c>in </c><00:14:00.335><c>exactly </c><00:14:00.700><c>the </c><00:14:01.065><c>same </c><00:14:01.430><c>way, </c><00:14:01.795><c>we</c>
+
+00:14:03.110 --> 00:14:03.120 align:start position:0%
+tomorrow. So, in exactly the same way, we
+ 
+
+00:14:03.120 --> 00:14:06.150 align:start position:0%
+tomorrow. So, in exactly the same way, we
+create <00:14:03.459><c>a </c><00:14:03.798><c>folder </c><00:14:04.137><c>with </c><00:14:04.476><c>the </c><00:14:04.815><c>name </c><00:14:05.154><c>of </c><00:14:05.493><c>the </c><00:14:05.832><c>lesson</c>
+
+00:14:06.150 --> 00:14:06.160 align:start position:0%
+create a folder with the name of the lesson
+ 
+
+00:14:06.160 --> 00:14:08.350 align:start position:0%
+create a folder with the name of the lesson
+and <00:14:06.373><c>throw </c><00:14:06.586><c>an </c><00:14:06.799><c>image </c><00:14:07.012><c>of </c><00:14:07.225><c>this </c><00:14:07.438><c>lesson </c><00:14:07.651><c>into </c><00:14:07.864><c>it. </c><00:14:08.077><c>As</c>
+
+00:14:08.350 --> 00:14:08.360 align:start position:0%
+and throw an image of this lesson into it. As
+ 
+
+00:14:08.360 --> 00:14:11.749 align:start position:0%
+and throw an image of this lesson into it. As
+a <00:14:08.860><c>result, </c><00:14:09.360><c>we </c><00:14:09.860><c>will </c><00:14:10.360><c>have</c>
+
+00:14:11.749 --> 00:14:11.759 align:start position:0%
+a result, we will have
+ 
+
+00:14:11.759 --> 00:14:14.670 align:start position:0%
+a result, we will have
+such <00:14:12.192><c>a </c><00:14:12.625><c>clear </c><00:14:13.058><c>structure </c><00:14:13.491><c>formed </c><00:14:13.924><c>and </c><00:14:14.357><c>we</c>
+
+00:14:14.670 --> 00:14:14.680 align:start position:0%
+such a clear structure formed and we
+ 
+
+00:14:14.680 --> 00:14:17.430 align:start position:0%
+such a clear structure formed and we
+can <00:14:14.928><c>find </c><00:14:15.176><c>the </c><00:14:15.424><c>lesson </c><00:14:15.672><c>we </c><00:14:15.920><c>need </c><00:14:16.168><c>at </c><00:14:16.416><c>any </c><00:14:16.664><c>time </c><00:14:16.912><c>and</c>
+
+00:14:17.430 --> 00:14:17.440 align:start position:0%
+can find the lesson we need at any time and
+ 
+
+00:14:17.440 --> 00:14:20.470 align:start position:0%
+can find the lesson we need at any time and
+correct <00:14:18.160><c>any </c><00:14:18.880><c>image,</c>
+
+00:14:20.470 --> 00:14:20.480 align:start position:0%
+correct any image,
+ 
+
+00:14:20.480 --> 00:14:25.710 align:start position:0%
+correct any image,
+and <00:14:20.999><c>then </c><00:14:21.518><c>Yes, </c><00:14:22.037><c>we </c><00:14:22.556><c>added </c><00:14:23.075><c>two </c><00:14:23.594><c>lessons </c><00:14:24.113><c>to </c><00:14:24.632><c>the</c>
+
+00:14:25.710 --> 00:14:25.720 align:start position:0%
+and then Yes, we added two lessons to the
+ 
+
+00:14:25.720 --> 00:14:29.389 align:start position:0%
+and then Yes, we added two lessons to the
+database. <00:14:26.152><c>Now </c><00:14:26.584><c>we </c><00:14:27.016><c>can </c><00:14:27.448><c>already </c><00:14:27.880><c>start</c>
+
+00:14:29.389 --> 00:14:29.399 align:start position:0%
+database. Now we can already start
+ 
+
+00:14:29.399 --> 00:14:30.910 align:start position:0%
+database. Now we can already start
+forming <00:14:29.759><c>such </c><00:14:30.119><c>a</c>
+
+00:14:30.910 --> 00:14:30.920 align:start position:0%
+forming such a
+ 
+
+00:14:30.920 --> 00:14:34.550 align:start position:0%
+forming such a
+structure <00:14:31.690><c>that </c><00:14:32.460><c>will </c><00:14:33.230><c>display </c><00:14:34.000><c>a</c>
+
+00:14:34.550 --> 00:14:34.560 align:start position:0%
+structure that will display a
+ 
+
+00:14:34.560 --> 00:14:36.470 align:start position:0%
+structure that will display a
+brief <00:14:34.751><c>description </c><00:14:34.942><c>of </c><00:14:35.133><c>the </c><00:14:35.324><c>lesson, </c><00:14:35.515><c>its</c>
+
+00:14:36.470 --> 00:14:36.480 align:start position:0%
+brief description of the lesson, its
+ 
+
+00:14:36.480 --> 00:14:39.990 align:start position:0%
+brief description of the lesson, its
+name, <00:14:39.600><c>date.</c>
+
+00:14:39.990 --> 00:14:40.000 align:start position:0%
+name, date.
+ 
+
+00:14:40.000 --> 00:14:42.670 align:start position:0%
+name, date.
+We'll <00:14:40.314><c>do </c><00:14:40.628><c>this </c><00:14:40.942><c>in </c><00:14:41.256><c>the </c><00:14:41.570><c>next </c><00:14:41.884><c>lesson, </c><00:14:42.198><c>but </c><00:14:42.512><c>for</c>
+
+00:14:42.670 --> 00:14:42.680 align:start position:0%
+We'll do this in the next lesson, but for
+ 
+
+00:14:42.680 --> 00:14:45.350 align:start position:0%
+We'll do this in the next lesson, but for
+now, <00:14:43.293><c>make </c><00:14:43.906><c>sure </c><00:14:44.519><c>you</c>
+
+00:14:45.350 --> 00:14:45.360 align:start position:0%
+now, make sure you
+ 
+
+00:14:45.360 --> 00:14:48.389 align:start position:0%
+now, make sure you
+have <00:14:45.610><c>a </c><00:14:45.860><c>lessons </c><00:14:46.110><c>page </c><00:14:46.360><c>in </c><00:14:46.610><c>your </c><00:14:46.860><c>database </c><00:14:47.110><c>and </c><00:14:47.360><c>that </c><00:14:47.610><c>it </c><00:14:47.860><c>contains </c><00:14:48.110><c>at</c>
+
+00:14:48.389 --> 00:14:48.399 align:start position:0%
+have a lessons page in your database and that it contains at
+ 
+
+00:14:48.399 --> 00:14:52.880 align:start position:0%
+have a lessons page in your database and that it contains at
+least <00:14:48.892><c>two </c><00:14:49.385><c>lesson </c><00:14:49.878><c>posts.</c>
+
