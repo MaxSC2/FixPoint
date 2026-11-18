@@ -31,10 +31,10 @@ final class Session
         $name = preg_replace('/[^A-Za-z0-9_]/', '', (string) $session['name']) ?: 'fixpoint_session';
 
         $savePath = (string) $session['save_path'];
-        if (!is_dir($savePath)) {
+        if ($session['driver'] === 'file' && !is_dir($savePath)) {
             @mkdir($savePath, 0775, true);
         }
-        if (is_dir($savePath) && is_writable($savePath)) {
+        if ($session['driver'] === 'file' && is_dir($savePath) && is_writable($savePath)) {
             session_save_path($savePath);
         }
 
@@ -55,6 +55,10 @@ final class Session
             'httponly' => true,
             'samesite' => (string) $session['samesite'],
         ]);
+
+        if ($session['driver'] === 'database') {
+            session_set_save_handler(new DatabaseSessionHandler(App::instance()->database()->connection()), true);
+        }
 
         if (!@session_start()) {
             throw new RuntimeException('Unable to start the session.');
