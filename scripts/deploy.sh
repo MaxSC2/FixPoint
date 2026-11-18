@@ -71,5 +71,8 @@ done
 
 echo "ERROR: health check did not pass: $HEALTH_URL" >&2
 "${COMPOSE[@]}" ps >&2 || true
-"${COMPOSE[@]}" logs --tail=120 app caddy db >&2 || true
+"${COMPOSE[@]}" logs --tail=120 init app caddy db >&2 || true
+# Remove the one-shot container even on failure so seed credentials are not
+# retained in a stopped container's inspect metadata.
+"${COMPOSE[@]}" rm -f init >/dev/null 2>&1 || true
 exit 1
