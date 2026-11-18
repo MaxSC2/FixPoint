@@ -34,6 +34,10 @@ $iconVariant = match ($categorySlug) {
             <svg viewBox="0 0 40 40" fill="none" focusable="false"><rect x="5" y="18" width="30" height="14" rx="3" stroke="currentColor" stroke-width="1.8"/><path d="M11 18 8 7m21 11 3-11M15 25h.01M21 25h.01M27 25h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M14 13a9 9 0 0 1 12 0M17 16a4.5 4.5 0 0 1 6 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
         <?php elseif ($iconVariant === 'diagnostics'): ?>
             <svg viewBox="0 0 40 40" fill="none" focusable="false"><circle cx="17.5" cy="17.5" r="10.5" stroke="currentColor" stroke-width="1.8"/><path d="m25.5 25.5 8 8M17.5 12v11M12 17.5h11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <?php elseif ($iconVariant === 'software'): ?>
+            <svg viewBox="0 0 40 40" fill="none" focusable="false"><rect x="8" y="4" width="24" height="32" rx="3" stroke="currentColor" stroke-width="1.8"/><path d="M13 13h14M13 19h14M13 25h9" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+        <?php elseif ($iconVariant === 'storage'): ?>
+            <svg viewBox="0 0 40 40" fill="none" focusable="false"><rect x="8" y="4" width="24" height="32" rx="4" stroke="currentColor" stroke-width="1.8"/><path d="M13 12h14M13 18h14M13 24h14" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="26" cy="30" r="1.5" fill="currentColor"/></svg>
         <?php else: ?>
             <svg viewBox="0 0 40 40" fill="none" focusable="false"><rect x="9" y="9" width="22" height="22" rx="4" stroke="currentColor" stroke-width="1.8"/><path d="M15 3v6m10-6v6M15 31v6m10-6v6M3 15h6m-6 10h6m22-10h6m-6 10h6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M15 20h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
         <?php endif; ?>

@@ -98,6 +98,25 @@ $featuredServices = isset($featuredServices) && is_array($featuredServices) ? $f
                 <span class="atelier-service-row__copy"><strong>Периферия</strong><small>Подключение, обслуживание и поиск причин неисправности</small></span>
                 <span class="atelier-service-row__arrow">Выбрать <b aria-hidden="true">↗</b></span>
             </a>
+
+            <a class="atelier-service-row" href="/services?category=network">
+                <span class="atelier-service-row__number">05</span>
+                <span class="atelier-service-row__icon" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none"><rect x="8" y="22" width="32" height="15" rx="3" stroke="currentColor" stroke-width="1.7"/><path d="M15 22 11 9m22 13 4-13M17 29h.01M24 29h.01M31 29h.01M16 16a12 12 0 0 1 16 0" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span>
+                <span class="atelier-service-row__copy"><strong>Сети и Wi-Fi</strong><small>Роутеры, локальные сети и подключение оборудования</small></span>
+                <span class="atelier-service-row__arrow">Выбрать <b aria-hidden="true">↗</b></span>
+            </a>
+            <a class="atelier-service-row" href="/services?category=software">
+                <span class="atelier-service-row__number">06</span>
+                <span class="atelier-service-row__icon" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none"><rect x="8" y="6" width="32" height="36" rx="3" stroke="currentColor" stroke-width="1.7"/><path d="M15 16h18M15 23h18M15 30h11" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span>
+                <span class="atelier-service-row__copy"><strong>Программное обеспечение</strong><small>Операционные системы, настройка и восстановление</small></span>
+                <span class="atelier-service-row__arrow">Выбрать <b aria-hidden="true">↗</b></span>
+            </a>
+            <a class="atelier-service-row" href="/services?category=storage">
+                <span class="atelier-service-row__number">07</span>
+                <span class="atelier-service-row__icon" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none"><rect x="9" y="6" width="30" height="36" rx="4" stroke="currentColor" stroke-width="1.7"/><path d="M15 14h18M15 21h18M15 28h18M15 35h8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="32" cy="35" r="1.4" fill="currentColor"/></svg></span>
+                <span class="atelier-service-row__copy"><strong>Накопители и данные</strong><small>SSD, HDD, перенос и восстановление файлов</small></span>
+                <span class="atelier-service-row__arrow">Выбрать <b aria-hidden="true">↗</b></span>
+            </a>
         </div>
         <div class="atelier-services__foot" data-reveal>
             <span>Нужна конкретная работа?</span>

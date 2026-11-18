@@ -51,7 +51,7 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
 
         <?php if ($services !== []): ?>
             <div class="catalog-results" data-reveal>
-                <div class="catalog-results__heading"><h2>Доступные услуги</h2><span><?= e((string) count($services)) ?> в списке</span></div>
+                <div class="catalog-results__heading"><h2>Доступные услуги</h2><span><?= e((string) ($pagination['total'] ?? count($services))) ?> всего · <?= e((string) count($services)) ?> на странице</span></div>
                 <div class="service-grid">
                     <?php foreach ($services as $service): ?>
                         <?php require dirname(__DIR__, 3) . '/components/service-card.php'; ?>
