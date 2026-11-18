@@ -14,7 +14,7 @@ final class MigrationTest extends IntegrationTestCase
         $migrator = new Migrator(app()->config(), app()->logger());
 
         $status = $migrator->status();
-        $this->assertCount(8, $status);
+        $this->assertCount(9, $status);
         foreach ($status as $row) {
             $this->assertFalse($row['pending'], 'Pending migration: ' . $row['migration']);
         }
@@ -65,7 +65,7 @@ final class MigrationTest extends IntegrationTestCase
             'SELECT migration, checksum FROM schema_migrations ORDER BY migration'
         )->fetchAll();
 
-        $this->assertCount(8, $rows);
+        $this->assertCount(9, $rows);
         foreach ($rows as $row) {
             $this->assertSame(64, strlen((string) $row['checksum']));
         }
