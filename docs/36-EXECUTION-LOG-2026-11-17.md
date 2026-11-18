@@ -27,6 +27,8 @@
 | `docs/33-OWNER-UX-FEEDBACK-2026-11-17.md` | Перенесён из `origin/docs/owner-ux-feedback-2026-11-17`; статусы 1–6 обновлены под `84bd094` |
 | `docs/35-TRANSCRIPT-RIGHTS-2026-11-18.md` | Новый: права, ToS, список публичных файлов, варианты и рекомендация |
 | `docs/36-EXECUTION-LOG-2026-11-17.md` | Этот журнал |
+| `docs/37-MODULE4-AUDIT-CHECKPOINT-2026-11-18.md` | Финальная контрольная точка: SHA, run IDs, результаты |
+| `.gitignore` | Исключены `__pycache__`, `artifacts/`, `.playwright-mcp/`, локальные `qa-*.png` |
 | `scripts/assignment/validate_transcripts.py` | Новый валидатор пакета |
 | `scripts/assignment/tests/test_validate_transcripts.py` | Новый: 9 unit-тестов |
 | `scripts/assignment/extract_module4.py` | `--local-transcripts`, раздельный live/local отчёт, exit 1 при провале локальной проверки |
@@ -101,13 +103,17 @@ Workflow обновлён: unit-тесты → установка `yt-dlp` → e
 
 ## 5. GitHub Actions
 
+Корректирующий коммит: `23a8544`.
+
 | Workflow | Run | Статус | Результат |
 |---|---|---|---|
-| CI | записывается в docs/37 | — | — |
-| Browser QA | не триггерится | — | Изменения только `docs/**`, `scripts/**`, `.github/**`; нет `app/**`/`public/**` |
-| Module 4 source audit | записывается в docs/37 | — | Live-проба + локальный пакет |
+| CI | [44283729740](https://github.com/MaxSC2/FixPoint/actions/runs/44283729740) | ✅ PASS | 190 тестов, 0 failed, 1954 assertions; lint 138; smoke 30/30; Docker Compose runtime success |
+| Browser QA | [44283729544](https://github.com/MaxSC2/FixPoint/actions/runs/44283729544) | ✅ PASS | 159 captures; 0 HTTP errors; 0 overflow; 0 browser/fatal errors; 0 accessibility violations |
+| Module 4 source audit | [44283729513](https://github.com/MaxSC2/FixPoint/actions/runs/44283729513) | ✅ PASS | Unit-тесты валидатора success; локальный пакет PASS 31/31, IDs match; live YouTube probe — 31 × `blocked_by_youtube` |
 
-Точные run IDs и SHA корректирующего коммита фиксируются в `docs/37-...CHECKPOINT` после push.
+Source Audit подтверждает именно то, что заявлено: live-эндпоинт в CI заблокирован (unverified), локальный пакет провалидирован. Это не подтверждение ручного просмотра и не семантическая проверка распознавания.
+
+Точные SHA и следующий шаг — `docs/37-MODULE4-AUDIT-CHECKPOINT-2026-11-18.md`.
 
 ## 6. Открытые вопросы владельцу
 
