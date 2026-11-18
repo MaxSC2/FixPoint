@@ -63,14 +63,21 @@ final class Database
             $withDatabase ? ';dbname=' . $database['name'] : ''
         );
 
-        $pdo = new PDO($dsn, (string) $database['username'], (string) $database['password'], [
+        $options = [
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
             PDO::ATTR_EMULATE_PREPARES => false,
             PDO::ATTR_STRINGIFY_FETCHES => false,
             PDO::ATTR_PERSISTENT => false,
-            PDO::ATTR_TIMEOUT => 5,
-        ]);
+            PDO::ATTR_TIMEOUT => (int) $database['connect_timeout'],
+        ];
+
+        if ($database['ssl']) {
+            $options[PDO::MYSQL_ATTR_SSL_CA] = (string) $database['ssl_ca'];
+            $options[PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT] = true;
+        }
+
+        $pdo = new PDO($dsn, (string) $database['username'], (string) $database['password'], $options);
 
         // Keep TIMESTAMP math predictable: the application exchanges UTC with MySQL.
         $pdo->exec("SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci");
