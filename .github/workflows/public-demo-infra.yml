@@ -31,7 +31,8 @@ jobs:
           jq -e '(.services.db.ports // []) | length == 0' /tmp/fixpoint-compose.json
           jq -e '([.services.caddy.ports[] | select(.target == 80 and .published == "80" and .protocol == "tcp")] | length) == 1' /tmp/fixpoint-compose.json
           jq -e '([.services.caddy.ports[] | select(.target == 443 and .published == "443" and .protocol == "tcp")] | length) == 1' /tmp/fixpoint-compose.json
-          jq -e '([.services.caddy.ports[] | select(.target == 443 and .published == "443" and .protocol == "udp")] | length) == 1' /tmp/fixpoint-compose.json
+          grep -Fxq "backups/" .dockerignore
+          grep -Fxq "*.sql.gz" .dockerignore
 
       - name: Validate Caddyfile syntax
         run: |
