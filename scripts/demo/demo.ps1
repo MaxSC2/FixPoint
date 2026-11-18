@@ -102,6 +102,7 @@ if ([string]::IsNullOrWhiteSpace($MysqlRoot)) {
 
 $MysqlExe = Join-Path $MysqlRoot 'mysql\bin\mysql.exe'
 $MysqldExe = Join-Path $MysqlRoot 'mysql\bin\mysqld.exe'
+$MysqlAdminExe = Join-Path $MysqlRoot 'mysql\bin\mysqladmin.exe'
 
 function Test-Port {
     param([int]$Port)
@@ -208,9 +209,30 @@ function Stop-Demo {
         Write-Host ("Stopped Adminer (PID {0})." -f $state.adminer_pid)
     }
 
-    if ($state.mysql_started -and (Test-Alive $state.mysql_pid)) {
-        Stop-Process -Id ([int]$state.mysql_pid) -Force -ErrorAction SilentlyContinue
-        Write-Host ("Stopped MySQL (PID {0})." -f $state.mysql_pid)
+    if ($state.mysql_started) {
+        Write-Host 'Stopping MySQL...'
+        if (Test-Path -LiteralPath $MysqlAdminExe) {
+            & $MysqlAdminExe --protocol=TCP -h $DbHost -P $DbPort -u root shutdown 2>$null
+            $deadline = (Get-Date).AddSeconds(30)
+            while ((Test-Port $DbPort) -and (Get-Date) -lt $deadline) {
+                Start-Sleep -Milliseconds 500
+            }
+        }
+
+        if (Test-Port $DbPort) {
+            # Targeted fallback: only mysqld processes from our portable root.
+            $mysqlProcesses = @(Get-CimInstance Win32_Process -Filter "Name='mysqld.exe'" -ErrorAction SilentlyContinue |
+                Where-Object { $_.CommandLine -and $_.CommandLine.Contains($MysqlRoot) })
+            foreach ($mysqlProcess in $mysqlProcesses) {
+                Stop-Process -Id ([int]$mysqlProcess.ProcessId) -Force -ErrorAction SilentlyContinue
+            }
+        }
+
+        if (Test-Port $DbPort) {
+            Write-Warning "MySQL is still listening on $DbPort. Stop it manually."
+        } else {
+            Write-Host 'MySQL stopped.'
+        }
     } elseif (Test-Port $DbPort) {
         Write-Host 'MySQL was already running before the demo; it is left running.'
     }
@@ -253,7 +275,12 @@ if (-not (Test-Port $DbPort)) {
         throw "mysqld.exe was not found: $MysqldExe. Set FIXPOINT_MYSQL_DIR to the portable MySQL folder."
     }
 
-    $mysqlLog = Join-Path $LogDir 'mysql.log'
+    # MySQL 8.4 on Windows cannot open a --log-error path below a profile
+    # directory with non-ASCII characters. Keep MySQL logs next to the portable
+    # installation, which is an ASCII path.
+    $mysqlLog = Join-Path $MysqlRoot 'demo-mysql.log'
+    $mysqlOut = Join-Path $MysqlRoot 'demo-mysql.out.log'
+    $mysqlErr = Join-Path $MysqlRoot 'demo-mysql.err.log'
     $mysqlBaseDir = Join-Path $MysqlRoot 'mysql'
     $mysqlDataDir = Join-Path $MysqlRoot 'data'
 
@@ -263,11 +290,11 @@ if (-not (Test-Port $DbPort)) {
         "--port=$DbPort",
         '--bind-address=127.0.0.1',
         '--mysqlx=0',
-        "--log-error=`"$mysqlLog`"",
-        '--console'
+        "--log-error=`"$mysqlLog`""
     )
 
-    $mysqlProcess = Start-Process -FilePath $MysqldExe -ArgumentList $mysqlArguments -WindowStyle Hidden -PassThru
+    $mysqlProcess = Start-Process -FilePath $MysqldExe -ArgumentList $mysqlArguments -WindowStyle Hidden -PassThru `
+        -RedirectStandardOutput $mysqlOut -RedirectStandardError $mysqlErr
 
     $deadline = (Get-Date).AddSeconds(60)
     while (-not (Test-Port $DbPort) -and (Get-Date) -lt $deadline) {
@@ -280,9 +307,12 @@ if (-not (Test-Port $DbPort)) {
         }
         $tail = @()
         if (Test-Path -LiteralPath $mysqlLog) {
-            $tail = Get-Content -LiteralPath $mysqlLog -Tail 15 -ErrorAction SilentlyContinue
+            $tail += Get-Content -LiteralPath $mysqlLog -Tail 15 -ErrorAction SilentlyContinue
         }
-        throw ("MySQL did not start. Log: $mysqlLog`n" + ($tail -join "`n"))
+        if (Test-Path -LiteralPath $mysqlErr) {
+            $tail += Get-Content -LiteralPath $mysqlErr -Tail 15 -ErrorAction SilentlyContinue
+        }
+        throw ("MySQL did not start. Logs: $mysqlLog / $mysqlErr`n" + ($tail -join "`n"))
     }
 
     $mysqlStarted = $true
@@ -294,8 +324,23 @@ if (-not (Test-Port $DbPort)) {
 
 # Refuse to use a MySQL instance that is reachable beyond loopback. This also
 # verifies that the local root account is usable before any grant is changed.
-$bindAddress = (& $MysqlExe --protocol=TCP -h $DbHost -P $DbPort -u root --skip-column-names --batch -e 'SELECT @@bind_address;' 2>$null | Select-Object -First 1)
-if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrWhiteSpace($bindAddress)) {
+# The TCP listener can accept connections a moment before authentication is
+# ready, so retry briefly instead of failing on the first probe.
+$bindAddress = $null
+$bindDeadline = (Get-Date).AddSeconds(30)
+do {
+    $bindRaw = & $MysqlExe --protocol=TCP -h $DbHost -P $DbPort -u root --skip-column-names --batch -e 'SELECT @@bind_address;' 2>$null
+    $bindExit = $LASTEXITCODE
+    if ($bindExit -eq 0 -and $bindRaw) {
+        $bindAddress = ($bindRaw | Select-Object -First 1)
+    }
+    if (-not [string]::IsNullOrWhiteSpace($bindAddress)) {
+        break
+    }
+    Start-Sleep -Milliseconds 500
+} while ((Get-Date) -lt $bindDeadline)
+
+if ([string]::IsNullOrWhiteSpace($bindAddress)) {
     throw 'Cannot verify the MySQL bind address. Is the local root account available?'
 }
 $bindAddress = $bindAddress.Trim()

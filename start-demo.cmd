@@ -12,5 +12,5 @@ if %errorlevel%==0 (
 
 set "EXITCODE=%errorlevel%"
 echo.
-pause
+if not defined FIXPOINT_NO_PAUSE pause
 exit /b %EXITCODE%
