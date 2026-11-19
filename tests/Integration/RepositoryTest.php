@@ -94,4 +94,35 @@ final class RepositoryTest extends IntegrationTestCase
         $this->assertSame(12, $filtered['pagination']['total']);
         $this->assertSame('diagnostics', $filtered['filters']['category']);
     }
+    public function testCatalogPaginationReturnsEveryActiveServiceExactlyOnce(): void
+    {
+        $catalog = app()->make(CatalogService::class);
+        $firstPage = $catalog->search('', '', 1);
+        $pagination = $firstPage['pagination'];
+        $allIds = [];
+        $pageSizes = [];
+
+        for ($page = 1; $page <= $pagination['last_page']; $page++) {
+            $result = $catalog->search('', '', $page);
+            $this->assertSame($page, $result['pagination']['current_page']);
+            $pageSizes[] = count($result['items']);
+
+            foreach ($result['items'] as $service) {
+                $allIds[] = (int) $service['id'];
+            }
+        }
+
+        foreach ($pageSizes as $index => $pageSize) {
+            $expectedSize = min(
+                $pagination['per_page'],
+                $pagination['total'] - ($index * $pagination['per_page'])
+            );
+            $this->assertSame($expectedSize, $pageSize);
+        }
+
+        $this->assertSame($pagination['total'], count($allIds));
+        $this->assertSame(count($allIds), count(array_unique($allIds)));
+        $this->assertSame(0, $pagination['per_page'] % 12);
+    }
+
 }
