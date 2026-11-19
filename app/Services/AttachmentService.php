@@ -299,10 +299,11 @@ final class AttachmentService
 
         $contents = file_get_contents($path);
         if ($contents === false) {
-            throw new \RuntimeException('Unable to read stored image for processing.');
+            throw new \\RuntimeException('Unable to read stored image for processing.');
         }
 
         $image = @imagecreatefromstring($contents);
+        unset($contents);
         if ($image === false) {
             throw new ValidationException(['attachments' => 'Не удалось декодировать изображение.']);
         }
@@ -312,26 +313,28 @@ final class AttachmentService
 
         try {
             if ($mimeType === 'image/jpeg') {
-                $canvas = imagecreatetruecolor(imagesx($image), imagesy($image));
-                $white = imagecolorallocate($canvas, 255, 255, 255);
-                imagefill($canvas, 0, 0, $white);
-                imagecopy($canvas, $image, 0, 0, 0, 0, imagesx($image), imagesy($image));
-                $written = imagejpeg($canvas, $temporary, 88);
-                imagedestroy($canvas);
+                // JPEG has no alpha channel, so a second full-size canvas is
+                // unnecessary and would double peak memory for large photos.
+                $written = imagejpeg($image, $temporary, 88);
             } elseif ($mimeType === 'image/png') {
                 imagealphablending($image, false);
                 imagesavealpha($image, true);
                 $written = imagepng($image, $temporary, 6);
             } elseif ($mimeType === 'image/webp' && function_exists('imagewebp')) {
                 $written = imagewebp($image, $temporary, 88);
+            } else {
+                throw new ValidationException([
+                    'attachments' => 'Сервер не может безопасно обработать этот формат изображения.',
+                ]);
             }
 
-            if ($written && is_file($temporary) && filesize($temporary) > 0) {
-                if (!rename($temporary, $path)) {
-                    throw new \RuntimeException('Unable to replace image with sanitized version.');
-                }
-                @chmod($path, 0640);
+            if (!$written || !is_file($temporary) || filesize($temporary) < 1) {
+                throw new \\RuntimeException('Unable to re-encode uploaded image.');
             }
+            if (!rename($temporary, $path)) {
+                throw new \\RuntimeException('Unable to replace image with sanitized version.');
+            }
+            @chmod($path, 0640);
         } finally {
             imagedestroy($image);
             if (is_file($temporary)) {

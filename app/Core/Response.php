@@ -38,11 +38,12 @@ final class Response
     }
 
     /** @param array<string, string> $headers */
-    public static function binary(string $body, string $contentType, array $headers = []): self
-    {
-        $status = isset($headers[':status']) ? (int) $headers[':status'] : 200;
-        unset($headers[':status']);
-
+    public static function binary(
+        string $body,
+        string $contentType,
+        array $headers = [],
+        int $status = 200
+    ): self {
         return new self($status, array_merge([
             'Content-Type' => $contentType,
         ], $headers), $body);

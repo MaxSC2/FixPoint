@@ -16,6 +16,7 @@ final class AttachmentHttpTest extends IntegrationTestCase
     private const CUSTOMER = 'customer.kovalev@fixpoint.test';
     private const OTHER_CUSTOMER = 'customer.ivanova@fixpoint.test';
     private const TECHNICIAN = 'master.ivanov@fixpoint.test';
+    private const OTHER_TECHNICIAN = 'master.smirnova@fixpoint.test';
 
     /** @var list<string> */
     private array $temporaryPaths = [];
@@ -84,6 +85,14 @@ final class AttachmentHttpTest extends IntegrationTestCase
         $this->assertTrue(is_array($attachment));
         $this->assertSame('image/png', $attachment['mime_type']);
         $this->assertNotContains('/public/', (string) $attachment['storage_key']);
+        $privatePath = rtrim((string) app()->config()->get('paths.base'), DIRECTORY_SEPARATOR)
+            . DIRECTORY_SEPARATOR . 'storage' . DIRECTORY_SEPARATOR . 'private'
+            . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, (string) $attachment['storage_key']);
+        $this->assertTrue(is_file($privatePath));
+        $this->assertFalse(is_file(
+            rtrim((string) app()->config()->get('paths.base'), DIRECTORY_SEPARATOR)
+            . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, (string) $attachment['storage_key'])
+        ));
 
         $url = '/requests/' . $requestId . '/attachments/' . (int) $attachment['id'];
         $image = app()->handle(Request::create('GET', $url));
@@ -103,6 +112,16 @@ final class AttachmentHttpTest extends IntegrationTestCase
         $this->loginAs(self::OTHER_CUSTOMER);
         $foreign = app()->handle(Request::create('GET', $url));
         $this->assertSame(404, $foreign->status());
+
+        $this->logout();
+        $this->loginAs(self::TECHNICIAN);
+        $assignedTechnician = app()->handle(Request::create('GET', $url));
+        $this->assertSame(200, $assignedTechnician->status());
+
+        $this->logout();
+        $this->loginAs(self::OTHER_TECHNICIAN);
+        $unassignedTechnician = app()->handle(Request::create('GET', $url));
+        $this->assertSame(404, $unassignedTechnician->status());
     }
 
     public function testChatSupportsImageOnlyMessagesAndRendersTheirAttachments(): void
@@ -196,6 +215,36 @@ final class AttachmentHttpTest extends IntegrationTestCase
         $page = app()->handle(Request::create('GET', '/requests/create'));
         $this->assertSame(200, $page->status());
         $this->assertContains('Поддерживаются только изображения JPEG, PNG и WebP.', $page->body());
+
+        $count = $this->pdo()->prepare(
+            "SELECT COUNT(*) FROM repair_requests WHERE problem_description = :problem"
+        );
+        $count->execute(['problem' => $this->requestData()['problem_description']]);
+        $this->assertSame(0, (int) $count->fetchColumn());
+    }
+
+    public function testSvgAndOversizedFilesAreRejected(): void
+    {
+        $this->loginAs(self::CUSTOMER);
+
+        $svg = $this->temporaryFile(
+            'vector.svg',
+            '<svg xmlns="http://www.w3.org/2000/svg" onload="alert(1)"><rect width="10" height="10"/></svg>'
+        );
+        $svgResponse = $this->postWithFiles('/requests/create', $this->requestData(), [
+            UploadedFile::forTesting($svg, 'vector.svg'),
+        ]);
+        $this->assertSame(302, $svgResponse->status());
+        $svgPage = app()->handle(Request::create('GET', '/requests/create'));
+        $this->assertContains('Поддерживаются только изображения JPEG, PNG и WebP.', $svgPage->body());
+
+        $oversized = $this->temporaryFile('oversized.png', str_repeat('x', (8 * 1024 * 1024) + 1));
+        $sizeResponse = $this->postWithFiles('/requests/create', $this->requestData(), [
+            UploadedFile::forTesting($oversized, 'oversized.png'),
+        ]);
+        $this->assertSame(302, $sizeResponse->status());
+        $sizePage = app()->handle(Request::create('GET', '/requests/create'));
+        $this->assertContains('Размер каждого изображения не должен превышать 8 МБ.', $sizePage->body());
 
         $count = $this->pdo()->prepare(
             "SELECT COUNT(*) FROM repair_requests WHERE problem_description = :problem"
