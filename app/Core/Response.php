@@ -37,6 +37,17 @@ final class Response
         ], $headers), $body);
     }
 
+    /** @param array<string, string> $headers */
+    public static function binary(string $body, string $contentType, array $headers = []): self
+    {
+        $status = isset($headers[':status']) ? (int) $headers[':status'] : 200;
+        unset($headers[':status']);
+
+        return new self($status, array_merge([
+            'Content-Type' => $contentType,
+        ], $headers), $body);
+    }
+
     public static function text(string $body, int $status = 200): self
     {
         return new self($status, ['Content-Type' => 'text/plain; charset=UTF-8'], $body);

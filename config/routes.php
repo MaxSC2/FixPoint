@@ -11,6 +11,7 @@ use FixPoint\Controllers\AdminServiceController;
 use FixPoint\Controllers\AdminStatisticsController;
 use FixPoint\Controllers\AdminUserController;
 use FixPoint\Controllers\AuthController;
+use FixPoint\Controllers\AttachmentController;
 use FixPoint\Controllers\ChatController;
 use FixPoint\Controllers\HealthController;
 use FixPoint\Controllers\HomeController;
@@ -43,6 +44,7 @@ return static function (Router $router, App $app): void {
     $router->post('/logout', [AuthController::class, 'logout'], [AuthMiddleware::class]);
 
     $router->get('/messages', [ChatController::class, 'index'], [AuthMiddleware::class]);
+    $router->get('/requests/{id:\\d+}/attachments/{attachmentId:\\d+}', [AttachmentController::class, 'show'], [AuthMiddleware::class]);
     $router->post('/messages/{id:\\d+}/read', [ChatController::class, 'markRead'], [AuthMiddleware::class]);
 
     $router->get(

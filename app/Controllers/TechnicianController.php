@@ -12,6 +12,7 @@ use FixPoint\Core\ValidationException;
 use FixPoint\Core\ViewRenderer;
 use FixPoint\Security\Auth;
 use FixPoint\Security\Csrf;
+use FixPoint\Services\AttachmentService;
 use FixPoint\Services\ChatService;
 use FixPoint\Services\RequestService;
 
@@ -29,7 +30,8 @@ final class TechnicianController extends Controller
         Csrf $csrf,
         Session $session,
         private readonly RequestService $requestService,
-        private readonly ChatService $chatService
+        private readonly ChatService $chatService,
+        private readonly AttachmentService $attachmentService
     ) {
         parent::__construct($config, $view, $auth, $csrf, $session);
     }
@@ -69,6 +71,7 @@ final class TechnicianController extends Controller
             'history' => $this->requestService->history($requestId),
             'comments' => $this->requestService->staffComments($requestId, $user),
             'chatMessages' => $this->chatService->messagesForRequest($row, $user),
+            'requestAttachments' => $this->attachmentService->requestImages($requestId),
             'permissions' => $this->requestService->staffPermissions($row, $user),
             'allowedTransitions' => $this->requestService->allowedTransitionsFor($row, $user),
         ]);
@@ -141,7 +144,7 @@ final class TechnicianController extends Controller
         $body = $this->stringPost($request, 'body');
 
         try {
-            $this->chatService->postMessage($requestId, $user, $body);
+            $this->chatService->postMessage($requestId, $user, $body, $request->files('attachments'));
         } catch (ValidationException $exception) {
             $this->flashValidation($exception);
 
