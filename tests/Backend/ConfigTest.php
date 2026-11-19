@@ -46,6 +46,58 @@ final class ConfigTest extends TestCase
         }
     }
 
+    public function testCatalogPageSizeRejectsUnbalancedGridValues(): void
+    {
+        $this->withEnvironmentValue('CATALOG_PER_PAGE', '14', function (): void {
+            $this->expectException(
+                InvalidArgumentException::class,
+                static fn () => Config::fromEnvironment(BASE_PATH)
+            );
+        });
+    }
+
+    public function testCatalogPageSizeAcceptsMultiplesOfTwelve(): void
+    {
+        foreach ([12, 24, 36, 48] as $perPage) {
+            $this->withEnvironmentValue('CATALOG_PER_PAGE', (string) $perPage, function () use ($perPage): void {
+                $config = Config::fromEnvironment(BASE_PATH);
+                $this->assertSame($perPage, $config->get('catalog.per_page'));
+            });
+        }
+    }
+
+    /**
+     * Temporarily overrides a process variable without leaking it to later tests.
+     */
+    private function withEnvironmentValue(string $key, string $value, callable $callback): mixed
+    {
+        $original = getenv($key);
+        $hadEnv = array_key_exists($key, $_ENV);
+        $envValue = $_ENV[$key] ?? null;
+        $hadServer = array_key_exists($key, $_SERVER);
+        $serverValue = $_SERVER[$key] ?? null;
+
+        putenv($key . '=' . $value);
+
+        try {
+            return $callback();
+        } finally {
+            $original === false ? putenv($key) : putenv($key . '=' . $original);
+
+            if ($hadEnv) {
+                $_ENV[$key] = $envValue;
+            } else {
+                unset($_ENV[$key]);
+            }
+
+            if ($hadServer) {
+                $_SERVER[$key] = $serverValue;
+            } else {
+                unset($_SERVER[$key]);
+            }
+        }
+    }
+
     private function expectException(string $class, callable $callback): void
     {
         try {
