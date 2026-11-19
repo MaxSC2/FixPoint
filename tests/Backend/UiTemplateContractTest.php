@@ -470,7 +470,12 @@ final class UiTemplateContractTest extends TestCase
         $this->assertContains('name="email"', $edit);
         $this->assertContains('name="role"', $edit);
         $this->assertContains('name="is_active"', $edit);
-        $this->assertNotContains('name="password"', $edit);
+        // An administrator may reset a password, but the field stays empty and
+        // the password is never taken from the old input.
+        $this->assertContains('name="password"', $edit);
+        $this->assertContains('name="password_confirmation"', $edit);
+        $this->assertNotContains('$old' . "['password']", $edit);
+        $this->assertNotContains('password_hash', $edit);
     }
 
 

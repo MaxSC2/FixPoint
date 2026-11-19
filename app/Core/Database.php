@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace FixPoint\Core;
 
+use DateTimeImmutable;
+use DateTimeZone;
 use PDO;
 use PDOException;
 
@@ -72,10 +74,35 @@ final class Database
             PDO::ATTR_TIMEOUT => 5,
         ]);
 
-        // Keep TIMESTAMP math predictable: the application exchanges UTC with MySQL.
+        // The database has to work in the same timezone as the application.
+        // Otherwise MySQL writes CURRENT_TIMESTAMP in one base while PHP writes
+        // dates in another, and the interface shows times that differ by the
+        // UTC offset. Named zones need the MySQL timezone tables, which a
+        // portable installation does not always ship, so the numeric offset of
+        // APP_TIMEZONE is used.
         $pdo->exec("SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci");
-        $pdo->exec("SET time_zone = '+00:00'");
+        $pdo->exec('SET time_zone = ' . $this->quoteTimeZone());
 
         return $pdo;
+    }
+
+    /** Numeric UTC offset of the application timezone, for example '+05:00'. */
+    private function quoteTimeZone(): string
+    {
+        $name = trim((string) $this->config->get('app.timezone', 'UTC'));
+        if ($name === '') {
+            $name = 'UTC';
+        }
+
+        $offset = (new DateTimeImmutable('now', new DateTimeZone($name)))->getOffset();
+        $sign = $offset < 0 ? '-' : '+';
+        $absolute = abs($offset);
+
+        return sprintf(
+            "'%s%02d:%02d'",
+            $sign,
+            intdiv($absolute, 3600),
+            intdiv($absolute % 3600, 60)
+        );
     }
 }

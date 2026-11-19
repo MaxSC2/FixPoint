@@ -50,6 +50,35 @@ require dirname(__DIR__, 2) . '/layouts/header.php';
             <?php endif; ?>
         </section>
 
+        <section class="account-security" data-reveal>
+            <div class="account-security__intro">
+                <span class="eyebrow">Безопасность</span>
+                <h2>Смена пароля.</h2>
+                <p>Новый пароль — не короче 8 символов, хотя бы одна буква и одна цифра. После смены пароля войдите с ним заново.</p>
+            </div>
+            <form class="account-security__form" method="post" action="/account/password">
+                <input type="hidden" name="_token" value="<?= e($csrfToken ?? '') ?>">
+                <label class="field<?= isset($errors['current_password']) ? ' field--invalid' : '' ?>" for="account-current-password">
+                    <span class="field__label">Текущий пароль</span>
+                    <input id="account-current-password" type="password" name="current_password" autocomplete="current-password" required<?= isset($errors['current_password']) ? ' aria-invalid="true" aria-describedby="account-current-password-error"' : '' ?>>
+                    <?php if (isset($errors['current_password'])): ?><small class="field__error" id="account-current-password-error"><?= e((string) $errors['current_password']) ?></small><?php endif; ?>
+                </label>
+                <label class="field<?= isset($errors['password']) ? ' field--invalid' : '' ?>" for="account-new-password">
+                    <span class="field__label">Новый пароль</span>
+                    <input id="account-new-password" type="password" name="password" autocomplete="new-password" required<?= isset($errors['password']) ? ' aria-invalid="true" aria-describedby="account-new-password-error"' : '' ?>>
+                    <?php if (isset($errors['password'])): ?><small class="field__error" id="account-new-password-error"><?= e((string) $errors['password']) ?></small><?php endif; ?>
+                </label>
+                <label class="field<?= isset($errors['password_confirmation']) ? ' field--invalid' : '' ?>" for="account-password-confirmation">
+                    <span class="field__label">Повторите новый пароль</span>
+                    <input id="account-password-confirmation" type="password" name="password_confirmation" autocomplete="new-password" required<?= isset($errors['password_confirmation']) ? ' aria-invalid="true" aria-describedby="account-password-confirmation-error"' : '' ?>>
+                    <?php if (isset($errors['password_confirmation'])): ?><small class="field__error" id="account-password-confirmation-error"><?= e((string) $errors['password_confirmation']) ?></small><?php endif; ?>
+                </label>
+                <div class="account-security__actions">
+                    <button class="button button--primary" type="submit">Изменить пароль</button>
+                </div>
+            </form>
+        </section>
+
         <section class="account-guide" data-reveal>
             <div class="account-guide__intro">
                 <span class="eyebrow">Как устроен процесс</span>

@@ -465,6 +465,10 @@ SESSION_LIFETIME=120
 SESSION_SECURE=false
 SESSION_SAMESITE=Lax
 CATALOG_PER_PAGE=12
+CONTACT_ADDRESS=Демо-сервис FixPoint, Алматы, пр. Демонстрационный, 12, офис 3
+CONTACT_PHONE=+7 700 000 00 00
+CONTACT_EMAIL=demo@fixpoint.test
+CONTACT_WORKING_HOURS=Пн–Пт 10:00–19:00, Сб 11:00–15:00, Вс — выходной
 "@
 $utf8NoBom = New-Object System.Text.UTF8Encoding($false)
 [System.IO.File]::WriteAllText((Join-Path $AppDir '.env'), $runtimeEnv, $utf8NoBom)

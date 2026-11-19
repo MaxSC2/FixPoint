@@ -208,9 +208,11 @@ if (!function_exists('format_datetime')) {
         }
 
         try {
-            $date = new DateTimeImmutable($value, new DateTimeZone('UTC'));
+            // The database connection works in the application timezone, so a
+            // stored timestamp is already local time and must not be shifted.
+            $date = new DateTimeImmutable($value, new DateTimeZone((string) config('app.timezone', 'UTC')));
 
-            return $date->setTimezone(new DateTimeZone((string) config('app.timezone', 'UTC')))->format($format);
+            return $date->format($format);
         } catch (Throwable) {
             return '—';
         }

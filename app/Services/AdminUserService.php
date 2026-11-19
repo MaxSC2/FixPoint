@@ -117,6 +117,20 @@ final class AdminUserService
         $isActive = $this->parseActive($input, (int) ($existing['is_active'] ?? 0));
         $errors = [];
 
+        // An empty password field leaves the password untouched; a filled one
+        // resets it and clears any login lock.
+        $password = trim((string) ($input['password'] ?? ''));
+        $passwordConfirmation = (string) ($input['password_confirmation'] ?? '');
+        if ($password !== '') {
+            $policyError = PasswordHasher::policyError($password);
+            if ($policyError !== null) {
+                $errors['password'] = $policyError;
+            }
+            if ($password !== $passwordConfirmation) {
+                $errors['password_confirmation'] = 'Пароли не совпадают.';
+            }
+        }
+
         if ($isActive === null) {
             $errors['is_active'] = 'Некорректное состояние учётной записи.';
             $isActive = (int) ($existing['is_active'] ?? 0) === 1;
@@ -154,6 +168,11 @@ final class AdminUserService
                 $data['role'],
                 $isActive
             );
+
+            if ($password !== '') {
+                $this->users->updatePasswordHash($id, $this->hasher->hash($password));
+                $this->users->clearLoginFailures($id);
+            }
         } catch (PDOException $exception) {
             if ((string) $exception->getCode() === '23000') {
                 throw new ValidationException(['email' => 'Пользователь с таким email уже существует.']);

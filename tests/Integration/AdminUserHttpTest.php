@@ -221,7 +221,9 @@ final class AdminUserHttpTest extends IntegrationTestCase
         $this->assertContains('value="+7 700 777 88 99"', $body);
         $this->assertContains('name="_token"', $body);
         $this->assertContains('name="is_active"', $body);
-        $this->assertNotContains('name="password"', $body);
+        // The password reset field is present, but it is never prefilled and
+        // the stored hash never reaches the page.
+        $this->assertContains('name="password"', $body);
         $this->assertNotContains('password_hash', $body);
         $this->assertNotContains('$2y$', $body);
 

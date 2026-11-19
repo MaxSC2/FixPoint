@@ -31,6 +31,7 @@ $requestCtaLabel = in_array($authUser['role'] ?? null, ['technician', 'admin'], 
             <div class="contact-row"><span class="contact-row__icon" aria-hidden="true">☎</span><div><strong>Телефон</strong><p><?= $contactPhone !== '' ? e($contactPhone) : 'Телефон пока не указан.' ?></p></div></div>
             <div class="contact-row"><span class="contact-row__icon" aria-hidden="true">@</span><div><strong>Электронная почта</strong><p><?= $contactEmail !== '' ? e($contactEmail) : 'Электронная почта пока не указана.' ?></p></div></div>
             <div class="contact-row"><span class="contact-row__icon" aria-hidden="true">◷</span><div><strong>График работы</strong><p><?= $workingHours !== '' ? e($workingHours) : 'График работы будет опубликован после настройки проекта.' ?></p></div></div>
+            <p class="contacts-note">Это демонстрационные контакты учебного проекта. Реальный адрес, телефон и почта сервиса будут опубликованы при открытии.</p>
         </div>
         <aside class="contacts-aside">
             <span class="contacts-aside__mark" aria-hidden="true">FP</span>

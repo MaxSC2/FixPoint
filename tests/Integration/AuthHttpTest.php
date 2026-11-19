@@ -256,6 +256,120 @@ final class AuthHttpTest extends IntegrationTestCase
         $this->assertContains('FP-2026-000004', $adminPage);
     }
 
+    public function testRepeatedFailedLoginsLockTheAccount(): void
+    {
+        $email = self::TEST_EMAIL_PREFIX . 'lock@fixpoint.test';
+        $this->registerCustomer($email);
+
+        // Every wrong password counts as a failed attempt.
+        for ($attempt = 1; $attempt <= 5; $attempt++) {
+            $response = $this->post('/login', ['email' => $email, 'password' => 'wrong-password-' . $attempt]);
+            $this->assertSame(302, $response->status());
+            $this->assertFalse(app()->auth()->check());
+        }
+
+        // The account is locked, so even the correct password is refused.
+        $locked = $this->post('/login', ['email' => $email, 'password' => $this->seedPassword()]);
+        $this->assertSame(302, $locked->status());
+        $this->assertFalse(app()->auth()->check());
+
+        $row = $this->userRow($email);
+        $this->assertNotSame('', (string) ($row['login_locked_until'] ?? ''));
+        $this->assertSame('0', (string) ($row['login_failures'] ?? ''));
+    }
+
+    public function testSuccessfulLoginClearsTheFailureCounter(): void
+    {
+        $email = self::TEST_EMAIL_PREFIX . 'counter@fixpoint.test';
+        $this->registerCustomer($email);
+
+        $this->post('/login', ['email' => $email, 'password' => 'wrong-password']);
+        $this->post('/login', ['email' => $email, 'password' => 'wrong-password']);
+        $this->assertSame('2', (string) ($this->userRow($email)['login_failures'] ?? ''));
+
+        $this->loginAs($email);
+        $this->assertSame('0', (string) ($this->userRow($email)['login_failures'] ?? ''));
+    }
+
+    public function testCustomerCanChangeTheOwnPassword(): void
+    {
+        $email = self::TEST_EMAIL_PREFIX . 'password@fixpoint.test';
+        $this->registerCustomer($email);
+        $this->loginAs($email);
+
+        // The current password has to be confirmed.
+        $wrong = $this->post('/account/password', [
+            'current_password' => 'not-the-password',
+            'password' => 'NewPassw0rd2026',
+            'password_confirmation' => 'NewPassw0rd2026',
+        ]);
+        $this->assertSame(302, $wrong->status());
+        $this->assertTrue(app()->auth()->check());
+        $this->assertTrue(password_verify($this->seedPassword(), (string) $this->userRow($email)['password_hash']));
+
+        // A too weak new password is refused as well.
+        $weak = $this->post('/account/password', [
+            'current_password' => $this->seedPassword(),
+            'password' => 'short',
+            'password_confirmation' => 'short',
+        ]);
+        $this->assertSame(302, $weak->status());
+        $this->assertTrue(password_verify($this->seedPassword(), (string) $this->userRow($email)['password_hash']));
+
+        // The new password is accepted.
+        $changed = $this->post('/account/password', [
+            'current_password' => $this->seedPassword(),
+            'password' => 'NewPassw0rd2026',
+            'password_confirmation' => 'NewPassw0rd2026',
+        ]);
+        $this->assertSame(302, $changed->status());
+        $this->assertTrue(password_verify('NewPassw0rd2026', (string) $this->userRow($email)['password_hash']));
+
+        // The old password stops working, the new one works.
+        $this->logout();
+        $this->post('/login', ['email' => $email, 'password' => $this->seedPassword()]);
+        $this->assertFalse(app()->auth()->check());
+        $this->post('/login', ['email' => $email, 'password' => 'NewPassw0rd2026']);
+        $this->assertTrue(app()->auth()->check());
+    }
+
+    public function testPasswordChangeRequiresAuthentication(): void
+    {
+        $response = app()->handle(Request::create('POST', '/account/password', [
+            'current_password' => $this->seedPassword(),
+            'password' => 'NewPassw0rd2026',
+            'password_confirmation' => 'NewPassw0rd2026',
+        ]));
+
+        $this->assertSame(302, $response->status());
+        $this->assertFalse(app()->auth()->check());
+    }
+
+    private function registerCustomer(string $email, string $password = ''): void
+    {
+        $password = $password !== '' ? $password : $this->seedPassword();
+        $response = $this->post('/register', [
+            'full_name' => 'Тестовый Клиент',
+            'email' => $email,
+            'phone' => '+7 700 111 22 33',
+            'password' => $password,
+            'password_confirmation' => $password,
+        ]);
+
+        $this->assertSame(302, $response->status());
+        $this->logout();
+    }
+
+    /** @return array<string, mixed> */
+    private function userRow(string $email): array
+    {
+        $statement = app()->database()->connection()->prepare('SELECT * FROM users WHERE email = :email');
+        $statement->execute(['email' => $email]);
+        $row = $statement->fetch();
+
+        return $row === false ? [] : $row;
+    }
+
     private function loginAs(string $email): void
     {
         $response = $this->post('/login', [

@@ -19,7 +19,8 @@ final class UserRepository
     public function findById(int $id): ?array
     {
         $statement = $this->database->connection()->prepare(
-            'SELECT id, full_name, email, phone, password_hash, role, is_active, created_at, updated_at
+            'SELECT id, full_name, email, phone, password_hash, role, is_active,
+                    login_failures, login_locked_until, created_at, updated_at
              FROM users WHERE id = :id LIMIT 1'
         );
         $statement->execute(['id' => $id]);
@@ -32,7 +33,8 @@ final class UserRepository
     public function findByEmail(string $email): ?array
     {
         $statement = $this->database->connection()->prepare(
-            'SELECT id, full_name, email, phone, password_hash, role, is_active, created_at, updated_at
+            'SELECT id, full_name, email, phone, password_hash, role, is_active,
+                    login_failures, login_locked_until, created_at, updated_at
              FROM users WHERE email = :email LIMIT 1'
         );
         $statement->execute(['email' => $email]);
@@ -47,6 +49,45 @@ final class UserRepository
             'UPDATE users SET password_hash = :hash WHERE id = :id'
         );
         $statement->execute(['hash' => $hash, 'id' => $id]);
+    }
+
+    /**
+     * Count a failed login attempt. When the limit is reached the account is
+     * locked for the given number of minutes and the counter starts over.
+     *
+     * @return bool true when the account has just been locked
+     */
+    public function registerFailedLogin(int $id, int $limit, int $lockMinutes): bool
+    {
+        $pdo = $this->database->connection();
+
+        $statement = $pdo->prepare('SELECT login_failures FROM users WHERE id = :id');
+        $statement->execute(['id' => $id]);
+        $failures = (int) ($statement->fetchColumn() ?: 0) + 1;
+
+        if ($failures >= $limit) {
+            $lock = $pdo->prepare(
+                'UPDATE users
+                    SET login_failures = 0, login_locked_until = TIMESTAMPADD(MINUTE, :minutes, NOW())
+                  WHERE id = :id'
+            );
+            $lock->execute(['id' => $id, 'minutes' => $lockMinutes]);
+
+            return true;
+        }
+
+        $update = $pdo->prepare('UPDATE users SET login_failures = :failures WHERE id = :id');
+        $update->execute(['id' => $id, 'failures' => $failures]);
+
+        return false;
+    }
+
+    /** Clear the failure counter and any lock after a successful login. */
+    public function clearLoginFailures(int $id): void
+    {
+        $this->database->connection()->prepare(
+            'UPDATE users SET login_failures = 0, login_locked_until = NULL WHERE id = :id'
+        )->execute(['id' => $id]);
     }
 
     public function create(string $fullName, string $email, ?string $phone, string $passwordHash): int

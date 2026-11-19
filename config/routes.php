@@ -46,6 +46,11 @@ return static function (Router $router, App $app): void {
         [AccountController::class, 'index'],
         [AuthMiddleware::class, new RoleMiddleware($app->auth(), $app->session(), 'customer')]
     );
+    $router->post(
+        '/account/password',
+        [AccountController::class, 'changePassword'],
+        [AuthMiddleware::class]
+    );
 
     $customerOnly = [AuthMiddleware::class, new RoleMiddleware($app->auth(), $app->session(), 'customer')];
     $router->get('/requests', [RequestController::class, 'index'], $customerOnly);

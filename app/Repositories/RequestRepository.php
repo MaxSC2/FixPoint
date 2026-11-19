@@ -304,7 +304,9 @@ final class RequestRepository
         try {
             $sql = 'UPDATE repair_requests SET status = :to_status';
             if ($toStatus === 'completed') {
-                $sql .= ', completed_at = UTC_TIMESTAMP()';
+                // The connection works in the application timezone, so NOW()
+                // is the same clock the interface displays.
+                $sql .= ', completed_at = NOW()';
             }
             $sql .= ' WHERE id = :id AND status = :from_status';
             // Keep workflow invariants atomic with the row update. Service-level

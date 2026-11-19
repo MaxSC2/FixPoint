@@ -95,6 +95,8 @@ final class AdminUserController extends Controller
             'phone' => $this->stringPost($request, 'phone'),
             'role' => $this->stringPost($request, 'role'),
             'is_active' => $this->stringPost($request, 'is_active'),
+            'password' => $this->stringPost($request, 'password'),
+            'password_confirmation' => $this->stringPost($request, 'password_confirmation'),
         ];
 
         try {

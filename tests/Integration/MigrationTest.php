@@ -14,7 +14,7 @@ final class MigrationTest extends IntegrationTestCase
         $migrator = new Migrator(app()->config(), app()->logger());
 
         $status = $migrator->status();
-        $this->assertCount(8, $status);
+        $this->assertCount($this->migrationFileCount(), $status);
         foreach ($status as $row) {
             $this->assertFalse($row['pending'], 'Pending migration: ' . $row['migration']);
         }
@@ -65,10 +65,19 @@ final class MigrationTest extends IntegrationTestCase
             'SELECT migration, checksum FROM schema_migrations ORDER BY migration'
         )->fetchAll();
 
-        $this->assertCount(8, $rows);
+        $this->assertCount($this->migrationFileCount(), $rows);
         foreach ($rows as $row) {
             $this->assertSame(64, strlen((string) $row['checksum']));
         }
+    }
+
+    /** Number of migration files in the repository, so the test does not need a manual update per migration. */
+    private function migrationFileCount(): int
+    {
+        $path = (string) app()->config()->get('paths.migrations');
+        $files = glob($path . DIRECTORY_SEPARATOR . '*.sql') ?: [];
+
+        return count($files);
     }
 
     public function testSeededAboutContentUsesQuotedReservedLeadColumn(): void

@@ -289,6 +289,7 @@ h3 { font-size: 1.15rem; font-weight: 700; }
 .contact-row__icon { display: grid; width: 40px; height: 40px; flex: 0 0 40px; place-items: center; border-radius: 12px; background: var(--color-primary-soft); color: var(--color-primary); font-size: 1.1rem; font-weight: 750; }
 .contact-row strong { display: block; margin-bottom: 4px; font-size: .9rem; }
 .contact-row p { margin: 0; font-size: .86rem; }
+.contacts-note { margin: 18px 0 0; padding-top: 14px; border-top: 1px solid #edf0f5; color: var(--color-muted); font-size: .8rem; line-height: 1.55; }
 .contacts-aside { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; padding: 38px; border-radius: var(--radius-card); background: #1b2a4a; color: #fff; }
 .contacts-aside__mark { display: grid; width: 58px; height: 58px; margin-bottom: 32px; place-items: center; border: 1px solid rgba(255,255,255,.2); border-radius: 17px; color: #dce5ff; font-size: 1.35rem; font-weight: 800; }
 .contacts-aside h2 { margin-bottom: 12px; color: #fff; font-size: 1.8rem; }
@@ -1343,9 +1344,20 @@ h1 { font-weight: 760; }
 .account-guide__steps strong { color: #3f5148; font-size: .81rem; }
 .account-guide__steps small { color: var(--color-muted); font-size: .68rem; }
 
+.account-security {
+    display: grid; grid-template-columns: .8fr 1.2fr; align-items: start; gap: 40px;
+    margin-top: 18px; padding: 29px; border: 1px solid var(--color-border); border-radius: 11px; background: #fff;
+}
+.account-security__intro .eyebrow { margin-bottom: 9px; }
+.account-security__intro h2 { margin: 0 0 9px; font-size: 1.45rem; }
+.account-security__intro p { margin: 0; color: var(--color-muted); font-size: .77rem; line-height: 1.7; }
+.account-security__form { display: grid; gap: 16px; }
+.account-security__actions { display: flex; justify-content: flex-end; }
+
 @media (max-width: 900px) {
     .account-welcome { align-items: flex-start; flex-direction: column; padding: 34px; }
     .account-guide { grid-template-columns: 1fr; gap: 23px; }
+    .account-security { grid-template-columns: 1fr; gap: 23px; }
 }
 @media (max-width: 640px) {
     .account-welcome { min-height: 0; padding: 30px 22px; }
@@ -1544,6 +1556,12 @@ h1 { font-weight: 760; }
 }
 .admin-toggle-row strong, .admin-toggle-row small { display: block; }
 .admin-toggle-row strong { color: #3e5147; font-size: .78rem; }
+
+.admin-password-reset {
+    margin-top: 4px; padding: 15px 16px; border: 1px dashed #d9dfd2; border-radius: 10px; background: #f8f9f4;
+}
+.admin-password-reset strong { display: block; margin-bottom: 5px; color: #3e5147; font-size: .78rem; }
+.admin-password-reset small { display: block; color: var(--color-muted); font-size: .72rem; line-height: 1.6; }
 .admin-toggle-row small { margin-top: 4px; color: var(--color-muted); font-size: .67rem; line-height: 1.55; }
 .admin-toggle-row input[type="checkbox"] {
     width: 19px; height: 19px; min-height: 0; accent-color: var(--color-primary); cursor: pointer;

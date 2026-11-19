@@ -24,6 +24,12 @@ final class AuthService
      */
     private const DUMMY_PASSWORD_HASH = '$2y$12$MJYRKIykraYhKoG8eHPrR.ZVvw4QwPyF886lD/3q/OwgU54V7veRK';
 
+    /** Failed attempts before the account is locked. */
+    public const MAX_LOGIN_FAILURES = 5;
+
+    /** How long the account stays locked. */
+    public const LOGIN_LOCK_MINUTES = 10;
+
     public function __construct(
         private readonly UserRepository $users,
         private readonly PasswordHasher $hasher,
@@ -47,9 +53,24 @@ final class AuthService
             return false;
         }
 
-        if (!$this->hasher->verify($password, (string) $user['password_hash'])) {
+        if ($this->isLocked($user)) {
+            // Locked accounts cost the same as a normal verification.
+            $this->hasher->verify($password, self::DUMMY_PASSWORD_HASH);
+
             return false;
         }
+
+        if (!$this->hasher->verify($password, (string) $user['password_hash'])) {
+            $this->users->registerFailedLogin(
+                (int) $user['id'],
+                self::MAX_LOGIN_FAILURES,
+                self::LOGIN_LOCK_MINUTES
+            );
+
+            return false;
+        }
+
+        $this->users->clearLoginFailures((int) $user['id']);
 
         if ($this->hasher->needsRehash((string) $user['password_hash'])) {
             $this->users->updatePasswordHash((int) $user['id'], $this->hasher->hash($password));
@@ -58,6 +79,70 @@ final class AuthService
         $this->auth->login((int) $user['id']);
 
         return true;
+    }
+
+    /**
+     * Change the password of a signed-in user. The current password has to be
+     * confirmed, and the new one follows the same rules as at registration.
+     *
+     * @throws ValidationException
+     */
+    public function changePassword(
+        int $userId,
+        string $currentPassword,
+        string $newPassword,
+        string $confirmation
+    ): void {
+        $user = $this->users->findById($userId);
+        if ($user === null) {
+            throw new ValidationException(['general' => 'Пользователь не найден.']);
+        }
+
+        if (!$this->hasher->verify($currentPassword, (string) $user['password_hash'])) {
+            throw new ValidationException(['current_password' => 'Текущий пароль указан неверно.']);
+        }
+
+        $errors = $this->validatePassword($newPassword, $confirmation);
+        if ($errors !== []) {
+            throw new ValidationException($errors);
+        }
+
+        $this->users->updatePasswordHash($userId, $this->hasher->hash($newPassword));
+        $this->users->clearLoginFailures($userId);
+    }
+
+    /** Whether the account is temporarily locked after too many failed attempts. */
+    public function isLocked(array $user): bool
+    {
+        $lockedUntil = trim((string) ($user['login_locked_until'] ?? ''));
+        if ($lockedUntil === '') {
+            return false;
+        }
+
+        $timestamp = strtotime($lockedUntil);
+
+        return $timestamp !== false && $timestamp > time();
+    }
+
+    /**
+     * Shared password rules for registration and password change.
+     *
+     * @return array<string, string>
+     */
+    private function validatePassword(string $password, string $confirmation): array
+    {
+        $errors = [];
+
+        $policyError = PasswordHasher::policyError($password);
+        if ($policyError !== null) {
+            $errors['password'] = $policyError;
+        }
+
+        if ($password !== $confirmation) {
+            $errors['password_confirmation'] = 'Пароли не совпадают.';
+        }
+
+        return $errors;
     }
 
     /**
@@ -97,18 +182,7 @@ final class AuthService
             }
         }
 
-        $passwordLength = mb_strlen($password);
-        if ($passwordLength < 8) {
-            $errors['password'] = 'Пароль должен быть не короче 8 символов.';
-        } elseif (strlen($password) > 72) {
-            $errors['password'] = 'Пароль слишком длинный.';
-        } elseif (preg_match('/\p{L}/u', $password) !== 1 || preg_match('/\d/', $password) !== 1) {
-            $errors['password'] = 'Пароль должен содержать хотя бы одну букву и одну цифру.';
-        }
-
-        if ($password !== $passwordConfirmation) {
-            $errors['password_confirmation'] = 'Пароли не совпадают.';
-        }
+        $errors = array_merge($errors, $this->validatePassword($password, $passwordConfirmation));
 
         if ($errors !== []) {
             throw new ValidationException($errors);

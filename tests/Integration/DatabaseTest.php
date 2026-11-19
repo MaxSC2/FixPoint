@@ -9,13 +9,29 @@ use FixPoint\Tests\IntegrationTestCase;
 
 final class DatabaseTest extends IntegrationTestCase
 {
-    public function testPdoConnectsWithUtf8mb4AndUtc(): void
+    public function testPdoConnectsWithUtf8mb4AndApplicationTimeZone(): void
     {
         $pdo = app()->database()->connection();
+        $timezone = (string) config('app.timezone', 'UTC');
 
         $this->assertSame('1', (string) $pdo->query('SELECT 1')->fetchColumn());
         $this->assertSame('utf8mb4', $pdo->query('SELECT @@character_set_connection')->fetchColumn());
-        $this->assertSame('+00:00', $pdo->query('SELECT @@session.time_zone')->fetchColumn());
+
+        // The database has to work in the timezone of the application. If the
+        // two clocks disagree, timestamps written by MySQL and timestamps
+        // written by PHP end up in different bases and the interface shows
+        // times shifted by the UTC offset.
+        $expectedOffset = (new \DateTimeImmutable('now', new \DateTimeZone($timezone)))->format('P');
+        $this->assertSame($expectedOffset, $pdo->query('SELECT @@session.time_zone')->fetchColumn());
+
+        $databaseNow = new \DateTimeImmutable((string) $pdo->query('SELECT NOW()')->fetchColumn());
+        $applicationNow = new \DateTimeImmutable('now', new \DateTimeZone($timezone));
+        $difference = abs($databaseNow->getTimestamp() - $applicationNow->getTimestamp());
+        $this->assertTrue(
+            $difference <= 2,
+            'MySQL and PHP must report the same current time, difference: ' . $difference . 's'
+        );
+
         $this->assertSame(\PDO::ERRMODE_EXCEPTION, $pdo->getAttribute(\PDO::ATTR_ERRMODE));
         // PHP returns bool on some builds and int 0/1 on others.
         $this->assertSame(0, (int) $pdo->getAttribute(\PDO::ATTR_EMULATE_PREPARES));
