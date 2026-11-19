@@ -15,6 +15,7 @@ final class ChatCenterHttpTest extends IntegrationTestCase
     private const OTHER_CUSTOMER = 'customer.ivanova@fixpoint.test';
     private const TECHNICIAN = 'master.ivanov@fixpoint.test';
     private const OTHER_TECHNICIAN = 'master.smirnova@fixpoint.test';
+    private const ADMIN = 'admin@fixpoint.test';
 
     protected function tearDown(): void
     {
@@ -131,6 +132,37 @@ final class ChatCenterHttpTest extends IntegrationTestCase
 
         $this->assertSame(419, $response->status());
         $this->assertSame(0, (int) $this->pdo()->query('SELECT COUNT(*) FROM chat_reads')->fetchColumn());
+    }
+
+    public function testAdminInboxCanSeeAllThreadsAndOpenTheStaffCard(): void
+    {
+        $own = $this->seedRequest(self::CUSTOMER, self::TECHNICIAN);
+        $other = $this->seedRequest(self::OTHER_CUSTOMER, self::OTHER_TECHNICIAN);
+        $this->addMessage($own['id'], self::CUSTOMER, 'Первый диалог для поддержки.');
+        $this->addMessage($other['id'], self::OTHER_CUSTOMER, 'Второй диалог для поддержки.');
+
+        $this->loginAs(self::ADMIN);
+        $inbox = app()->handle(Request::create('GET', '/messages'));
+        $this->assertSame(200, $inbox->status());
+        $this->assertContains($own['number'], $inbox->body());
+        $this->assertContains($other['number'], $inbox->body());
+
+        $opened = $this->post('/messages/' . $other['id'] . '/read', []);
+        $this->assertSame(302, $opened->status());
+        $this->assertSame('/technician/requests/' . $other['id'] . '#chat', $opened->header('Location'));
+    }
+
+    public function testUnreadBadgeIsVisibleInTheSharedHeader(): void
+    {
+        $fixture = $this->seedRequest(self::CUSTOMER, self::TECHNICIAN);
+        $this->addMessage($fixture['id'], self::TECHNICIAN, 'Новое сообщение для бейджа.');
+
+        $this->loginAs(self::CUSTOMER);
+        $dashboard = app()->handle(Request::create('GET', '/account'));
+        $this->assertSame(200, $dashboard->status());
+        $this->assertContains('href="/messages"', $dashboard->body());
+        $this->assertContains('header-messages__badge', $dashboard->body());
+        $this->assertContains('aria-label="1 непрочитанных"', $dashboard->body());
     }
 
     /** @return array{id: int, number: string} */
