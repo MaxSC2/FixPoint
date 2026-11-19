@@ -62,6 +62,16 @@ final class AttachmentService
             throw new HttpException(404, 'Request not found');
         }
 
+        // Serialize uploads for a request so concurrent submissions cannot
+        // both pass the per-request attachment cap against the same count.
+        $lock = $pdo->prepare(
+            'SELECT id FROM repair_requests WHERE id = :request_id FOR UPDATE'
+        );
+        $lock->execute(['request_id' => $requestId]);
+        if ($lock->fetchColumn() === false) {
+            throw new HttpException(404, 'Request not found');
+        }
+
         $existing = $this->attachments->countForRequest($requestId);
         if ($existing + count($uploads) > self::MAX_FILES_PER_REQUEST) {
             throw new ValidationException([

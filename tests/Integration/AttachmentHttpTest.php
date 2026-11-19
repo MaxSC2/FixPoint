@@ -145,6 +145,45 @@ final class AttachmentHttpTest extends IntegrationTestCase
         $this->assertContains('motherboard.png', $staffCard->body());
     }
 
+    public function testPerRequestLimitOfTenImagesAppliesAcrossMultipleMessages(): void
+    {
+        $requestId = $this->seedRequest();
+        $this->loginAs(self::CUSTOMER);
+
+        $first = [];
+        for ($index = 0; $index < 5; $index++) {
+            $first[] = $this->validPng('batch-one-' . $index . '.png');
+        }
+        $firstResponse = $this->postWithFiles('/requests/' . $requestId . '/messages', ['body' => 'Первый набор.'], $first);
+        $this->assertSame(302, $firstResponse->status());
+
+        $second = [];
+        for ($index = 0; $index < 5; $index++) {
+            $second[] = $this->validPng('batch-two-' . $index . '.png');
+        }
+        $secondResponse = $this->postWithFiles('/requests/' . $requestId . '/messages', ['body' => 'Второй набор.'], $second);
+        $this->assertSame(302, $secondResponse->status());
+
+        $count = $this->pdo()->prepare(
+            'SELECT COUNT(*) FROM request_attachments WHERE request_id = :request_id'
+        );
+        $count->execute(['request_id' => $requestId]);
+        $this->assertSame(10, (int) $count->fetchColumn());
+
+        $eleventh = $this->postWithFiles('/requests/' . $requestId . '/messages', [
+            'body' => 'Попытка добавить одиннадцатое изображение.',
+        ], [
+            $this->validPng('batch-three.png'),
+        ]);
+        $this->assertSame(302, $eleventh->status());
+
+        $card = app()->handle(Request::create('GET', '/requests/' . $requestId));
+        $this->assertContains('К одной заявке можно прикрепить не более 10 изображений.', $card->body());
+
+        $count->execute(['request_id' => $requestId]);
+        $this->assertSame(10, (int) $count->fetchColumn());
+    }
+
     public function testFakeImageMimeIsRejectedBeforeARequestIsPersisted(): void
     {
         $path = $this->temporaryFile('not-an-image.txt', 'plain text pretending to be a photo');
