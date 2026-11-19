@@ -312,10 +312,10 @@ app/
   Middleware/            # Auth, Role, CSRF, SecurityHeaders
   Repositories/          # весь SQL (PDO prepared statements)
   Security/              # Auth, Csrf, PasswordHasher
-  Services/              # Auth, Catalog, AdminCatalog, Request, RequestStatus, DatabaseHealth
+  Services/              # Auth, Catalog, Request, Chat, AdminCatalog, RequestStatus, DatabaseHealth
   Support/views/         # временные backend-fallback страницы
 config/routes.php        # явная таблица маршрутов
-database/migrations/     # 6 forward-only SQL-миграций
+database/migrations/     # 12 forward-only SQL-миграций
 database/seeds/          # локальные демо-данные
 docker/                  # php.ini, Apache vhost, entrypoint, wait-for-db
 public/                  # единственный document root, index.php, .htaccess
@@ -378,8 +378,9 @@ DB_DATABASE=fixpoint_test APP_ENV=testing php tests/run.php
 Smoke-тест требует уже применённые миграции и seed в рабочей БД; порт
 переопределяется `SMOKE_PORT` (по умолчанию `8091`).
 
-Текущий результат на MySQL 8.4.6: линтер — 138/138 файлов, тесты — 186 passed,
-0 failed, 1876 assertions, smoke — 30/30 проверок.
+Проверенный GitHub Actions результат на MySQL 8.0.46 для кода Phase 1 (HEAD `e1f3684`):
+линтер — 145 файлов, тесты — 210 passed, 0 failed, 2216 assertions,
+HTTP smoke — 30/30 проверок, Docker Compose runtime — PASS.
 
 ## Безопасность
 

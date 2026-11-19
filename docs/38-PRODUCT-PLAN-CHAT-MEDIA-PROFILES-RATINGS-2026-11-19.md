@@ -305,7 +305,7 @@ weighted = (avg * count + global_avg * 5) / (count + 5)
 - [x] Прочтение фиксируется при открытии центра сообщений и непосредственно карточки заявки.
 - [x] Убрана форма комментария у клиента; опубликованные пояснения остаются read-only, внутренние заметки не выдаются клиенту.
 - [x] Регрессионные тесты: чужой диалог, роли customer/technician/admin, unread, CSRF, прочтение с карточки, XSS и запрет записи комментариев клиентом.
-- [x] GitHub Actions на HEAD `51b5800`: PHP lint, миграции, unit/integration, HTTP smoke и Docker Compose runtime — PASS.
+- [x] GitHub Actions на HEAD `e1f3684`: lint 145 файлов, 210 тестов, 0 ошибок, 2216 assertions, HTTP smoke 30/30 и Docker Compose runtime — PASS.
 - [ ] Ручной прогон обновлённого Windows/LAN demo владельцем проекта.
 
 ### Phase 2 — вложения (3–4 дня)
