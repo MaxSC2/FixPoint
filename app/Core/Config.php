@@ -54,8 +54,10 @@ final class Config
 
         $debugDefault = in_array($environment, ['local', 'testing'], true);
         $perPage = Env::int('CATALOG_PER_PAGE', 12);
-        if ($perPage < 1 || $perPage > 50) {
-            throw new InvalidArgumentException('CATALOG_PER_PAGE must be between 1 and 50.');
+        if ($perPage < 12 || $perPage > 48 || $perPage % 12 !== 0) {
+            throw new InvalidArgumentException(
+                'CATALOG_PER_PAGE must be 12, 24, 36 or 48 to keep the responsive catalogue grid balanced.'
+            );
         }
 
         return new self([

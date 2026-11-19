@@ -43,7 +43,7 @@ final class ServiceRepository
              FROM services s
              INNER JOIN service_categories c ON c.id = s.category_id
              WHERE ' . $where . '
-             ORDER BY c.sort_order ASC, s.name ASC
+             ORDER BY c.sort_order ASC, s.name ASC, s.id ASC
              LIMIT ' . $limit . ' OFFSET ' . $offset
         );
         $statement->execute($params);
