@@ -16,6 +16,7 @@ final class Request
      * @param array<string, string> $cookies
      * @param array<string, mixed> $server
      * @param array<string, string> $headers
+     * @param array<string, list<UploadedFile>> $files
      */
     private function __construct(
         private readonly string $method,
@@ -24,7 +25,8 @@ final class Request
         private readonly array $post,
         private readonly array $cookies,
         private readonly array $server,
-        private readonly array $headers
+        private readonly array $headers,
+        private readonly array $files
     ) {
     }
 
@@ -50,7 +52,8 @@ final class Request
             $_POST,
             $_COOKIE,
             $_SERVER,
-            $headers
+            $headers,
+            self::normaliseFiles($_FILES)
         );
     }
 
@@ -59,6 +62,7 @@ final class Request
      * @param array<string, mixed> $query
      * @param array<string, mixed> $server
      * @param array<string, string> $headers
+     * @param array<string, mixed> $files
      */
     public static function create(
         string $method,
@@ -66,7 +70,8 @@ final class Request
         array $post = [],
         array $query = [],
         array $server = [],
-        array $headers = []
+        array $headers = [],
+        array $files = []
     ): self {
         if ($query === []) {
             $queryString = parse_url($uri, PHP_URL_QUERY);
@@ -89,8 +94,79 @@ final class Request
             $post,
             [],
             $server,
-            $headers
+            $headers,
+            self::normaliseFiles($files)
         );
+    }
+
+    /**
+     * Uploaded files for one input name. Invalid PHP upload errors are retained
+     * so the validation layer can return a useful field error.
+     *
+     * @return list<UploadedFile>
+     */
+    public function files(string $key): array
+    {
+        return $this->files[$key] ?? [];
+    }
+
+    /** @return array<string, list<UploadedFile>> */
+    public function allFiles(): array
+    {
+        return $this->files;
+    }
+
+    /**
+     * Convert PHP's scalar and multiple-file $_FILES formats into value objects.
+     *
+     * @param array<string, mixed> $files
+     * @return array<string, list<UploadedFile>>
+     */
+    private static function normaliseFiles(array $files): array
+    {
+        $normalised = [];
+
+        foreach ($files as $field => $payload) {
+            if (!is_string($field) || $field === '') {
+                continue;
+            }
+
+            $items = [];
+            if ($payload instanceof UploadedFile) {
+                $items[] = $payload;
+            } elseif (is_array($payload) && isset($payload['tmp_name'])) {
+                if (is_array($payload['tmp_name'])) {
+                    foreach (array_keys($payload['tmp_name']) as $index) {
+                        $single = [];
+                        foreach (['name', 'type', 'tmp_name', 'error', 'size'] as $key) {
+                            $value = $payload[$key] ?? null;
+                            $single[$key] = is_array($value) ? ($value[$index] ?? null) : $value;
+                        }
+                        $items[] = UploadedFile::fromPhpArray($single);
+                    }
+                } else {
+                    $items[] = UploadedFile::fromPhpArray($payload);
+                }
+            } elseif (is_array($payload)) {
+                foreach ($payload as $item) {
+                    if ($item instanceof UploadedFile) {
+                        $items[] = $item;
+                    } elseif (is_array($item)) {
+                        $items[] = UploadedFile::fromPhpArray($item);
+                    }
+                }
+            }
+
+            $items = array_values(array_filter(
+                $items,
+                static fn (UploadedFile $file): bool => $file->errorCode() !== UPLOAD_ERR_NO_FILE
+            ));
+            if ($items !== []) {
+                $normalised[$field] = $items;
+            }
+        }
+
+        return $normalised;
     }
 
     public function method(): string
