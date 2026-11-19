@@ -29,6 +29,7 @@ FixPoint — учебное веб-приложение для сервисно�
 | [Архитектура](docs/05-ARCHITECTURE.md) | Слои и поток запроса |
 | [План команды](docs/06-TEAM-PLAN.md) | Границы ответственности |
 | [Дорожная карта](docs/07-ROADMAP.md) | Волны реализации |
+| [План: чат, вложения, профили, рейтинг](docs/38-PRODUCT-PLAN-CHAT-MEDIA-PROFILES-RATINGS-2026-11-19.md) | Следующий продуктовый этап и порядок работ |
 | [Критерии приёмки](docs/08-ACCEPTANCE-CRITERIA.md) | Проверяемое определение готовности |
 | [Правила разработки](docs/09-DEVELOPMENT-RULES.md) | Git, ownership, безопасность |
 | [Integration contract](docs/10-INTEGRATION-CONTRACT.md) | Контракт frontend/backend |
