@@ -140,7 +140,7 @@ final class UiTemplateContractTest extends TestCase
 
         $this->assertContains('permissions', $detail);
         $this->assertContains('$permissions[\'can_decide_estimate\']', $detail);
-        $this->assertContains('$permissions[\'can_comment\']', $detail);
+        $this->assertNotContains('$permissions[\'can_comment\']', $detail);
         $this->assertContains('action="/requests/<?= e(rawurlencode($requestId)) ?>/estimate-decision"', $detail);
         $this->assertNotContains('action="/requests/<?= e(rawurlencode($requestId)) ?>/comments"', $detail);
         $this->assertContains('Журнал заявки', $detail);
