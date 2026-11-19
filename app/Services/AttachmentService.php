@@ -15,22 +15,14 @@ use Throwable;
 
 final class AttachmentService
 {
-    private const MAX_FILE_BYTES = 8 * 1024 * 1024;
     private const MAX_FILES_PER_SUBMISSION = 5;
     private const MAX_FILES_PER_REQUEST = 10;
-    private const MAX_PIXELS = 40_000_000;
-
-    /** @var array<string, string> */
-    private const MIME_EXTENSIONS = [
-        'image/jpeg' => 'jpg',
-        'image/png' => 'png',
-        'image/webp' => 'webp',
-    ];
 
     public function __construct(
         private readonly Config $config,
         private readonly AttachmentRepository $attachments,
-        private readonly RequestRepository $requests
+        private readonly RequestRepository $requests,
+        private readonly ImageValidator $imageValidator
     ) {
     }
 
@@ -86,48 +78,11 @@ final class AttachmentService
                     throw new ValidationException(['attachments' => 'Не удалось прочитать загруженное изображение.']);
                 }
 
-                $errorCode = $upload->errorCode();
-                if ($errorCode !== UPLOAD_ERR_OK || !$upload->isAvailable()) {
-                    throw new ValidationException([
-                        'attachments' => $this->uploadErrorMessage($errorCode),
-                    ]);
-                }
-
-                $size = $upload->actualSize();
-                if ($size < 1 || $size > self::MAX_FILE_BYTES) {
-                    throw new ValidationException([
-                        'attachments' => 'Размер каждого изображения не должен превышать 8 МБ.',
-                    ]);
-                }
-
-                $temporaryPath = $upload->temporaryPath();
-                $finfo = new \finfo(FILEINFO_MIME_TYPE);
-                $detectedMime = $finfo->file($temporaryPath);
-                if (!is_string($detectedMime) || !isset(self::MIME_EXTENSIONS[$detectedMime])) {
-                    throw new ValidationException([
-                        'attachments' => 'Поддерживаются только изображения JPEG, PNG и WebP.',
-                    ]);
-                }
-
-                $imageInfo = @getimagesize($temporaryPath);
-                if (!is_array($imageInfo)
-                    || !isset($imageInfo[0], $imageInfo[1], $imageInfo['mime'])
-                    || (string) $imageInfo['mime'] !== $detectedMime
-                ) {
-                    throw new ValidationException([
-                        'attachments' => 'Файл не прошёл проверку формата изображения.',
-                    ]);
-                }
-
-                $width = (int) $imageInfo[0];
-                $height = (int) $imageInfo[1];
-                if ($width < 1 || $height < 1 || ($width * $height) > self::MAX_PIXELS) {
-                    throw new ValidationException([
-                        'attachments' => 'Изображение слишком большое: максимум 40 мегапикселей.',
-                    ]);
-                }
-
-                $extension = self::MIME_EXTENSIONS[$detectedMime];
+                $validatedImage = $this->imageValidator->validate($upload);
+                $detectedMime = $validatedImage['mime_type'];
+                $extension = $validatedImage['extension'];
+                $width = $validatedImage['width'];
+                $height = $validatedImage['height'];
                 $storageKey = 'requests/' . $requestId . '/' . bin2hex(random_bytes(16)) . '.' . $extension;
                 $storageRoot = rtrim((string) $this->config->get('paths.base'), DIRECTORY_SEPARATOR)
                     . DIRECTORY_SEPARATOR . 'storage' . DIRECTORY_SEPARATOR . 'private';
@@ -152,7 +107,7 @@ final class AttachmentService
                 $this->reencodeWhenAvailable($destination, $detectedMime);
 
                 $storedSize = filesize($destination);
-                if ($storedSize === false || $storedSize < 1 || $storedSize > self::MAX_FILE_BYTES) {
+                if ($storedSize === false || $storedSize < 1 || $storedSize > ImageValidator::MAX_FILE_BYTES) {
                     throw new ValidationException([
                         'attachments' => 'После обработки изображение превысило допустимый размер.',
                     ]);
@@ -343,15 +298,4 @@ final class AttachmentService
         }
     }
 
-    private function uploadErrorMessage(int $errorCode): string
-    {
-        return match ($errorCode) {
-            UPLOAD_ERR_INI_SIZE, UPLOAD_ERR_FORM_SIZE => 'Размер изображения превышает лимит загрузки сервера.',
-            UPLOAD_ERR_PARTIAL => 'Изображение загрузилось не полностью. Повторите попытку.',
-            UPLOAD_ERR_NO_TMP_DIR => 'На сервере отсутствует временная папка для загрузки.',
-            UPLOAD_ERR_CANT_WRITE => 'Сервер не смог сохранить загруженное изображение.',
-            UPLOAD_ERR_EXTENSION => 'Загрузка изображения остановлена расширением PHP.',
-            default => 'Не удалось загрузить изображение. Повторите попытку.',
-        };
-    }
 }
