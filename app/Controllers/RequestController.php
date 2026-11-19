@@ -12,6 +12,7 @@ use FixPoint\Core\ValidationException;
 use FixPoint\Core\ViewRenderer;
 use FixPoint\Security\Auth;
 use FixPoint\Security\Csrf;
+use FixPoint\Services\ChatService;
 use FixPoint\Services\RequestService;
 
 /**
@@ -27,7 +28,8 @@ final class RequestController extends Controller
         Auth $auth,
         Csrf $csrf,
         Session $session,
-        private readonly RequestService $requestService
+        private readonly RequestService $requestService,
+        private readonly ChatService $chatService
     ) {
         parent::__construct($config, $view, $auth, $csrf, $session);
     }
@@ -114,7 +116,7 @@ final class RequestController extends Controller
             'request' => $this->requestService->present($row),
             'history' => $this->requestService->history($requestId),
             'comments' => $this->requestService->visibleComments($requestId),
-            'chatMessages' => $this->requestService->chatMessages($row, $user),
+            'chatMessages' => $this->chatService->messagesForRequest($row, $user),
             'permissions' => $this->requestService->permissionsFor($row, $user),
         ]);
     }
@@ -157,7 +159,7 @@ final class RequestController extends Controller
         $body = $this->stringPost($request, 'body');
 
         try {
-            $this->requestService->postMessage($requestId, $user, $body);
+            $this->chatService->postMessage($requestId, $user, $body);
         } catch (ValidationException $exception) {
             $errors = $exception->errors();
             if (isset($errors['general'])) {

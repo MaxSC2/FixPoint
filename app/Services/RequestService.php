@@ -302,7 +302,7 @@ final class RequestService
         $isAdmin = $role === 'admin';
 
         return [
-            'can_comment' => $isOwner || $isAssigned || $isAdmin,
+            'can_comment' => $isAssigned || $isAdmin,
             'can_decide_estimate' => $isOwner
                 && (string) ($request['status'] ?? '') === 'awaiting_customer_approval'
                 && ($request['estimated_cost'] ?? null) !== null
@@ -645,6 +645,9 @@ final class RequestService
         }
 
         $role = (string) ($user['role'] ?? '');
+        if ($role === 'customer') {
+            throw new HttpException(403, 'Use the request chat to contact the service centre');
+        }
         $isStaff = $role === 'admin'
             || ($role === 'technician'
                 && (int) ($request['technician_id'] ?? 0) === (int) ($user['id'] ?? 0));
@@ -662,77 +665,6 @@ final class RequestService
         }
 
         return $this->requests->addComment($requestId, (int) $user['id'], $body, $internal);
-    }
-
-    /**
-     * Chat messages of a request. The customer of the request, the assigned
-     * technician and an administrator share one thread, so support can answer
-     * a question without changing the status workflow.
-     *
-     * @param array<string, mixed> $request
-     * @param array<string, mixed> $user
-     * @return list<array<string, mixed>>
-     */
-    public function chatMessages(array $request, array $user): array
-    {
-        $requestId = (int) ($request['id'] ?? 0);
-        if ($requestId < 1 || !$this->canUseChat($request, $user)) {
-            return [];
-        }
-
-        return $this->requests->messagesForRequest($requestId);
-    }
-
-    /**
-     * Add a message to the chat of a request.
-     *
-     * @param array<string, mixed> $user
-     * @throws ValidationException|HttpException
-     */
-    public function postMessage(int $requestId, array $user, string $body): void
-    {
-        $request = $this->requests->findById($requestId);
-        if ($request === null || !$this->canUseChat($request, $user)) {
-            throw new HttpException(404, 'Request not found');
-        }
-
-        $body = trim($body);
-        if ($body === '') {
-            throw new ValidationException(['body' => 'Введите сообщение.']);
-        }
-        if (mb_strlen($body) > 2000) {
-            throw new ValidationException(['body' => 'Сообщение слишком длинное (максимум 2000 символов).']);
-        }
-        if ($this->hasControlCharacters($body)) {
-            throw new ValidationException(['body' => 'Сообщение содержит недопустимые символы.']);
-        }
-
-        $this->requests->addMessage($requestId, (int) ($user['id'] ?? 0), $body);
-    }
-
-    /**
-     * The customer of the request, the assigned technician and administrators
-     * may take part in the chat. Nobody else sees the thread.
-     *
-     * @param array<string, mixed> $request
-     * @param array<string, mixed> $user
-     */
-    private function canUseChat(array $request, array $user): bool
-    {
-        $role = (string) ($user['role'] ?? '');
-        $userId = (int) ($user['id'] ?? 0);
-
-        if ($role === 'admin') {
-            return true;
-        }
-        if ($role === 'customer') {
-            return (int) ($request['customer_id'] ?? 0) === $userId;
-        }
-        if ($role === 'technician') {
-            return (int) ($request['technician_id'] ?? 0) === $userId;
-        }
-
-        return false;
     }
 
     /**

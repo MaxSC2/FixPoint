@@ -288,42 +288,6 @@ final class RequestRepository
     }
 
     /**
-     * Chat messages of one request, oldest first, with the author names.
-     *
-     * @return list<array<string, mixed>>
-     */
-    public function messagesForRequest(int $requestId): array
-    {
-        $statement = $this->database->connection()->prepare(
-            'SELECT m.id, m.author_id, m.body, m.created_at,
-                    u.full_name AS author_name, u.role AS author_role
-             FROM request_messages m
-             INNER JOIN users u ON u.id = m.author_id
-             WHERE m.request_id = :request_id
-             ORDER BY m.id ASC'
-        );
-        $statement->execute(['request_id' => $requestId]);
-
-        return $statement->fetchAll();
-    }
-
-    /** Add one chat message to a request. */
-    public function addMessage(int $requestId, int $authorId, string $body): int
-    {
-        $statement = $this->database->connection()->prepare(
-            'INSERT INTO request_messages (request_id, author_id, body)
-             VALUES (:request_id, :author_id, :body)'
-        );
-        $statement->execute([
-            'request_id' => $requestId,
-            'author_id' => $authorId,
-            'body' => $body,
-        ]);
-
-        return (int) $this->database->connection()->lastInsertId();
-    }
-
-    /**
      * Apply a status change and append immutable history in one transaction.
      * The conditional UPDATE protects against two actors racing from the same
      * source status; false means the request changed before this call.
