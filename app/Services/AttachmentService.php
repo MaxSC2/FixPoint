@@ -122,7 +122,7 @@ final class AttachmentService
                 $storageRoot = rtrim((string) $this->config->get('paths.base'), DIRECTORY_SEPARATOR)
                     . DIRECTORY_SEPARATOR . 'storage' . DIRECTORY_SEPARATOR . 'private';
                 if (!is_dir($storageRoot) && !mkdir($storageRoot, 0750, true) && !is_dir($storageRoot)) {
-                    throw new \\RuntimeException('Unable to create private storage root.');
+                    throw new \RuntimeException('Unable to create private storage root.');
                 }
                 @chmod($storageRoot, 0750);
                 $destination = $this->absolutePathForNewFile($storageKey);

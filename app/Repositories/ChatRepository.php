@@ -174,7 +174,7 @@ final class ChatRepository
             $pdo->commit();
 
             return $messageId;
-        } catch (\\Throwable $exception) {
+        } catch (\Throwable $exception) {
             if ($pdo->inTransaction()) {
                 $pdo->rollBack();
             }
