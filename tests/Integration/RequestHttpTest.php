@@ -139,15 +139,30 @@ final class RequestHttpTest extends IntegrationTestCase
         $this->logout();
         $this->loginAs(self::TECHNICIAN);
         $this->assertSame(403, app()->handle(Request::create('GET', '/requests'))->status());
-        $this->assertSame(404, app()->handle(Request::create('GET', '/requests/' . $foreignId))->status());
-        $assigned = app()->handle(Request::create('GET', '/requests/' . $this->seedRequestId('FP-2026-000001')));
+
+        // Staff are routed to the staff workspace instead of the customer card.
+        $staffRedirect = app()->handle(Request::create('GET', '/requests/' . $foreignId));
+        $this->assertSame(302, $staffRedirect->status());
+        $this->assertSame('/technician/requests/' . $foreignId, $staffRedirect->header('Location'));
+        // The staff workspace still refuses a request the technician is not assigned to.
+        $this->assertSame(404, app()->handle(Request::create('GET', '/technician/requests/' . $foreignId))->status());
+
+        $assignedId = $this->seedRequestId('FP-2026-000001');
+        $assignedRedirect = app()->handle(Request::create('GET', '/requests/' . $assignedId));
+        $this->assertSame(302, $assignedRedirect->status());
+        $this->assertSame('/technician/requests/' . $assignedId, $assignedRedirect->header('Location'));
+        $assigned = app()->handle(Request::create('GET', '/technician/requests/' . $assignedId));
         $this->assertSame(200, $assigned->status());
         $this->assertContains('Ноутбук шумит и нагревается при работе.', $assigned->body());
 
         $this->logout();
         $this->loginAs(self::ADMIN);
         $this->assertSame(403, app()->handle(Request::create('GET', '/requests'))->status());
-        $this->assertSame(200, app()->handle(Request::create('GET', '/requests/' . $foreignId))->status());
+        $adminRedirect = app()->handle(Request::create('GET', '/requests/' . $foreignId));
+        $this->assertSame(302, $adminRedirect->status());
+        $this->assertSame('/technician/requests/' . $foreignId, $adminRedirect->header('Location'));
+        $adminCard = app()->handle(Request::create('GET', '/technician/requests/' . $foreignId));
+        $this->assertSame(200, $adminCard->status());
     }
 
     public function testCreateRequestValidatesAndPersistsHistory(): void

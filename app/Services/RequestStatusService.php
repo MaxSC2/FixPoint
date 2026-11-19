@@ -27,11 +27,23 @@ final class RequestStatusService
         'rejected',
     ];
 
-    /** @var array<string, list<string>> */
+    /**
+     * The repair starts only from a quote the customer has approved.
+     *
+     * `diagnostics` may only hand the job over to the customer, and
+     * `awaiting_parts` is reachable only from a running repair, so the only
+     * ways into `repairing` are `awaiting_customer_approval` (the customer's
+     * decision) and `awaiting_parts` (a pause of an already approved repair).
+     * There is deliberately no `diagnostics -> repairing` and no
+     * `diagnostics -> awaiting_parts`: both would let a technician start the
+     * work without the customer ever seeing an amount.
+     *
+     * @var array<string, list<string>>
+     */
     private const TRANSITIONS = [
         'new' => ['accepted', 'rejected', 'cancelled'],
         'accepted' => ['diagnostics', 'cancelled'],
-        'diagnostics' => ['awaiting_customer_approval', 'awaiting_parts', 'repairing', 'rejected'],
+        'diagnostics' => ['awaiting_customer_approval', 'rejected'],
         'awaiting_customer_approval' => ['repairing', 'cancelled'],
         'repairing' => ['awaiting_parts', 'ready_for_pickup'],
         'awaiting_parts' => ['repairing'],

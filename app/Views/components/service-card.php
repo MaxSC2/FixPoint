@@ -7,7 +7,11 @@ $serviceName = (string) ($service['name'] ?? 'Услуга');
 $serviceSlug = (string) ($service['slug'] ?? '');
 $serviceDescription = (string) ($service['short_description'] ?? '');
 $serviceCategory = trim((string) ($service['category_name'] ?? ''));
-$categorySlug = (string) ($service['category_slug'] ?? '');
+// CatalogService::mapService() exposes the category as a nested structure and
+// the slug inside it. Reading the flat key only would leave every card
+// without a category icon.
+$serviceCategoryData = isset($service['category']) && is_array($service['category']) ? $service['category'] : [];
+$categorySlug = (string) ($serviceCategoryData['slug'] ?? $service['category_slug'] ?? '');
 $priceFrom = $service['price_from'] ?? null;
 $hasPrice = is_numeric($priceFrom) && (float) $priceFrom > 0;
 $serviceUrl = $serviceSlug !== '' ? '/services/' . rawurlencode($serviceSlug) : '/services';

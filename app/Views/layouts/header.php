@@ -25,7 +25,24 @@ $accountUrl = match ($authUser['role'] ?? null) {
     'customer' => '/account',
     default => '/account',
 };
+$requestAction = match ($authUser['role'] ?? null) {
+    'customer' => ['href' => '/requests/create', 'label' => 'Создать заявку'],
+    'technician' => ['href' => '/technician/requests', 'label' => 'К рабочей очереди'],
+    'admin' => ['href' => '/admin/requests', 'label' => 'Открыть реестр'],
+    default => ['href' => '/register', 'label' => 'Создать аккаунт'],
+};
 $userName = is_array($authUser) ? (string) ($authUser['full_name'] ?? 'Аккаунт') : '';
+$userInitials = 'FP';
+if ($userName !== '') {
+    $nameParts = preg_split('/\s+/u', trim($userName)) ?: [];
+    $letters = '';
+    foreach (array_slice($nameParts, 0, 2) as $part) {
+        $letters .= mb_substr($part, 0, 1);
+    }
+    if ($letters !== '') {
+        $userInitials = mb_strtoupper($letters);
+    }
+}
 ?>
 <!doctype html>
 <html lang="ru" class="no-js">
@@ -35,6 +52,7 @@ $userName = is_array($authUser) ? (string) ($authUser['full_name'] ?? 'Акка�
     <meta name="theme-color" content="#f3f1e9">
     <meta name="description" content="FixPoint — сервисный центр. Оформление и отслеживание заявок на ремонт техники.">
     <title><?= e($pageTitle) ?> · FixPoint</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40' fill='none'%3E%3Cpath d='M20 3.5 35 12v16L20 36.5 5 28V12L20 3.5Z' stroke='%232563eb' stroke-width='3'/%3E%3Cpath d='M12 20.5 17.2 25.5 28.5 14' stroke='%232563eb' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='29.3' cy='10.8' r='2.2' fill='%23D9ED74'/%3E%3C/svg%3E">
     <link rel="stylesheet" href="/assets/css/app.css">
     <script src="/assets/js/app.js" defer></script>
 </head>
@@ -72,8 +90,8 @@ $userName = is_array($authUser) ? (string) ($authUser['full_name'] ?? 'Акка�
 
         <div class="site-header__actions">
             <?php if ($authUser !== null): ?>
-                <a class="header-account" href="<?= e($accountUrl) ?>">
-                    <span class="header-account__avatar" aria-hidden="true">FP</span>
+                <a class="header-account" href="<?= e($accountUrl) ?>" title="<?= e($userName) ?>">
+                    <span class="header-account__avatar" aria-hidden="true"><?= e($userInitials) ?></span>
                     <span class="header-account__name"><?= e($userName) ?></span>
                 </a>
                 <form class="header-logout" method="post" action="/logout">

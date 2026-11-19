@@ -27,13 +27,31 @@ final class RequestStatusServiceTest extends TestCase
         $this->assertSame(['accepted', 'rejected', 'cancelled'], $service->allowedTransitions('new'));
         $this->assertSame(['diagnostics', 'cancelled'], $service->allowedTransitions('accepted'));
         $this->assertSame(
-            ['awaiting_customer_approval', 'awaiting_parts', 'repairing', 'rejected'],
+            ['awaiting_customer_approval', 'rejected'],
             $service->allowedTransitions('diagnostics')
         );
         $this->assertSame(['repairing', 'cancelled'], $service->allowedTransitions('awaiting_customer_approval'));
         $this->assertSame(['awaiting_parts', 'ready_for_pickup'], $service->allowedTransitions('repairing'));
         $this->assertSame(['repairing'], $service->allowedTransitions('awaiting_parts'));
         $this->assertSame(['completed'], $service->allowedTransitions('ready_for_pickup'));
+    }
+
+    public function testRepairCannotBeStartedWithoutTheCustomerDecision(): void
+    {
+        $service = new RequestStatusService();
+
+        // The diagnostics stage must hand the job over to the customer; it may
+        // never start the repair itself, and it may not park the job in
+        // "awaiting parts" either, because that would be a second way around
+        // the customer's decision.
+        $this->assertFalse($service->canTransition('diagnostics', 'repairing'));
+        $this->assertFalse($service->canTransition('diagnostics', 'awaiting_parts'));
+
+        // The only way into a running repair is the customer's approval, or a
+        // pause of a repair that the customer already approved.
+        $this->assertTrue($service->canTransition('awaiting_customer_approval', 'repairing'));
+        $this->assertTrue($service->canTransition('awaiting_parts', 'repairing'));
+        $this->assertTrue($service->canTransition('repairing', 'awaiting_parts'));
     }
 
     public function testInvalidTransitionThrowsValidationException(): void

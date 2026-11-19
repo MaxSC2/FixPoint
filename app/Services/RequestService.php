@@ -468,15 +468,13 @@ final class RequestService
             && (string) ($request['estimated_cost'] ?? '') !== '';
 
         if ($status === 'diagnostics') {
-            if ($hasEstimate) {
-                // A quoted job must be sent to the customer, not routed around
-                // approval through repair or parts waiting.
-                $allowed = array_values(array_diff($allowed, ['awaiting_parts', 'repairing']));
-            } else {
+            if (!$hasEstimate) {
                 // Do not offer an approval stage until there is an amount.
                 $allowed = array_values(array_diff($allowed, ['awaiting_customer_approval']));
             }
-        } elseif ($status === 'awaiting_parts' && $hasEstimate) {
+        } elseif ($status === 'awaiting_parts' && !$hasEstimate) {
+            // A paused repair may only resume when a quote exists: without one
+            // the job was never approved by the customer.
             $allowed = array_values(array_diff($allowed, ['repairing']));
         }
 
@@ -593,11 +591,16 @@ final class RequestService
             ]);
         }
         if ($hasEstimate
-            && in_array($fromStatus, ['diagnostics', 'awaiting_parts'], true)
+            && $fromStatus === 'diagnostics'
             && in_array($toStatus, ['awaiting_parts', 'repairing'], true)
         ) {
             throw new ValidationException([
                 'general' => 'Сначала отправьте смету клиенту и дождитесь его решения. Начинать ремонт или обходить согласование нельзя.',
+            ]);
+        }
+        if ($toStatus === 'repairing' && !$hasEstimate) {
+            throw new ValidationException([
+                'general' => 'Начать ремонт без согласованной сметы нельзя. Сначала сохраните сумму сметы и отправьте её клиенту.',
             ]);
         }
 

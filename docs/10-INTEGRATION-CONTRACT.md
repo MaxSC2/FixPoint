@@ -92,7 +92,9 @@ Request detail дополнительно: `history[]` (from_status,to_status,re
 | `cancelled` | Отменена |
 | `rejected` | Отклонена |
 
-Переходы: new → accepted/rejected/cancelled; accepted → diagnostics/cancelled; diagnostics → awaiting_customer_approval/awaiting_parts/repairing/rejected; awaiting_customer_approval → repairing/cancelled; repairing → awaiting_parts/ready_for_pickup; awaiting_parts → repairing; ready_for_pickup → completed. completed/cancelled/rejected — конечные. Все переходы проверяются единым RequestStatusService и логируются транзакционно.
+Переходы: new → accepted/rejected/cancelled; accepted → diagnostics/cancelled; diagnostics → awaiting_customer_approval/rejected; awaiting_customer_approval → repairing/cancelled; repairing → awaiting_parts/ready_for_pickup; awaiting_parts → repairing; ready_for_pickup → completed. completed/cancelled/rejected — конечные. Все переходы проверяются единым RequestStatusService и логируются транзакционно.
+
+Правило согласования сметы: ремонт (`repairing`) начинается **только** из `awaiting_customer_approval`, то есть после явного решения клиента по сохранённой смете. Из `diagnostics` нельзя перейти ни в `repairing`, ни в `awaiting_parts` — иначе мастер обошёл бы решение клиента. `awaiting_parts` достижим только из уже идущего `repairing` и означает паузу согласованного ремонта, поэтому возврат `awaiting_parts → repairing` требует сохранённой сметы. Инвариант проверяется на трёх уровнях: `RequestService::changeStatus`, матрица `RequestStatusService` и условный `UPDATE` в `RequestRepository::transitionStatus` (внутри транзакции с `SELECT … FOR UPDATE`).
 
 ## Списки
 ```php

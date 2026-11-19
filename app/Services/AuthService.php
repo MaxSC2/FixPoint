@@ -16,6 +16,14 @@ use PDOException;
  */
 final class AuthService
 {
+    /**
+     * A valid bcrypt hash of a random value. It is verified against when the
+     * submitted email is unknown or inactive, so that both branches cost the
+     * same time and the response cannot be used to find out which addresses
+     * are registered.
+     */
+    private const DUMMY_PASSWORD_HASH = '$2y$12$MJYRKIykraYhKoG8eHPrR.ZVvw4QwPyF886lD/3q/OwgU54V7veRK';
+
     public function __construct(
         private readonly UserRepository $users,
         private readonly PasswordHasher $hasher,
@@ -32,6 +40,10 @@ final class AuthService
 
         $user = $this->users->findByEmail($email);
         if ($user === null || (int) $user['is_active'] !== 1) {
+            // Spend the same time as a real verification: the response must
+            // not reveal whether the address is registered.
+            $this->hasher->verify($password, self::DUMMY_PASSWORD_HASH);
+
             return false;
         }
 

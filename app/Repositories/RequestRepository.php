@@ -313,10 +313,15 @@ final class RequestRepository
             if ($toStatus === 'awaiting_customer_approval' || $fromStatus === 'awaiting_customer_approval') {
                 $sql .= ' AND estimated_cost IS NOT NULL';
             }
-            if (in_array($fromStatus, ['diagnostics', 'awaiting_parts'], true)
-                && in_array($toStatus, ['awaiting_parts', 'repairing'], true)
-            ) {
-                $sql .= ' AND estimated_cost IS NULL';
+            if ($toStatus === 'repairing') {
+                if ($fromStatus === 'diagnostics') {
+                    // The diagnostics stage always hands the job to the customer.
+                    // The repair may not start from here, whatever the quote says.
+                    $sql .= ' AND 1 = 0';
+                } else {
+                    // Resuming a paused repair still requires a quote on file.
+                    $sql .= ' AND estimated_cost IS NOT NULL';
+                }
             }
 
             $statement = $pdo->prepare($sql);

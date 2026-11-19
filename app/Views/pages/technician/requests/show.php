@@ -82,8 +82,14 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
             <a class="workspace-nav__link is-active" href="/technician/requests" aria-current="page">← К очереди</a>
         </nav>
 
-        <?php if (!empty($errors['general'])): ?>
-            <div class="alert alert--error" role="alert"><span class="alert__marker" aria-hidden="true"></span><p><?= e((string) $errors['general']) ?></p></div>
+        <?php
+        // A refused status change must stay visible even when no status form
+        // is offered: otherwise the technician clicks and nothing happens.
+        $statusError = isset($errors['status']) ? (string) $errors['status'] : '';
+        $workspaceError = !empty($errors['general']) ? (string) $errors['general'] : $statusError;
+        ?>
+        <?php if ($workspaceError !== ''): ?>
+            <div class="alert alert--error" role="alert"><span class="alert__marker" aria-hidden="true"></span><p><?= e($workspaceError) ?></p></div>
         <?php endif; ?>
 
         <div class="tech-detail-grid">
@@ -151,7 +157,7 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
                                 </select>
                                 <?php if (isset($errors['status'])): ?><small class="field__error"><?= e((string) $errors['status']) ?></small><?php endif; ?>
                             </label>
-                            <label class="field" for="technician-status-reason"><span class="field__label">Комментарий к переходу</span><textarea id="technician-status-reason" name="reason" rows="3" maxlength="500" placeholder="Что изменилось на этом этапе?"><?= e((string) ($old['reason'] ?? '')) ?></textarea></label>
+                            <label class="field" for="technician-status-reason"><span class="field__label">Комментарий к переходу — этот текст видит клиент в истории заявки</span><textarea id="technician-status-reason" name="reason" rows="3" maxlength="500" placeholder="Что изменилось на этом этапе? Для служебных заметок используйте комментарий с отметкой «Внутренняя заметка»."><?= e((string) ($old['reason'] ?? '')) ?></textarea></label>
                             <button class="button button--primary" type="submit">Сохранить статус</button>
                         </form>
                     <?php else: ?>

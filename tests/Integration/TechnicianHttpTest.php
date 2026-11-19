@@ -202,13 +202,13 @@ final class TechnicianHttpTest extends IntegrationTestCase
 
         $first = app()->handle(Request::create('GET', '/technician/requests'))->body();
         $this->assertContains('Страница 1 из 2', $first);
-        $this->assertSame(8, substr_count($first, '<article class="tech-request-card">'));
+        $this->assertSame(8, substr_count($first, '<a class="tech-request-card"'));
         $this->assertContains('FP-2026-000001', $first);
         $this->assertContains('FP-2026-000004', $first);
 
         $second = app()->handle(Request::create('GET', '/technician/requests?page=2'))->body();
         $this->assertContains('Страница 2 из 2', $second);
-        $this->assertSame(3, substr_count($second, '<article class="tech-request-card">'));
+        $this->assertSame(3, substr_count($second, '<a class="tech-request-card"'));
         $this->assertContains('TASK004-Page-1', $second);
         $this->assertContains('TASK004-Page-3', $second);
 
@@ -414,6 +414,90 @@ final class TechnicianHttpTest extends IntegrationTestCase
         $this->assertSame('2026-12-01 15:30:00', $approvedRow['estimated_ready_at']);
     }
 
+    public function testTechnicianCannotStartRepairWithoutAnApprovedQuote(): void
+    {
+        // Regression: the technician must not be able to start and finish a
+        // repair while no quote was ever prepared and the customer was never
+        // asked for a decision.
+        $requestId = $this->createFixture([
+            'status' => 'diagnostics',
+            'diagnostic_result' => 'TASK004: диагностика выполнена, смета не рассчитана.',
+            'estimated_cost' => null,
+        ]);
+        $this->loginAs(self::TECHNICIAN);
+
+        $directRepair = $this->post('/technician/requests/' . $requestId . '/status', [
+            'status' => 'repairing',
+        ]);
+        $this->assertSame(302, $directRepair->status());
+        $this->assertSame('diagnostics', $this->requestRow($requestId)['status']);
+
+        // Parking the job in "awaiting parts" must not become a second way
+        // around the customer's decision either.
+        $partsShortcut = $this->post('/technician/requests/' . $requestId . '/status', [
+            'status' => 'awaiting_parts',
+        ]);
+        $this->assertSame(302, $partsShortcut->status());
+        $this->assertSame('diagnostics', $this->requestRow($requestId)['status']);
+
+        $page = app()->handle(Request::create('GET', '/technician/requests/' . $requestId))->body();
+        $this->assertNotContains('<option value="repairing"', $page);
+        $this->assertNotContains('<option value="awaiting_parts"', $page);
+
+        // With a quote saved the only way forward is the customer decision.
+        $this->post('/technician/requests/' . $requestId . '/diagnosis', [
+            'diagnostic_result' => 'TASK004: диагностика выполнена, смета рассчитана.',
+            'estimated_cost' => '9000.00',
+            'estimated_ready_at' => '2026-12-01T15:30',
+        ]);
+        $submitted = $this->post('/technician/requests/' . $requestId . '/status', [
+            'status' => 'awaiting_customer_approval',
+        ]);
+        $this->assertSame(302, $submitted->status());
+        $this->assertSame('awaiting_customer_approval', $this->requestRow($requestId)['status']);
+
+        // Even with a quote on file the technician may not start the repair.
+        $stillBlocked = $this->post('/technician/requests/' . $requestId . '/status', [
+            'status' => 'repairing',
+        ]);
+        $this->assertSame(302, $stillBlocked->status());
+        $this->assertSame('awaiting_customer_approval', $this->requestRow($requestId)['status']);
+
+        $this->logout();
+        $this->loginAs(self::CUSTOMER);
+        $approval = $this->post('/requests/' . $requestId . '/estimate-decision', [
+            'decision' => 'approve',
+        ]);
+        $this->assertSame(302, $approval->status());
+        $this->assertSame('repairing', $this->requestRow($requestId)['status']);
+    }
+
+    public function testApprovedRepairCanBePausedForPartsAndResumed(): void
+    {
+        // The customer approved a quote, so a technician may pause the repair
+        // while waiting for parts and continue it afterwards.
+        $requestId = $this->createFixture([
+            'status' => 'repairing',
+            'diagnostic_result' => 'TASK004: ремонт начат по согласованной смете.',
+            'estimated_cost' => '15000.49',
+        ]);
+        $this->loginAs(self::TECHNICIAN);
+
+        $pause = $this->post('/technician/requests/' . $requestId . '/status', [
+            'status' => 'awaiting_parts',
+            'reason' => 'TASK004: ожидаем поставку запчасти.',
+        ]);
+        $this->assertSame(302, $pause->status());
+        $this->assertSame('awaiting_parts', $this->requestRow($requestId)['status']);
+
+        $resume = $this->post('/technician/requests/' . $requestId . '/status', [
+            'status' => 'repairing',
+            'reason' => 'TASK004: запчасть получена, продолжаем ремонт.',
+        ]);
+        $this->assertSame(302, $resume->status());
+        $this->assertSame('repairing', $this->requestRow($requestId)['status']);
+    }
+
     public function testRepositoryTransitionRechecksEstimateInAtomicUpdate(): void
     {
         // Exercise the repository directly so the SQL-level predicate is
@@ -449,6 +533,33 @@ final class TechnicianHttpTest extends IntegrationTestCase
         );
         $this->assertFalse($approvalWithoutQuote);
         $this->assertSame('diagnostics', $this->requestRow($missingQuote)['status']);
+
+        // The same row must not be moved straight into the repair either: the
+        // SQL predicate has to refuse it independently of the service check.
+        $repairWithoutQuote = $repository->transitionStatus(
+            $missingQuote,
+            'diagnostics',
+            'repairing',
+            $technicianId,
+            'a repair must never start without a quote'
+        );
+        $this->assertFalse($repairWithoutQuote);
+        $this->assertSame('diagnostics', $this->requestRow($missingQuote)['status']);
+
+        // A paused repair that already carries an approved quote may resume.
+        $pausedRepair = $this->createFixture([
+            'status' => 'awaiting_parts',
+            'estimated_cost' => '15000.49',
+        ]);
+        $resumed = $repository->transitionStatus(
+            $pausedRepair,
+            'awaiting_parts',
+            'repairing',
+            $technicianId,
+            'approved repair resumes after the parts arrived'
+        );
+        $this->assertTrue($resumed);
+        $this->assertSame('repairing', $this->requestRow($pausedRepair)['status']);
 
         $pendingWithoutQuote = $this->createFixture([
             'status' => 'awaiting_customer_approval',
