@@ -399,8 +399,30 @@ if (-not $reuseApp) {
     if (-not $SkipRefresh) {
         Write-Host ("Extracting demo source {0} @ {1}..." -f $Ref, $sha.Substring(0, 7))
 
+        # The LAN companion serves the very same runtime folder and keeps it as
+        # its working directory, so the folder cannot be replaced while that
+        # process is alive. Stop it first and tell the operator to start it
+        # again afterwards with START-FIXPOINT-LAN.cmd.
+        $lanStateFile = Join-Path $RuntimeRoot 'lan-demo.json'
+        if (Test-Path -LiteralPath $lanStateFile) {
+            try {
+                $lanState = Get-Content -LiteralPath $lanStateFile -Raw -ErrorAction Stop | ConvertFrom-Json
+                $lanProcessId = [int] ($lanState.app_pid ?? 0)
+                if ($lanProcessId -gt 0 -and (Get-Process -Id $lanProcessId -ErrorAction SilentlyContinue)) {
+                    Stop-Process -Id $lanProcessId -Force -ErrorAction SilentlyContinue
+                    Write-Host 'Stopped the LAN companion so the runtime can be updated. Run START-FIXPOINT-LAN.cmd afterwards.'
+                }
+            } catch {
+                # A broken state file must not stop the ordinary demo start.
+            }
+        }
+
         if (Test-Path -LiteralPath $AppDir) {
-            Remove-Item -LiteralPath $AppDir -Recurse -Force
+            try {
+                Remove-Item -LiteralPath $AppDir -Recurse -Force -ErrorAction Stop
+            } catch {
+                throw ("The runtime folder $AppDir is locked by another process. Stop the LAN companion (STOP-FIXPOINT-LAN.cmd) or the running demo (STOP-FIXPOINT.cmd) and try again.")
+            }
         }
         New-Item -ItemType Directory -Force -Path $AppDir | Out-Null
 
