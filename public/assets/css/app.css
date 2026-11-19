@@ -2492,3 +2492,75 @@ h1 { font-weight: 760; }
         margin-left: 0;
     }
 }
+
+
+/* Private image attachments in request intake and chat threads. */
+.request-attachment-gallery {
+    display: grid;
+    gap: 12px;
+    margin: 18px 0;
+}
+.request-attachment-gallery h3 {
+    margin: 0;
+    color: var(--color-muted);
+    font-size: .82rem;
+}
+.request-attachment-gallery__grid,
+.request-chat__attachments {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(118px, 1fr));
+    gap: 10px;
+}
+.request-attachment-thumb {
+    display: grid;
+    min-width: 0;
+    gap: 6px;
+    overflow: hidden;
+    padding: 7px;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    background: var(--color-surface-soft);
+}
+.request-attachment-thumb img {
+    display: block;
+    width: 100%;
+    height: 112px;
+    object-fit: cover;
+    border-radius: 7px;
+    background: var(--color-surface);
+}
+.request-attachment-thumb span {
+    overflow: hidden;
+    color: var(--color-muted);
+    font-size: .7rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.request-chat__attachments {
+    max-width: 460px;
+    margin-top: 10px;
+}
+.request-chat__form input[type="file"],
+.request-form input[type="file"] {
+    width: 100%;
+    min-height: 46px;
+    padding: 9px;
+    border: 1px dashed var(--color-border);
+    border-radius: 10px;
+    background: var(--color-surface-soft);
+    color: var(--color-text);
+    font: inherit;
+    font-size: .78rem;
+}
+.request-chat__form input[type="file"]::file-selector-button,
+.request-form input[type="file"]::file-selector-button {
+    min-height: 30px;
+    margin-right: 10px;
+    padding: 0 10px;
+    border: 0;
+    border-radius: 7px;
+    background: var(--color-primary-soft);
+    color: var(--color-primary-dark);
+    font: inherit;
+    font-weight: 700;
+}

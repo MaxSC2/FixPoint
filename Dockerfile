@@ -1,8 +1,9 @@
 FROM php:8.3-apache
 
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends curl libonig-dev \
-    && docker-php-ext-install pdo_mysql mbstring \
+    && apt-get install -y --no-install-recommends curl libonig-dev libpng-dev libjpeg62-turbo-dev libwebp-dev libfreetype6-dev \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
+    && docker-php-ext-install pdo_mysql mbstring gd \
     && a2enmod rewrite headers \
     && rm -rf /var/lib/apt/lists/*
 
@@ -12,8 +13,9 @@ COPY docker/apache/000-default.conf /etc/apache2/sites-available/000-default.con
 WORKDIR /var/www/html
 COPY . /var/www/html
 
-RUN mkdir -p storage/logs storage/sessions storage/cache \
+RUN mkdir -p storage/logs storage/sessions storage/cache storage/private \
     && chown -R www-data:www-data storage \
+    && chmod 0750 storage/private \
     && chmod +x docker/php/entrypoint.sh
 
 COPY docker/php/entrypoint.sh /usr/local/bin/fixpoint-entrypoint
