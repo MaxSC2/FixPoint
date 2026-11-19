@@ -170,6 +170,9 @@ final class ChatRepository
         );
         $latest->execute(['request_id' => $requestId]);
         $lastMessageId = (int) $latest->fetchColumn();
+        if ($lastMessageId < 1) {
+            return;
+        }
 
         $statement = $this->database->connection()->prepare(
             'INSERT INTO chat_reads (request_id, user_id, last_read_message_id)

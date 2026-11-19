@@ -246,6 +246,13 @@ final class ChatCenterHttpTest extends IntegrationTestCase
         return (int) $this->pdo()->lastInsertId();
     }
 
+    private function logout(): void
+    {
+        $response = $this->post('/logout', []);
+        $this->assertSame(302, $response->status());
+        $this->assertFalse(app()->auth()->check());
+    }
+
     private function loginAs(string $email): void
     {
         $response = $this->post('/login', [
