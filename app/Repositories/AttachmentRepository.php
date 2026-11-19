@@ -95,6 +95,22 @@ final class AttachmentRepository
     }
 
     /** @return array<string, mixed>|null */
+    /** @return array<string, mixed>|null */
+    public function findById(int $attachmentId): ?array
+    {
+        $statement = $this->database->connection()->prepare(
+            'SELECT id, request_id, message_id, uploader_id, storage_key,
+                    original_name, mime_type, byte_size, width, height
+             FROM request_attachments
+             WHERE id = :id
+             LIMIT 1'
+        );
+        $statement->execute(['id' => $attachmentId]);
+        $row = $statement->fetch();
+
+        return $row === false ? null : $row;
+    }
+
     public function findForRequest(int $requestId, int $attachmentId): ?array
     {
         $statement = $this->database->connection()->prepare(
