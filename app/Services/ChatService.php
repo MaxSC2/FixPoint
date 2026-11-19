@@ -8,12 +8,15 @@ use FixPoint\Core\HttpException;
 use FixPoint\Core\ValidationException;
 use FixPoint\Repositories\ChatRepository;
 use FixPoint\Repositories\RequestRepository;
+use PDO;
+use Throwable;
 
 final class ChatService
 {
     public function __construct(
         private readonly ChatRepository $chats,
-        private readonly RequestRepository $requests
+        private readonly RequestRepository $requests,
+        private readonly AttachmentService $attachments
     ) {
     }
 
@@ -29,14 +32,25 @@ final class ChatService
             return [];
         }
 
-        return $this->chats->messagesForRequest($requestId);
+        $messages = $this->chats->messagesForRequest($requestId);
+        $attachmentsByMessage = $this->attachments->forMessages(
+            $requestId,
+            array_map(static fn (array $message): int => (int) ($message['id'] ?? 0), $messages)
+        );
+        foreach ($messages as &$message) {
+            $messageId = (int) ($message['id'] ?? 0);
+            $message['attachments'] = $attachmentsByMessage[$messageId] ?? [];
+        }
+        unset($message);
+
+        return $messages;
     }
 
     /**
      * @param array<string, mixed> $user
      * @throws ValidationException|HttpException
      */
-    public function postMessage(int $requestId, array $user, string $body): void
+    public function postMessage(int $requestId, array $user, string $body, array $uploads = []): void
     {
         $request = $this->requests->findById($requestId);
         if ($request === null || !$this->canAccess($request, $user)) {
@@ -44,8 +58,8 @@ final class ChatService
         }
 
         $body = trim($body);
-        if ($body === '') {
-            throw new ValidationException(['body' => 'Введите сообщение.']);
+        if ($body === '' && $uploads === []) {
+            throw new ValidationException(['body' => 'Введите сообщение или прикрепите изображение.']);
         }
         if (mb_strlen($body) > 2000) {
             throw new ValidationException(['body' => 'Сообщение слишком длинное (максимум 2000 символов).']);
@@ -54,7 +68,26 @@ final class ChatService
             throw new ValidationException(['body' => 'Сообщение содержит недопустимые символы.']);
         }
 
-        $this->chats->addMessage($requestId, (int) ($user['id'] ?? 0), $body);
+        $savedKeys = [];
+        try {
+            $this->chats->addMessage(
+                $requestId,
+                (int) ($user['id'] ?? 0),
+                $body === '' ? null : $body,
+                function (PDO $pdo, int $messageId) use ($requestId, $user, $uploads, &$savedKeys): void {
+                    $savedKeys = $this->attachments->storeUploads(
+                        $pdo,
+                        $requestId,
+                        $messageId,
+                        (int) ($user['id'] ?? 0),
+                        $uploads
+                    );
+                }
+            );
+        } catch (Throwable $exception) {
+            $this->attachments->cleanup($savedKeys);
+            throw $exception;
+        }
     }
 
     /**

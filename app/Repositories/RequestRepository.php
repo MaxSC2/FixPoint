@@ -127,7 +127,11 @@ final class RequestRepository
      *
      * @param array{device_type: string, device_brand: ?string, device_model: ?string, service_id: ?int, problem_description: string, customer_contact: string} $data
      */
-    public function createForCustomer(int $customerId, array $data): int
+    /**
+     * @param callable(PDO, int): void|null $afterCreate Runs after the request
+     *        id is known but before the transaction commits.
+     */
+    public function createForCustomer(int $customerId, array $data, ?callable $afterCreate = null): int
     {
         $pdo = $this->database->connection();
         $pdo->beginTransaction();
@@ -154,6 +158,9 @@ final class RequestRepository
             ]);
 
             $id = (int) $pdo->lastInsertId();
+            if ($afterCreate !== null) {
+                $afterCreate($pdo, $id);
+            }
             $publicNumber = sprintf('FP-%s-%06d', date('Y'), $id);
 
             $pdo->prepare('UPDATE repair_requests SET public_number = :public_number WHERE id = :id')

@@ -9,6 +9,7 @@ use FixPoint\Core\ValidationException;
 use FixPoint\Repositories\RequestRepository;
 use FixPoint\Repositories\ServiceRepository;
 use FixPoint\Repositories\UserRepository;
+use PDO;
 use DateTimeImmutable;
 use Throwable;
 
@@ -28,7 +29,8 @@ final class RequestService
         private readonly RequestRepository $requests,
         private readonly ServiceRepository $services,
         private readonly UserRepository $users,
-        private readonly RequestStatusService $statuses
+        private readonly RequestStatusService $statuses,
+        private readonly AttachmentService $attachments
     ) {
     }
 
@@ -188,7 +190,7 @@ final class RequestService
      * @param array<string, mixed> $input
      * @throws ValidationException
      */
-    public function create(int $customerId, array $input): int
+    public function create(int $customerId, array $input, array $uploads = []): int
     {
         $errors = [];
 
@@ -246,14 +248,28 @@ final class RequestService
             throw new ValidationException($errors);
         }
 
-        return $this->requests->createForCustomer($customerId, [
-            'device_type' => $deviceType,
-            'device_brand' => $brand === '' ? null : $brand,
-            'device_model' => $model === '' ? null : $model,
-            'service_id' => $serviceId,
-            'problem_description' => $problem,
-            'customer_contact' => $contact,
-        ]);
+        $savedKeys = [];
+        try {
+            return $this->requests->createForCustomer($customerId, [
+                'device_type' => $deviceType,
+                'device_brand' => $brand === '' ? null : $brand,
+                'device_model' => $model === '' ? null : $model,
+                'service_id' => $serviceId,
+                'problem_description' => $problem,
+                'customer_contact' => $contact,
+            ], function (PDO $pdo, int $requestId) use ($customerId, $uploads, &$savedKeys): void {
+                $savedKeys = $this->attachments->storeUploads(
+                    $pdo,
+                    $requestId,
+                    null,
+                    $customerId,
+                    $uploads
+                );
+            });
+        } catch (Throwable $exception) {
+            $this->attachments->cleanup($savedKeys);
+            throw $exception;
+        }
     }
 
     /** @return array<string, mixed>|null */

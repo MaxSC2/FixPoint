@@ -119,6 +119,12 @@ final class AttachmentService
 
                 $extension = self::MIME_EXTENSIONS[$detectedMime];
                 $storageKey = 'requests/' . $requestId . '/' . bin2hex(random_bytes(16)) . '.' . $extension;
+                $storageRoot = rtrim((string) $this->config->get('paths.base'), DIRECTORY_SEPARATOR)
+                    . DIRECTORY_SEPARATOR . 'storage' . DIRECTORY_SEPARATOR . 'private';
+                if (!is_dir($storageRoot) && !mkdir($storageRoot, 0750, true) && !is_dir($storageRoot)) {
+                    throw new \\RuntimeException('Unable to create private storage root.');
+                }
+                @chmod($storageRoot, 0750);
                 $destination = $this->absolutePathForNewFile($storageKey);
                 $directory = dirname($destination);
 

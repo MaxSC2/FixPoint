@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace FixPoint\Repositories;
 
 use FixPoint\Core\Database;
+use PDO;
 
 final class ChatRepository
 {
@@ -143,22 +144,42 @@ final class ChatRepository
         );
         $statement->execute(['request_id' => $requestId]);
 
-        return $statement->fetchAll();
-    }
-
-    public function addMessage(int $requestId, int $authorId, string $body): int
+        return $statement->fetchAll()    /**
+     * @param callable(PDO, int): void|null $afterInsert
+     */
+    public function addMessage(int $requestId, int $authorId, ?string $body, ?callable $afterInsert = null): int
     {
-        $statement = $this->database->connection()->prepare(
-            'INSERT INTO request_messages (request_id, author_id, body)
-             VALUES (:request_id, :author_id, :body)'
-        );
-        $statement->execute([
-            'request_id' => $requestId,
-            'author_id' => $authorId,
-            'body' => $body,
-        ]);
+        $pdo = $this->database->connection();
+        $pdo->beginTransaction();
 
-        return (int) $this->database->connection()->lastInsertId();
+        try {
+            $statement = $pdo->prepare(
+                'INSERT INTO request_messages (request_id, author_id, body)
+                 VALUES (:request_id, :author_id, :body)'
+            );
+            $statement->execute([
+                'request_id' => $requestId,
+                'author_id' => $authorId,
+                'body' => $body,
+            ]);
+
+            $messageId = (int) $pdo->lastInsertId();
+            if ($afterInsert !== null) {
+                $afterInsert($pdo, $messageId);
+            }
+
+            $pdo->commit();
+
+            return $messageId;
+        } catch (\Throwable $exception) {
+            if ($pdo->inTransaction()) {
+                $pdo->rollBack();
+            }
+
+            throw $exception;
+        }
+    }
+);
     }
 
     public function markRead(int $requestId, int $userId): void
