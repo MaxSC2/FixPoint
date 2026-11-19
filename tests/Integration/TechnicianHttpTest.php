@@ -675,15 +675,13 @@ final class TechnicianHttpTest extends IntegrationTestCase
         $this->assertNotContains('TASK004 внутренняя заметка для мастеров.', $customerPage);
         $this->assertNotContains('Внутренняя заметка', $customerPage);
 
-        $this->assertSame(302, $this->post('/requests/' . $requestId . '/comments', [
-            'body' => 'TASK004 клиент пытается создать внутреннюю заметку.',
-            'is_internal' => '1',
+        $this->assertSame(403, $this->post('/requests/' . $requestId . '/comments', [
+            'body' => 'TASK004 клиент пытается создать комментарий вместо сообщения.',
         ])->status());
         $rows = $this->commentRows($requestId);
-        $this->assertCount(3, $rows);
-        $this->assertSame('0', (string) $rows[2]['is_internal']);
-        $this->assertContains(
-            'TASK004 клиент пытается создать внутреннюю заметку.',
+        $this->assertCount(2, $rows);
+        $this->assertNotContains(
+            'TASK004 клиент пытается создать комментарий вместо сообщения.',
             app()->handle(Request::create('GET', '/requests/' . $requestId))->body()
         );
     }
