@@ -42,7 +42,7 @@ final class ImageValidator
             ]);
         }
 
-        $finfo = new \\finfo(FILEINFO_MIME_TYPE);
+        $finfo = new \finfo(FILEINFO_MIME_TYPE);
         $detectedMime = $finfo->file($upload->temporaryPath());
         if (!is_string($detectedMime) || !isset(self::MIME_EXTENSIONS[$detectedMime])) {
             throw new ValidationException([
