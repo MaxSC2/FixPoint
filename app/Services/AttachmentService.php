@@ -299,7 +299,7 @@ final class AttachmentService
 
         $contents = file_get_contents($path);
         if ($contents === false) {
-            throw new \\RuntimeException('Unable to read stored image for processing.');
+            throw new \RuntimeException('Unable to read stored image for processing.');
         }
 
         $image = @imagecreatefromstring($contents);
@@ -329,10 +329,10 @@ final class AttachmentService
             }
 
             if (!$written || !is_file($temporary) || filesize($temporary) < 1) {
-                throw new \\RuntimeException('Unable to re-encode uploaded image.');
+                throw new \RuntimeException('Unable to re-encode uploaded image.');
             }
             if (!rename($temporary, $path)) {
-                throw new \\RuntimeException('Unable to replace image with sanitized version.');
+                throw new \RuntimeException('Unable to replace image with sanitized version.');
             }
             @chmod($path, 0640);
         } finally {
