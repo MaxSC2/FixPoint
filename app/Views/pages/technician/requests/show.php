@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 $request = isset($request) && is_array($request) ? $request : [];
+$requestAttachments = isset($requestAttachments) && is_array($requestAttachments) ? array_values(array_filter($requestAttachments, 'is_array')) : [];
 $permissions = isset($permissions) && is_array($permissions) ? $permissions : [];
 $history = isset($history) && is_array($history) ? array_values(array_filter($history, 'is_array')) : [];
 $comments = isset($comments) && is_array($comments) ? array_values(array_filter($comments, 'is_array')) : [];
@@ -97,6 +98,19 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
                 <section class="request-detail-panel" data-reveal>
                     <div class="request-detail-panel__head"><div><span class="eyebrow">Контекст обращения</span><h2>Устройство и клиент</h2></div><span class="priority-chip priority-chip--<?= e(in_array((string) ($request['priority'] ?? 'normal'), ['low','normal','high','urgent'], true) ? (string) ($request['priority'] ?? 'normal') : 'normal') ?>"><?= e($priorityLabels[(string) ($request['priority'] ?? 'normal')] ?? 'Не указан') ?> приоритет</span></div>
                     <p class="request-detail-problem"><?= nl2br(e((string) ($request['problem_description'] ?? 'Описание проблемы не предоставлено.'))) ?></p>
+                    <?php if ($requestAttachments !== []): ?>
+                        <div class="request-attachment-gallery" aria-label="Фотографии устройства">
+                            <h3>Фотографии при создании заявки</h3>
+                            <div class="request-attachment-gallery__grid">
+                                <?php foreach ($requestAttachments as $attachment): ?>
+                                    <a class="request-attachment-thumb" href="/requests/<?= e(rawurlencode($requestId)) ?>/attachments/<?= e((string) (int) ($attachment['id'] ?? 0)) ?>" target="_blank" rel="noopener">
+                                        <img src="/requests/<?= e(rawurlencode($requestId)) ?>/attachments/<?= e((string) (int) ($attachment['id'] ?? 0)) ?>" alt="<?= e((string) ($attachment['original_name'] ?? 'Фотография устройства')) ?>" loading="lazy">
+                                        <span><?= e((string) ($attachment['original_name'] ?? 'Изображение')) ?></span>
+                                    </a>
+                                <?php endforeach; ?>
+                            </div>
+                        </div>
+                    <?php endif; ?>
                     <dl class="request-facts">
                         <div><dt>Тип устройства</dt><dd><?= e($deviceType) ?></dd></div>
                         <div><dt>Производитель и модель</dt><dd><?= e($deviceTitle) ?></dd></div>
