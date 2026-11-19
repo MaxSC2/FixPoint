@@ -144,7 +144,10 @@ final class ChatRepository
         );
         $statement->execute(['request_id' => $requestId]);
 
-        return $statement->fetchAll()    /**
+        return $statement->fetchAll();
+    }
+
+    /**
      * @param callable(PDO, int): void|null $afterInsert
      */
     public function addMessage(int $requestId, int $authorId, ?string $body, ?callable $afterInsert = null): int
@@ -171,15 +174,13 @@ final class ChatRepository
             $pdo->commit();
 
             return $messageId;
-        } catch (\Throwable $exception) {
+        } catch (\\Throwable $exception) {
             if ($pdo->inTransaction()) {
                 $pdo->rollBack();
             }
 
             throw $exception;
         }
-    }
-);
     }
 
     public function markRead(int $requestId, int $userId): void
