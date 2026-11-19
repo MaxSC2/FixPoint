@@ -161,6 +161,83 @@ LAN-компаньона (по `lan-demo.json`) и сообщает, что LAN 
 
 ---
 
+## 2a. Доработки по просьбе владельца (второй этап)
+
+Владелец попросил закрыть оставшиеся ограничения и проверить функциональность. Ниже — что
+сделано и чем подтверждено.
+
+### 2a.1 Часовые пояса приведены к одной базе
+
+**Было.** Метки времени писала MySQL в UTC (`SET time_zone = '+00:00'`), а «Ориентир готовности»
+писал PHP в локальном времени. Представления выводили сохранённое значение как есть, поэтому
+«Ориентир готовности» и события истории расходились на смещение часового пояса (5 часов для
+Алматы), и обе метки выглядели как локальные, хотя были в UTC.
+
+**Стало.** Соединение с базой работает в часовом поясе приложения: `Database::quoteTimeZone()`
+считает числовое смещение из `APP_TIMEZONE` (именованные зоны в портативном MySQL не загружены),
+`completed_at` пишется через `NOW()` вместо `UTC_TIMESTAMP()`. Хранилище остаётся корректным:
+значения `TIMESTAMP` MySQL переводит в UTC сам, а `DATETIME` с локальной датой готовности
+читается как заданное.
+
+**Проверка.** Полный набор тестов проходит в трёх часовых поясах — `Asia/Almaty`, `UTC`,
+`Europe/Moscow` (202 passed в каждом). Тест `DatabaseTest` теперь проверяет не константу
+`'+00:00'`, а сам инвариант: смещение сессии MySQL совпадает с часовым поясом приложения, а
+`NOW()` в базе и время в PHP отличаются не больше чем на две секунды.
+
+### 2a.2 Контакты в демонстрационном состоянии
+
+**Было.** Страница контактов показывала заглушки («Телефон пока не указан»), потому что
+`CONTACT_*` не заданы.
+
+**Стало.** Лаунчер (`scripts/demo/demo.ps1`) задаёт в runtime-`.env` заведомо демонстрационные
+значения: адрес демо-сервиса, телефон, `demo@fixpoint.test` и график работы. На странице
+добавлена пометка, что контакты демонстрационные и будут заменены на фактические при открытии
+сервиса. В `.env.example` те же значения снабжены комментарием. Реальных адресов и телефонов
+третьих лиц не выдумано.
+
+### 2a.3 Ограничение частоты входа
+
+**Было.** Неограниченный перебор пароля: ни счётчика попыток, ни блокировки.
+
+**Стало.** Миграция `009` добавляет `users.login_failures` и `users.login_locked_until`. После
+пяти неудачных попыток учётная запись блокируется на 10 минут, успешный вход сбрасывает
+счётчик, а сброс пароля администратором снимает блокировку. Сообщение об ошибке остаётся
+общим («Неверный email или пароль»), чтобы по времени ответа и по тексту нельзя было понять,
+зарегистрирован ли адрес — это проверено отдельным тестом на равное время ответа.
+
+**Проверка.** `AuthHttpTest::testRepeatedFailedLoginsLockTheAccount` (пять отказов → блокировка,
+верный пароль тоже не принимается) и `testSuccessfulLoginClearsTheFailureCounter`.
+
+### 2a.4 Смена пароля
+
+**Было.** Пользователь не мог сменить пароль, администратор — сбросить.
+
+**Стало.** Клиент меняет пароль в личном кабинете (`POST /account/password`) с подтверждением
+текущего пароля; администратор сбрасывает пароль в форме пользователя. Правила пароля вынесены
+в одно место (`PasswordHasher::policyError`), используются и при регистрации, и при смене.
+Поле никогда не заполняется из сохранённого ввода, а хэш пароля не попадает в страницу.
+
+**Проверка.** `AuthHttpTest::testCustomerCanChangeTheOwnPassword` (неверный текущий пароль,
+слабый новый пароль, успешная смена, старый пароль перестаёт работать),
+`testPasswordChangeRequiresAuthentication`, а также проверки формы в `UiTemplateContractTest`
+и `AdminUserHttpTest` — поле пароля присутствует, но не заполнено, `$2y$` в разметке нет.
+
+### 2a.5 Чат заявки: клиент, мастер и поддержка
+
+**Стало.** Один чат на заявку (`request_messages`, миграция `010`). В нём участвуют владелец
+заявки, назначенный мастер и администраторы — поддержка отвечает, не меняя этапы работы.
+Блок чата есть на карточке клиента и на рабочей карточке мастера, администратор заходит через
+рабочую карточку. В списке заявок и в очереди мастера показывается счётчик сообщений.
+
+**Границы доступа.** Чужой клиент и неназначенный мастер получают 404 — ровно как и саму заявку;
+переписка не выходит за пределы участников заявки. Сообщения экранируются, ограничены 2000
+символами и требуют CSRF-токен.
+
+**Проверка.** `ChatHttpTest`: общий чат на троих, отказ посторонним (404 и отсутствие записи),
+пустое сообщение, экранирование XSS, требование CSRF.
+
+---
+
 ## 3. Перепроверка ранее известных дефектов
 
 Все десять пунктов из задания перепроверены на актуальном коде. Восемь были исправлены
@@ -217,8 +294,8 @@ LAN-компаньона (по `lan-demo.json`) и сообщает, что LAN 
 ## 6. Результаты тестов
 
 ```
-php tests/lint.php     -> Lint: 138 files OK.
-php tests/run.php      -> Tests: 193 passed, 0 failed, 1993 assertions.
+php tests/lint.php     -> Lint: 140 files OK.
+php tests/run.php      -> Tests: 202 passed, 0 failed, 2119 assertions.
 php tests/smoke.php    -> Smoke: 30 checks passed.
 audit-http.ps1         -> AUDIT RESULT: 43 passed, 0 failed.
 ```
@@ -243,21 +320,35 @@ audit-http.ps1         -> AUDIT RESULT: 43 passed, 0 failed.
 
 **Ядро исправлений:**
 `app/Services/RequestStatusService.php`, `app/Services/RequestService.php`,
-`app/Repositories/RequestRepository.php`, `app/Services/AuthService.php`, `public/index.php`
+`app/Repositories/RequestRepository.php`, `app/Services/AuthService.php`,
+`app/Security/PasswordHasher.php`, `app/Repositories/UserRepository.php`,
+`app/Core/Database.php`, `app/Controllers/AccountController.php`,
+`app/Controllers/RequestController.php`, `app/Controllers/TechnicianController.php`,
+`app/Controllers/AdminUserController.php`, `app/Services/AdminUserService.php`,
+`public/index.php`, `config/routes.php`
 
 **Представление:**
 `app/Views/components/service-card.php`, `app/Views/components/request-card.php`,
-`app/Views/layouts/header.php`, `app/Views/layouts/footer.php`,
-`app/Views/pages/technician/requests/show.php`, `app/Views/pages/technician/requests/index.php`,
-`app/Views/pages/admin/requests/index.php`, `app/Views/pages/admin/services/edit.php`,
-`app/Views/pages/public/{home,about,contacts}.php`,
+`app/Views/components/request-chat.php`, `app/Views/layouts/header.php`,
+`app/Views/layouts/footer.php`, `app/Views/pages/customer/dashboard.php`,
+`app/Views/pages/customer/requests/show.php`,
+`app/Views/pages/technician/requests/index.php`,
+`app/Views/pages/technician/requests/show.php`,
+`app/Views/pages/admin/users/edit.php`, `app/Views/pages/public/{home,about,contacts}.php`,
 `app/Views/pages/public/services/{index,show}.php`, `app/Controllers/RequestController.php`,
 `public/assets/css/app.css`
 
+**Миграции:** `database/migrations/009_user_login_throttling.sql`,
+`database/migrations/010_create_request_messages.sql`
+
 **Тесты и документация:**
 `tests/Backend/RequestStatusServiceTest.php`, `tests/Integration/RequestHttpTest.php`,
-`tests/Integration/TechnicianHttpTest.php`, `docs/10-INTEGRATION-CONTRACT.md`,
-`docs/QUALITY-AUDIT-2026-11-19.md` (этот файл)
+`tests/Integration/TechnicianHttpTest.php`, `tests/Integration/AuthHttpTest.php`,
+`tests/Integration/ChatHttpTest.php`, `tests/Integration/AdminUserHttpTest.php`,
+`tests/Integration/MigrationTest.php`, `tests/Integration/DatabaseTest.php`,
+`tests/Backend/UiTemplateContractTest.php`, `docs/10-INTEGRATION-CONTRACT.md`,
+`docs/QUALITY-AUDIT-2026-11-19.md` (этот файл), `.env.example`,
+`scripts/demo/demo.ps1`
 
 ---
 
@@ -266,26 +357,20 @@ audit-http.ps1         -> AUDIT RESULT: 43 passed, 0 failed.
 1. **`final_cost` не записывается приложением.** Осознанное ограничение MVP
    (`docs/00-URGENT-MODULE-4-DEADLINE-2026-11-19.md:332`), не дефект. В клиентской карточке итоговая
    стоимость остаётся «Не определена». Новая финансовая логика не внедрялась.
-2. **Часовые пояса.** Метки времени (`created_at`, `updated_at`, события истории) MySQL пишет в UTC
-   (`SET time_zone = '+00:00'`), а `estimated_ready_at` PHP записывает в локальном времени приложения.
-   Представления выводят сохранённое значение как есть, поэтому «Ориентир готовности» и события
-   истории расходятся на смещение часового пояса, а обе метки показываются в базе как локальные.
-   Приведение к единой базе требует миграции данных и правки существующих строк — в этом спринте
-   не выполнялось, чтобы не менять демонстрационные данные.
-3. **Ограничение по частоте попыток входа и блокировка учётной записи не реализованы.** Вход
-   защищён CSRF, `password_hash`/`password_verify`, сменой ID сессии и выравниванием времени ответа,
-   но счётчика неудачных попыток и временной блокировки нет. Требует изменения схемы `users`.
-4. **Смена пароля пользователем и сброс пароля администратором отсутствуют.** `UserRepository::updatePasswordHash`
-   используется только для автоматического пере-хеширования. Отсутствующий путь — пробел в
-   функциональности, а не дефект безопасности.
-5. **Контактные данные остаются заглушками**, пока не заданы `CONTACT_ADDRESS`, `CONTACT_PHONE`,
-   `CONTACT_EMAIL`. Выдуманные адреса и телефоны не подставлялись.
-6. **Критерий приёмки «у списков есть состояние загрузки» не закрыт.** Приложение рендерится на
+2. **Критерий приёмки «у списков есть состояние загрузки» не закрыт.** Приложение рендерится на
    сервере, асинхронной загрузки списков нет, состояния `loading` не существует. Критерий из
    `docs/08-ACCEPTANCE-CRITERIA.md:34` для этого приложения неприменим.
-7. **Docker Compose проверен только в CI**, локально Docker недоступен.
-8. **Два подряд открытых PR-черновика** (#31, #30 и другие) не сливались: по условию задания
+3. **Docker Compose проверен только в CI**, локально Docker недоступен.
+4. **Два подряд открытых PR-черновика** (#31, #30 и другие) не сливались: по условию задания
    изменения в GitHub не публикуются.
+5. **Блокировка после неудачных входов может помешать показу.** Пять попыток с опечаткой в пароле
+   блокируют демонстрационную учётную запись на 10 минут. Снимается сменой пароля
+   администратором или ожиданием. Для защиты полезно знать заранее.
+6. **Чат не обновляется сам.** Сообщения появляются после перезагрузки страницы: автообновления и
+   «прочитанности» нет — это сознательное ограничение, чтобы в демо не появлялось лишних запросов.
+
+Закрытые ограничения из первого этапа: часовые пояса (2a.1), контакты (2a.2), ограничение частоты
+входа и смена пароля (2a.3, 2a.4).
 
 ---
 
