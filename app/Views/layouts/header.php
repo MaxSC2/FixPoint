@@ -11,6 +11,7 @@ $pageTitle = isset($pageTitle) && is_string($pageTitle) ? $pageTitle : 'FixPoint
 $activeNav = isset($activeNav) && is_string($activeNav) ? $activeNav : '';
 $authUser = isset($authUser) && is_array($authUser) ? $authUser : null;
 $csrfToken = isset($csrfToken) && is_string($csrfToken) ? $csrfToken : '';
+$unreadMessagesCount = isset($unreadMessagesCount) ? max(0, (int) $unreadMessagesCount) : 0;
 
 $navigation = [
     'home' => ['label' => 'Главная', 'href' => '/'],
@@ -90,6 +91,12 @@ if ($userName !== '') {
 
         <div class="site-header__actions">
             <?php if ($authUser !== null): ?>
+                <a class="header-messages" href="/messages"<?= $activeNav === 'messages' ? ' aria-current="page"' : '' ?>>
+                    <span>Сообщения</span>
+                    <?php if ($unreadMessagesCount > 0): ?>
+                        <span class="header-messages__badge" aria-label="<?= e((string) $unreadMessagesCount) ?> непрочитанных"><?= e((string) min(99, $unreadMessagesCount)) ?><?= $unreadMessagesCount > 99 ? '+' : '' ?></span>
+                    <?php endif; ?>
+                </a>
                 <a class="header-account" href="<?= e($accountUrl) ?>" title="<?= e($userName) ?>">
                     <span class="header-account__avatar" aria-hidden="true"><?= e($userInitials) ?></span>
                     <span class="header-account__name"><?= e($userName) ?></span>

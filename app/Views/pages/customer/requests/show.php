@@ -31,7 +31,6 @@ $priorityLabels = [
     'urgent' => 'Срочный',
 ];
 $priorityLabel = $priorityLabels[(string) ($request['priority'] ?? 'normal')] ?? 'Не указан';
-$canComment = !empty($permissions['can_comment']);
 $canDecideEstimate = !empty($permissions['can_decide_estimate']);
 $canDecideEstimate = $canDecideEstimate && $requestStatus === 'awaiting_customer_approval';
 $pageTitle = $publicNumber;
@@ -156,7 +155,7 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
                 </section>
 
                 <section class="request-detail-panel" data-reveal>
-                    <div class="request-detail-panel__head"><div><span class="eyebrow">Обсуждение</span><h2>Комментарии</h2></div></div>
+                    <div class="request-detail-panel__head"><div><span class="eyebrow">Журнал заявки</span><h2>Пояснения сервиса</h2></div></div>
                     <?php
                     $visibleComments = array_values(array_filter(
                         $comments,
@@ -173,20 +172,11 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
                             <?php endforeach; ?>
                         </div>
                     <?php else: ?>
-                        <p class="request-comments__empty">Пока нет комментариев. Здесь появятся сообщения по обращению.</p>
+                        <p class="request-comments__empty">Официальных пояснений пока нет. Для вопросов и ответов используйте чат по заявке.</p>
                     <?php endif; ?>
 
-                    <?php if ($canComment): ?>
-                        <form class="request-comment-form" method="post" action="/requests/<?= e(rawurlencode($requestId)) ?>/comments">
-                            <input type="hidden" name="_token" value="<?= e($csrfToken ?? '') ?>">
-                            <label class="field<?= isset($errors['body']) ? ' field--invalid' : '' ?>" for="request-comment-body">
-                                <span class="field__label">Добавить комментарий</span>
-                                <textarea id="request-comment-body" name="body" rows="3" maxlength="3000" placeholder="Напишите уточнение или задайте вопрос" required <?= isset($errors['body']) ? 'aria-invalid="true" aria-describedby="request-comment-error"' : '' ?>></textarea>
-                                <?php if (isset($errors['body'])): ?><small class="field__error" id="request-comment-error"><?= e((string) $errors['body']) ?></small><?php endif; ?>
-                            </label>
-                            <button class="button button--primary" type="submit">Отправить комментарий</button>
-                        </form>
-                    <?php endif; ?>
+                    <p class="request-comments__hint">Журнал предназначен для официальных пояснений. Чтобы задать вопрос или ответить мастеру, напишите в чате ниже.</p>
+
                 </section>
 
                 <?php
@@ -207,7 +197,7 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
                 </div>
                 <div class="request-aside-help">
                     <span aria-hidden="true">i</span>
-                    <p>Не передавайте пароли от устройств и банковские данные в комментариях. Для уточнений используйте контакт, указанный в заявке.</p>
+                    <p>Не передавайте пароли от устройств и банковские данные в чате. Для уточнений используйте контакт, указанный в заявке.</p>
                 </div>
             </aside>
         </div>

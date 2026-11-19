@@ -75,19 +75,18 @@ declare(strict_types=1);
         ['label' => 'Обзор', 'href' => '/account', 'icon' => '⌂'],
         ['label' => 'Заявки', 'href' => '/requests', 'icon' => '▤'],
         ['label' => 'Создать', 'href' => '/requests/create', 'icon' => '+'],
-        ['label' => 'Услуги', 'href' => '/services', 'icon' => '◇'],
+        ['label' => 'Чаты', 'href' => '/messages', 'icon' => '✉'],
     ];
     ?>
     <nav class="mobile-customer-nav" aria-label="Быстрая навигация">
         <?php foreach ($mobileItems as $item): ?>
             <?php
-            $isCurrent = $item['href'] === '/account'
-                ? $currentPath === '/account'
-                : ($item['href'] === '/requests'
-                    ? ($currentPath === '/requests' || preg_match('#^/requests/\\d+$#', $currentPath) === 1)
-                    : ($item['href'] === '/services'
-                        ? str_starts_with($currentPath, '/services')
-                        : $currentPath === $item['href']));
+            $isCurrent = match ($item['href']) {
+                '/account' => $currentPath === '/account',
+                '/requests' => $currentPath === '/requests' || preg_match('#^/requests/\\d+$#', $currentPath) === 1,
+                '/messages' => $currentPath === '/messages',
+                default => $currentPath === $item['href'],
+            };
             ?>
             <a class="mobile-customer-nav__item<?= $isCurrent ? ' is-active' : '' ?><?= $item['href'] === '/requests/create' ? ' mobile-customer-nav__item--create' : '' ?>"
                href="<?= e($item['href']) ?>"<?= $isCurrent ? ' aria-current="page"' : '' ?>>

@@ -29,7 +29,7 @@ $chatFormat = static function (string $value): string {
     }
 };
 ?>
-<section class="request-chat" data-reveal>
+<section id="chat" class="request-chat" data-reveal>
     <div class="request-chat__head">
         <div><span class="eyebrow">Общение</span><h2>Чат по заявке</h2></div>
         <span class="request-chat__count"><?= count($chatMessages) ?> <?= e(ru_plural(count($chatMessages), 'сообщение', 'сообщения', 'сообщений')) ?></span>
