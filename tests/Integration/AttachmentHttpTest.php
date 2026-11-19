@@ -113,6 +113,15 @@ final class AttachmentHttpTest extends IntegrationTestCase
         $foreign = app()->handle(Request::create('GET', $url));
         $this->assertSame(404, $foreign->status());
 
+        // The request created in this test has no automatic assignment.
+        // Assign the fixture to the technician before checking staff access.
+        $this->pdo()->prepare(
+            'UPDATE repair_requests SET technician_id = :technician_id WHERE id = :request_id'
+        )->execute([
+            'technician_id' => $this->userId(self::TECHNICIAN),
+            'request_id' => $requestId,
+        ]);
+
         $this->logout();
         $this->loginAs(self::TECHNICIAN);
         $assignedTechnician = app()->handle(Request::create('GET', $url));
