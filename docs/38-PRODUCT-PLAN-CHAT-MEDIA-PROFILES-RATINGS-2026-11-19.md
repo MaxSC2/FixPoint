@@ -1,7 +1,7 @@
 # FixPoint — план развития: чат, вложения, профили и рейтинг
 
 **Дата:** 19.11.2026  
-**Статус:** план, не реализация  
+**Статус:** roadmap; Phase 1 реализована в feature-ветке `feature/chat-center-phase-1-2026-11-20`, ожидает PR; Phase 2–4 не реализованы  
 **Базовая точка:** `ba7d7be` (`defense/launcher-security-2026-11-18`)  
 **Связанные документы:** [26 — вложения и обсуждение](26-DEVICE-CATALOG-MOBILE-UX-ATTACHMENTS-TECHNICIAN-MATCHING.md), [33 — замечания владельца](33-OWNER-UX-FEEDBACK-2026-11-17.md)
 
@@ -32,10 +32,10 @@
 
 | Область | Текущее состояние | Файлы |
 |---|---|---|
-| Чат заявки | Есть таблица `request_messages`, две POST-точки, компонент, тесты | `database/migrations/010_create_request_messages.sql`, `app/Views/components/request-chat.php`, `app/Services/RequestService.php`, `app/Repositories/RequestRepository.php`, `tests/Integration/ChatHttpTest.php` |
+| Чат заявки | Есть таблица `request_messages`, две POST-точки, компонент, отдельные `ChatService`/`ChatRepository`, тесты | `database/migrations/010_create_request_messages.sql`, `app/Views/components/request-chat.php`, `app/Services/ChatService.php`, `app/Repositories/ChatRepository.php`, `tests/Integration/ChatHttpTest.php` |
 | Комментарии | Есть таблица `request_comments`, флаг `is_internal`, отдельный вывод для клиента и персонала | `database/migrations/006_create_request_comments.sql`, `app/Views/pages/customer/requests/show.php`, `app/Views/pages/technician/requests/show.php` |
-| Пересечение | На карточке заявки одновременно есть форма комментария и форма чата; клиент видит оба поля | `customer/requests/show.php`, `technician/requests/show.php` |
-| Центр сообщений | Отсутствует: нет списка диалогов, непрочитанных, последнего сообщения | — |
+| Пересечение | У клиента удалена форма комментария; запись комментариев клиента запрещена сервисом, журнал остаётся read-only | `app/Views/pages/customer/requests/show.php`, `app/Services/RequestService.php` |
+| Центр сообщений | Реализован: `GET /messages`, последнее сообщение, фильтр unread, счётчик в шапке, персональное прочтение | `app/Controllers/ChatController.php`, `app/Services/ChatService.php`, `app/Repositories/ChatRepository.php`, `database/migrations/011_create_chat_reads.sql`, `012_seed_chat_read_markers.sql` |
 | Вложения | Отсутствуют полностью: нет таблицы, загрузки, выдачи файлов, проверки MIME | — |
 | Аватар | В шапке только инициалы; в `users` нет поля аватара | `app/Views/layouts/header.php`, `database/migrations/001_create_users.sql` |
 | Профиль мастера | Только `full_name`, `email`, `phone`; нет описания, специализаций, публичной страницы | `app/Repositories/UserRepository.php`, `app/Controllers/TechnicianController.php` |
@@ -296,14 +296,17 @@ weighted = (avg * count + global_avg * 5) / (count + 5)
 - [x] Коммит и пуш актуальной ветки в GitHub.
 - [ ] Согласовать решения из раздела 12.
 
-### Phase 1 — чат как отдельный модуль (2–3 дня)
+### Phase 1 — чат как отдельный модуль (реализована)
 
-- [ ] Миграция `chat_reads`.
-- [ ] `ChatRepository`, `ChatService`, `ChatPolicy`.
-- [ ] `GET /messages`, `POST /messages/{id}/read`, бейдж в шапке.
-- [ ] Пункт «Чаты» в мобильной навигации.
-- [ ] Убрать форму комментария у клиента; оставить чтение опубликованных пояснений.
-- [ ] Тесты: чужой диалог, непрочитанные, CSRF, пустое сообщение, XSS.
+- [x] Миграции `chat_reads` и начальная установка read-cursor для существующих диалогов.
+- [x] Отдельные `ChatRepository`, `ChatService` и `ChatController` с проверкой владельца/назначенного мастера/admin.
+- [x] `GET /messages`, `POST /messages/{id}/read`, список последних диалогов и фильтр непрочитанных.
+- [x] Бейдж непрочитанных в общей шапке и пункт «Чаты» в клиентской мобильной навигации.
+- [x] Прочтение фиксируется при открытии центра сообщений и непосредственно карточки заявки.
+- [x] Убрана форма комментария у клиента; опубликованные пояснения остаются read-only, внутренние заметки не выдаются клиенту.
+- [x] Регрессионные тесты: чужой диалог, роли customer/technician/admin, unread, CSRF, прочтение с карточки, XSS и запрет записи комментариев клиентом.
+- [x] GitHub Actions на HEAD `51b5800`: PHP lint, миграции, unit/integration, HTTP smoke и Docker Compose runtime — PASS.
+- [ ] Ручной прогон обновлённого Windows/LAN demo владельцем проекта.
 
 ### Phase 2 — вложения (3–4 дня)
 
@@ -395,14 +398,9 @@ weighted = (avg * count + global_avg * 5) / (count + 5)
 
 ## 14. Следующая конкретная задача
 
-**TASK-CHAT-01: `chat_reads` + центр сообщений.**
+**TASK-MEDIA-01: безопасные фотографии при создании заявки и в чате.**
 
-Определение готовности:
-
-- миграция применяется на чистой БД и на демо-БД;
-- `GET /messages` показывает только доступные пользователю заявки;
-- открытие диалога обнуляет счётчик;
-- бейдж в шапке появляется и исчезает;
-- чужая заявка — `404`;
-- тесты и lint зелёные;
-- демо-сценарий из раздела 11.1, шаги 3–4, проходит вручную.
+Сначала реализовать общую подсистему приватных вложений: `UploadedFile`, MIME/image validation,
+лимиты, storage вне `public/`, авторизованную выдачу и очистку файлов при rollback.
+После этого подключить её к форме создания заявки и к сообщениям чата. Не открывать публичные URL
+к файлам и не принимать SVG/HTML/PHP. Учесть отсутствие GD в локальном PHP и добавить GD в Docker.

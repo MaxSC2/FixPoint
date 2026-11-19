@@ -110,6 +110,8 @@ final class RequestController extends Controller
             $this->abort(404, 'Request not found');
         }
 
+        $this->chatService->markRead($requestId, $user);
+
         return $this->renderPage('pages/customer/requests/show', [
             'pageTitle' => (string) $row['public_number'],
             'activeNav' => 'requests',

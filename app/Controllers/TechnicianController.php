@@ -59,6 +59,7 @@ final class TechnicianController extends Controller
         if ($row === null) {
             $this->abort(404, 'Request not found');
         }
+        $this->chatService->markRead($requestId, $user);
         $presented = $this->requestService->present($row);
 
         return $this->renderPage('pages/technician/requests/show', [

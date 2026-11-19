@@ -134,6 +134,52 @@ final class ChatCenterHttpTest extends IntegrationTestCase
         $this->assertSame(0, (int) $this->pdo()->query('SELECT COUNT(*) FROM chat_reads')->fetchColumn());
     }
 
+    public function testOpeningRequestCardsDirectlyMarksMessagesReadForCustomerAndTechnician(): void
+    {
+        $fixture = $this->seedRequest(self::CUSTOMER, self::TECHNICIAN);
+        $customerMessage = $this->addMessage(
+            $fixture['id'],
+            self::TECHNICIAN,
+            'Мастер отправил первое сообщение.'
+        );
+
+        $this->loginAs(self::CUSTOMER);
+        $customerPage = app()->handle(Request::create('GET', '/requests/' . $fixture['id']));
+        $this->assertSame(200, $customerPage->status());
+        $this->assertContains('Мастер отправил первое сообщение.', $customerPage->body());
+        $this->assertNotContains('header-messages__badge', $customerPage->body());
+
+        $customerRead = $this->pdo()->prepare(
+            'SELECT last_read_message_id FROM chat_reads WHERE request_id = :request_id AND user_id = :user_id'
+        );
+        $customerRead->execute([
+            'request_id' => $fixture['id'],
+            'user_id' => $this->userId(self::CUSTOMER),
+        ]);
+        $this->assertSame((string) $customerMessage, (string) $customerRead->fetchColumn());
+
+        $technicianMessage = $this->addMessage(
+            $fixture['id'],
+            self::CUSTOMER,
+            'Клиент уточнил детали ремонта.'
+        );
+        $this->logout();
+        $this->loginAs(self::TECHNICIAN);
+        $technicianPage = app()->handle(Request::create('GET', '/technician/requests/' . $fixture['id']));
+        $this->assertSame(200, $technicianPage->status());
+        $this->assertContains('Клиент уточнил детали ремонта.', $technicianPage->body());
+        $this->assertNotContains('header-messages__badge', $technicianPage->body());
+
+        $technicianRead = $this->pdo()->prepare(
+            'SELECT last_read_message_id FROM chat_reads WHERE request_id = :request_id AND user_id = :user_id'
+        );
+        $technicianRead->execute([
+            'request_id' => $fixture['id'],
+            'user_id' => $this->userId(self::TECHNICIAN),
+        ]);
+        $this->assertSame((string) $technicianMessage, (string) $technicianRead->fetchColumn());
+    }
+
     public function testAdminInboxCanSeeAllThreadsAndOpenTheStaffCard(): void
     {
         $own = $this->seedRequest(self::CUSTOMER, self::TECHNICIAN);
