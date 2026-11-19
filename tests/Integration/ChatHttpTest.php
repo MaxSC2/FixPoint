@@ -135,7 +135,7 @@ final class ChatHttpTest extends IntegrationTestCase
         $this->assertSame(302, $response->status());
 
         $card = app()->handle(Request::create('GET', '/requests/' . $requestId))->body();
-        $this->assertContains('Введите сообщение.', $card);
+        $this->assertContains('Введите сообщение или прикрепите изображение.', $card);
         $this->assertContains('0 сообщений', $card);
     }
 
