@@ -308,14 +308,17 @@ weighted = (avg * count + global_avg * 5) / (count + 5)
 - [x] GitHub Actions на HEAD `e1f3684`: lint 145 файлов, 210 тестов, 0 ошибок, 2216 assertions, HTTP smoke 30/30 и Docker Compose runtime — PASS.
 - [ ] Ручной прогон обновлённого Windows/LAN demo владельцем проекта.
 
-### Phase 2 — вложения (3–4 дня)
+### Phase 2 — вложения (реализовано)
 
-- [ ] Миграции `request_attachments`, nullable `body`.
-- [ ] `UploadedFile`, `ImageValidator`, `AttachmentService`, `AttachmentController`.
-- [ ] Загрузка при создании заявки.
-- [ ] Загрузка в чате, вложение-только сообщение.
-- [ ] Приватная выдача, права, лимиты, GD в Docker.
-- [ ] Тесты: MIME, SVG/PHP, размер, чужой доступ, CSRF, attachment-only.
+- [x] Миграции `013_create_request_attachments.sql` и `014_allow_attachment_only_messages.sql`.
+- [x] `UploadedFile`, `ImageValidator`, `AttachmentService`, `AttachmentController`.
+- [x] Загрузка при создании заявки и показ фотографий клиенту/мастеру.
+- [x] Загрузка в чате, включая сообщение только с изображением.
+- [x] Приватная выдача из `storage/private/`, серверная проверка доступа, лимиты и блокировка строки заявки от гонок по общему лимиту.
+- [x] Docker GD для перекодировки JPEG/PNG/WebP и удаления EXIF/XMP.
+- [x] Тесты: MIME-подмена, SVG, размер, лимит 40 Мп, лимиты 5/10, чужой/назначенный/не назначенный доступ, CSRF, attachment-only.
+- [x] GitHub Actions на HEAD `ae76a61`: lint 151 файлов, 216 тестов, 0 ошибок, 2301 assertions, HTTP smoke и Docker Compose runtime — PASS.
+- [ ] Ручная проверка обновлённого Windows/LAN demo владельцем проекта.
 
 ### Phase 3 — профили и аватары (2–3 дня)
 

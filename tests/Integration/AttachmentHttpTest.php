@@ -232,6 +232,78 @@ final class AttachmentHttpTest extends IntegrationTestCase
         $this->assertSame(0, (int) $count->fetchColumn());
     }
 
+    public function testImagePixelLimitIsEnforced(): void
+    {
+        $upload = $this->validPng('large-image.png');
+        $path = $upload->temporaryPath();
+        $contents = file_get_contents($path);
+        $this->assertTrue(is_string($contents));
+
+        $dimensions = pack('N', 8000) . pack('N', 8000);
+        $ihdrData = $dimensions . substr($contents, 24, 5);
+        $ihdr = pack('N', 13) . 'IHDR' . $ihdrData . pack('N', crc32('IHDR' . $ihdrData));
+        $largeImage = substr($contents, 0, 8) . $ihdr . substr($contents, 33);
+        file_put_contents($path, $largeImage);
+
+        $this->loginAs(self::CUSTOMER);
+        $response = $this->postWithFiles('/requests/create', $this->requestData(), [$upload]);
+        $this->assertSame(302, $response->status());
+
+        $page = app()->handle(Request::create('GET', '/requests/create'));
+        $this->assertContains('Изображение слишком большое: максимум 40 мегапикселей.', $page->body());
+        $count = $this->pdo()->prepare(
+            "SELECT COUNT(*) FROM repair_requests WHERE problem_description = :problem"
+        );
+        $count->execute(['problem' => $this->requestData()['problem_description']]);
+        $this->assertSame(0, (int) $count->fetchColumn());
+    }
+
+    public function testMultipartUploadsStillRequireCsrfTokens(): void
+    {
+        $this->loginAs(self::CUSTOMER);
+        $requestData = $this->requestData();
+        $requestCreate = app()->handle(Request::create(
+            'POST',
+            '/requests/create',
+            $requestData,
+            [],
+            [],
+            [],
+            ['attachments' => [$this->validPng('csrf-request.png')]]
+        ));
+        $this->assertSame(419, $requestCreate->status());
+
+        $createdCount = $this->pdo()->prepare(
+            "SELECT COUNT(*) FROM repair_requests WHERE problem_description = :problem"
+        );
+        $createdCount->execute(['problem' => $requestData['problem_description']]);
+        $this->assertSame(0, (int) $createdCount->fetchColumn());
+
+        $requestId = $this->seedRequest();
+        $chatPost = app()->handle(Request::create(
+            'POST',
+            '/requests/' . $requestId . '/messages',
+            ['body' => 'Сообщение без CSRF токена.'],
+            [],
+            [],
+            [],
+            ['attachments' => [$this->validPng('csrf-message.png')]]
+        ));
+        $this->assertSame(419, $chatPost->status());
+
+        $messageCount = $this->pdo()->prepare(
+            'SELECT COUNT(*) FROM request_messages WHERE request_id = :request_id'
+        );
+        $messageCount->execute(['request_id' => $requestId]);
+        $this->assertSame(0, (int) $messageCount->fetchColumn());
+
+        $attachmentCount = $this->pdo()->prepare(
+            'SELECT COUNT(*) FROM request_attachments WHERE request_id = :request_id'
+        );
+        $attachmentCount->execute(['request_id' => $requestId]);
+        $this->assertSame(0, (int) $attachmentCount->fetchColumn());
+    }
+
     public function testSvgAndOversizedFilesAreRejected(): void
     {
         $this->loginAs(self::CUSTOMER);
