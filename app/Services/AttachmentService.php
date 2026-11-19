@@ -211,10 +211,13 @@ final class AttachmentService
      * @param array<string, mixed> $user
      * @return array{path: string, mime_type: string, original_name: string, byte_size: int}|null
      */
-    public function findAccessible(int $attachmentId, array $user): ?array
+    public function findAccessible(int $attachmentId, array $user, ?int $expectedRequestId = null): ?array
     {
         $row = $this->attachments->findById($attachmentId);
         if ($row === null) {
+            return null;
+        }
+        if ($expectedRequestId !== null && (int) ($row['request_id'] ?? 0) !== $expectedRequestId) {
             return null;
         }
 

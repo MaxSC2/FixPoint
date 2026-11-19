@@ -39,7 +39,7 @@ final class AttachmentController extends Controller
             $this->abort(404, 'Attachment not found');
         }
 
-        $file = $this->attachmentService->findAccessible((int) $attachmentId, $user);
+        $file = $this->attachmentService->findAccessible((int) $attachmentId, $user, (int) $requestId);
         if ($file === null) {
             $this->abort(404, 'Attachment not found');
         }
