@@ -9,6 +9,9 @@ $filters = isset($filters) && is_array($filters) ? $filters : [];
 $query = (string) ($filters['q'] ?? '');
 $selectedCategory = (string) ($filters['category'] ?? '');
 require dirname(__DIR__, 3) . '/layouts/header.php';
+$catalogActionLabel = in_array($authUser['role'] ?? null, ['technician', 'admin'], true)
+    ? $requestAction['label']
+    : 'Описать проблему';
 ?>
 <section class="page-hero page-hero--compact">
     <div class="container" data-reveal>
@@ -72,7 +75,7 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
                 <strong>Не знаете, какую услугу выбрать?</strong>
                 <p>Это нормально. Выберите «Нужна диагностика» при создании заявки и просто опишите симптомы. Мастер уточнит причину и согласует стоимость до ремонта. Цены «от» в каталоге предварительные.</p>
             </div>
-            <a class="button button--secondary catalog-note__action" href="/register">Описать проблему <span aria-hidden="true">↗</span></a>
+            <a class="button button--secondary catalog-note__action" href="<?= e($requestAction['href']) ?>"><?= e($catalogActionLabel) ?> <span aria-hidden="true">↗</span></a>
         </aside>
     </div>
 </section>

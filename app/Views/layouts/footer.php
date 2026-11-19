@@ -26,11 +26,36 @@ declare(strict_types=1);
             <a href="/contacts">Контакты</a>
         </nav>
 
+        <?php
+        $footerRole = isset($authUser['role']) ? (string) $authUser['role'] : '';
+        $footerColumnTitle = $footerRole === '' ? 'Клиенту' : 'Кабинет';
+        $footerAccountLinks = match ($footerRole) {
+            'customer' => [
+                ['label' => 'Личный кабинет', 'href' => '/account'],
+                ['label' => 'Мои заявки', 'href' => '/requests'],
+                ['label' => 'Создать заявку', 'href' => '/requests/create'],
+            ],
+            'technician' => [
+                ['label' => 'Рабочая очередь', 'href' => '/technician/requests'],
+                ['label' => 'Каталог услуг', 'href' => '/services'],
+            ],
+            'admin' => [
+                ['label' => 'Панель администратора', 'href' => '/admin'],
+                ['label' => 'Реестр заявок', 'href' => '/admin/requests'],
+                ['label' => 'Пользователи', 'href' => '/admin/users'],
+            ],
+            default => [
+                ['label' => 'Создать аккаунт', 'href' => '/register'],
+                ['label' => 'Войти в кабинет', 'href' => '/login'],
+                ['label' => 'Оставить заявку', 'href' => '/register'],
+            ],
+        };
+        ?>
         <div class="site-footer__column" data-reveal>
-            <h2>Клиенту</h2>
-            <a href="/register">Создать аккаунт</a>
-            <a href="/login">Войти в кабинет</a>
-            <a href="/register">Оставить заявку</a>
+            <h2><?= e($footerColumnTitle) ?></h2>
+            <?php foreach ($footerAccountLinks as $footerLink): ?>
+                <a href="<?= e($footerLink['href']) ?>"><?= e($footerLink['label']) ?></a>
+            <?php endforeach; ?>
         </div>
 
         <div class="site-footer__column" data-reveal>

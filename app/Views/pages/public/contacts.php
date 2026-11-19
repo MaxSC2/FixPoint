@@ -9,6 +9,9 @@ $contactAddress = isset($contactAddress) ? (string) $contactAddress : '';
 $contactPhone = isset($contactPhone) ? (string) $contactPhone : '';
 $contactEmail = isset($contactEmail) ? (string) $contactEmail : '';
 $workingHours = isset($workingHours) ? (string) $workingHours : '';
+$requestCtaLabel = in_array($authUser['role'] ?? null, ['technician', 'admin'], true)
+    ? $requestAction['label']
+    : 'Оформить заявку';
 ?>
 <section class="page-hero page-hero--compact">
     <div class="container" data-reveal>
@@ -33,7 +36,7 @@ $workingHours = isset($workingHours) ? (string) $workingHours : '';
             <span class="contacts-aside__mark" aria-hidden="true">FP</span>
             <h2>Есть проблема с устройством?</h2>
             <p>Создайте заявку в личном кабинете. Так описание неисправности и дальнейшая история останутся в одном месте.</p>
-            <a class="button button--light button--large" href="/register">Оформить заявку <span aria-hidden="true">→</span></a>
+            <a class="button button--light button--large" href="<?= e($requestAction['href']) ?>"><?= e($requestCtaLabel) ?> <span aria-hidden="true">→</span></a>
         </aside>
     </div>
 </section>

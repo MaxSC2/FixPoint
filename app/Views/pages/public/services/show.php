@@ -11,6 +11,9 @@ $priceFrom = $service['price_from'] ?? null;
 $estimatedMinutes = $service['estimated_minutes'] ?? null;
 $categoryName = (string) ($service['category_name'] ?? '');
 require dirname(__DIR__, 3) . '/layouts/header.php';
+$requestCtaLabel = in_array($authUser['role'] ?? null, ['technician', 'admin'], true)
+    ? $requestAction['label']
+    : 'Оформить заявку';
 ?>
 <section class="page-hero page-hero--compact">
     <div class="container" data-reveal>
@@ -41,9 +44,9 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
             <span class="eyebrow eyebrow--light">Условия</span>
             <h2>Ориентиры по услуге</h2>
             <div class="service-detail-aside__item"><small>Стоимость</small><strong><?php if (is_numeric($priceFrom) && (float) $priceFrom > 0): ?>от <?= e(number_format((float) $priceFrom, 0, ',', ' ')) ?> ₸<?php else: ?>После диагностики<?php endif; ?></strong></div>
-            <div class="service-detail-aside__item"><small>Время оценки</small><strong><?= is_numeric($estimatedMinutes) && (int) $estimatedMinutes > 0 ? e((string) (int) $estimatedMinutes) . ' мин.' : 'Уточняется' ?></strong></div>
+            <div class="service-detail-aside__item"><small>Время выполнения</small><strong><?= is_numeric($estimatedMinutes) && (int) $estimatedMinutes > 0 ? e((string) (int) $estimatedMinutes) . ' мин.' : 'Уточняется' ?></strong></div>
             <p>Указанная цена, если она есть, является ориентировочной. Итоговая смета подтверждается до начала ремонта.</p>
-            <a class="button button--light button--large" href="/register">Оформить заявку <span aria-hidden="true">→</span></a>
+            <a class="button button--light button--large" href="<?= e($requestAction['href']) ?>"><?= e($requestCtaLabel) ?> <span aria-hidden="true">→</span></a>
         </aside>
     </div>
 </section>

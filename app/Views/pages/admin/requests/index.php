@@ -81,7 +81,7 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
                                 }
                                 ?>
                                 <tr>
-                                    <td><a class="admin-request-primary" href="/requests/<?= e(rawurlencode($requestId)) ?>"><?= e($number) ?><small><?= e($deviceTitle) ?></small></a></td>
+                                    <td><a class="admin-request-primary" href="/technician/requests/<?= e(rawurlencode($requestId)) ?>"><?= e($number) ?><small><?= e($deviceTitle) ?></small></a></td>
                                     <td><?= e((string) ($customer['full_name'] ?? '—')) ?></td>
                                     <td><?= e((string) ($technician['full_name'] ?? 'Не назначен')) ?></td>
                                     <td><?php $status = (string) ($request['status'] ?? ''); require dirname(__DIR__, 3) . '/components/status-badge.php'; ?></td>
@@ -89,8 +89,8 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
                                     <td><?= e($dateLabel) ?></td>
                                     <td>
                                         <div class="admin-row-actions">
-                                            <a class="admin-row-open" href="/requests/<?= e(rawurlencode($requestId)) ?>" aria-label="Открыть <?= e($number) ?>">↗</a>
-                                            <a href="/admin/requests/<?= e(rawurlencode($requestId)) ?>/assign">Назначить</a>
+                                            <a class="admin-row-open" href="/technician/requests/<?= e(rawurlencode($requestId)) ?>" aria-label="Открыть рабочую карточку <?= e($number) ?>">↗</a>
+                                            <a class="admin-row-assign" href="/admin/requests/<?= e(rawurlencode($requestId)) ?>/assign">Назначить</a>
                                         </div>
                                     </td>
                                 </tr>
@@ -104,7 +104,7 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
                     $pageQuery = array_filter($pageQuery, static fn (string $value): bool => $value !== '');
                     $pageUrl = static fn (int $page): string => '/admin/requests?' . http_build_query($pageQuery + ['page' => $page]);
                     ?>
-                    <nav class="pagination request-pagination" aria-label="Страницы реестра"><a class="pagination__link" href="<?= e($pageUrl(max(1, $currentPage - 1))) ?>" <?= $currentPage <= 1 ? 'aria-disabled="true" tabindex="-1"' : '' ?>>←</a><span class="request-pagination__label">Страница <?= e((string) $currentPage) ?> из <?= e((string) $lastPage) ?></span><a class="pagination__link" href="<?= e($pageUrl(min($lastPage, $currentPage + 1))) ?>" <?= $currentPage >= $lastPage ? 'aria-disabled="true" tabindex="-1"' : '' ?>>→</a></nav>
+                    <nav class="pagination request-pagination" aria-label="Страницы реестра"><a class="pagination__link" href="<?= e($pageUrl(max(1, $currentPage - 1))) ?>" aria-label="Предыдущая страница" <?= $currentPage <= 1 ? 'aria-disabled="true" tabindex="-1"' : '' ?>>←</a><span class="request-pagination__label">Страница <?= e((string) $currentPage) ?> из <?= e((string) $lastPage) ?></span><a class="pagination__link" href="<?= e($pageUrl(min($lastPage, $currentPage + 1))) ?>" aria-label="Следующая страница" <?= $currentPage >= $lastPage ? 'aria-disabled="true" tabindex="-1"' : '' ?>>→</a></nav>
                 <?php endif; ?>
             <?php else: ?>
                 <?php

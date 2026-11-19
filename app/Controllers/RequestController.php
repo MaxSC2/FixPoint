@@ -95,6 +95,14 @@ final class RequestController extends Controller
     {
         $user = $this->requireUser();
         $requestId = (int) ($params['id'] ?? 0);
+
+        // Staff work with the technician card: it contains the diagnosis,
+        // status transition and internal comment tools. The customer card is
+        // intentionally owner-facing, so never render it for staff.
+        if (in_array((string) ($user['role'] ?? ''), ['technician', 'admin'], true)) {
+            return Response::redirect('/technician/requests/' . $requestId);
+        }
+
         $row = $this->requestService->findVisibleForUser($requestId, $user);
         if ($row === null) {
             $this->abort(404, 'Request not found');

@@ -74,7 +74,7 @@ require dirname(__DIR__, 2) . '/layouts/header.php';
 <section class="section">
     <div class="container about-bottom" data-reveal>
         <div><span class="eyebrow">Начать просто</span><h2>Опишите проблему<br>и создайте заявку.</h2><p>Дальнейшие шаги будут доступны в личном кабинете.</p></div>
-        <a class="button button--primary button--large" href="/register">Создать аккаунт <span aria-hidden="true">→</span></a>
+        <a class="button button--primary button--large" href="<?= e($requestAction['href']) ?>"><?= e($requestAction['label']) ?> <span aria-hidden="true">→</span></a>
     </div>
 </section>
 <?php require dirname(__DIR__, 2) . '/layouts/footer.php'; ?>

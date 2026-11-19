@@ -22,6 +22,9 @@ $statusOptions = [
     'awaiting_parts' => 'Ожидают запчасти',
     'repairing' => 'В ремонте',
     'ready_for_pickup' => 'Готовы к выдаче',
+    'completed' => 'Завершены',
+    'cancelled' => 'Отменены',
+    'rejected' => 'Отклонены',
 ];
 $priorityLabels = ['low' => 'Низкий', 'normal' => 'Обычный', 'high' => 'Высокий', 'urgent' => 'Срочный'];
 require dirname(__DIR__, 3) . '/layouts/header.php';
@@ -76,12 +79,12 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
                         $description = trim((string) ($request['problem_description'] ?? ''));
                         $requestHref = '/technician/requests/' . rawurlencode($requestId);
                         ?>
-                        <article class="tech-request-card">
+                        <a class="tech-request-card" href="<?= e($requestHref) ?>" aria-label="Открыть рабочую карточку <?= e($publicNumber) ?>: <?= e($deviceTitle) ?>">
                             <div class="tech-request-card__top"><span><?= e($publicNumber) ?></span><?php $status = (string) ($request['status'] ?? ''); require dirname(__DIR__, 3) . '/components/status-badge.php'; ?></div>
                             <div class="tech-request-card__device"><div><span class="tech-request-card__type"><?= e($deviceType) ?></span><h3><?= e($deviceTitle) ?></h3><p><?= e($customerName) ?></p></div><span class="priority-chip priority-chip--<?= e(in_array($priority, ['low', 'normal', 'high', 'urgent'], true) ? $priority : 'normal') ?>"><?= e($priorityLabel) ?></span></div>
                             <p class="tech-request-card__problem"><?= e($description !== '' ? mb_substr($description, 0, 150) . (mb_strlen($description) > 150 ? '…' : '') : 'Описание проблемы не предоставлено.') ?></p>
-                            <div class="tech-request-card__bottom"><span>Открыть рабочую карточку</span><a href="<?= e($requestHref) ?>" aria-label="Открыть <?= e($publicNumber) ?>">↗</a></div>
-                        </article>
+                            <span class="tech-request-card__bottom"><span>Открыть рабочую карточку</span><span class="tech-request-card__arrow" aria-hidden="true">↗</span></span>
+                        </a>
                     <?php endforeach; ?>
                 </div>
                 <?php if ($lastPage > 1): ?>

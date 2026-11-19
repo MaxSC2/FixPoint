@@ -152,7 +152,7 @@ $featuredServices = isset($featuredServices) && is_array($featuredServices) ? $f
             <span class="eyebrow">Личный кабинет / 03</span>
             <h2>Вместо догадок —<br><em>понятная история.</em></h2>
             <p>Карточка ремонта собирает важное в одном месте: текущий этап, результат диагностики, смету и события по заявке. Не нужно вспоминать, что вам сказали по телефону.</p>
-            <a class="text-link" href="/register">Как клиенту начать работу <span aria-hidden="true">↗</span></a>
+            <a class="text-link" href="<?= e($requestAction['href']) ?>">Как клиенту начать работу <span aria-hidden="true">↗</span></a>
         </div>
         <div class="repair-record" data-reveal>
             <div class="repair-record__top">
