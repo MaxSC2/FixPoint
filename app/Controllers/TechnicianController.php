@@ -65,6 +65,7 @@ final class TechnicianController extends Controller
             'request' => $presented,
             'history' => $this->requestService->history($requestId),
             'comments' => $this->requestService->staffComments($requestId, $user),
+            'chatMessages' => $this->requestService->chatMessages($row, $user),
             'permissions' => $this->requestService->staffPermissions($row, $user),
             'allowedTransitions' => $this->requestService->allowedTransitionsFor($row, $user),
         ]);
@@ -124,6 +125,29 @@ final class TechnicianController extends Controller
         }
 
         return $user;
+    }
+
+    /**
+     * Write a message into the chat of the request. The technician, the
+     * customer of the request and support share this thread.
+     */
+    public function message(Request $request, array $params = []): Response
+    {
+        $user = $this->requireUser();
+        $requestId = $this->requestId($params);
+        $body = $this->stringPost($request, 'body');
+
+        try {
+            $this->requestService->postMessage($requestId, $user, $body);
+        } catch (ValidationException $exception) {
+            $this->flashValidation($exception);
+
+            return Response::redirect('/technician/requests/' . $requestId);
+        }
+
+        $this->session->flash('success', 'Сообщение отправлено.');
+
+        return Response::redirect('/technician/requests/' . $requestId);
     }
 
     private function requestId(array $params): int

@@ -24,7 +24,8 @@ final class RequestRepository
             c.id AS customer_id, c.full_name AS customer_name,
             t.id AS technician_id, t.full_name AS technician_name,
             s.id AS service_id, s.name AS service_name, s.slug AS service_slug,
-            cat.name AS category_name
+            cat.name AS category_name,
+            (SELECT COUNT(*) FROM request_messages m WHERE m.request_id = r.id) AS message_count
         FROM repair_requests r
         INNER JOIN users c ON c.id = r.customer_id
         LEFT JOIN users t ON t.id = r.technician_id
@@ -281,6 +282,42 @@ final class RequestRepository
             'author_id' => $authorId,
             'body' => $body,
             'is_internal' => $isInternal ? 1 : 0,
+        ]);
+
+        return (int) $this->database->connection()->lastInsertId();
+    }
+
+    /**
+     * Chat messages of one request, oldest first, with the author names.
+     *
+     * @return list<array<string, mixed>>
+     */
+    public function messagesForRequest(int $requestId): array
+    {
+        $statement = $this->database->connection()->prepare(
+            'SELECT m.id, m.author_id, m.body, m.created_at,
+                    u.full_name AS author_name, u.role AS author_role
+             FROM request_messages m
+             INNER JOIN users u ON u.id = m.author_id
+             WHERE m.request_id = :request_id
+             ORDER BY m.id ASC'
+        );
+        $statement->execute(['request_id' => $requestId]);
+
+        return $statement->fetchAll();
+    }
+
+    /** Add one chat message to a request. */
+    public function addMessage(int $requestId, int $authorId, string $body): int
+    {
+        $statement = $this->database->connection()->prepare(
+            'INSERT INTO request_messages (request_id, author_id, body)
+             VALUES (:request_id, :author_id, :body)'
+        );
+        $statement->execute([
+            'request_id' => $requestId,
+            'author_id' => $authorId,
+            'body' => $body,
         ]);
 
         return (int) $this->database->connection()->lastInsertId();

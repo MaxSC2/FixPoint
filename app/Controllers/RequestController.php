@@ -114,6 +114,7 @@ final class RequestController extends Controller
             'request' => $this->requestService->present($row),
             'history' => $this->requestService->history($requestId),
             'comments' => $this->requestService->visibleComments($requestId),
+            'chatMessages' => $this->requestService->chatMessages($row, $user),
             'permissions' => $this->requestService->permissionsFor($row, $user),
         ]);
     }
@@ -143,6 +144,36 @@ final class RequestController extends Controller
         $this->session->flash('success', 'Комментарий добавлен.');
 
         return Response::redirect($this->commentRedirect($user, $requestId));
+    }
+
+    /**
+     * Write a message into the chat of the request. The customer, the assigned
+     * technician and support share this thread.
+     */
+    public function message(Request $request, array $params = []): Response
+    {
+        $user = $this->requireUser();
+        $requestId = (int) ($params['id'] ?? 0);
+        $body = $this->stringPost($request, 'body');
+
+        try {
+            $this->requestService->postMessage($requestId, $user, $body);
+        } catch (ValidationException $exception) {
+            $errors = $exception->errors();
+            if (isset($errors['general'])) {
+                $this->session->flash('error', $errors['general']);
+                unset($errors['general']);
+            }
+            if ($errors !== []) {
+                $this->session->flashErrors($errors);
+            }
+
+            return Response::redirect('/requests/' . $requestId);
+        }
+
+        $this->session->flash('success', 'Сообщение отправлено.');
+
+        return Response::redirect('/requests/' . $requestId);
     }
 
     public function decideEstimate(Request $request, array $params = []): Response

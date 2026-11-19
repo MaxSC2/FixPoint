@@ -47,6 +47,9 @@ $_requestCardIcon = match (true) {
 <article class="request-card">
     <div class="request-card__top">
         <span class="request-card__number"><?= e($_requestCardNumber) ?></span>
+        <?php if ((int) ($_requestCard['message_count'] ?? 0) > 0): ?>
+            <span class="request-card__messages"><?= (int) $_requestCard['message_count'] ?> <?= e(ru_plural((int) $_requestCard['message_count'], 'сообщение', 'сообщения', 'сообщений')) ?></span>
+        <?php endif; ?>
         <?php $status = $_requestCardStatus; require __DIR__ . '/status-badge.php'; ?>
     </div>
     <div class="request-card__main">

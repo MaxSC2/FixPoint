@@ -58,6 +58,7 @@ return static function (Router $router, App $app): void {
     $router->post('/requests/create', [RequestController::class, 'store'], $customerOnly);
     $router->get('/requests/{id:\d+}', [RequestController::class, 'show'], [AuthMiddleware::class]);
     $router->post('/requests/{id:\d+}/comments', [RequestController::class, 'comment'], [AuthMiddleware::class]);
+    $router->post('/requests/{id:\d+}/messages', [RequestController::class, 'message'], [AuthMiddleware::class]);
     $router->post(
         '/requests/{id:\d+}/estimate-decision',
         [RequestController::class, 'decideEstimate'],
@@ -76,6 +77,7 @@ return static function (Router $router, App $app): void {
     $router->get('/technician/requests/{id:\d+}', [TechnicianController::class, 'show'], $staffOnly);
     $router->post('/technician/requests/{id:\d+}/diagnosis', [TechnicianController::class, 'updateDiagnosis'], $staffOnly);
     $router->post('/technician/requests/{id:\d+}/status', [TechnicianController::class, 'updateStatus'], $staffOnly);
+    $router->post('/technician/requests/{id:\d+}/messages', [TechnicianController::class, 'message'], $staffOnly);
 
     $adminOnly = [AuthMiddleware::class, new RoleMiddleware($app->auth(), $app->session(), 'admin')];
     $router->get('/admin', [AdminController::class, 'index'], $adminOnly);

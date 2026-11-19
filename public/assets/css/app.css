@@ -1244,6 +1244,23 @@ h1 { font-weight: 760; }
 .request-comments__empty { margin: 0 0 17px; color: var(--color-muted); font-size: .77rem; }
 .request-comment-form { display: grid; gap: 12px; margin-top: 18px; padding-top: 18px; border-top: 1px solid #e6e8df; }
 .request-comment-form .button { justify-self: end; }
+
+.request-chat { display: grid; gap: 0; margin-top: 18px; padding: 22px; border: 1px solid var(--color-border); border-radius: var(--radius-card); background: var(--color-surface); }
+.request-chat__head { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+.request-chat__head h2 { margin: 0; font-size: 1.2rem; }
+.request-chat__count { padding: 4px 12px; border-radius: 999px; background: var(--color-primary-soft); color: var(--color-primary-dark); font-size: .76rem; font-weight: 700; }
+.request-chat__empty { margin: 0 0 16px; color: var(--color-muted); font-size: .84rem; line-height: 1.65; }
+.request-chat__list { display: grid; gap: 11px; margin: 0 0 18px; padding: 0; list-style: none; }
+.request-chat__message { padding: 14px 16px; border: 1px solid var(--color-border); border-radius: 12px; background: var(--color-surface-soft); }
+.request-chat__message--own { border-color: #c9d8fb; background: var(--color-primary-soft); }
+.request-chat__meta { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px; margin-bottom: 7px; }
+.request-chat__meta strong { font-size: .84rem; }
+.request-chat__meta time { margin-left: auto; color: var(--color-muted); font-size: .74rem; }
+.request-chat__role { padding: 2px 9px; border: 1px solid var(--color-border); border-radius: 999px; background: var(--color-surface); color: var(--color-muted); font-size: .7rem; font-weight: 700; }
+.request-chat__message p { margin: 0; font-size: .87rem; line-height: 1.6; }
+.request-chat__form { display: grid; gap: 12px; padding-top: 17px; border-top: 1px solid var(--color-border); }
+.request-chat__form .button { justify-self: end; }
+.request-card__messages, .tech-request-card__messages { padding: 3px 10px; border-radius: 999px; background: var(--color-primary-soft); color: var(--color-primary-dark); font-size: .72rem; font-weight: 700; }
 .request-detail-aside { position: sticky; top: 105px; display: grid; gap: 12px; }
 .request-aside-card { padding: 21px; border: 1px solid #dce0d6; border-radius: 9px; background: #fbfaf5; }
 .request-aside-card .eyebrow { margin-bottom: 9px; }

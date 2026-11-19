@@ -198,6 +198,12 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
                         </form>
                     <?php endif; ?>
                 </section>
+
+                <?php
+                $chatFormAction = '/technician/requests/' . rawurlencode($requestId) . '/messages';
+                $chatCanPost = true;
+                require dirname(__DIR__, 3) . '/components/request-chat.php';
+                ?>
             </div>
 
             <aside class="request-detail-aside" data-reveal>
