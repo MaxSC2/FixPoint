@@ -17,6 +17,7 @@ $navigation = [
     'home' => ['label' => 'Главная', 'href' => '/'],
     'services' => ['label' => 'Услуги', 'href' => '/services'],
     'guides' => ['label' => 'Частые неисправности', 'href' => '/guides'],
+    'masters' => ['label' => 'Мастера', 'href' => '/masters'],
     'about' => ['label' => 'О сервисе', 'href' => '/about'],
     'contacts' => ['label' => 'Контакты', 'href' => '/contacts'],
 ];
