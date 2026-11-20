@@ -156,7 +156,7 @@ final class TechnicianProfileReviewHttpTest extends IntegrationTestCase
         $temporary = tempnam(sys_get_temp_dir(), 'fixpoint-avatar-');
         $this->assertTrue(is_string($temporary));
         $png = base64_decode(
-            'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+/W7sAAAAASUVORK5CYII=',
+            'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=',
             true
         );
         $this->assertTrue(is_string($png));
