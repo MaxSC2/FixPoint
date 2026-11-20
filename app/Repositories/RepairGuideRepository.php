@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace FixPoint\Repositories;
 
 use FixPoint\Core\Database;
-use PDO;
 
 final class RepairGuideRepository
 {
@@ -28,7 +27,6 @@ final class RepairGuideRepository
              LIMIT ' . $limit . ' OFFSET ' . $offset
         );
         $statement->execute($params);
-
         return $statement->fetchAll();
     }
 
@@ -39,7 +37,6 @@ final class RepairGuideRepository
             'SELECT COUNT(*) FROM repair_guides WHERE ' . $where
         );
         $statement->execute($params);
-
         return (int) $statement->fetchColumn();
     }
 
@@ -60,7 +57,6 @@ final class RepairGuideRepository
         );
         $select->execute(['slug' => $slug]);
         $row = $select->fetch();
-
         return $row === false ? null : $row;
     }
 
@@ -83,7 +79,6 @@ final class RepairGuideRepository
         );
         $statement->execute(['id' => $id]);
         $row = $statement->fetch();
-
         return $row === false ? null : $row;
     }
 
@@ -97,7 +92,6 @@ final class RepairGuideRepository
         }
         $statement = $this->database->connection()->prepare($sql);
         $statement->execute($params);
-
         return (int) $statement->fetchColumn() > 0;
     }
 
@@ -114,7 +108,6 @@ final class RepairGuideRepository
                  IF(:is_published = 1, CURRENT_TIMESTAMP, NULL))'
         );
         $statement->execute($this->writeParams($data, $userId));
-
         return (int) $this->database->connection()->lastInsertId();
     }
 
@@ -122,6 +115,7 @@ final class RepairGuideRepository
     public function update(int $id, array $data, int $userId): void
     {
         $params = $this->writeParams($data, $userId);
+        unset($params['created_by'], $params['is_published']);
         $params['id'] = $id;
         $params['status_timestamp'] = $data['status'];
         $statement = $this->database->connection()->prepare(
@@ -155,15 +149,21 @@ final class RepairGuideRepository
         $conditions = ['status = "published"'];
         $params = [];
         if ($query !== '') {
-            $conditions[] = '(title LIKE :term OR summary LIKE :term OR symptoms LIKE :term
-                OR possible_causes LIKE :term OR device_type LIKE :term)';
-            $params['term'] = '%' . $query . '%';
+            $conditions[] = '(title LIKE :term_title OR summary LIKE :term_summary OR symptoms LIKE :term_symptoms
+                OR possible_causes LIKE :term_causes OR device_type LIKE :term_device)';
+            $term = '%' . $query . '%';
+            $params = [
+                'term_title' => $term,
+                'term_summary' => $term,
+                'term_symptoms' => $term,
+                'term_causes' => $term,
+                'term_device' => $term,
+            ];
         }
         if ($category !== '') {
             $conditions[] = 'category_slug = :category';
             $params['category'] = $category;
         }
-
         return [implode(' AND ', $conditions), $params];
     }
 

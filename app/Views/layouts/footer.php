@@ -22,6 +22,7 @@ declare(strict_types=1);
             <h2>Разделы</h2>
             <a href="/">Главная</a>
             <a href="/services">Каталог услуг</a>
+            <a href="/guides">Частые неисправности</a>
             <a href="/about">О сервисе</a>
             <a href="/contacts">Контакты</a>
         </nav>

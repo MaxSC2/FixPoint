@@ -2573,3 +2573,28 @@ h1 { font-weight: 760; }
 .catalog-pagination__page.is-current{border-color:var(--ink,#222);background:var(--ink,#222);color:#fff}
 .catalog-pagination__control{padding-inline:1rem}
 .service-card__icon--software,.service-card__icon--storage{color:var(--accent,#555)}
+
+
+/* Module 5.1 — troubleshooting knowledge base */
+.guide-search { display: grid; grid-template-columns: minmax(0, 1fr) minmax(180px, 240px) auto; gap: 12px; align-items: end; margin: 28px 0; }
+.guide-search .field { margin: 0; }
+.guide-card { display: flex; flex-direction: column; gap: 14px; min-height: 250px; padding: 24px; border: 1px solid var(--color-line, #d9dce3); border-radius: 18px; background: var(--color-paper, #fff); }
+.guide-card__meta { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; color: var(--color-muted, #687386); font-size: .82rem; }
+.guide-card h2 { margin: 0; font-size: 1.18rem; line-height: 1.25; }
+.guide-card p { margin: 0; color: var(--color-muted, #687386); line-height: 1.6; }
+.guide-card__link { margin-top: auto; font-weight: 700; }
+.guide-article { max-width: 900px; margin: 0 auto; }
+.guide-article__section { margin: 24px 0; padding: 24px; border: 1px solid var(--color-line, #d9dce3); border-radius: 18px; background: var(--color-paper, #fff); }
+.guide-article__section h2 { margin: 0 0 14px; font-size: 1.25rem; }
+.guide-article__section p { line-height: 1.75; }
+.guide-steps { display: grid; gap: 12px; padding-left: 1.4rem; }
+.guide-steps li { padding-left: 8px; line-height: 1.7; }
+.guide-safety { border-color: #d9a441; background: #fffaf0; }
+.guide-admin-table { width: 100%; border-collapse: collapse; }
+.guide-admin-table th, .guide-admin-table td { padding: 12px 14px; text-align: left; vertical-align: middle; border-bottom: 1px solid var(--color-line, #d9dce3); }
+.guide-admin-table th { color: var(--color-muted, #687386); font-size: .78rem; text-transform: uppercase; letter-spacing: .06em; }
+.guide-admin-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.guide-status { display: inline-flex; padding: 4px 9px; border-radius: 999px; background: #edf0f5; font-size: .78rem; font-weight: 700; }
+.guide-form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+.guide-form-grid .field--wide { grid-column: 1 / -1; }
+@media (max-width: 720px) { .guide-search, .guide-form-grid { grid-template-columns: 1fr; } .guide-form-grid .field--wide { grid-column: auto; } .guide-admin-table { min-width: 680px; } }

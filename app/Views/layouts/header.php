@@ -16,6 +16,7 @@ $unreadMessagesCount = isset($unreadMessagesCount) ? max(0, (int) $unreadMessage
 $navigation = [
     'home' => ['label' => 'Главная', 'href' => '/'],
     'services' => ['label' => 'Услуги', 'href' => '/services'],
+    'guides' => ['label' => 'Частые неисправности', 'href' => '/guides'],
     'about' => ['label' => 'О сервисе', 'href' => '/about'],
     'contacts' => ['label' => 'Контакты', 'href' => '/contacts'],
 ];
