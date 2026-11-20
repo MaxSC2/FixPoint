@@ -149,7 +149,7 @@ Instead, report the exact route registrations, navigation links, dashboard links
 
 - Follow the existing PHP MVC layers: Controller → Service → Repository → MySQL.
 - Use the current dependency container, Request/Response, Auth, CSRF and view conventions.
-- Every schema change is a new immutable numbered SQL migration. Current baseline ends at migration 014, so new migrations start at 015 (coordinate numbering across branches).
+- Every schema change is a new immutable numbered SQL migration. Module 5 owner reserved migrations 015–016 for the knowledge base and 018–020 for profiles/reviews. The calendar agent owns migration 017 for the initial appointment schema and must coordinate before adding further migrations. Never edit an applied migration.
 - Never edit an applied migration.
 - Add proper foreign keys, indexes, uniqueness constraints and check constraints where supported by MySQL 8.
 - Use transactions for multi-table writes and concurrency-sensitive booking.
@@ -204,7 +204,7 @@ No claim of "done" without exact test commands and actual test results. Clearly 
 Implement only Module 5.2 (calendar / appointments), using the newest Module 5 branch as base.
 
 Deliver:
-- migrations (coordinate number with owner; if owner has already added 015, take the next free number);
+- calendar migration `017_*` (reserved for CAL-01; coordinate with owner before adding any further migration numbers);
 - repositories/services/controllers;
 - views for technician availability/calendar and customer appointment booking/history;
 - server-side role/ownership rules;
