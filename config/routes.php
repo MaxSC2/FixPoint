@@ -42,6 +42,7 @@ return static function (Router $router, App $app): void {
     $router->get('/guides', [RepairGuideController::class, 'index']);
     $router->get('/guides/{slug}', [RepairGuideController::class, 'show']);
     $router->get('/masters', [TechnicianProfileController::class, 'index']);
+    $router->get('/masters/{id:\\d+}/avatar', [TechnicianProfileController::class, 'avatar']);
     $router->get('/masters/{id:\\d+}', [TechnicianProfileController::class, 'show']);
     $router->get('/about', [PageController::class, 'about']);
     $router->get('/contacts', [PageController::class, 'contacts']);
