@@ -50,6 +50,7 @@ final class RepairGuideHttpTest extends IntegrationTestCase
         $this->loginAs(self::ADMIN);
         $slug = 'module-five-test-guide-' . bin2hex(random_bytes(4));
         $input = $this->validInput($slug);
+        $input['possible_causes'] = 'Возможны настройки или неисправность. <script>alert(1)</script>';
 
         try {
             $response = $this->post('/admin/guides', $input);
