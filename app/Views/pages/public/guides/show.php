@@ -42,7 +42,7 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
                 <h2>Когда обратиться к мастеру</h2>
                 <p><?= nl2br(e($guide['when_to_contact'] ?? '')) ?></p>
                 <div class="request-form__actions">
-                    <a class="button button--primary button--large" href="/requests/create">Создать заявку по этой проблеме <span aria-hidden="true">↗</span></a>
+                    <a class="button button--primary button--large" href="/requests/create?guide=<?= e(rawurlencode((string) $guide['slug'])) ?>">Создать заявку по этой проблеме <span aria-hidden="true">↗</span></a>
                     <a class="button button--ghost" href="/guides">Вернуться к статьям</a>
                 </div>
             </section>
