@@ -212,7 +212,13 @@ $leaderboard = isset($leaderboard) && is_array($leaderboard) ? $leaderboard : []
                     ?>
                     <article class="honour-card<?= $index === 0 ? ' honour-card--first' : '' ?>">
                         <span class="honour-card__rank">#<?= e((string) ($index + 1)) ?></span>
-                        <div class="master-avatar" aria-hidden="true"><?= e(mb_strtoupper($masterInitials !== '' ? $masterInitials : 'FP')) ?></div>
+                        <div class="master-avatar" aria-hidden="true">
+                            <?php if (!empty($master['avatar_storage_key'])): ?>
+                                <img class="master-avatar__image" src="/masters/<?= e((string) $master['technician_id']) ?>/avatar" alt="" loading="lazy">
+                            <?php else: ?>
+                                <?= e(mb_strtoupper($masterInitials !== '' ? $masterInitials : 'FP')) ?>
+                            <?php endif; ?>
+                        </div>
                         <h3><?= e($masterName) ?></h3>
                         <p class="master-card__specialties"><?= e(trim((string) ($master['specialties'] ?? '')) !== '' ? (string) $master['specialties'] : 'Специализация не указана') ?></p>
                         <div class="honour-card__score"><strong>★ <?= e(number_format((float) ($master['average_rating'] ?? 0), 1, '.', '')) ?></strong><span><?= e((string) ($master['review_count'] ?? 0)) ?> отзывов</span></div>
