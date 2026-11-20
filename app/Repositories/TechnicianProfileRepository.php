@@ -193,6 +193,7 @@ final class TechnicianProfileRepository
         $statement = $this->database->connection()->prepare(
             'SELECT u.id AS technician_id, u.full_name,
                     p.headline, p.bio, p.avatar_storage_key, COALESCE(p.is_public, 1) AS is_public,
+                    COALESCE(p.admin_is_visible, 1) AS admin_is_visible,
                     GROUP_CONCAT(ps.category_id ORDER BY ps.category_id) AS specialty_ids
              FROM users u
              LEFT JOIN technician_profiles p ON p.technician_id = u.id
