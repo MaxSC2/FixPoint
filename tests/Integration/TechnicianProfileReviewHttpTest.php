@@ -7,6 +7,7 @@ namespace FixPoint\Tests\Integration;
 use FixPoint\Core\Env;
 use FixPoint\Core\Request;
 use FixPoint\Core\Response;
+use FixPoint\Core\UploadedFile;
 use FixPoint\Tests\IntegrationTestCase;
 
 final class TechnicianProfileReviewHttpTest extends IntegrationTestCase
@@ -143,6 +144,87 @@ final class TechnicianProfileReviewHttpTest extends IntegrationTestCase
                 $this->logout();
             }
             $this->restoreProfile($technicianId, $originalProfile, $originalSpecialties);
+        }
+    }
+
+    public function testTechnicianCanUploadPrivateAvatarAndAvatarRequiresPublicProfile(): void
+    {
+        $technician = $this->user(self::TECHNICIAN);
+        $technicianId = (int) $technician['id'];
+        $originalProfile = $this->profileRow($technicianId);
+        $originalSpecialties = $this->specialtyIds($technicianId);
+        $temporary = tempnam(sys_get_temp_dir(), 'fixpoint-avatar-');
+        $this->assertTrue(is_string($temporary));
+        $png = base64_decode(
+            'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+/W7sAAAAASUVORK5CYII=',
+            true
+        );
+        $this->assertTrue(is_string($png));
+        file_put_contents($temporary, $png);
+        $newAvatarKey = null;
+
+        try {
+            $this->loginAs(self::TECHNICIAN);
+            $response = $this->postWithFiles('/technician/profile', [
+                'headline' => 'Мастер с фотографией',
+                'bio' => 'Тестовый профиль с загруженным аватаром.',
+                'is_public' => '1',
+                'specialties' => [],
+            ], [
+                'avatar' => UploadedFile::forTesting($temporary, 'profile.png'),
+            ]);
+            $this->assertSame(302, $response->status());
+
+            $saved = $this->profileRow($technicianId);
+            $this->assertTrue(is_array($saved));
+            $newAvatarKey = (string) ($saved['avatar_storage_key'] ?? '');
+            $this->assertSame(1, preg_match('#^avatars/' . $technicianId . '/[a-f0-9]{32}\.png$#', $newAvatarKey));
+            $privatePath = rtrim((string) app()->config()->get('paths.base'), DIRECTORY_SEPARATOR)
+                . DIRECTORY_SEPARATOR . 'storage' . DIRECTORY_SEPARATOR . 'private'
+                . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, $newAvatarKey);
+            $this->assertTrue(is_file($privatePath));
+            $this->assertFalse(is_file(dirname((string) app()->config()->get('paths.base')) . '/public/' . $newAvatarKey));
+
+            $this->logout();
+            $public = app()->handle(Request::create('GET', '/masters/' . $technicianId));
+            $this->assertSame(200, $public->status());
+            $this->assertContains('/masters/' . $technicianId . '/avatar', $public->body());
+
+            $avatar = app()->handle(Request::create('GET', '/masters/' . $technicianId . '/avatar'));
+            $this->assertSame(200, $avatar->status());
+            $this->assertContains('image/png', (string) $avatar->header('Content-Type'));
+            $this->assertTrue(strlen($avatar->body()) > 0);
+
+            $this->loginAs(self::TECHNICIAN);
+            $hidden = $this->post('/technician/profile', [
+                'headline' => 'Мастер с закрытым профилем',
+                'bio' => 'Фото остаётся приватным при закрытом профиле.',
+                'specialties' => [],
+            ]);
+            $this->assertSame(302, $hidden->status());
+            $this->logout();
+
+            $hiddenAvatar = app()->handle(Request::create('GET', '/masters/' . $technicianId . '/avatar'));
+            $this->assertSame(404, $hiddenAvatar->status());
+        } finally {
+            if (app()->auth()->check()) {
+                $this->logout();
+            }
+            $this->restoreProfile($technicianId, $originalProfile, $originalSpecialties);
+            if ($newAvatarKey !== null && $newAvatarKey !== '') {
+                $privatePath = rtrim((string) app()->config()->get('paths.base'), DIRECTORY_SEPARATOR)
+                    . DIRECTORY_SEPARATOR . 'storage' . DIRECTORY_SEPARATOR . 'private'
+                    . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, $newAvatarKey);
+                if (is_file($privatePath)) {
+                    @unlink($privatePath);
+                }
+                if (is_dir(dirname($privatePath))) {
+                    @rmdir(dirname($privatePath));
+                }
+            }
+            if (is_string($temporary) && is_file($temporary)) {
+                @unlink($temporary);
+            }
         }
     }
 
@@ -368,7 +450,7 @@ final class TechnicianProfileReviewHttpTest extends IntegrationTestCase
     private function profileRow(int $technicianId): ?array
     {
         $statement = $this->pdo()->prepare(
-            'SELECT technician_id, headline, bio, is_public, admin_is_visible,
+            'SELECT technician_id, headline, bio, is_public, avatar_storage_key, admin_is_visible,
                     admin_moderation_reason, admin_moderated_by
              FROM technician_profiles WHERE technician_id = :technician_id'
         );
@@ -400,9 +482,9 @@ final class TechnicianProfileReviewHttpTest extends IntegrationTestCase
 
         $this->pdo()->prepare(
             'INSERT INTO technician_profiles
-                (technician_id, headline, bio, is_public, admin_is_visible, admin_moderation_reason, admin_moderated_by)
+                (technician_id, headline, bio, is_public, avatar_storage_key, admin_is_visible, admin_moderation_reason, admin_moderated_by)
              VALUES
-                (:technician_id, :headline, :bio, :is_public, :admin_is_visible, :admin_moderation_reason, :admin_moderated_by)
+                (:technician_id, :headline, :bio, :is_public, :avatar_storage_key, :admin_is_visible, :admin_moderation_reason, :admin_moderated_by)
              ON DUPLICATE KEY UPDATE headline = VALUES(headline), bio = VALUES(bio), is_public = VALUES(is_public),
                                      admin_is_visible = VALUES(admin_is_visible),
                                      admin_moderation_reason = VALUES(admin_moderation_reason),
@@ -412,6 +494,7 @@ final class TechnicianProfileReviewHttpTest extends IntegrationTestCase
             'headline' => $profile['headline'],
             'bio' => $profile['bio'],
             'is_public' => $profile['is_public'],
+            'avatar_storage_key' => $profile['avatar_storage_key'],
             'admin_is_visible' => $profile['admin_is_visible'],
             'admin_moderation_reason' => $profile['admin_moderation_reason'],
             'admin_moderated_by' => $profile['admin_moderated_by'],
@@ -450,6 +533,13 @@ final class TechnicianProfileReviewHttpTest extends IntegrationTestCase
     {
         $data['_token'] = app()->csrf()->token();
         return app()->handle(Request::create('POST', $uri, $data));
+    }
+
+    /** @param array<string, mixed> $data @param array<string, mixed> $files */
+    private function postWithFiles(string $uri, array $data, array $files): Response
+    {
+        $data['_token'] = app()->csrf()->token();
+        return app()->handle(Request::create('POST', $uri, $data, [], [], [], $files));
     }
 
     private function pdo(): \PDO
