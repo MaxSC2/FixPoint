@@ -25,7 +25,6 @@ require dirname(__DIR__, 2) . '/layouts/header.php';
         <nav class="workspace-nav" aria-label="Разделы личного кабинета" data-reveal>
             <a class="workspace-nav__link is-active" href="/account" aria-current="page">Обзор</a>
             <a class="workspace-nav__link" href="/requests">Мои заявки</a>
-            <a class="workspace-nav__link workspace-nav__link--action" href="/requests/create">Создать обращение <span aria-hidden="true">+</span></a>
         </nav>
 
         <section class="account-recent" data-reveal>
@@ -43,8 +42,8 @@ require dirname(__DIR__, 2) . '/layouts/header.php';
                 <?php
                 $title = 'Заявок пока нет';
                 $description = 'Когда вы отправите обращение, его номер, статус и дальнейшие события появятся в этом разделе.';
-                $actionLabel = 'Создать первую заявку';
-                $actionHref = '/requests/create';
+                $actionLabel = '';
+                $actionHref = '';
                 require dirname(__DIR__, 2) . '/components/empty-state.php';
                 ?>
             <?php endif; ?>

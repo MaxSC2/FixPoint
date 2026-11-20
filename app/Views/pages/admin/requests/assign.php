@@ -17,8 +17,17 @@ if ($deviceTitle === '') {
 $currentTechnician = isset($request['technician']) && is_array($request['technician']) ? $request['technician'] : null;
 $currentTechnicianId = (string) ($currentTechnician['id'] ?? '');
 $selectedTechnicianId = (string) ($old['technician_id'] ?? $currentTechnicianId);
+$requestStatus = (string) ($request['status'] ?? '');
+$isTerminalRequest = in_array($requestStatus, ['completed', 'cancelled', 'rejected'], true);
+$requestStatusLabel = match ($requestStatus) {
+    'completed' => 'завершена',
+    'cancelled' => 'отменена',
+    'rejected' => 'отклонена',
+    default => 'неизвестна',
+};
 $pageTitle = 'Назначение мастера · ' . $publicNumber;
 $activeNav = 'admin';
+$adminActiveSection = 'requests';
 require dirname(__DIR__, 3) . '/layouts/header.php';
 ?>
 <section class="workspace-page admin-workspace">
@@ -32,19 +41,13 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
             </div>
         </div>
 
-        <nav class="workspace-nav" aria-label="Разделы администратора" data-reveal>
-            <a class="workspace-nav__link" href="/admin">Обзор</a>
-            <a class="workspace-nav__link is-active" href="/admin/requests" aria-current="page">Заявки</a>
-            <a class="workspace-nav__link" href="/admin/users">Пользователи</a>
-            <a class="workspace-nav__link" href="/admin/services">Услуги</a>
-            <a class="workspace-nav__link" href="/admin/categories">Категории</a>
-            <a class="workspace-nav__link" href="/admin/content/about">Контент</a><a class="workspace-nav__link" href="/admin/statistics">Статистика</a>
-        </nav>
+        <?php require dirname(__DIR__, 3) . '/components/admin-nav.php'; ?>
 
         <div class="admin-assign-layout">
             <section class="request-form-panel" data-reveal>
-                <div class="request-form-panel__head"><span class="eyebrow">Назначение исполнителя</span><h2>Кто займётся заявкой?</h2><p>В списке отображаются активные пользователи с ролью мастера. Назначение можно изменить позже.</p></div>
+                <div class="request-form-panel__head"><span class="eyebrow">Назначение исполнителя</span><h2><?= $isTerminalRequest ? 'Заявка закрыта' : 'Кто займётся заявкой?' ?></h2><p><?= $isTerminalRequest ? 'Заявка ' . e($requestStatusLabel) . '. Изменять исполнителя после закрытия нельзя.' : 'В списке отображаются активные пользователи с ролью мастера. Назначение можно изменить позже.' ?></p></div>
                 <?php if (isset($errors['general'])): ?><div class="alert alert--error" role="alert"><span class="alert__marker" aria-hidden="true"></span><p><?= e((string) $errors['general']) ?></p></div><?php endif; ?>
+                <?php if (!$isTerminalRequest): ?>
                 <form class="admin-assign-form" method="post" action="/admin/requests/<?= e(rawurlencode($requestId)) ?>/assign">
                     <input type="hidden" name="_token" value="<?= e($csrfToken ?? '') ?>">
                     <label class="field<?= isset($errors['technician_id']) ? ' field--invalid' : '' ?>" for="assign-technician">
@@ -65,6 +68,13 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
                     </label>
                     <div class="request-form__actions"><a class="button button--secondary" href="/admin/requests">Отмена</a><button class="button button--primary button--large" type="submit">Сохранить назначение</button></div>
                 </form>
+                <?php else: ?>
+                    <div class="admin-action-notice" role="status">
+                        <strong>Назначение недоступно</strong>
+                        <p>Эта заявка уже закрыта. Вернитесь в реестр, чтобы выбрать другую заявку.</p>
+                        <a class="button button--secondary" href="/admin/requests">Вернуться к реестру</a>
+                    </div>
+                <?php endif; ?>
             </section>
 
             <aside class="request-create-aside" data-reveal>

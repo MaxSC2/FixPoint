@@ -145,6 +145,49 @@ final class AdminHttpTest extends IntegrationTestCase
         $this->assertContains('Заявки не найдены', $empty);
     }
 
+    public function testRegistryHidesAssignmentForTerminalRequestsAndStaleAssignPageIsReadOnly(): void
+    {
+        $activeId = $this->createRequest([
+            'public_number' => 'TASK005-ACTIVE-ASSIGN',
+            'status' => 'repairing',
+        ]);
+        $completedId = $this->createRequest([
+            'public_number' => 'TASK005-COMPLETED-ASSIGN',
+            'status' => 'completed',
+        ]);
+        $cancelledId = $this->createRequest([
+            'public_number' => 'TASK005-CANCELLED-ASSIGN',
+            'status' => 'cancelled',
+        ]);
+        $rejectedId = $this->createRequest([
+            'public_number' => 'TASK005-REJECTED-ASSIGN',
+            'status' => 'rejected',
+        ]);
+
+        $this->loginAs(self::ADMIN);
+
+        $active = app()->handle(Request::create('GET', '/admin/requests?q=TASK005-ACTIVE-ASSIGN'));
+        $this->assertSame(200, $active->status());
+        $this->assertContains('/admin/requests/' . $activeId . '/assign', $active->body());
+        $this->assertContains('Назначить мастера', $active->body());
+
+        foreach ([
+            [$completedId, 'TASK005-COMPLETED-ASSIGN'],
+            [$cancelledId, 'TASK005-CANCELLED-ASSIGN'],
+            [$rejectedId, 'TASK005-REJECTED-ASSIGN'],
+        ] as [$requestId, $number]) {
+            $registry = app()->handle(Request::create('GET', '/admin/requests?q=' . $number));
+            $this->assertSame(200, $registry->status());
+            $this->assertContains('Заявка закрыта', $registry->body());
+            $this->assertNotContains('/admin/requests/' . $requestId . '/assign', $registry->body());
+
+            $stalePage = app()->handle(Request::create('GET', '/admin/requests/' . $requestId . '/assign'));
+            $this->assertSame(200, $stalePage->status());
+            $this->assertContains('Назначение недоступно', $stalePage->body());
+            $this->assertNotContains('action="/admin/requests/' . $requestId . '/assign"', $stalePage->body());
+        }
+    }
+
     public function testRegistryPaginatesEightPerPageAndSortsByUpdate(): void
     {
         $this->loginAs(self::ADMIN);

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 $pageTitle = 'Реестр заявок';
 $activeNav = 'admin';
+$adminActiveSection = 'requests';
 $requestList = isset($requestList) && is_array($requestList) ? $requestList : [];
 $items = isset($requestList['items']) && is_array($requestList['items']) ? array_values(array_filter($requestList['items'], 'is_array')) : [];
 $pagination = isset($requestList['pagination']) && is_array($requestList['pagination']) ? $requestList['pagination'] : [];
@@ -40,14 +41,7 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
             <span class="admin-record-count"><strong><?= e((string) $totalRequests) ?></strong><small>записей в выборке</small></span>
         </div>
 
-        <nav class="workspace-nav" aria-label="Разделы администратора" data-reveal>
-            <a class="workspace-nav__link" href="/admin">Обзор</a>
-            <a class="workspace-nav__link is-active" href="/admin/requests" aria-current="page">Заявки</a>
-            <a class="workspace-nav__link" href="/admin/users">Пользователи</a>
-            <a class="workspace-nav__link" href="/admin/services">Услуги</a>
-            <a class="workspace-nav__link" href="/admin/categories">Категории</a>
-            <a class="workspace-nav__link" href="/admin/content/about">Контент</a><a class="workspace-nav__link" href="/admin/statistics">Статистика</a>
-        </nav>
+        <?php require dirname(__DIR__, 3) . '/components/admin-nav.php'; ?>
 
         <section class="staff-list-panel" data-reveal>
             <div class="request-list-panel__head"><div><span class="eyebrow">Реальные записи</span><h2>Фильтры реестра</h2></div><span class="request-list-panel__count"><?= e((string) $totalRequests) ?> всего</span></div>
@@ -63,7 +57,7 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
             <?php if ($items !== []): ?>
                 <div class="admin-request-table-wrap" role="region" aria-label="Таблица заявок, прокручиваемая по горизонтали" tabindex="0">
                     <table class="admin-request-table">
-                        <thead><tr><th>Заявка / устройство</th><th>Клиент</th><th>Мастер</th><th>Статус</th><th>Приоритет</th><th>Создана</th><th><span class="sr-only">Открыть</span></th></tr></thead>
+                        <thead><tr><th>Заявка / устройство</th><th>Клиент</th><th>Мастер</th><th>Статус</th><th>Приоритет</th><th>Создана</th><th>Действия</th></tr></thead>
                         <tbody>
                             <?php foreach ($items as $request): ?>
                                 <?php
@@ -84,13 +78,20 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
                                     <td><a class="admin-request-primary" href="/technician/requests/<?= e(rawurlencode($requestId)) ?>"><?= e($number) ?><small><?= e($deviceTitle) ?></small></a></td>
                                     <td><?= e((string) ($customer['full_name'] ?? '—')) ?></td>
                                     <td><?= e((string) ($technician['full_name'] ?? 'Не назначен')) ?></td>
-                                    <td><?php $status = (string) ($request['status'] ?? ''); require dirname(__DIR__, 3) . '/components/status-badge.php'; ?></td>
+                                    <td><?php
+                                        $status = (string) ($request['status'] ?? '');
+                                        $canAssign = !in_array($status, ['completed', 'cancelled', 'rejected'], true);
+                                        require dirname(__DIR__, 3) . '/components/status-badge.php';
+                                    ?></td>
                                     <td><span class="priority-chip priority-chip--<?= e(in_array($priority, ['low','normal','high','urgent'], true) ? $priority : 'normal') ?>"><?= e($priorityLabels[$priority] ?? 'Не указан') ?></span></td>
                                     <td><?= e($dateLabel) ?></td>
                                     <td>
                                         <div class="admin-row-actions">
-                                            <a class="admin-row-open" href="/technician/requests/<?= e(rawurlencode($requestId)) ?>" aria-label="Открыть рабочую карточку <?= e($number) ?>">↗</a>
-                                            <a class="admin-row-assign" href="/admin/requests/<?= e(rawurlencode($requestId)) ?>/assign">Назначить</a>
+                                            <?php if ($canAssign): ?>
+                                                <a class="admin-row-assign" href="/admin/requests/<?= e(rawurlencode($requestId)) ?>/assign">Назначить мастера</a>
+                                            <?php else: ?>
+                                                <span class="admin-row-unavailable" title="Закрытые заявки нельзя переназначить">Заявка закрыта</span>
+                                            <?php endif; ?>
                                         </div>
                                     </td>
                                 </tr>
@@ -110,8 +111,9 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
                 <?php
                 $title = 'Заявки не найдены';
                 $description = 'Измените параметры фильтрации. Реестр не подставляет демонстрационные записи.';
-                $actionLabel = 'Сбросить фильтры';
-                $actionHref = '/admin/requests';
+                $hasActiveFilters = $query !== '' || $selectedStatus !== '' || $selectedPriority !== '' || $selectedSort !== 'newest';
+                $actionLabel = $hasActiveFilters ? 'Сбросить фильтры' : '';
+                $actionHref = $hasActiveFilters ? '/admin/requests' : '';
                 require dirname(__DIR__, 3) . '/components/empty-state.php';
                 ?>
             <?php endif; ?>

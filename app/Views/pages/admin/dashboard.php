@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 $pageTitle = 'Панель администратора';
 $activeNav = 'admin';
+$adminActiveSection = 'overview';
 $stats = isset($stats) && is_array($stats) ? $stats : [];
 $recentRequests = isset($recentRequests) && is_array($recentRequests) ? array_values(array_filter($recentRequests, 'is_array')) : [];
 $metricDefinitions = [
@@ -24,18 +25,7 @@ require dirname(__DIR__, 2) . '/layouts/header.php';
             <a class="button button--primary button--large" href="/admin/requests">Открыть реестр <span aria-hidden="true">↗</span></a>
         </div>
 
-        <nav class="workspace-nav" aria-label="Разделы администратора" data-reveal>
-            <a class="workspace-nav__link is-active" href="/admin" aria-current="page">Обзор</a>
-            <a class="workspace-nav__link" href="/admin/requests">Заявки</a>
-            <a class="workspace-nav__link" href="/admin/users">Пользователи</a>
-            <a class="workspace-nav__link" href="/admin/services">Услуги</a>
-            <a class="workspace-nav__link" href="/admin/categories">Категории</a>
-            <a class="workspace-nav__link" href="/admin/guides">База знаний</a>
-            <a class="workspace-nav__link" href="/admin/technicians">Профили мастеров</a>
-            <a class="workspace-nav__link" href="/admin/reviews">Отзывы мастеров</a>
-            <a class="workspace-nav__link" href="/admin/content/about">Контент</a>
-            <a class="workspace-nav__link workspace-nav__link--action" href="/admin/statistics">Статистика <span aria-hidden="true">↗</span></a>
-        </nav>
+        <?php require dirname(__DIR__, 2) . '/components/admin-nav.php'; ?>
 
         <section class="admin-metrics" aria-label="Показатели сервиса" data-reveal>
             <?php foreach ($metricDefinitions as $key => $definition): ?>
@@ -56,7 +46,6 @@ require dirname(__DIR__, 2) . '/layouts/header.php';
         <section class="admin-recent" data-reveal>
             <div class="account-recent__head">
                 <div><span class="eyebrow">Операционная работа</span><h2>Последние обращения</h2></div>
-                <a class="text-link" href="/admin/requests">Весь реестр <span aria-hidden="true">↗</span></a>
             </div>
             <?php if ($recentRequests !== []): ?>
                 <div class="request-card-list">

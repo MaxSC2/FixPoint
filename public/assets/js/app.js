@@ -124,6 +124,29 @@
         });
     }
 
+    // Confirm archive actions before sending the corresponding POST request.
+    document.querySelectorAll('form[data-confirm]').forEach((form) => {
+        form.addEventListener('submit', (event) => {
+            const message = form.getAttribute('data-confirm') || 'Подтвердить действие?';
+            if (!window.confirm(message)) event.preventDefault();
+        });
+    });
+
+    // Require a reason only when moderation hides an item.
+    document.querySelectorAll('form[data-admin-moderation-form]').forEach((form) => {
+        const status = form.querySelector('[data-moderation-status]');
+        const reason = form.querySelector('[data-moderation-reason]');
+        if (!(status instanceof HTMLSelectElement) || !(reason instanceof HTMLInputElement)) return;
+
+        const requiredValue = form.getAttribute('data-required-value') || 'hidden';
+        const syncReasonRequirement = () => {
+            reason.required = status.value === requiredValue;
+        };
+
+        status.addEventListener('change', syncReasonRequirement);
+        syncReasonRequirement();
+    });
+
     // Reveal content as it enters the viewport. The page remains fully readable
     // when JavaScript, IntersectionObserver, or motion preferences require fallback.
     const revealTargets = Array.from(document.querySelectorAll('[data-reveal]'));
