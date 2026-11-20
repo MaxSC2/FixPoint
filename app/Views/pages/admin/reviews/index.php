@@ -9,7 +9,7 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
 <section class="workspace-page admin-workspace">
     <div class="container">
         <div class="workspace-heading workspace-heading--compact"><div><span class="eyebrow">Управление репутацией / Модерация</span><h1>Отзывы мастеров</h1><p>Скрытые отзывы не отображаются в профилях и не влияют на рейтинг. Запись и история заявки сохраняются.</p></div></div>
-        <nav class="workspace-nav" aria-label="Разделы администратора"><a class="workspace-nav__link" href="/admin">Обзор</a><a class="workspace-nav__link" href="/admin/guides">База знаний</a><a class="workspace-nav__link is-active" href="/admin/reviews" aria-current="page">Отзывы</a></nav>
+        <nav class="workspace-nav" aria-label="Разделы администратора"><a class="workspace-nav__link" href="/admin">Обзор</a><a class="workspace-nav__link" href="/admin/guides">База знаний</a><a class="workspace-nav__link" href="/admin/technicians">Профили мастеров</a><a class="workspace-nav__link is-active" href="/admin/reviews" aria-current="page">Отзывы</a></nav>
         <section class="request-form-panel">
             <?php if ($reviews !== []): ?>
                 <div class="table-scroll"><table class="guide-admin-table">
