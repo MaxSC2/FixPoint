@@ -258,6 +258,62 @@ final class RequestHttpTest extends IntegrationTestCase
         $this->assertSame(0, $this->fixtureRequestCount());
     }
 
+    public function testRequestCreatedFromGuideRetainsValidatedSourceContext(): void
+    {
+        $this->loginAs(self::CUSTOMER);
+        $slug = 'laptop-wont-start';
+        $form = app()->handle(Request::create('GET', '/requests/create?guide=' . $slug));
+        $this->assertSame(200, $form->status());
+        $this->assertContains('Ноутбук не включается', $form->body());
+        $this->assertContains('name="guide_slug"', $form->body());
+
+        $response = $this->post('/requests/create', [
+            'device_type' => 'Ноутбук',
+            'device_brand' => 'TASK003-Guide',
+            'device_model' => 'Guide context fixture',
+            'service_id' => '',
+            'guide_slug' => $slug,
+            'problem_description' => 'Ноутбук не реагирует на кнопку питания после проверки адаптера.',
+            'customer_contact' => $this->contact('guide-context'),
+        ]);
+        $this->assertSame(302, $response->status());
+        $location = (string) $response->header('Location');
+        $this->assertSame(1, preg_match('#^/requests/(\d+)$#', $location, $matches));
+        $requestId = (int) $matches[1];
+
+        $statement = $this->pdo()->prepare(
+            'SELECT r.source_guide_id, g.slug, g.title
+             FROM repair_requests r
+             LEFT JOIN repair_guides g ON g.id = r.source_guide_id
+             WHERE r.id = :id LIMIT 1'
+        );
+        $statement->execute(['id' => $requestId]);
+        $source = $statement->fetch();
+        $this->assertTrue(is_array($source));
+        $this->assertTrue((int) $source['source_guide_id'] > 0);
+        $this->assertSame($slug, $source['slug']);
+        $this->assertSame('Ноутбук не включается', $source['title']);
+
+        $detail = app()->handle(Request::create('GET', '/requests/' . $requestId));
+        $this->assertSame(200, $detail->status());
+        $this->assertContains('Как появилась заявка', $detail->body());
+        $this->assertContains('Открыть исходную инструкцию', $detail->body());
+
+        $before = $this->fixtureRequestCount();
+        $invalid = $this->post('/requests/create', [
+            'device_type' => 'Ноутбук',
+            'device_brand' => 'TASK003-Guide',
+            'device_model' => 'Invalid guide fixture',
+            'service_id' => '',
+            'guide_slug' => 'not-a-published-guide',
+            'problem_description' => 'Проверка отклонения поддельной ссылки на инструкцию.',
+            'customer_contact' => $this->contact('bad-guide'),
+        ]);
+        $this->assertSame(302, $invalid->status());
+        $this->assertContains('guide=not-a-published-guide', (string) $invalid->header('Location'));
+        $this->assertSame($before, $this->fixtureRequestCount());
+    }
+
     public function testCreateRequiresCsrfForAuthenticatedCustomer(): void
     {
         $this->loginAs(self::CUSTOMER);
