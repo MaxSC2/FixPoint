@@ -11,7 +11,7 @@ $heroAction = match ($authUser['role'] ?? null) {
     'admin' => ['href' => '/admin', 'label' => 'Панель администратора'],
     default => ['href' => '/register', 'label' => 'Создать заявку'],
 };
-$featuredServices = isset($featuredServices) && is_array($featuredServices) ? $featuredServices : [];
+$leaderboard = isset($leaderboard) && is_array($leaderboard) ? $leaderboard : [];
 ?>
 <section class="atelier-hero">
     <div class="container atelier-hero__grid">
@@ -194,21 +194,42 @@ $featuredServices = isset($featuredServices) && is_array($featuredServices) ? $f
     </div>
 </section>
 
-<?php if ($featuredServices !== []): ?>
-<section class="atelier-featured section">
+<section class="atelier-honour-board section">
     <div class="container">
         <div class="atelier-section-head" data-reveal>
-            <div><span class="eyebrow">Каталог / 04</span><h2>Популярные услуги</h2></div>
-            <a class="text-link" href="/services">Все услуги <span aria-hidden="true">↗</span></a>
+            <div><span class="eyebrow">Сообщество FixPoint / 04</span><h2>Доска почёта</h2></div>
+            <a class="text-link" href="/masters">Все мастера <span aria-hidden="true">↗</span></a>
         </div>
-        <div class="service-grid" data-reveal>
-            <?php foreach (array_slice($featuredServices, 0, 6) as $service): ?>
-                <?php require dirname(__DIR__, 2) . '/components/service-card.php'; ?>
-            <?php endforeach; ?>
-        </div>
+        <p class="honour-board__lead">Специалисты с подтверждёнными отзывами клиентов и завершёнными работами. В рейтинг попадают мастера минимум с тремя опубликованными оценками.</p>
+        <?php if ($leaderboard !== []): ?>
+            <div class="honour-board-grid" data-reveal>
+                <?php foreach (array_slice($leaderboard, 0, 5) as $index => $master): ?>
+                    <?php
+                    $masterName = (string) ($master['full_name'] ?? 'Мастер FixPoint');
+                    $masterParts = preg_split('/\\s+/u', trim($masterName)) ?: [];
+                    $masterInitials = '';
+                    foreach (array_slice($masterParts, 0, 2) as $part) { $masterInitials .= mb_substr($part, 0, 1); }
+                    ?>
+                    <article class="honour-card<?= $index === 0 ? ' honour-card--first' : '' ?>">
+                        <span class="honour-card__rank">#<?= e((string) ($index + 1)) ?></span>
+                        <div class="master-avatar" aria-hidden="true"><?= e(mb_strtoupper($masterInitials !== '' ? $masterInitials : 'FP')) ?></div>
+                        <h3><?= e($masterName) ?></h3>
+                        <p class="master-card__specialties"><?= e((string) ($master['specialties'] ?? 'Специализация не указана')) ?></p>
+                        <div class="honour-card__score"><strong>★ <?= e(number_format((float) ($master['average_rating'] ?? 0), 1, '.', '')) ?></strong><span><?= e((string) ($master['review_count'] ?? 0)) ?> отзывов</span></div>
+                        <p class="honour-card__orders"><?= e((string) ($master['completed_count'] ?? 0)) ?> завершённых заявок</p>
+                        <a class="text-link" href="/masters/<?= e((string) (int) $master['technician_id']) ?>">Открыть профиль <span aria-hidden="true">↗</span></a>
+                    </article>
+                <?php endforeach; ?>
+            </div>
+        <?php else: ?>
+            <div class="honour-board-empty">
+                <span class="honour-board-empty__mark" aria-hidden="true">★</span>
+                <div><h3>Доска почёта формируется</h3><p>Здесь появятся мастера, которые получили не менее трёх отзывов по завершённым заявкам.</p></div>
+                <a class="button button--secondary" href="/masters">Познакомиться с мастерами</a>
+            </div>
+        <?php endif; ?>
     </div>
 </section>
-<?php endif; ?>
 
 <section class="atelier-final">
     <div class="container atelier-final__inner" data-reveal>
