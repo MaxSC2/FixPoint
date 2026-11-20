@@ -13,7 +13,7 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
             <a class="button button--primary button--large" href="/admin/guides/create">Новая статья <span aria-hidden="true">＋</span></a>
         </div>
         <nav class="workspace-nav" aria-label="Разделы администратора">
-            <a class="workspace-nav__link" href="/admin">Обзор</a><a class="workspace-nav__link" href="/admin/requests">Заявки</a><a class="workspace-nav__link" href="/admin/users">Пользователи</a><a class="workspace-nav__link" href="/admin/services">Услуги</a><a class="workspace-nav__link" href="/admin/categories">Категории</a><a class="workspace-nav__link is-active" href="/admin/guides" aria-current="page">База знаний</a><a class="workspace-nav__link" href="/admin/content/about">Контент</a><a class="workspace-nav__link" href="/admin/statistics">Статистика</a>
+            <a class="workspace-nav__link" href="/admin">Обзор</a><a class="workspace-nav__link" href="/admin/requests">Заявки</a><a class="workspace-nav__link" href="/admin/users">Пользователи</a><a class="workspace-nav__link" href="/admin/services">Услуги</a><a class="workspace-nav__link" href="/admin/categories">Категории</a><a class="workspace-nav__link is-active" href="/admin/guides" aria-current="page">База знаний</a><a class="workspace-nav__link" href="/admin/technicians">Профили мастеров</a><a class="workspace-nav__link" href="/admin/content/about">Контент</a><a class="workspace-nav__link" href="/admin/statistics">Статистика</a>
         </nav>
         <section class="request-form-panel">
             <div class="request-form-panel__head"><span class="eyebrow">Материалы</span><h2>Все статьи</h2><p>Публикация доступна после заполнения обязательных разделов.</p></div>
