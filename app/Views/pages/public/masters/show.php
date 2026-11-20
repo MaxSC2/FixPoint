@@ -22,7 +22,7 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
                 <h1><?= e($name) ?></h1>
                 <p class="master-card__headline"><?= e((string) ($profile['headline'] ?? 'Специалист FixPoint')) ?></p>
                 <p><?= e((string) ($profile['bio'] ?? 'Описание специалиста пока не добавлено.')) ?></p>
-                <p class="master-card__specialties"><?= e((string) ($profile['specialties'] ?? 'Специализация не указана')) ?></p>
+                <p class="master-card__specialties"><?= e(trim((string) ($profile['specialties'] ?? '')) !== '' ? (string) $profile['specialties'] : 'Специализация не указана') ?></p>
             </div>
             <div class="master-profile-score">
                 <?php if ($reviewCount > 0): ?><strong>★ <?= e(number_format((float) $profile['average_rating'], 1, '.', '')) ?></strong><span><?= e((string) $reviewCount) ?> опубликованных отзывов</span>
