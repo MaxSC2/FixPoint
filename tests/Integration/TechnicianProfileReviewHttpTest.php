@@ -87,7 +87,6 @@ final class TechnicianProfileReviewHttpTest extends IntegrationTestCase
             $public = app()->handle(Request::create('GET', '/masters/' . $technicianId));
             $this->assertSame(200, $public->status());
             $this->assertContains('Диагностика ноутбуков и ПК', $public->body());
-            $this->assertContains('Компьютеров', $public->body()) || $this->assertContains('ноутбуков и ПК', $public->body());
         } finally {
             $this->restoreProfile($technicianId, $originalProfile, $originalSpecialties);
         }
