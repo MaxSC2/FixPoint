@@ -31,7 +31,13 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
                     $count = (int) ($master['review_count'] ?? 0);
                     ?>
                     <article class="master-card">
-                        <div class="master-card__top"><div class="master-avatar" aria-hidden="true"><?= e(mb_strtoupper($initials !== '' ? $initials : 'FP')) ?></div><span class="master-card__orders"><?= e((string) ($master['completed_count'] ?? 0)) ?> завершённых заявок</span></div>
+                        <div class="master-card__top"><div class="master-avatar" aria-hidden="true">
+                            <?php if (!empty($master['avatar_storage_key'])): ?>
+                                <img class="master-avatar__image" src="/masters/<?= e((string) $master['technician_id']) ?>/avatar" alt="" loading="lazy">
+                            <?php else: ?>
+                                <?= e(mb_strtoupper($initials !== '' ? $initials : 'FP')) ?>
+                            <?php endif; ?>
+                        </div><span class="master-card__orders"><?= e((string) ($master['completed_count'] ?? 0)) ?> завершённых заявок</span></div>
                         <h2><?= e($name) ?></h2>
                         <p class="master-card__headline"><?= e((string) ($master['headline'] ?? 'Специалист FixPoint')) ?></p>
                         <p class="master-card__specialties"><?= e(trim((string) ($master['specialties'] ?? '')) !== '' ? (string) $master['specialties'] : 'Специализация не указана') ?></p>
