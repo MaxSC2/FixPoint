@@ -4,14 +4,12 @@ declare(strict_types=1);
 $pageTitle = 'Каталог услуг';
 $activeNav = 'services';
 $services = isset($services) && is_array($services) ? $services : [];
+$pagination = isset($pagination) && is_array($pagination) ? $pagination : ['current_page' => 1, 'last_page' => 1, 'per_page' => count($services), 'total' => count($services)];
 $categories = isset($categories) && is_array($categories) ? $categories : [];
 $filters = isset($filters) && is_array($filters) ? $filters : [];
 $query = (string) ($filters['q'] ?? '');
 $selectedCategory = (string) ($filters['category'] ?? '');
 require dirname(__DIR__, 3) . '/layouts/header.php';
-$catalogActionLabel = in_array($authUser['role'] ?? null, ['technician', 'admin'], true)
-    ? $requestAction['label']
-    : 'Описать проблему';
 ?>
 <section class="page-hero page-hero--compact">
     <div class="container" data-reveal>
@@ -53,7 +51,7 @@ $catalogActionLabel = in_array($authUser['role'] ?? null, ['technician', 'admin'
 
         <?php if ($services !== []): ?>
             <div class="catalog-results" data-reveal>
-                <div class="catalog-results__heading"><h2>Доступные услуги</h2><span><?= e((string) count($services)) ?> в списке</span></div>
+                <div class="catalog-results__heading"><h2>Доступные услуги</h2><span><?= e((string) ($pagination['total'] ?? count($services))) ?> всего · <?= e((string) count($services)) ?> на странице</span></div>
                 <div class="service-grid">
                     <?php foreach ($services as $service): ?>
                         <?php require dirname(__DIR__, 3) . '/components/service-card.php'; ?>
@@ -69,13 +67,33 @@ $catalogActionLabel = in_array($authUser['role'] ?? null, ['technician', 'admin'
             </div>
         <?php endif; ?>
 
+        <?php if (($pagination['last_page'] ?? 1) > 1): ?>
+            <?php
+            $pageUrl = static function (int $page) use ($query, $selectedCategory): string {
+                $params = array_filter(['q' => $query, 'category' => $selectedCategory, 'page' => $page > 1 ? $page : null], static fn ($value): bool => $value !== null && $value !== '');
+                return '/services' . ($params === [] ? '' : '?' . http_build_query($params));
+            };
+            $currentPage = (int) ($pagination['current_page'] ?? 1);
+            $lastPage = (int) ($pagination['last_page'] ?? 1);
+            $startPage = max(1, $currentPage - 2);
+            $endPage = min($lastPage, $currentPage + 2);
+            ?>
+            <nav class="catalog-pagination" aria-label="Страницы каталога">
+                <?php if ($currentPage > 1): ?><a class="catalog-pagination__control" href="<?= e($pageUrl($currentPage - 1)) ?>" rel="prev">← Назад</a><?php endif; ?>
+                <?php for ($pageNumber = $startPage; $pageNumber <= $endPage; $pageNumber++): ?>
+                    <?php if ($pageNumber === $currentPage): ?><span class="catalog-pagination__page is-current" aria-current="page"><?= e((string) $pageNumber) ?></span><?php else: ?><a class="catalog-pagination__page" href="<?= e($pageUrl($pageNumber)) ?>"><?= e((string) $pageNumber) ?></a><?php endif; ?>
+                <?php endfor; ?>
+                <?php if ($currentPage < $lastPage): ?><a class="catalog-pagination__control" href="<?= e($pageUrl($currentPage + 1)) ?>" rel="next">Вперёд →</a><?php endif; ?>
+            </nav>
+        <?php endif; ?>
+
         <aside class="catalog-note" data-reveal>
             <span class="catalog-note__icon" aria-hidden="true">i</span>
             <div class="catalog-note__content">
                 <strong>Не знаете, какую услугу выбрать?</strong>
                 <p>Это нормально. Выберите «Нужна диагностика» при создании заявки и просто опишите симптомы. Мастер уточнит причину и согласует стоимость до ремонта. Цены «от» в каталоге предварительные.</p>
             </div>
-            <a class="button button--secondary catalog-note__action" href="<?= e($requestAction['href']) ?>"><?= e($catalogActionLabel) ?> <span aria-hidden="true">↗</span></a>
+            <a class="button button--secondary catalog-note__action" href="/register">Описать проблему <span aria-hidden="true">↗</span></a>
         </aside>
     </div>
 </section>

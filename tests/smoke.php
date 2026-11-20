@@ -131,7 +131,7 @@ try {
     check('CSP forbids framing', str_contains($home['headers']['content-security-policy'] ?? '', "frame-ancestors 'none'"), $home);
     check('X-Powered-By is removed', !isset($home['headers']['x-powered-by']), $home);
 
-    $services = httpRequest('GET', $baseUrl . '/services');
+    $services = httpRequest('GET', $baseUrl . '/services?q=' . rawurlencode('Чистка ноутбука'));
     check('GET /services returns 200', $services['status'] === 200, $services);
     check('Catalogue shows seeded services', str_contains($services['body'], 'Чистка ноутбука от пыли'), $services);
 
