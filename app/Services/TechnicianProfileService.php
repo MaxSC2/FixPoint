@@ -1,0 +1,131 @@
+<?php
+
+declare(strict_types=1);
+
+namespace FixPoint\Services;
+
+use FixPoint\Core\HttpException;
+use FixPoint\Core\ValidationException;
+use FixPoint\Repositories\TechnicianProfileRepository;
+
+final class TechnicianProfileService
+{
+    public function __construct(private readonly TechnicianProfileRepository $profiles)
+    {
+    }
+
+    /** @return array<string, mixed> */
+    public function directory(string $query = '', string $category = '', int $page = 1): array
+    {
+        $query = trim((string) preg_replace('/[\x00-\x1F\x7F]/u', '', $query));
+        $query = mb_substr($query, 0, 100);
+        $category = trim($category);
+        $validSlugs = array_column($this->profiles->activeCategories(), 'slug');
+        if ($category !== '' && !in_array($category, $validSlugs, true)) {
+            $category = '';
+        }
+        $perPage = 12;
+        $total = $this->profiles->countPublic($query, $category);
+        $pages = max(1, (int) ceil($total / $perPage));
+        $page = max(1, min($pages, $page));
+        return [
+            'items' => $this->profiles->listPublic($query, $category, $perPage, ($page - 1) * $perPage),
+            'categories' => $this->profiles->activeCategories(),
+            'filters' => ['q' => $query, 'category' => $category],
+            'pagination' => ['page' => $page, 'pages' => $pages, 'total' => $total, 'per_page' => $perPage],
+        ];
+    }
+
+    /** @return array<string, mixed>|null */
+    public function publicProfile(int $technicianId): ?array
+    {
+        if ($technicianId < 1) {
+            return null;
+        }
+        $profile = $this->profiles->findPublic($technicianId);
+        if ($profile === null) {
+            return null;
+        }
+        return $profile;
+    }
+
+    /** @return list<array<string, mixed>> */
+    public function leaderboard(int $limit = 5): array
+    {
+        return $this->profiles->leaderboard($limit);
+    }
+
+    /** @param array<string, mixed> $user @return array<string, mixed> */
+    public function editorData(array $user): array
+    {
+        $this->assertTechnician($user);
+        $profile = $this->profiles->findForEditor((int) $user['id']);
+        if ($profile === null) {
+            throw new HttpException(404, 'Technician profile not found');
+        }
+        $ids = array_filter(explode(',', (string) ($profile['specialty_ids'] ?? '')));
+        $profile['specialty_ids'] = array_values(array_map('intval', $ids));
+        return ['profile' => $profile, 'categories' => $this->profiles->activeCategories()];
+    }
+
+    /** @param array<string, mixed> $user @param array<string, mixed> $input */
+    public function update(array $user, array $input): void
+    {
+        $this->assertTechnician($user);
+        $errors = [];
+        $headline = is_string($input['headline'] ?? null) ? trim($input['headline']) : '';
+        $bio = is_string($input['bio'] ?? null) ? trim($input['bio']) : '';
+        if (mb_strlen($headline) > 140) {
+            $errors['headline'] = 'Заголовок профиля не должен превышать 140 символов.';
+        }
+        if (mb_strlen($bio) > 2000) {
+            $errors['bio'] = 'Описание профиля не должно превышать 2000 символов.';
+        }
+        if (preg_match('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/u', $headline . $bio) === 1) {
+            $errors['bio'] = 'Текст содержит недопустимые управляющие символы.';
+        }
+
+        $rawIds = $input['specialties'] ?? [];
+        if (!is_array($rawIds)) {
+            $rawIds = [];
+        }
+        if (count($rawIds) > 12) {
+            $errors['specialties'] = 'Можно выбрать не более 12 направлений.';
+        }
+        $categoryIds = [];
+        foreach ($rawIds as $rawId) {
+            $id = filter_var($rawId, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
+            if ($id === false) {
+                $errors['specialties'] = 'В списке направлений обнаружено некорректное значение.';
+                continue;
+            }
+            $categoryIds[] = (int) $id;
+        }
+        $categoryIds = array_values(array_unique($categoryIds));
+        $validIds = $this->profiles->validActiveCategoryIds($categoryIds);
+        if (count($validIds) !== count($categoryIds)) {
+            $errors['specialties'] = 'Выберите направления только из действующего каталога.';
+        }
+
+        $isPublic = in_array((string) ($input['is_public'] ?? ''), ['1', 'on', 'true'], true);
+        if ($errors !== []) {
+            throw new ValidationException($errors);
+        }
+
+        $this->profiles->saveProfile(
+            (int) $user['id'],
+            $headline === '' ? null : $headline,
+            $bio === '' ? null : $bio,
+            $isPublic,
+            $validIds
+        );
+    }
+
+    /** @param array<string, mixed> $user */
+    private function assertTechnician(array $user): void
+    {
+        if ((string) ($user['role'] ?? '') !== 'technician' || (int) ($user['id'] ?? 0) < 1) {
+            throw new HttpException(403, 'Technician access required');
+        }
+    }
+}
