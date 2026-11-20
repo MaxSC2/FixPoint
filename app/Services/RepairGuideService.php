@@ -52,6 +52,16 @@ final class RepairGuideService
         ];
     }
 
+    /** @return array<string, mixed>|null */
+    public function requestContext(string $slug): ?array
+    {
+        if (preg_match('/^[a-z0-9]+(?:-[a-z0-9]+)*$/', $slug) !== 1) {
+            return null;
+        }
+
+        return $this->guides->findPublishedBySlugForRequest($slug);
+    }
+
     /** @return array<string, mixed> */
     public function publicArticle(string $slug): array
     {
