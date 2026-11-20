@@ -2727,6 +2727,8 @@ h1 { font-weight: 760; }
     .admin-workspace .review-moderation-form,
     .admin-workspace .profile-moderation-form { max-width: none; }
     .admin-workspace .guide-admin-table .field { min-width: 210px; }
+}
+@media (max-width: 760px) {
     body:has(.mobile-customer-nav) .account-welcome > a[href="/requests/create"],
     body:has(.mobile-customer-nav) .workspace-heading > a[href="/requests/create"],
     body:has(.mobile-customer-nav) .empty-state > a[href="/requests/create"] { display: none; }

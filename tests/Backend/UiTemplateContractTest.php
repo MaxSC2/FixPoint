@@ -188,6 +188,7 @@ final class UiTemplateContractTest extends TestCase
         $this->assertContains('.admin-workspace .workspace-nav', $stylesheet);
         $this->assertContains('.admin-workspace .guide-admin-table', $stylesheet);
         $this->assertContains('grid-template-columns: repeat(2, minmax(0, 1fr));', $stylesheet);
+        $this->assertContains('@media (max-width: 760px) {\n    body:has(.mobile-customer-nav)', $stylesheet);
         $this->assertContains('.admin-row-unavailable', $stylesheet);
         $this->assertContains('.admin-action-notice', $stylesheet);
     }
