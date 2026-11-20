@@ -8,6 +8,7 @@ use FixPoint\Controllers\AdminContentController;
 use FixPoint\Controllers\AdminController;
 use FixPoint\Controllers\AdminGuideController;
 use FixPoint\Controllers\AdminRequestController;
+use FixPoint\Controllers\AdminReviewController;
 use FixPoint\Controllers\AdminServiceController;
 use FixPoint\Controllers\AdminStatisticsController;
 use FixPoint\Controllers\AdminUserController;
@@ -21,6 +22,8 @@ use FixPoint\Controllers\RepairGuideController;
 use FixPoint\Controllers\RequestController;
 use FixPoint\Controllers\ServicesController;
 use FixPoint\Controllers\TechnicianController;
+use FixPoint\Controllers\TechnicianProfileController;
+use FixPoint\Controllers\TechnicianReviewController;
 use FixPoint\Core\App;
 use FixPoint\Core\Router;
 use FixPoint\Middleware\AuthMiddleware;
@@ -37,6 +40,8 @@ return static function (Router $router, App $app): void {
     $router->get('/services/{slug}', [ServicesController::class, 'show']);
     $router->get('/guides', [RepairGuideController::class, 'index']);
     $router->get('/guides/{slug}', [RepairGuideController::class, 'show']);
+    $router->get('/masters', [TechnicianProfileController::class, 'index']);
+    $router->get('/masters/{id:\\d+}', [TechnicianProfileController::class, 'show']);
     $router->get('/about', [PageController::class, 'about']);
     $router->get('/contacts', [PageController::class, 'contacts']);
     $router->get('/health', [HealthController::class, 'index']);
@@ -69,6 +74,8 @@ return static function (Router $router, App $app): void {
     $router->get('/requests/{id:\\d+}', [RequestController::class, 'show'], [AuthMiddleware::class]);
     $router->post('/requests/{id:\\d+}/comments', [RequestController::class, 'comment'], [AuthMiddleware::class]);
     $router->post('/requests/{id:\\d+}/messages', [RequestController::class, 'message'], [AuthMiddleware::class]);
+    $router->get('/requests/{id:\\d+}/review', [TechnicianReviewController::class, 'show'], $customerOnly);
+    $router->post('/requests/{id:\\d+}/review', [TechnicianReviewController::class, 'store'], $customerOnly);
     $router->post(
         '/requests/{id:\\d+}/estimate-decision',
         [RequestController::class, 'decideEstimate'],
@@ -88,11 +95,16 @@ return static function (Router $router, App $app): void {
     $router->post('/technician/requests/{id:\\d+}/diagnosis', [TechnicianController::class, 'updateDiagnosis'], $staffOnly);
     $router->post('/technician/requests/{id:\\d+}/status', [TechnicianController::class, 'updateStatus'], $staffOnly);
     $router->post('/technician/requests/{id:\\d+}/messages', [TechnicianController::class, 'message'], $staffOnly);
+    $technicianOnly = [AuthMiddleware::class, new RoleMiddleware($app->auth(), $app->session(), 'technician')];
+    $router->get('/technician/profile', [TechnicianProfileController::class, 'edit'], $technicianOnly);
+    $router->post('/technician/profile', [TechnicianProfileController::class, 'update'], $technicianOnly);
 
     $adminOnly = [AuthMiddleware::class, new RoleMiddleware($app->auth(), $app->session(), 'admin')];
     $router->get('/admin', [AdminController::class, 'index'], $adminOnly);
     $router->get('/admin/statistics', [AdminStatisticsController::class, 'index'], $adminOnly);
     $router->get('/admin/guides', [AdminGuideController::class, 'index'], $adminOnly);
+    $router->get('/admin/reviews', [AdminReviewController::class, 'index'], $adminOnly);
+    $router->post('/admin/reviews/{id:\\d+}/moderate', [AdminReviewController::class, 'moderate'], $adminOnly);
     $router->get('/admin/guides/create', [AdminGuideController::class, 'create'], $adminOnly);
     $router->post('/admin/guides', [AdminGuideController::class, 'store'], $adminOnly);
     $router->get('/admin/guides/{id:\\d+}/edit', [AdminGuideController::class, 'edit'], $adminOnly);
