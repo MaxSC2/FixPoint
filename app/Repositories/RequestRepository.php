@@ -16,7 +16,8 @@ use Throwable;
 final class RequestRepository
 {
     private const SELECT = 'SELECT
-            r.id, r.public_number, r.status, r.priority,
+            r.id, r.public_number, r.status, r.priority, r.source_guide_id,
+            guide.title AS source_guide_title, guide.slug AS source_guide_slug,
             r.device_type, r.device_brand, r.device_model,
             r.problem_description, r.diagnostic_result,
             r.estimated_cost, r.final_cost, r.estimated_ready_at,
@@ -30,7 +31,8 @@ final class RequestRepository
         INNER JOIN users c ON c.id = r.customer_id
         LEFT JOIN users t ON t.id = r.technician_id
         LEFT JOIN services s ON s.id = r.service_id
-        LEFT JOIN service_categories cat ON cat.id = s.category_id';
+        LEFT JOIN service_categories cat ON cat.id = s.category_id
+        LEFT JOIN repair_guides guide ON guide.id = r.source_guide_id';
 
     public function __construct(private readonly Database $database)
     {
@@ -125,7 +127,7 @@ final class RequestRepository
      * public number is replaced with an id-based number before commit, so the
      * unique index never exposes a race between concurrent inserts.
      *
-     * @param array{device_type: string, device_brand: ?string, device_model: ?string, service_id: ?int, problem_description: string, customer_contact: string} $data
+     * @param array{device_type: string, device_brand: ?string, device_model: ?string, service_id: ?int, guide_id: ?int, problem_description: string, customer_contact: string} $data
      */
     /**
      * @param callable(PDO, int): void|null $afterCreate Runs after the request
@@ -140,16 +142,17 @@ final class RequestRepository
             $temporary = 'TMP-' . bin2hex(random_bytes(8));
             $statement = $pdo->prepare(
                 'INSERT INTO repair_requests
-                    (public_number, customer_id, service_id, status, priority,
+                    (public_number, customer_id, service_id, source_guide_id, status, priority,
                      device_type, device_brand, device_model, problem_description, customer_contact)
                  VALUES
-                    (:public_number, :customer_id, :service_id, \'new\', \'normal\',
+                    (:public_number, :customer_id, :service_id, :source_guide_id, \'new\', \'normal\',
                      :device_type, :device_brand, :device_model, :problem_description, :customer_contact)'
             );
             $statement->execute([
                 'public_number' => $temporary,
                 'customer_id' => $customerId,
                 'service_id' => $data['service_id'],
+                'source_guide_id' => $data['guide_id'],
                 'device_type' => $data['device_type'],
                 'device_brand' => $data['device_brand'],
                 'device_model' => $data['device_model'],
