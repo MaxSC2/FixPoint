@@ -127,7 +127,11 @@ final class RequestRepository
      *
      * @param array{device_type: string, device_brand: ?string, device_model: ?string, service_id: ?int, problem_description: string, customer_contact: string} $data
      */
-    public function createForCustomer(int $customerId, array $data): int
+    /**
+     * @param callable(PDO, int): void|null $afterCreate Runs after the request
+     *        id is known but before the transaction commits.
+     */
+    public function createForCustomer(int $customerId, array $data, ?callable $afterCreate = null): int
     {
         $pdo = $this->database->connection();
         $pdo->beginTransaction();
@@ -154,6 +158,9 @@ final class RequestRepository
             ]);
 
             $id = (int) $pdo->lastInsertId();
+            if ($afterCreate !== null) {
+                $afterCreate($pdo, $id);
+            }
             $publicNumber = sprintf('FP-%s-%06d', date('Y'), $id);
 
             $pdo->prepare('UPDATE repair_requests SET public_number = :public_number WHERE id = :id')
@@ -282,42 +289,6 @@ final class RequestRepository
             'author_id' => $authorId,
             'body' => $body,
             'is_internal' => $isInternal ? 1 : 0,
-        ]);
-
-        return (int) $this->database->connection()->lastInsertId();
-    }
-
-    /**
-     * Chat messages of one request, oldest first, with the author names.
-     *
-     * @return list<array<string, mixed>>
-     */
-    public function messagesForRequest(int $requestId): array
-    {
-        $statement = $this->database->connection()->prepare(
-            'SELECT m.id, m.author_id, m.body, m.created_at,
-                    u.full_name AS author_name, u.role AS author_role
-             FROM request_messages m
-             INNER JOIN users u ON u.id = m.author_id
-             WHERE m.request_id = :request_id
-             ORDER BY m.id ASC'
-        );
-        $statement->execute(['request_id' => $requestId]);
-
-        return $statement->fetchAll();
-    }
-
-    /** Add one chat message to a request. */
-    public function addMessage(int $requestId, int $authorId, string $body): int
-    {
-        $statement = $this->database->connection()->prepare(
-            'INSERT INTO request_messages (request_id, author_id, body)
-             VALUES (:request_id, :author_id, :body)'
-        );
-        $statement->execute([
-            'request_id' => $requestId,
-            'author_id' => $authorId,
-            'body' => $body,
         ]);
 
         return (int) $this->database->connection()->lastInsertId();

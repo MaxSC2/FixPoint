@@ -30,6 +30,8 @@ final class ChatHttpTest extends IntegrationTestCase
 
         if ($ids !== []) {
             $placeholders = implode(',', array_fill(0, count($ids), '?'));
+            $pdo->prepare('DELETE FROM chat_reads WHERE request_id IN (' . $placeholders . ')')
+                ->execute($ids);
             $pdo->prepare('DELETE FROM request_messages WHERE request_id IN (' . $placeholders . ')')
                 ->execute($ids);
             $pdo->prepare('DELETE FROM request_status_history WHERE request_id IN (' . $placeholders . ')')
@@ -133,7 +135,7 @@ final class ChatHttpTest extends IntegrationTestCase
         $this->assertSame(302, $response->status());
 
         $card = app()->handle(Request::create('GET', '/requests/' . $requestId))->body();
-        $this->assertContains('Введите сообщение.', $card);
+        $this->assertContains('Введите сообщение или прикрепите изображение.', $card);
         $this->assertContains('0 сообщений', $card);
     }
 

@@ -53,7 +53,7 @@ final class Config
         }
 
         $debugDefault = in_array($environment, ['local', 'testing'], true);
-        $perPage = Env::int('CATALOG_PER_PAGE', 10);
+        $perPage = Env::int('CATALOG_PER_PAGE', 12);
         if ($perPage < 1 || $perPage > 50) {
             throw new InvalidArgumentException('CATALOG_PER_PAGE must be between 1 and 50.');
         }

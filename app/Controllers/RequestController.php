@@ -12,6 +12,8 @@ use FixPoint\Core\ValidationException;
 use FixPoint\Core\ViewRenderer;
 use FixPoint\Security\Auth;
 use FixPoint\Security\Csrf;
+use FixPoint\Services\AttachmentService;
+use FixPoint\Services\ChatService;
 use FixPoint\Services\RequestService;
 
 /**
@@ -27,7 +29,9 @@ final class RequestController extends Controller
         Auth $auth,
         Csrf $csrf,
         Session $session,
-        private readonly RequestService $requestService
+        private readonly RequestService $requestService,
+        private readonly ChatService $chatService,
+        private readonly AttachmentService $attachmentService
     ) {
         parent::__construct($config, $view, $auth, $csrf, $session);
     }
@@ -73,7 +77,7 @@ final class RequestController extends Controller
         ];
 
         try {
-            $requestId = $this->requestService->create((int) $user['id'], $input);
+            $requestId = $this->requestService->create((int) $user['id'], $input, $request->files('attachments'));
         } catch (ValidationException $exception) {
             $this->session->flashErrors($exception->errors());
             $this->session->flashOld($input);
@@ -108,13 +112,16 @@ final class RequestController extends Controller
             $this->abort(404, 'Request not found');
         }
 
+        $this->chatService->markRead($requestId, $user);
+
         return $this->renderPage('pages/customer/requests/show', [
             'pageTitle' => (string) $row['public_number'],
             'activeNav' => 'requests',
             'request' => $this->requestService->present($row),
             'history' => $this->requestService->history($requestId),
             'comments' => $this->requestService->visibleComments($requestId),
-            'chatMessages' => $this->requestService->chatMessages($row, $user),
+            'chatMessages' => $this->chatService->messagesForRequest($row, $user),
+            'requestAttachments' => $this->attachmentService->requestImages($requestId),
             'permissions' => $this->requestService->permissionsFor($row, $user),
         ]);
     }
@@ -157,7 +164,7 @@ final class RequestController extends Controller
         $body = $this->stringPost($request, 'body');
 
         try {
-            $this->requestService->postMessage($requestId, $user, $body);
+            $this->chatService->postMessage($requestId, $user, $body, $request->files('attachments'));
         } catch (ValidationException $exception) {
             $errors = $exception->errors();
             if (isset($errors['general'])) {

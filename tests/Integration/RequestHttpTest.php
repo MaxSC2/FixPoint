@@ -373,32 +373,17 @@ final class RequestHttpTest extends IntegrationTestCase
         $this->loginAs(self::CUSTOMER);
         $requestId = $this->createRequest('comments');
 
-        $comment = $this->post('/requests/' . $requestId . '/comments', [
-            'body' => 'Публичный комментарий <script>alert(1)</script> TASK003.',
+        $customerComment = $this->post('/requests/' . $requestId . '/comments', [
+            'body' => 'Клиент должен использовать чат, а не журнал TASK003.',
         ]);
-        $this->assertSame(302, $comment->status());
-        $this->assertContains('/requests/' . $requestId . '#comments', (string) $comment->header('Location'));
+        $this->assertSame(403, $customerComment->status());
+        $this->assertSame(0, $this->commentCount($requestId));
 
         $page = app()->handle(Request::create('GET', '/requests/' . $requestId))->body();
-        $this->assertContains('Публичный комментарий', $page);
-        $this->assertContains('&lt;script&gt;alert(1)&lt;/script&gt;', $page);
-        $this->assertNotContains('<script>alert(1)</script>', $page);
-        $this->assertContains('Алексей Ковалёв', $page);
-
-        // A customer must not be able to create an internal note by forging
-        // the staff-only form field in a direct POST request.
-        $forgedInternal = $this->post('/requests/' . $requestId . '/comments', [
-            'body' => 'TASK003: forged internal flag must be ignored.',
-            'is_internal' => '1',
-        ]);
-        $this->assertSame(302, $forgedInternal->status());
-        $latestComment = $this->pdo()->query(
-            'SELECT body, is_internal FROM request_comments ORDER BY id DESC LIMIT 1'
-        )->fetch();
-        $this->assertSame('TASK003: forged internal flag must be ignored.', $latestComment['body']);
-        $this->assertSame(0, (int) $latestComment['is_internal']);
-        $forgedPage = app()->handle(Request::create('GET', '/requests/' . $requestId))->body();
-        $this->assertContains('TASK003: forged internal flag must be ignored.', $forgedPage);
+        $this->assertContains('Журнал заявки', $page);
+        $this->assertContains('Для вопросов и ответов используйте чат', $page);
+        $this->assertNotContains('Добавить комментарий', $page);
+        $this->assertNotContains('Клиент должен использовать чат', $page);
 
         $this->pdo()->prepare(
             'INSERT INTO request_comments (request_id, author_id, body, is_internal)
@@ -414,10 +399,6 @@ final class RequestHttpTest extends IntegrationTestCase
         $seedPage = app()->handle(Request::create('GET', '/requests/' . $this->seedRequestId('FP-2026-000001')))->body();
         $this->assertContains('Спасибо, буду ждать.', $seedPage);
         $this->assertNotContains('Клиент просил не звонить до 18:00.', $seedPage);
-
-        $empty = $this->post('/requests/' . $requestId . '/comments', ['body' => '   ']);
-        $this->assertSame(302, $empty->status());
-        $this->assertContains('Введите комментарий.', app()->handle(Request::create('GET', '/requests/' . $requestId))->body());
     }
 
     public function testEstimateApprovalMovesRequestToRepairing(): void

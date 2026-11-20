@@ -23,7 +23,7 @@ final class HttpTest extends IntegrationTestCase
 
     public function testServicesListAndDetailReturnRealDatabaseData(): void
     {
-        $list = app()->handle(Request::create('GET', '/services'));
+        $list = app()->handle(Request::create('GET', '/services?q=' . rawurlencode('Чистка ноутбука')));
         $this->assertSame(200, $list->status());
         $this->assertContains('Услуги', $list->body());
         $this->assertContains('Чистка ноутбука от пыли', $list->body());

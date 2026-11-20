@@ -46,7 +46,7 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
                     <div class="alert alert--error" role="alert"><span class="alert__marker" aria-hidden="true"></span><p><?= e($generalError) ?></p></div>
                 <?php endif; ?>
 
-                <form class="request-form" method="post" action="/requests/create">
+                <form class="request-form" method="post" action="/requests/create" enctype="multipart/form-data">
                     <input type="hidden" name="_token" value="<?= e($csrfToken ?? '') ?>">
 
                     <div class="request-form__section">
@@ -139,7 +139,17 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
                     </div>
 
                     <div class="request-form__section">
-                        <div class="request-form__section-head"><span>03</span><div><h3>Связь с вами</h3><p>Контакт нужен, чтобы уточнить детали при приёме устройства.</p></div></div>
+                        <div class="request-form__section-head"><span>03</span><div><h3>Фотографии устройства</h3><p>Необязательно. Покажите повреждения, экран или состояние устройства.</p></div></div>
+                        <label class="field<?= isset($errors['attachments']) ? ' field--invalid' : '' ?>" for="request-attachments">
+                            <span class="field__label">Прикрепить изображения <span class="field__optional">необязательно</span></span>
+                            <input id="request-attachments" type="file" name="attachments[]" accept="image/jpeg,image/png,image/webp" multiple<?= isset($errors['attachments']) ? ' aria-invalid="true" aria-describedby="request-attachments-error"' : '' ?>>
+                            <small class="field__help">JPEG, PNG или WebP. До 5 файлов за раз, каждый до 8 МБ. Всего до 10 изображений на заявку.</small>
+                            <?php if (isset($errors['attachments'])): ?><small class="field__error" id="request-attachments-error"><?= e((string) $errors['attachments']) ?></small><?php endif; ?>
+                        </label>
+                    </div>
+
+                    <div class="request-form__section">
+                        <div class="request-form__section-head"><span>04</span><div><h3>Связь с вами</h3><p>Контакт нужен, чтобы уточнить детали при приёме устройства.</p></div></div>
                         <label class="field<?= isset($errors['customer_contact']) ? ' field--invalid' : '' ?>" for="request-contact">
                             <span class="field__label">Телефон или другой удобный контакт <span class="field__required" aria-hidden="true">*</span></span>
                             <input id="request-contact" type="text" name="customer_contact" value="<?= e($contact) ?>" maxlength="80" autocomplete="tel" placeholder="+7 ___ ___ __ __" required <?= isset($errors['customer_contact']) ? 'aria-invalid="true" aria-describedby="request-contact-error"' : '' ?>>

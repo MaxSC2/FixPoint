@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FixPoint\Controllers;
 
+use FixPoint\Core\App;
 use FixPoint\Core\Config;
 use FixPoint\Core\HttpException;
 use FixPoint\Core\Response;
@@ -11,6 +12,7 @@ use FixPoint\Core\Session;
 use FixPoint\Core\ViewRenderer;
 use FixPoint\Security\Auth;
 use FixPoint\Security\Csrf;
+use FixPoint\Services\ChatService;
 
 /**
  * Thin base controller. It prepares the layout contract keys once so every
@@ -52,10 +54,16 @@ abstract class Controller
             }
         }
 
+        $authUser = $this->auth->user();
+        $unreadMessagesCount = $authUser === null
+            ? 0
+            : App::instance()->make(ChatService::class)->unreadTotal($authUser);
+
         return array_merge([
             'pageTitle' => (string) $this->config->get('app.name'),
             'activeNav' => 'home',
-            'authUser' => $this->auth->user(),
+            'authUser' => $authUser,
+            'unreadMessagesCount' => $unreadMessagesCount,
             'flash' => $this->session->pullFlash(),
             'errors' => $errors,
             'old' => $old,

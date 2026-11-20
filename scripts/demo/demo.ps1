@@ -36,7 +36,7 @@
 
 .PARAMETER Ref
     Git ref used for the demo application. Default: the verified application
-    commit c6860b8 (catalogue + password-whitespace fix).
+    commit c8a7f5f (chat inbox + private attachments + 100-service catalogue).
 
 .EXAMPLE
     .\start-demo.cmd
@@ -56,7 +56,7 @@ param(
     [switch]$Reseed,
     [int]$AppPort = 8095,
     [int]$AdminerPort = 8096,
-    [string]$Ref = 'c6860b8b61e4dcf299184b0902f2b519a8c1a860'
+    [string]$Ref = 'c8a7f5fcaf4aaef5e86f6e0195a2743a4a49cc2f'
 )
 
 $ErrorActionPreference = 'Stop'

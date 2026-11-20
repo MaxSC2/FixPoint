@@ -98,6 +98,25 @@ $featuredServices = isset($featuredServices) && is_array($featuredServices) ? $f
                 <span class="atelier-service-row__copy"><strong>Периферия</strong><small>Подключение, обслуживание и поиск причин неисправности</small></span>
                 <span class="atelier-service-row__arrow">Выбрать <b aria-hidden="true">↗</b></span>
             </a>
+
+            <a class="atelier-service-row" href="/services?category=network">
+                <span class="atelier-service-row__number">05</span>
+                <span class="atelier-service-row__icon" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none"><rect x="8" y="22" width="32" height="15" rx="3" stroke="currentColor" stroke-width="1.7"/><path d="M15 22 11 9m22 13 4-13M17 29h.01M24 29h.01M31 29h.01M16 16a12 12 0 0 1 16 0" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span>
+                <span class="atelier-service-row__copy"><strong>Сети и Wi-Fi</strong><small>Роутеры, локальные сети и подключение оборудования</small></span>
+                <span class="atelier-service-row__arrow">Выбрать <b aria-hidden="true">↗</b></span>
+            </a>
+            <a class="atelier-service-row" href="/services?category=software">
+                <span class="atelier-service-row__number">06</span>
+                <span class="atelier-service-row__icon" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none"><rect x="8" y="6" width="32" height="36" rx="3" stroke="currentColor" stroke-width="1.7"/><path d="M15 16h18M15 23h18M15 30h11" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span>
+                <span class="atelier-service-row__copy"><strong>Программное обеспечение</strong><small>Операционные системы, настройка и восстановление</small></span>
+                <span class="atelier-service-row__arrow">Выбрать <b aria-hidden="true">↗</b></span>
+            </a>
+            <a class="atelier-service-row" href="/services?category=storage">
+                <span class="atelier-service-row__number">07</span>
+                <span class="atelier-service-row__icon" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none"><rect x="9" y="6" width="30" height="36" rx="4" stroke="currentColor" stroke-width="1.7"/><path d="M15 14h18M15 21h18M15 28h18M15 35h8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="32" cy="35" r="1.4" fill="currentColor"/></svg></span>
+                <span class="atelier-service-row__copy"><strong>Накопители и данные</strong><small>SSD, HDD, перенос и восстановление файлов</small></span>
+                <span class="atelier-service-row__arrow">Выбрать <b aria-hidden="true">↗</b></span>
+            </a>
         </div>
         <div class="atelier-services__foot" data-reveal>
             <span>Нужна конкретная работа?</span>
@@ -152,7 +171,7 @@ $featuredServices = isset($featuredServices) && is_array($featuredServices) ? $f
             <span class="eyebrow">Личный кабинет / 03</span>
             <h2>Вместо догадок —<br><em>понятная история.</em></h2>
             <p>Карточка ремонта собирает важное в одном месте: текущий этап, результат диагностики, смету и события по заявке. Не нужно вспоминать, что вам сказали по телефону.</p>
-            <a class="text-link" href="<?= e($requestAction['href']) ?>">Как клиенту начать работу <span aria-hidden="true">↗</span></a>
+            <a class="text-link" href="/register">Как клиенту начать работу <span aria-hidden="true">↗</span></a>
         </div>
         <div class="repair-record" data-reveal>
             <div class="repair-record__top">
@@ -183,7 +202,7 @@ $featuredServices = isset($featuredServices) && is_array($featuredServices) ? $f
             <a class="text-link" href="/services">Все услуги <span aria-hidden="true">↗</span></a>
         </div>
         <div class="service-grid" data-reveal>
-            <?php foreach (array_slice($featuredServices, 0, 3) as $service): ?>
+            <?php foreach (array_slice($featuredServices, 0, 6) as $service): ?>
                 <?php require dirname(__DIR__, 2) . '/components/service-card.php'; ?>
             <?php endforeach; ?>
         </div>

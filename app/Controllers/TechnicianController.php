@@ -12,6 +12,8 @@ use FixPoint\Core\ValidationException;
 use FixPoint\Core\ViewRenderer;
 use FixPoint\Security\Auth;
 use FixPoint\Security\Csrf;
+use FixPoint\Services\AttachmentService;
+use FixPoint\Services\ChatService;
 use FixPoint\Services\RequestService;
 
 /**
@@ -27,7 +29,9 @@ final class TechnicianController extends Controller
         Auth $auth,
         Csrf $csrf,
         Session $session,
-        private readonly RequestService $requestService
+        private readonly RequestService $requestService,
+        private readonly ChatService $chatService,
+        private readonly AttachmentService $attachmentService
     ) {
         parent::__construct($config, $view, $auth, $csrf, $session);
     }
@@ -57,6 +61,7 @@ final class TechnicianController extends Controller
         if ($row === null) {
             $this->abort(404, 'Request not found');
         }
+        $this->chatService->markRead($requestId, $user);
         $presented = $this->requestService->present($row);
 
         return $this->renderPage('pages/technician/requests/show', [
@@ -65,7 +70,8 @@ final class TechnicianController extends Controller
             'request' => $presented,
             'history' => $this->requestService->history($requestId),
             'comments' => $this->requestService->staffComments($requestId, $user),
-            'chatMessages' => $this->requestService->chatMessages($row, $user),
+            'chatMessages' => $this->chatService->messagesForRequest($row, $user),
+            'requestAttachments' => $this->attachmentService->requestImages($requestId),
             'permissions' => $this->requestService->staffPermissions($row, $user),
             'allowedTransitions' => $this->requestService->allowedTransitionsFor($row, $user),
         ]);
@@ -138,7 +144,7 @@ final class TechnicianController extends Controller
         $body = $this->stringPost($request, 'body');
 
         try {
-            $this->requestService->postMessage($requestId, $user, $body);
+            $this->chatService->postMessage($requestId, $user, $body, $request->files('attachments'));
         } catch (ValidationException $exception) {
             $this->flashValidation($exception);
 
