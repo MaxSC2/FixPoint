@@ -13,6 +13,7 @@ use FixPoint\Core\ValidationException;
 use FixPoint\Core\ViewRenderer;
 use FixPoint\Security\Auth;
 use FixPoint\Security\Csrf;
+use FixPoint\Services\TechnicianAvatarService;
 use FixPoint\Services\TechnicianProfileService;
 use FixPoint\Services\TechnicianReviewService;
 
@@ -25,7 +26,8 @@ final class TechnicianProfileController extends Controller
         Csrf $csrf,
         Session $session,
         private readonly TechnicianProfileService $profiles,
-        private readonly TechnicianReviewService $reviews
+        private readonly TechnicianReviewService $reviews,
+        private readonly TechnicianAvatarService $avatars
     ) {
         parent::__construct($config, $view, $auth, $csrf, $session);
     }
@@ -74,6 +76,39 @@ final class TechnicianProfileController extends Controller
         ]);
     }
 
+    public function avatar(Request $request, array $params = []): Response
+    {
+        $technicianId = filter_var($params['id'] ?? null, FILTER_VALIDATE_INT, [
+            'options' => ['min_range' => 1],
+        ]);
+        if ($technicianId === false) {
+            $this->abort(404, 'Technician not found');
+        }
+
+        $profile = $this->profiles->publicProfile((int) $technicianId);
+        if ($profile === null) {
+            $this->abort(404, 'Technician profile not found');
+        }
+
+        $avatar = $this->avatars->resolvePublic(
+            is_string($profile['avatar_storage_key'] ?? null) ? $profile['avatar_storage_key'] : null
+        );
+        if ($avatar === null) {
+            $this->abort(404, 'Technician avatar not found');
+        }
+
+        $body = file_get_contents($avatar['path']);
+        if ($body === false) {
+            $this->abort(404, 'Technician avatar not found');
+        }
+
+        return Response::binary($body, $avatar['mime_type'], [
+            'Cache-Control' => 'public, max-age=300',
+            'X-Content-Type-Options' => 'nosniff',
+            'Content-Disposition' => 'inline; filename="technician-avatar"',
+        ]);
+    }
+
     public function edit(Request $request, array $params = []): Response
     {
         $user = $this->requireTechnician();
@@ -97,8 +132,17 @@ final class TechnicianProfileController extends Controller
             'specialties' => is_array($specialties) ? $specialties : [],
         ];
 
+        $avatarUploads = $request->files('avatar');
+        if (count($avatarUploads) > 1) {
+            $this->session->flashErrors(['avatar' => 'Можно загрузить только одно изображение профиля.']);
+            $this->session->flashOld($input);
+            $this->session->flash('error', 'Проверьте изображение профиля.');
+            return Response::redirect('/technician/profile');
+        }
+        $avatar = $avatarUploads[0] ?? null;
+
         try {
-            $this->profiles->update($user, $input);
+            $this->profiles->update($user, $input, $avatar);
         } catch (ValidationException $exception) {
             $this->session->flashErrors($exception->errors());
             $this->session->flashOld($input);
