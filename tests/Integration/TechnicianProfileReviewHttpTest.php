@@ -55,7 +55,7 @@ final class TechnicianProfileReviewHttpTest extends IntegrationTestCase
         $this->assertNotContains('Пароль', $profile->body());
     }
 
-    public function testTechnicianCanEditOwnProfileAndCannotEditAnotherUser(): void
+    public function testTechnicianCanEditOwnPublicProfile(): void
     {
         $technician = $this->user(self::TECHNICIAN);
         $technicianId = (int) $technician['id'];
