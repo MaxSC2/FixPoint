@@ -44,11 +44,13 @@ final class ViewRendererTest extends TestCase
             'authUser' => null,
             'flash' => null,
             'csrfToken' => str_repeat('a', 64),
-            'featuredServices' => [[
-                'name' => '<script>alert(1)</script>',
-                'slug' => 'demo',
-                'short_description' => 'demo',
-                'price_from' => 1000,
+            'leaderboard' => [[
+                'technician_id' => 999,
+                'full_name' => '<script>alert(1)</script>',
+                'specialties' => 'Диагностика',
+                'review_count' => 3,
+                'average_rating' => 4.5,
+                'completed_count' => 12,
             ]],
         ]);
 
