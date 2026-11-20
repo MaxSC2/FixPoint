@@ -11,6 +11,7 @@ use FixPoint\Controllers\AdminRequestController;
 use FixPoint\Controllers\AdminReviewController;
 use FixPoint\Controllers\AdminServiceController;
 use FixPoint\Controllers\AdminStatisticsController;
+use FixPoint\Controllers\AdminTechnicianProfileController;
 use FixPoint\Controllers\AdminUserController;
 use FixPoint\Controllers\AuthController;
 use FixPoint\Controllers\AttachmentController;
@@ -103,6 +104,8 @@ return static function (Router $router, App $app): void {
     $router->get('/admin', [AdminController::class, 'index'], $adminOnly);
     $router->get('/admin/statistics', [AdminStatisticsController::class, 'index'], $adminOnly);
     $router->get('/admin/guides', [AdminGuideController::class, 'index'], $adminOnly);
+    $router->get('/admin/technicians', [AdminTechnicianProfileController::class, 'index'], $adminOnly);
+    $router->post('/admin/technicians/{id:\\d+}/visibility', [AdminTechnicianProfileController::class, 'updateVisibility'], $adminOnly);
     $router->get('/admin/reviews', [AdminReviewController::class, 'index'], $adminOnly);
     $router->post('/admin/reviews/{id:\\d+}/moderate', [AdminReviewController::class, 'moderate'], $adminOnly);
     $router->get('/admin/guides/create', [AdminGuideController::class, 'create'], $adminOnly);
