@@ -14,6 +14,8 @@ $deviceModel = (string) ($old['device_model'] ?? '');
 $problem = (string) ($old['problem_description'] ?? '');
 $contact = (string) ($old['customer_contact'] ?? '');
 $generalError = (string) ($errors['general'] ?? '');
+$guideContext = isset($guideContext) && is_array($guideContext) ? $guideContext : null;
+$guideSlug = (string) ($guideContext['slug'] ?? $old['guide_slug'] ?? '');
 require dirname(__DIR__, 3) . '/layouts/header.php';
 ?>
 <section class="workspace-page">
@@ -46,8 +48,19 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
                     <div class="alert alert--error" role="alert"><span class="alert__marker" aria-hidden="true"></span><p><?= e($generalError) ?></p></div>
                 <?php endif; ?>
 
+                <?php if ($guideContext !== null): ?>
+                    <div class="guide-source-context">
+                        <span class="eyebrow">Источник обращения</span>
+                        <strong><?= e((string) $guideContext['title']) ?></strong>
+                        <p><?= e((string) $guideContext['summary']) ?></p>
+                        <a href="/guides/<?= e((string) $guideContext['slug']) ?>">Вернуться к инструкции</a>
+                    </div>
+                <?php endif; ?>
+                <?php if (isset($errors['guide'])): ?><div class="alert alert--error" role="alert"><p><?= e((string) $errors['guide']) ?></p></div><?php endif; ?>
+
                 <form class="request-form" method="post" action="/requests/create" enctype="multipart/form-data">
                     <input type="hidden" name="_token" value="<?= e($csrfToken ?? '') ?>">
+                    <?php if ($guideSlug !== ''): ?><input type="hidden" name="guide_slug" value="<?= e($guideSlug) ?>"><?php endif; ?>
 
                     <div class="request-form__section">
                         <div class="request-form__section-head"><span>01</span><div><h3>Устройство</h3><p>Тип и модель помогут мастеру подготовиться к приёму.</p></div></div>
