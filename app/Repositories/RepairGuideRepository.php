@@ -41,6 +41,19 @@ final class RepairGuideRepository
     }
 
     /** @return array<string, mixed>|null */
+    public function findPublishedBySlugForRequest(string $slug): ?array
+    {
+        $statement = $this->database->connection()->prepare(
+            'SELECT id, title, slug, summary, device_type
+             FROM repair_guides WHERE slug = :slug AND status = "published" LIMIT 1'
+        );
+        $statement->execute(['slug' => $slug]);
+        $row = $statement->fetch();
+
+        return $row === false ? null : $row;
+    }
+
+    /** @return array<string, mixed>|null */
     public function findPublishedBySlug(string $slug): ?array
     {
         $statement = $this->database->connection()->prepare(
