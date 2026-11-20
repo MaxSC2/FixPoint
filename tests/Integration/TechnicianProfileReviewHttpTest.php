@@ -92,6 +92,39 @@ final class TechnicianProfileReviewHttpTest extends IntegrationTestCase
         }
     }
 
+    public function testPrivateTechnicianProfileIsRemovedFromPublicDirectory(): void
+    {
+        $technician = $this->user(self::TECHNICIAN);
+        $technicianId = (int) $technician['id'];
+        $originalProfile = $this->profileRow($technicianId);
+        $originalSpecialties = $this->specialtyIds($technicianId);
+
+        try {
+            $this->loginAs(self::TECHNICIAN);
+            $response = $this->post('/technician/profile', [
+                'headline' => 'Временный закрытый профиль',
+                'bio' => 'Этот текст не должен отображаться публично.',
+                'specialties' => [],
+                // Checkbox intentionally omitted to turn public visibility off.
+            ]);
+            $this->assertSame(302, $response->status());
+            $this->logout();
+
+            $profile = app()->handle(Request::create('GET', '/masters/' . $technicianId));
+            $this->assertSame(404, $profile->status());
+
+            $directory = app()->handle(Request::create('GET', '/masters'));
+            $this->assertSame(200, $directory->status());
+            $this->assertNotContains('Временный закрытый профиль', $directory->body());
+            $this->assertNotContains((string) $technician['full_name'], $directory->body());
+        } finally {
+            $this->restoreProfile($technicianId, $originalProfile, $originalSpecialties);
+            if (app()->auth()->check()) {
+                $this->logout();
+            }
+        }
+    }
+
     public function testReviewRequiresCompletedOwnedRequestAndAllowsOnlyOnePerRequest(): void
     {
         $customer = $this->user(self::CUSTOMER);
