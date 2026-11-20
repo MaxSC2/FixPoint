@@ -140,11 +140,26 @@ final class App
         }
 
         $router = new Router();
-        $register = require $this->config->get('paths.base') . '/config/routes.php';
+        $base = (string) $this->config->get('paths.base');
+        $register = require $base . '/config/routes.php';
         if (!is_callable($register)) {
             throw new RuntimeException('config/routes.php must return a callable.');
         }
         $register($router, $this);
+
+        // Optional route modules keep feature streams out of the shared route
+        // table. Each file returns the same callable signature as routes.php.
+        $modules = glob($base . '/config/routes.d/*.php');
+        if ($modules !== false) {
+            sort($modules, SORT_STRING);
+            foreach ($modules as $module) {
+                $extend = require $module;
+                if (!is_callable($extend)) {
+                    throw new RuntimeException('Route module must return a callable: ' . $module);
+                }
+                $extend($router, $this);
+            }
+        }
 
         return $this->router = $router;
     }
