@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 $pageTitle = 'Услуги';
 $activeNav = 'admin';
+$adminActiveSection = 'services';
 $services = isset($services) && is_array($services) ? array_values(array_filter($services, 'is_array')) : [];
 $categories = isset($categories) && is_array($categories) ? array_values(array_filter($categories, 'is_array')) : [];
 $errors = isset($errors) && is_array($errors) ? $errors : [];
@@ -15,9 +16,7 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
             <div><span class="eyebrow">Каталог / Справочник</span><h1>Услуги</h1><p>Публикация сервисных работ, категории, ориентировочные цены и время выполнения.</p></div>
             <span class="admin-record-count"><strong><?= e((string) count($services)) ?></strong><small>в текущем списке</small></span>
         </div>
-        <nav class="workspace-nav" aria-label="Разделы администратора" data-reveal>
-            <a class="workspace-nav__link" href="/admin">Обзор</a><a class="workspace-nav__link" href="/admin/requests">Заявки</a><a class="workspace-nav__link" href="/admin/users">Пользователи</a><a class="workspace-nav__link is-active" href="/admin/services" aria-current="page">Услуги</a><a class="workspace-nav__link" href="/admin/categories">Категории</a><a class="workspace-nav__link" href="/admin/content/about">Контент</a><a class="workspace-nav__link" href="/admin/statistics">Статистика</a>
-        </nav>
+        <?php require dirname(__DIR__, 3) . '/components/admin-nav.php'; ?>
         <div class="admin-crud-layout">
             <section class="staff-list-panel" data-reveal>
                 <div class="request-list-panel__head"><div><span class="eyebrow">Публичный каталог</span><h2>Список услуг</h2></div></div>

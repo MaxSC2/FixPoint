@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 $pageTitle = 'Категории услуг';
 $activeNav = 'admin';
+$adminActiveSection = 'categories';
 $categories = isset($categories) && is_array($categories) ? array_values(array_filter($categories, 'is_array')) : [];
 $errors = isset($errors) && is_array($errors) ? $errors : [];
 $old = isset($old) && is_array($old) ? $old : [];
@@ -14,9 +15,7 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
             <div><span class="eyebrow">Каталог / Справочник</span><h1>Категории услуг</h1><p>Структура каталога, названия и порядок отображения направлений обслуживания.</p></div>
             <span class="admin-record-count"><strong><?= e((string) count($categories)) ?></strong><small>в текущем списке</small></span>
         </div>
-        <nav class="workspace-nav" aria-label="Разделы администратора" data-reveal>
-            <a class="workspace-nav__link" href="/admin">Обзор</a><a class="workspace-nav__link" href="/admin/requests">Заявки</a><a class="workspace-nav__link" href="/admin/users">Пользователи</a><a class="workspace-nav__link" href="/admin/services">Услуги</a><a class="workspace-nav__link is-active" href="/admin/categories" aria-current="page">Категории</a><a class="workspace-nav__link" href="/admin/content/about">Контент</a><a class="workspace-nav__link" href="/admin/statistics">Статистика</a>
-        </nav>
+        <?php require dirname(__DIR__, 3) . '/components/admin-nav.php'; ?>
         <div class="admin-crud-layout">
             <section class="staff-list-panel" data-reveal>
                 <div class="request-list-panel__head"><div><span class="eyebrow">Структура каталога</span><h2>Список категорий</h2></div></div>

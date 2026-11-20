@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 $pageTitle = 'Модерация профилей мастеров';
 $activeNav = 'admin';
+$adminActiveSection = 'technicians';
 $technicians = isset($technicians) && is_array($technicians) ? $technicians : [];
 require dirname(__DIR__, 3) . '/layouts/header.php';
 ?>
@@ -15,12 +16,7 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
                 <p>Администратор может скрыть профиль независимо от настройки мастера. Мастер не сможет самостоятельно отменить это решение.</p>
             </div>
         </div>
-        <nav class="workspace-nav" aria-label="Разделы администратора">
-            <a class="workspace-nav__link" href="/admin">Обзор</a>
-            <a class="workspace-nav__link" href="/admin/guides">База знаний</a>
-            <a class="workspace-nav__link" href="/admin/technicians">Профили мастеров</a>
-            <a class="workspace-nav__link" href="/admin/reviews">Отзывы</a>
-        </nav>
+        <?php require dirname(__DIR__, 3) . '/components/admin-nav.php'; ?>
         <section class="request-form-panel">
             <?php if ($technicians !== []): ?>
                 <div class="table-scroll">
@@ -38,7 +34,11 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
                                 <td>
                                     <strong><?= e((string) $technician['full_name']) ?></strong>
                                     <br><small>ID <?= e((string) $technician['technician_id']) ?></small>
-                                    <br><a href="/masters/<?= e((string) $technician['technician_id']) ?>">Открыть публичный профиль</a>
+                                    <br><?php if ($publicNow): ?>
+                                        <a href="/masters/<?= e((string) $technician['technician_id']) ?>">Открыть публичный профиль</a>
+                                    <?php else: ?>
+                                        <span class="admin-muted-action">Публичный профиль скрыт</span>
+                                    <?php endif; ?>
                                 </td>
                                 <td>
                                     <?php if (!$active): ?><span class="guide-status">Учётная запись отключена</span>
@@ -56,18 +56,18 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
                                     <br><small><?= e((string) $technician['completed_count']) ?> завершённых заявок</small>
                                 </td>
                                 <td>
-                                    <form class="profile-moderation-form" method="post" action="/admin/technicians/<?= e((string) $technician['technician_id']) ?>/visibility">
+                                    <form class="profile-moderation-form" method="post" action="/admin/technicians/<?= e((string) $technician['technician_id']) ?>/visibility" data-admin-moderation-form data-required-value="0">
                                         <input type="hidden" name="_token" value="<?= e($csrfToken ?? '') ?>">
                                         <label class="field">
                                             <span class="field__label">Видимость для администратора</span>
-                                            <select name="is_visible">
+                                            <select name="is_visible" data-moderation-status>
                                                 <option value="1" <?= $adminVisible ? 'selected' : '' ?>>Разрешить публичный показ</option>
                                                 <option value="0" <?= !$adminVisible ? 'selected' : '' ?>>Скрыть профиль</option>
                                             </select>
                                         </label>
                                         <label class="field">
                                             <span class="field__label">Причина скрытия</span>
-                                            <input name="reason" maxlength="500" value="<?= e((string) ($technician['admin_moderation_reason'] ?? '')) ?>" placeholder="Обязательна при скрытии">
+                                            <input name="reason" maxlength="500" data-moderation-reason value="<?= e((string) ($technician['admin_moderation_reason'] ?? '')) ?>" placeholder="Обязательна при скрытии">
                                         </label>
                                         <button class="button button--ghost button--small" type="submit">Сохранить</button>
                                     </form>

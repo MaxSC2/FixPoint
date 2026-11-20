@@ -96,6 +96,104 @@ final class UiTemplateContractTest extends TestCase
     }
 
 
+    public function testCustomerCreateActionIsNotDuplicatedInWorkspaceNavigation(): void
+    {
+        $dashboard = $this->read('app/Views/pages/customer/dashboard.php');
+        $requestList = $this->read('app/Views/pages/customer/requests/index.php');
+
+        foreach ([$dashboard, $requestList] as $view) {
+            $this->assertContains('href="/requests/create"', $view);
+            $this->assertNotContains('workspace-nav__link--action', $view);
+            $this->assertNotContains('Создать обращение', $view);
+        }
+
+        $this->assertNotContains('Создать первую заявку', $dashboard);
+        $this->assertNotContains("Создать заявку';", $requestList);
+        $this->assertContains('Сбросить фильтры', $requestList);
+    }
+
+    public function testAdminWorkspaceUsesOneSharedNavigationAcrossAllSections(): void
+    {
+        $sections = [
+            'pages/admin/dashboard.php' => 'overview',
+            'pages/admin/requests/index.php' => 'requests',
+            'pages/admin/requests/assign.php' => 'requests',
+            'pages/admin/users/index.php' => 'users',
+            'pages/admin/users/edit.php' => 'users',
+            'pages/admin/services/index.php' => 'services',
+            'pages/admin/services/edit.php' => 'services',
+            'pages/admin/categories/index.php' => 'categories',
+            'pages/admin/categories/edit.php' => 'categories',
+            'pages/admin/guides/index.php' => 'guides',
+            'pages/admin/guides/form.php' => 'guides',
+            'pages/admin/reviews/index.php' => 'reviews',
+            'pages/admin/technicians/index.php' => 'technicians',
+            'pages/admin/statistics.php' => 'statistics',
+            'pages/admin/content/about.php' => 'content',
+        ];
+
+        foreach ($sections as $view => $section) {
+            $source = $this->read('app/Views/' . $view);
+            $this->assertContains("\$adminActiveSection = '" . $section . "';", $source, $view);
+            $this->assertContains('components/admin-nav.php', $source, $view);
+        }
+
+        $navigation = $this->read('app/Views/components/admin-nav.php');
+        foreach ([
+            '/admin', '/admin/requests', '/admin/users', '/admin/services', '/admin/categories',
+            '/admin/guides', '/admin/technicians', '/admin/reviews', '/admin/content/about',
+            '/admin/statistics',
+        ] as $href) {
+            $this->assertContains($href, $navigation);
+        }
+        $this->assertContains('aria-current="page"', $navigation);
+    }
+
+    public function testAdminRegistryDoesNotOfferDuplicateOrForbiddenActions(): void
+    {
+        $registry = $this->read('app/Views/pages/admin/requests/index.php');
+        $assignView = $this->read('app/Views/pages/admin/requests/assign.php');
+
+        $this->assertNotContains('admin-row-open', $registry);
+        $this->assertContains("\$canAssign = !in_array(\$status, ['completed', 'cancelled', 'rejected'], true);", $registry);
+        $this->assertContains('Заявка закрыта', $registry);
+        $this->assertContains('Назначить мастера', $registry);
+        $this->assertContains('$isTerminalRequest', $assignView);
+        $this->assertContains('Назначение недоступно', $assignView);
+    }
+
+    public function testAdminModerationAndArchiveActionsHaveClearClientGuards(): void
+    {
+        $reviews = $this->read('app/Views/pages/admin/reviews/index.php');
+        $technicians = $this->read('app/Views/pages/admin/technicians/index.php');
+        $guides = $this->read('app/Views/pages/admin/guides/index.php');
+        $javascript = $this->read('public/assets/js/app.js');
+
+        $this->assertContains('data-admin-moderation-form', $reviews);
+        $this->assertContains('data-required-value="hidden"', $reviews);
+        $this->assertContains('data-admin-moderation-form', $technicians);
+        $this->assertContains('data-required-value="0"', $technicians);
+        $this->assertContains('if ($publicNow)', $technicians);
+        $this->assertContains('data-confirm=', $guides);
+        $this->assertContains('Переместить статью', $guides);
+        $this->assertContains("form[data-confirm]", $javascript);
+        $this->assertContains("form[data-admin-moderation-form]", $javascript);
+        $this->assertContains('reason.required = status.value === requiredValue;', $javascript);
+    }
+
+    public function testAdminTablesAndNavigationHaveResponsiveSharedStyles(): void
+    {
+        $stylesheet = $this->read('public/assets/css/app.css');
+
+        $this->assertContains('.admin-workspace .workspace-nav', $stylesheet);
+        $this->assertContains('.admin-workspace .guide-admin-table', $stylesheet);
+        $this->assertContains('grid-template-columns: repeat(2, minmax(0, 1fr));', $stylesheet);
+        $this->assertContains('@media (max-width: 760px)', $stylesheet);
+        $this->assertContains('body:has(.mobile-customer-nav) .workspace-heading > a[href="/requests/create"]', $stylesheet);
+        $this->assertContains('.admin-row-unavailable', $stylesheet);
+        $this->assertContains('.admin-action-notice', $stylesheet);
+    }
+
     public function testCustomerDashboardUsesOnlyProvidedRecentRequests(): void
     {
         $dashboard = $this->read('app/Views/pages/customer/dashboard.php');
@@ -624,6 +722,24 @@ final class UiTemplateContractTest extends TestCase
         $this->assertContains('$topServices', $view);
         $this->assertNotContains('37%', $view);
         $this->assertNotContains('1 248', $view);
+    }
+
+
+    public function testCalendarNavigationAndBookingEntryPointsAreRoleScoped(): void
+    {
+        $header = $this->read('app/Views/layouts/header.php');
+        $customerDetail = $this->read('app/Views/pages/customer/requests/show.php');
+        $technicianDetail = $this->read('app/Views/pages/technician/requests/show.php');
+        $routes = $this->read('config/routes.php');
+
+        $this->assertContains("=== 'customer')", $header);
+        $this->assertContains('href="/appointments"', $header);
+        $this->assertContains("=== 'technician')", $header);
+        $this->assertContains('href="/technician/calendar"', $header);
+        $this->assertContains("if (!in_array(\$requestStatus, ['cancelled', 'rejected'], true))", $customerDetail);
+        $this->assertContains('/appointments/book', $customerDetail);
+        $this->assertContains('href="/technician/calendar"', $technicianDetail);
+        $this->assertContains("(require __DIR__ . '/routes.d/calendar.php')(\$router, \$app);", $routes);
     }
 
     private function read(string $relativePath): string

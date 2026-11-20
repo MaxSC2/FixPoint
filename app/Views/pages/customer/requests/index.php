@@ -42,7 +42,6 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
         <nav class="workspace-nav" aria-label="Разделы личного кабинета" data-reveal>
             <a class="workspace-nav__link" href="/account">Обзор</a>
             <a class="workspace-nav__link is-active" href="/requests" aria-current="page">Мои заявки</a>
-            <a class="workspace-nav__link workspace-nav__link--action" href="/requests/create">Создать обращение <span aria-hidden="true">+</span></a>
         </nav>
 
         <div class="request-list-panel" data-reveal>
@@ -106,8 +105,8 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
                 $description = $query !== '' || $selectedStatus !== ''
                     ? 'Измените фильтры или сбросьте поиск. Список показывает только ваши заявки.'
                     : 'Создайте первую заявку, чтобы зафиксировать устройство и описание проблемы. Дальнейшие этапы появятся здесь.';
-                $actionLabel = $query !== '' || $selectedStatus !== '' ? 'Сбросить фильтры' : 'Создать заявку';
-                $actionHref = $query !== '' || $selectedStatus !== '' ? '/requests' : '/requests/create';
+                $actionLabel = $query !== '' || $selectedStatus !== '' ? 'Сбросить фильтры' : '';
+                $actionHref = $query !== '' || $selectedStatus !== '' ? '/requests' : '';
                 require dirname(__DIR__, 3) . '/components/empty-state.php';
                 ?>
             <?php endif; ?>

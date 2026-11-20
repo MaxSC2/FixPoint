@@ -2662,3 +2662,74 @@ h1 { font-weight: 760; }
 .technician-avatar-editor { display: flex; align-items: center; gap: 20px; margin: 8px 0 20px; }
 .technician-avatar-editor__preview { width: 104px; height: 104px; object-fit: cover; border-radius: 50%; border: 1px solid var(--color-line, #d9dce3); }
 @media (max-width: 520px) { .technician-avatar-editor { align-items: flex-start; flex-direction: column; } }
+
+
+/* Module 5 admin workspace — shared navigation, tables and clear action states. */
+.admin-workspace .workspace-nav { flex-wrap: wrap; gap: 6px; }
+.admin-workspace .workspace-nav__link { min-height: 42px; padding-inline: 13px; white-space: nowrap; }
+.admin-workspace .table-scroll {
+    max-width: 100%; overflow-x: auto; border: 1px solid #dfe3d9;
+    border-radius: 9px; background: #fff; scrollbar-color: #aeb9aa #f1f2eb; scrollbar-width: thin;
+}
+.admin-workspace .guide-admin-table {
+    width: 100%; min-width: 760px; border-collapse: collapse; background: #fff; text-align: left;
+}
+.admin-workspace .guide-admin-table th {
+    padding: 13px 14px; border-bottom: 1px solid #e7eae2; background: #f5f5ee;
+    color: var(--color-muted); font-size: .66rem; font-weight: 780;
+    letter-spacing: .06em; text-transform: uppercase; white-space: nowrap;
+}
+.admin-workspace .guide-admin-table td {
+    padding: 13px 14px; border-bottom: 1px solid #edf0e9; color: #58685e;
+    font-size: .76rem; line-height: 1.55; vertical-align: top;
+}
+.admin-workspace .guide-admin-table tbody tr:hover { background: #fafaf5; }
+.admin-workspace .guide-admin-table tbody tr:last-child td { border-bottom: 0; }
+.admin-workspace .guide-admin-table td small { color: var(--color-muted); }
+.admin-workspace .guide-admin-table td strong { color: #344d43; }
+.admin-workspace .guide-admin-table .field { min-width: 180px; margin: 0 0 8px; }
+.admin-workspace .guide-admin-table input:not([type="hidden"]),
+.admin-workspace .guide-admin-table select {
+    width: 100%; min-height: 42px; padding: 9px 11px; border: 1px solid #d7ddd3;
+    border-radius: 7px; background: #fff; color: var(--color-ink); font: inherit; font-size: .78rem;
+}
+.admin-workspace .guide-admin-table input:focus,
+.admin-workspace .guide-admin-table select:focus {
+    border-color: #6f8fd3; outline: 0; box-shadow: 0 0 0 3px rgba(49,95,193,.1);
+}
+.admin-workspace .review-moderation-form,
+.admin-workspace .profile-moderation-form {
+    min-width: 210px; max-width: 280px; gap: 8px; margin-top: 10px;
+}
+.admin-workspace .review-moderation-form .button,
+.admin-workspace .profile-moderation-form .button { min-height: 40px; justify-self: start; }
+.admin-row-unavailable, .admin-muted-action {
+    display: inline-flex; align-items: center; min-height: 32px;
+    color: var(--color-muted); font-size: .72rem; font-weight: 650;
+}
+.admin-action-notice {
+    display: grid; justify-items: start; gap: 10px; padding: 20px;
+    border: 1px solid #e7d9d5; border-radius: 10px; background: #faf5f2; color: #6f4e47;
+}
+.admin-action-notice p { margin: 0 0 4px; color: #755e58; line-height: 1.6; }
+.admin-workspace .admin-create-panel { order: initial; }
+@media (max-width: 760px) {
+    .admin-workspace .workspace-nav {
+        display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 5px;
+    }
+    .admin-workspace .workspace-nav__link {
+        justify-content: center; min-width: 0; padding-inline: 7px;
+        text-align: center; white-space: normal; font-size: .74rem;
+    }
+}
+@media (max-width: 640px) {
+    .admin-workspace .guide-admin-table td { padding: 11px 10px; }
+    .admin-workspace .review-moderation-form,
+    .admin-workspace .profile-moderation-form { max-width: none; }
+    .admin-workspace .guide-admin-table .field { min-width: 210px; }
+}
+@media (max-width: 760px) {
+    body:has(.mobile-customer-nav) .account-welcome > a[href="/requests/create"],
+    body:has(.mobile-customer-nav) .workspace-heading > a[href="/requests/create"],
+    body:has(.mobile-customer-nav) .empty-state > a[href="/requests/create"] { display: none; }
+}

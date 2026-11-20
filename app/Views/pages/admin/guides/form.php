@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 $pageTitle = (string) ($pageTitle ?? 'Статья базы знаний');
 $activeNav = 'admin';
+$adminActiveSection = 'guides';
 $guide = isset($guide) && is_array($guide) ? $guide : [];
 $categories = isset($categories) && is_array($categories) ? $categories : [];
 $old = isset($old) && is_array($old) ? $old : [];
@@ -12,6 +13,7 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
 ?>
 <section class="workspace-page admin-workspace">
     <div class="container">
+        <?php require dirname(__DIR__, 3) . '/components/admin-nav.php'; ?>
         <div class="workspace-heading workspace-heading--compact"><div><span class="eyebrow">База знаний / Редактор</span><h1><?= e($pageTitle) ?></h1><p>Пишите только проверенные безопасные рекомендации. Не вставляйте HTML-код.</p></div><a class="button button--ghost" href="/admin/guides">К списку статей</a></div>
         <section class="request-form-panel">
             <form class="request-form admin-record-form" method="post" action="<?= e($formAction ?? '/admin/guides') ?>">

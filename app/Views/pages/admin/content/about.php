@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 $pageTitle = 'Контент сайта';
 $activeNav = 'admin';
+$adminActiveSection = 'content';
 $content = isset($content) && is_array($content) ? $content : [];
 $old = isset($old) && is_array($old) ? $old : [];
 $errors = isset($errors) && is_array($errors) ? $errors : [];
@@ -21,15 +22,7 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
             <a class="button button--ghost" href="/about">Открыть страницу <span aria-hidden="true">↗</span></a>
         </div>
 
-        <nav class="workspace-nav" aria-label="Разделы администратора" data-reveal>
-            <a class="workspace-nav__link" href="/admin">Обзор</a>
-            <a class="workspace-nav__link" href="/admin/requests">Заявки</a>
-            <a class="workspace-nav__link" href="/admin/users">Пользователи</a>
-            <a class="workspace-nav__link" href="/admin/services">Услуги</a>
-            <a class="workspace-nav__link" href="/admin/categories">Категории</a>
-            <a class="workspace-nav__link is-active" href="/admin/content/about" aria-current="page">Контент</a>
-            <a class="workspace-nav__link workspace-nav__link--action" href="/admin/statistics">Статистика</a>
-        </nav>
+        <?php require dirname(__DIR__, 3) . '/components/admin-nav.php'; ?>
 
         <section class="request-form-panel admin-content-editor" data-reveal>
             <div class="request-form-panel__head">
