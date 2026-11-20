@@ -121,6 +121,47 @@ final class TechnicianProfileService
         );
     }
 
+    /** @param array<string, mixed> $user @return list<array<string, mixed>> */
+    public function adminList(array $user): array
+    {
+        $this->assertAdmin($user);
+        return $this->profiles->listForAdmin();
+    }
+
+    /** @param array<string, mixed> $user @param array<string, mixed> $input */
+    public function moderateVisibility(array $user, int $technicianId, array $input): void
+    {
+        $this->assertAdmin($user);
+        $rawVisibility = is_string($input['is_visible'] ?? null) ? $input['is_visible'] : '';
+        if (!in_array($rawVisibility, ['0', '1'], true)) {
+            throw new ValidationException(['is_visible' => 'Выберите допустимый статус видимости профиля.']);
+        }
+
+        $isVisible = $rawVisibility === '1';
+        $reason = is_string($input['reason'] ?? null) ? trim($input['reason']) : '';
+        if (!$isVisible && $reason === '') {
+            throw new ValidationException(['reason' => 'Укажите причину скрытия профиля.']);
+        }
+        if (mb_strlen($reason) > 500) {
+            throw new ValidationException(['reason' => 'Причина не должна превышать 500 символов.']);
+        }
+
+        $this->profiles->setAdminVisibility(
+            $technicianId,
+            (int) $user['id'],
+            $isVisible,
+            $reason === '' ? null : $reason
+        );
+    }
+
+    /** @param array<string, mixed> $user */
+    private function assertAdmin(array $user): void
+    {
+        if ((string) ($user['role'] ?? '') !== 'admin' || (int) ($user['id'] ?? 0) < 1) {
+            throw new HttpException(403, 'Admin access required');
+        }
+    }
+
     /** @param array<string, mixed> $user */
     private function assertTechnician(array $user): void
     {
