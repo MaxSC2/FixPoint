@@ -46,7 +46,7 @@ require dirname(__DIR__, 2) . '/layouts/header.php';
             <div><span class="eyebrow">Аналитика / FixPoint</span><h1>Статистика сервиса</h1><p>Сводные показатели и распределение обращений за выбранный период.</p></div>
             <span class="admin-record-count"><strong><?= e(number_format($totalRequests, 0, ',', ' ')) ?></strong><small><?= e(ru_plural($totalRequests, 'заявка', 'заявки', 'заявок')) ?> за период</small></span>
         </div>
-        <?php require dirname(__DIR__, 3) . '/components/admin-nav.php'; ?>
+        <?php require dirname(__DIR__, 2) . '/components/admin-nav.php'; ?>
 
         <?php if ($periodError !== ''): ?><div class="alert alert--error" role="alert"><span class="alert__marker" aria-hidden="true"></span><p><?= e($periodError) ?></p></div><?php endif; ?>
 
