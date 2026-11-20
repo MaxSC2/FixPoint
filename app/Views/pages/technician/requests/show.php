@@ -111,6 +111,17 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
                             </div>
                         </div>
                     <?php endif; ?>
+                    <?php if (!empty($request['source_guide_id'])): ?>
+                        <div class="guide-request-origin">
+                            <span class="eyebrow">Источник обращения клиента</span>
+                            <strong><?= e((string) ($request['source_guide_title'] ?? 'Инструкция базы знаний')) ?></strong>
+                            <?php if (($request['source_guide_status'] ?? '') === 'published' && !empty($request['source_guide_slug'])): ?>
+                                <a href="/guides/<?= e((string) $request['source_guide_slug']) ?>">Открыть инструкцию клиента</a>
+                            <?php else: ?>
+                                <span class="field__help">Исходная инструкция снята с публикации.</span>
+                            <?php endif; ?>
+                        </div>
+                    <?php endif; ?>
                     <dl class="request-facts">
                         <div><dt>Тип устройства</dt><dd><?= e($deviceType) ?></dd></div>
                         <div><dt>Производитель и модель</dt><dd><?= e($deviceTitle) ?></dd></div>
