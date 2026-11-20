@@ -106,11 +106,15 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
                             </div>
                         </div>
                     <?php endif; ?>
-                    <?php if (!empty($request['source_guide_id']) && !empty($request['source_guide_slug'])): ?>
+                    <?php if (!empty($request['source_guide_id'])): ?>
                         <div class="guide-request-origin">
                             <span class="eyebrow">Как появилась заявка</span>
                             <strong><?= e((string) ($request['source_guide_title'] ?? 'Инструкция базы знаний')) ?></strong>
-                            <a href="/guides/<?= e((string) $request['source_guide_slug']) ?>">Открыть исходную инструкцию</a>
+                            <?php if (($request['source_guide_status'] ?? '') === 'published' && !empty($request['source_guide_slug'])): ?>
+                                <a href="/guides/<?= e((string) $request['source_guide_slug']) ?>">Открыть исходную инструкцию</a>
+                            <?php else: ?>
+                                <span class="field__help">Инструкция больше не опубликована, но источник обращения сохранён.</span>
+                            <?php endif; ?>
                         </div>
                     <?php endif; ?>
                     <dl class="request-facts">
