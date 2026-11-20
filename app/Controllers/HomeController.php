@@ -18,7 +18,7 @@ final class HomeController extends Controller
         \FixPoint\Security\Csrf $csrf,
         \FixPoint\Core\Session $session,
         private readonly CatalogService $catalog,
-        private readonly TechnicianProfileService $profiles
+        private readonly ?TechnicianProfileService $profiles = null
     ) {
         parent::__construct($config, $view, $auth, $csrf, $session);
     }
