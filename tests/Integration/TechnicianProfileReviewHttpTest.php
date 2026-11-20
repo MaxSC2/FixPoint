@@ -173,6 +173,13 @@ final class TechnicianProfileReviewHttpTest extends IntegrationTestCase
         $this->assertSame(200, $list->status());
         $this->assertContains('M5PROFILE review moderation fixture.', $list->body());
 
+        $missingReason = $this->post('/admin/reviews/' . $reviewId . '/moderate', [
+            'status' => 'hidden',
+            'reason' => '',
+        ]);
+        $this->assertSame(302, $missingReason->status());
+        $this->assertSame('published', $this->reviewStatus($reviewId));
+
         $moderation = $this->post('/admin/reviews/' . $reviewId . '/moderate', [
             'status' => 'hidden',
             'reason' => 'Тестовая проверка модерации.',
