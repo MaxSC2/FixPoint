@@ -30,7 +30,7 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
                                 <td><?= e((string) ($item['view_count'] ?? 0)) ?></td>
                                 <td><div class="guide-admin-actions"><a class="button button--ghost button--small" href="/admin/guides/<?= e((string) $item['id']) ?>/edit">Изменить</a>
                                     <?php if (($item['status'] ?? '') !== 'archived'): ?>
-                                    <form method="post" action="/admin/guides/<?= e((string) $item['id']) ?>/archive" onsubmit="return confirm('Переместить статью в архив?')"><input type="hidden" name="_token" value="<?= e($csrfToken ?? '') ?>"><button class="button button--ghost button--small" type="submit">В архив</button></form>
+                                    <form method="post" action="/admin/guides/<?= e((string) $item['id']) ?>/archive"><input type="hidden" name="_token" value="<?= e($csrfToken ?? '') ?>"><button class="button button--ghost button--small" type="submit">В архив</button></form>
                                     <?php endif; ?>
                                 </div></td>
                             </tr>
