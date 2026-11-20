@@ -7,6 +7,7 @@ namespace FixPoint\Controllers;
 use FixPoint\Core\Request;
 use FixPoint\Core\Response;
 use FixPoint\Services\CatalogService;
+use FixPoint\Services\TechnicianProfileService;
 
 final class HomeController extends Controller
 {
@@ -16,7 +17,8 @@ final class HomeController extends Controller
         \FixPoint\Security\Auth $auth,
         \FixPoint\Security\Csrf $csrf,
         \FixPoint\Core\Session $session,
-        private readonly CatalogService $catalog
+        private readonly CatalogService $catalog,
+        private readonly TechnicianProfileService $profiles
     ) {
         parent::__construct($config, $view, $auth, $csrf, $session);
     }
@@ -32,7 +34,7 @@ final class HomeController extends Controller
                 'categories_count' => $overview['categories_count'],
                 'services_count' => $overview['services_count'],
             ],
-            'featuredServices' => $overview['popular_services'],
+            'leaderboard' => $this->profiles->leaderboard(5),
             'foundation' => [
                 'environment' => (string) $this->config->get('app.env'),
                 'php_version' => PHP_VERSION,
