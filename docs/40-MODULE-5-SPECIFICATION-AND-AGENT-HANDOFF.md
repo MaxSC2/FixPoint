@@ -116,7 +116,7 @@ Instead, report the exact route registrations, navigation links, dashboard links
 - Never expose email, phone, internal notes, account identifiers or private request details.
 - A technician edits their own profile only. Admin can moderate visibility and edit moderation fields.
 - Inactive or non-public technicians must not appear in public lists or leaderboards.
-- Avatar uploads must reuse the existing private image validation / authorization strategy. Do not put untrusted original files into `public/`.
+- Avatar uploads use the existing server-side MIME/image validation; private files live under `storage/private/avatars/`, outside `public/`. The avatar route must re-check active account and both owner/admin visibility flags before returning an image.
 - Empty profile fields use a graceful fallback; do not fabricate experience or qualifications.
 
 ## 6. Module 5.4 — Reviews, ratings and honour board
@@ -126,7 +126,8 @@ Instead, report the exact route registrations, navigation links, dashboard links
 - One review per request; rating is integer 1–5; text is optional, up to 1500 chars.
 - Review is linked to request, customer and assigned technician.
 - No self-reviews, cross-user reviews, duplicate reviews, reviews before completion or review for a request with no assigned technician.
-- Admin may hide/unpublish a review with moderation reason. Hidden reviews do not affect aggregates.
+- Admin may hide/unpublish a review with a mandatory moderation reason. Hidden reviews do not affect aggregates.
+- Admin may independently hide a technician's public profile with a mandatory moderation reason. The technician's own visibility setting cannot override the administrative flag.
 - Customer can edit review only within a documented limited window (default: no edits after 24h, or disallow edits in v1); whichever policy is chosen must be enforced server-side.
 
 ### Rating integrity
@@ -149,7 +150,7 @@ Instead, report the exact route registrations, navigation links, dashboard links
 
 - Follow the existing PHP MVC layers: Controller → Service → Repository → MySQL.
 - Use the current dependency container, Request/Response, Auth, CSRF and view conventions.
-- Every schema change is a new immutable numbered SQL migration. Module 5 owner reserved migrations 015–016 for the knowledge base, 018–020 for profiles/reviews, and 021 for the source-guide reference on repair requests. The calendar agent owns migration 017 for the initial appointment schema and must coordinate before adding further migrations. Never edit an applied migration.
+- Every schema change is a new immutable numbered SQL migration. Module 5 owner reserved migrations 015–016 for the knowledge base, 018–020 for profiles/reviews, and 021 for the source-guide reference on repair requests, 022 for administrative profile visibility moderation, and 023 for private technician avatar storage. The calendar agent owns migration 017 for the initial appointment schema and must coordinate before adding further migrations. Never edit an applied migration.
 - Never edit an applied migration.
 - Add proper foreign keys, indexes, uniqueness constraints and check constraints where supported by MySQL 8.
 - Use transactions for multi-table writes and concurrency-sensitive booking.

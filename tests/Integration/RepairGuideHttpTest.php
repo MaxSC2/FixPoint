@@ -22,6 +22,10 @@ final class RepairGuideHttpTest extends IntegrationTestCase
         $this->assertContains('Частые неисправности', $index->body());
         $this->assertContains('Ноутбук не включается', $index->body());
 
+        $safetySearch = app()->handle(Request::create('GET', '/guides?q=' . rawurlencode('Форматировать')));
+        $this->assertSame(200, $safetySearch->status());
+        $this->assertContains('Внешний диск не определяется', $safetySearch->body());
+
         $article = app()->handle(Request::create('GET', '/guides/laptop-wont-start'));
         $this->assertSame(200, $article->status());
         $this->assertContains('Что можно проверить самостоятельно', $article->body());

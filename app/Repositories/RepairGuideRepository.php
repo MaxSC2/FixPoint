@@ -163,7 +163,9 @@ final class RepairGuideRepository
         $params = [];
         if ($query !== '') {
             $conditions[] = '(title LIKE :term_title OR summary LIKE :term_summary OR symptoms LIKE :term_symptoms
-                OR possible_causes LIKE :term_causes OR device_type LIKE :term_device)';
+                OR possible_causes LIKE :term_causes OR device_type LIKE :term_device
+                OR steps_json LIKE :term_steps OR do_not LIKE :term_do_not
+                OR when_to_contact LIKE :term_when)';
             $term = '%' . $query . '%';
             $params = [
                 'term_title' => $term,
@@ -171,6 +173,9 @@ final class RepairGuideRepository
                 'term_symptoms' => $term,
                 'term_causes' => $term,
                 'term_device' => $term,
+                'term_steps' => $term,
+                'term_do_not' => $term,
+                'term_when' => $term,
             ];
         }
         if ($category !== '') {

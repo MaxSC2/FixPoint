@@ -183,7 +183,10 @@ final class TechnicianProfileReviewHttpTest extends IntegrationTestCase
                 . DIRECTORY_SEPARATOR . 'storage' . DIRECTORY_SEPARATOR . 'private'
                 . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, $newAvatarKey);
             $this->assertTrue(is_file($privatePath));
-            $this->assertFalse(is_file(dirname((string) app()->config()->get('paths.base')) . '/public/' . $newAvatarKey));
+            $publicPath = rtrim((string) app()->config()->get('paths.base'), DIRECTORY_SEPARATOR)
+                . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR
+                . str_replace('/', DIRECTORY_SEPARATOR, $newAvatarKey);
+            $this->assertFalse(is_file($publicPath));
 
             $this->logout();
             $public = app()->handle(Request::create('GET', '/masters/' . $technicianId));
@@ -486,6 +489,7 @@ final class TechnicianProfileReviewHttpTest extends IntegrationTestCase
              VALUES
                 (:technician_id, :headline, :bio, :is_public, :avatar_storage_key, :admin_is_visible, :admin_moderation_reason, :admin_moderated_by)
              ON DUPLICATE KEY UPDATE headline = VALUES(headline), bio = VALUES(bio), is_public = VALUES(is_public),
+                                     avatar_storage_key = VALUES(avatar_storage_key),
                                      admin_is_visible = VALUES(admin_is_visible),
                                      admin_moderation_reason = VALUES(admin_moderation_reason),
                                      admin_moderated_by = VALUES(admin_moderated_by)'

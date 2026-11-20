@@ -199,7 +199,8 @@ final class TechnicianProfileRepository
              LEFT JOIN technician_profiles p ON p.technician_id = u.id
              LEFT JOIN technician_profile_specialties ps ON ps.technician_id = u.id
              WHERE u.id = :technician_id AND u.role = "technician"
-             GROUP BY u.id, u.full_name, p.headline, p.bio, p.is_public
+             GROUP BY u.id, u.full_name, p.headline, p.bio, p.avatar_storage_key,
+                      p.is_public, p.admin_is_visible
              LIMIT 1'
         );
         $statement->execute(['technician_id' => $technicianId]);
