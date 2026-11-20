@@ -92,6 +92,60 @@ final class TechnicianProfileReviewHttpTest extends IntegrationTestCase
         }
     }
 
+    public function testAdminVisibilityCannotBeOverriddenByTechnician(): void
+    {
+        $technician = $this->user(self::TECHNICIAN);
+        $technicianId = (int) $technician['id'];
+        $originalProfile = $this->profileRow($technicianId);
+        $originalSpecialties = $this->specialtyIds($technicianId);
+
+        try {
+            $this->loginAs(self::ADMIN);
+            $adminPage = app()->handle(Request::create('GET', '/admin/technicians'));
+            $this->assertSame(200, $adminPage->status());
+            $this->assertContains((string) $technician['full_name'], $adminPage->body());
+
+            $missingReason = $this->post('/admin/technicians/' . $technicianId . '/visibility', [
+                'is_visible' => '0',
+                'reason' => '',
+            ]);
+            $this->assertSame(302, $missingReason->status());
+            $this->assertNull($this->profileRow($technicianId));
+
+            $hidden = $this->post('/admin/technicians/' . $technicianId . '/visibility', [
+                'is_visible' => '0',
+                'reason' => 'Тестовая административная модерация.',
+            ]);
+            $this->assertSame(302, $hidden->status());
+            $this->assertSame(404, app()->handle(Request::create('GET', '/masters/' . $technicianId))->status());
+
+            $this->logout();
+            $this->loginAs(self::TECHNICIAN);
+            $ownerUpdate = $this->post('/technician/profile', [
+                'headline' => 'Попытка самостоятельно снять ограничение',
+                'bio' => 'Административное решение должно иметь приоритет.',
+                'is_public' => '1',
+                'specialties' => [],
+            ]);
+            $this->assertSame(302, $ownerUpdate->status());
+            $this->assertSame(404, app()->handle(Request::create('GET', '/masters/' . $technicianId))->status());
+
+            $this->logout();
+            $this->loginAs(self::ADMIN);
+            $restored = $this->post('/admin/technicians/' . $technicianId . '/visibility', [
+                'is_visible' => '1',
+                'reason' => '',
+            ]);
+            $this->assertSame(302, $restored->status());
+            $this->assertSame(200, app()->handle(Request::create('GET', '/masters/' . $technicianId))->status());
+        } finally {
+            if (app()->auth()->check()) {
+                $this->logout();
+            }
+            $this->restoreProfile($technicianId, $originalProfile, $originalSpecialties);
+        }
+    }
+
     public function testPrivateTechnicianProfileIsRemovedFromPublicDirectory(): void
     {
         $technician = $this->user(self::TECHNICIAN);
@@ -314,7 +368,8 @@ final class TechnicianProfileReviewHttpTest extends IntegrationTestCase
     private function profileRow(int $technicianId): ?array
     {
         $statement = $this->pdo()->prepare(
-            'SELECT technician_id, headline, bio, is_public
+            'SELECT technician_id, headline, bio, is_public, admin_is_visible,
+                    admin_moderation_reason, admin_moderated_by
              FROM technician_profiles WHERE technician_id = :technician_id'
         );
         $statement->execute(['technician_id' => $technicianId]);
@@ -344,14 +399,22 @@ final class TechnicianProfileReviewHttpTest extends IntegrationTestCase
         }
 
         $this->pdo()->prepare(
-            'INSERT INTO technician_profiles (technician_id, headline, bio, is_public)
-             VALUES (:technician_id, :headline, :bio, :is_public)
-             ON DUPLICATE KEY UPDATE headline = VALUES(headline), bio = VALUES(bio), is_public = VALUES(is_public)'
+            'INSERT INTO technician_profiles
+                (technician_id, headline, bio, is_public, admin_is_visible, admin_moderation_reason, admin_moderated_by)
+             VALUES
+                (:technician_id, :headline, :bio, :is_public, :admin_is_visible, :admin_moderation_reason, :admin_moderated_by)
+             ON DUPLICATE KEY UPDATE headline = VALUES(headline), bio = VALUES(bio), is_public = VALUES(is_public),
+                                     admin_is_visible = VALUES(admin_is_visible),
+                                     admin_moderation_reason = VALUES(admin_moderation_reason),
+                                     admin_moderated_by = VALUES(admin_moderated_by)'
         )->execute([
             'technician_id' => $technicianId,
             'headline' => $profile['headline'],
             'bio' => $profile['bio'],
             'is_public' => $profile['is_public'],
+            'admin_is_visible' => $profile['admin_is_visible'],
+            'admin_moderation_reason' => $profile['admin_moderation_reason'],
+            'admin_moderated_by' => $profile['admin_moderated_by'],
         ]);
         $this->pdo()->prepare(
             'DELETE FROM technician_profile_specialties WHERE technician_id = :technician_id'
