@@ -15,7 +15,9 @@ final class HttpTest extends IntegrationTestCase
 
         $this->assertSame(200, $response->status());
         $this->assertContains('Сервисный центр FixPoint', $response->body());
-        $this->assertContains('Популярные услуги', $response->body());
+        $this->assertContains('Доска почёта', $response->body());
+        $this->assertContains('Доска почёта формируется', $response->body());
+        $this->assertNotContains('Популярные услуги', $response->body());
         $this->assertSame('nosniff', $response->header('X-Content-Type-Options'));
         $this->assertSame('DENY', $response->header('X-Frame-Options'));
         $this->assertContains('text/html', (string) $response->header('Content-Type'));
