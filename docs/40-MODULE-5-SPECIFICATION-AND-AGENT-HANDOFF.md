@@ -149,7 +149,7 @@ Instead, report the exact route registrations, navigation links, dashboard links
 
 - Follow the existing PHP MVC layers: Controller → Service → Repository → MySQL.
 - Use the current dependency container, Request/Response, Auth, CSRF and view conventions.
-- Every schema change is a new immutable numbered SQL migration. Module 5 owner reserved migrations 015–016 for the knowledge base and 018–020 for profiles/reviews. The calendar agent owns migration 017 for the initial appointment schema and must coordinate before adding further migrations. Never edit an applied migration.
+- Every schema change is a new immutable numbered SQL migration. Module 5 owner reserved migrations 015–016 for the knowledge base, 018–020 for profiles/reviews, and 021 for the source-guide reference on repair requests. The calendar agent owns migration 017 for the initial appointment schema and must coordinate before adding further migrations. Never edit an applied migration.
 - Never edit an applied migration.
 - Add proper foreign keys, indexes, uniqueness constraints and check constraints where supported by MySQL 8.
 - Use transactions for multi-table writes and concurrency-sensitive booking.
