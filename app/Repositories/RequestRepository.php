@@ -17,7 +17,7 @@ final class RequestRepository
 {
     private const SELECT = 'SELECT
             r.id, r.public_number, r.status, r.priority, r.source_guide_id,
-            guide.title AS source_guide_title, guide.slug AS source_guide_slug,
+            guide.title AS source_guide_title, guide.slug AS source_guide_slug, guide.status AS source_guide_status,
             r.device_type, r.device_brand, r.device_model,
             r.problem_description, r.diagnostic_result,
             r.estimated_cost, r.final_cost, r.estimated_ready_at,
