@@ -128,6 +128,9 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
                     <?php if ((int) ($request['technician_id'] ?? 0) > 0): ?>
                         <div class="request-form__actions">
                             <a class="button button--ghost" href="/masters/<?= e((string) (int) $request['technician_id']) ?>">Профиль мастера</a>
+                            <?php if (!in_array($requestStatus, ['cancelled', 'rejected'], true)): ?>
+                                <a class="button button--primary" href="/requests/<?= e(rawurlencode($requestId)) ?>/appointments/book">Записаться на встречу</a>
+                            <?php endif; ?>
                             <?php if ($requestStatus === 'completed'): ?>
                                 <a class="button button--primary" href="/requests/<?= e($requestId) ?>/review">Оценить работу мастера <span aria-hidden="true">★</span></a>
                             <?php endif; ?>

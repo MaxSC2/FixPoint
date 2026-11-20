@@ -99,6 +99,11 @@ if ($userName !== '') {
                         <span class="header-messages__badge" aria-label="<?= e((string) $unreadMessagesCount) ?> непрочитанных"><?= e((string) min(99, $unreadMessagesCount)) ?><?= $unreadMessagesCount > 99 ? '+' : '' ?></span>
                     <?php endif; ?>
                 </a>
+                <?php if (($authUser['role'] ?? '') === 'customer'): ?>
+                    <a class="header-messages" href="/appointments"><span>Мои встречи</span></a>
+                <?php elseif (($authUser['role'] ?? '') === 'technician'): ?>
+                    <a class="header-messages" href="/technician/calendar"><span>Календарь</span></a>
+                <?php endif; ?>
                 <a class="header-account" href="<?= e($accountUrl) ?>" title="<?= e($userName) ?>">
                     <span class="header-account__avatar" aria-hidden="true"><?= e($userInitials) ?></span>
                     <span class="header-account__name"><?= e($userName) ?></span>

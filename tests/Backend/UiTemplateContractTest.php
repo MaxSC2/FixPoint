@@ -724,6 +724,24 @@ final class UiTemplateContractTest extends TestCase
         $this->assertNotContains('1 248', $view);
     }
 
+
+    public function testCalendarNavigationAndBookingEntryPointsAreRoleScoped(): void
+    {
+        $header = $this->read('app/Views/layouts/header.php');
+        $customerDetail = $this->read('app/Views/pages/customer/requests/show.php');
+        $technicianDetail = $this->read('app/Views/pages/technician/requests/show.php');
+        $routes = $this->read('config/routes.php');
+
+        $this->assertContains("=== 'customer')", $header);
+        $this->assertContains('href="/appointments"', $header);
+        $this->assertContains("=== 'technician')", $header);
+        $this->assertContains('href="/technician/calendar"', $header);
+        $this->assertContains("if (!in_array(\$requestStatus, ['cancelled', 'rejected'], true))", $customerDetail);
+        $this->assertContains('/appointments/book', $customerDetail);
+        $this->assertContains('href="/technician/calendar"', $technicianDetail);
+        $this->assertContains("(require __DIR__ . '/routes.d/calendar.php')(\$router, \$app);", $routes);
+    }
+
     private function read(string $relativePath): string
     {
         $path = $this->root . '/' . $relativePath;

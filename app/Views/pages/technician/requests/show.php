@@ -81,6 +81,7 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
 
         <nav class="workspace-nav" aria-label="Разделы мастера" data-reveal>
             <a class="workspace-nav__link is-active" href="/technician/requests" aria-current="page">← К очереди</a>
+            <a class="workspace-nav__link" href="/technician/calendar">Календарь</a>
         </nav>
 
         <?php

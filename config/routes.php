@@ -131,4 +131,7 @@ return static function (Router $router, App $app): void {
     $router->post('/admin/categories', [AdminCategoryController::class, 'store'], $adminOnly);
     $router->get('/admin/categories/{id:\\d+}/edit', [AdminCategoryController::class, 'showEdit'], $adminOnly);
     $router->post('/admin/categories/{id:\\d+}/edit', [AdminCategoryController::class, 'update'], $adminOnly);
+
+    // CAL-01: customer appointments and technician calendar.
+    (require __DIR__ . '/routes.d/calendar.php')($router, $app);
 };
