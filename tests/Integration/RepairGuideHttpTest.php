@@ -32,7 +32,9 @@ final class RepairGuideHttpTest extends IntegrationTestCase
     public function testGuestsAndNonAdminsCannotManageGuides(): void
     {
         $this->assertSame(200, app()->handle(Request::create('GET', '/guides'))->status());
-        $this->assertSame(403, app()->handle(Request::create('GET', '/admin/guides'))->status());
+        $guestAdmin = app()->handle(Request::create('GET', '/admin/guides'));
+        $this->assertSame(302, $guestAdmin->status());
+        $this->assertContains('/login', (string) $guestAdmin->header('Location'));
 
         $this->loginAs(self::CUSTOMER);
         $this->assertSame(403, app()->handle(Request::create('GET', '/admin/guides'))->status());
@@ -62,6 +64,8 @@ final class RepairGuideHttpTest extends IntegrationTestCase
             $public = app()->handle(Request::create('GET', '/guides/' . $slug));
             $this->assertSame(200, $public->status());
             $this->assertContains('Тестовая статья модуля пять', $public->body());
+            $this->assertContains('&lt;script&gt;alert(1)&lt;/script&gt;', $public->body());
+            $this->assertNotContains('<script>alert(1)</script>', $public->body());
 
             $archive = $this->post('/admin/guides/' . (int) $row['id'] . '/archive', []);
             $this->assertSame(302, $archive->status());
