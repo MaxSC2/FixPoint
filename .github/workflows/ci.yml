@@ -6,10 +6,12 @@ on:
       - develop
       - main
       - 'feature/**'
+      - 'agent/**'
   pull_request:
     branches:
       - develop
       - main
+      - 'feature/**'
 
 permissions:
   contents: read
@@ -138,6 +140,13 @@ jobs:
           set -euo pipefail
           curl -fsS http://127.0.0.1:8080/ > /tmp/home.html
           grep -q "FixPoint" /tmp/home.html
+          grep -q "Доска почёта" /tmp/home.html
+          curl -fsS http://127.0.0.1:8080/guides > /tmp/guides.html
+          grep -q "Частые неисправности" /tmp/guides.html
+          curl -fsS http://127.0.0.1:8080/guides/laptop-wont-start > /tmp/guide-detail.html
+          grep -q "Что можно проверить самостоятельно" /tmp/guide-detail.html
+          curl -fsS http://127.0.0.1:8080/masters > /tmp/masters.html
+          grep -q "Мастера" /tmp/masters.html
           curl -fsS 'http://127.0.0.1:8080/services?q=%D0%A7%D0%B8%D1%81%D1%82%D0%BA%D0%B0+%D0%BD%D0%BE%D1%83%D1%82%D0%B1%D1%83%D0%BA%D0%B0' > /tmp/services.html
           grep -q "Чистка ноутбука от пыли" /tmp/services.html
           curl -fsS http://127.0.0.1:8080/services/laptop-cleaning > /tmp/detail.html
