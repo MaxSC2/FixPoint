@@ -27,6 +27,7 @@ final class RepairGuideHttpTest extends IntegrationTestCase
         $this->assertContains('Что можно проверить самостоятельно', $article->body());
         $this->assertContains('Не разбирайте корпус', $article->body());
         $this->assertContains('Создать заявку по этой проблеме', $article->body());
+        $this->assertContains('/requests/create?guide=laptop-wont-start', $article->body());
     }
 
     public function testGuestsAndNonAdminsCannotManageGuides(): void
