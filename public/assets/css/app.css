@@ -2564,3 +2564,12 @@ h1 { font-weight: 760; }
     font: inherit;
     font-weight: 700;
 }
+
+
+/* Public catalogue pagination */
+.catalog-pagination{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:.55rem;margin:2.25rem auto 1rem}
+.catalog-pagination__page,.catalog-pagination__control{display:inline-flex;align-items:center;justify-content:center;min-width:2.65rem;min-height:2.65rem;padding:.55rem .85rem;border:1px solid var(--line,#d9d9d9);border-radius:999px;color:inherit;text-decoration:none;font-weight:600;transition:background-color .18s ease,border-color .18s ease,color .18s ease}
+.catalog-pagination__page:hover,.catalog-pagination__control:hover{border-color:var(--accent,#555);background:var(--surface-soft,#f3f3f3)}
+.catalog-pagination__page.is-current{border-color:var(--ink,#222);background:var(--ink,#222);color:#fff}
+.catalog-pagination__control{padding-inline:1rem}
+.service-card__icon--software,.service-card__icon--storage{color:var(--accent,#555)}
