@@ -214,7 +214,7 @@ $leaderboard = isset($leaderboard) && is_array($leaderboard) ? $leaderboard : []
                         <span class="honour-card__rank">#<?= e((string) ($index + 1)) ?></span>
                         <div class="master-avatar" aria-hidden="true"><?= e(mb_strtoupper($masterInitials !== '' ? $masterInitials : 'FP')) ?></div>
                         <h3><?= e($masterName) ?></h3>
-                        <p class="master-card__specialties"><?= e((string) ($master['specialties'] ?? 'Специализация не указана')) ?></p>
+                        <p class="master-card__specialties"><?= e(trim((string) ($master['specialties'] ?? '')) !== '' ? (string) $master['specialties'] : 'Специализация не указана') ?></p>
                         <div class="honour-card__score"><strong>★ <?= e(number_format((float) ($master['average_rating'] ?? 0), 1, '.', '')) ?></strong><span><?= e((string) ($master['review_count'] ?? 0)) ?> отзывов</span></div>
                         <p class="honour-card__orders"><?= e((string) ($master['completed_count'] ?? 0)) ?> завершённых заявок</p>
                         <a class="text-link" href="/masters/<?= e((string) (int) $master['technician_id']) ?>">Открыть профиль <span aria-hidden="true">↗</span></a>
