@@ -70,7 +70,9 @@ final class UiTemplateContractTest extends TestCase
         $this->assertContains('/assets/images/repair-dossier.svg', $home);
         $this->assertContains('alt=""', $home);
         $this->assertContains('Сервисный центр FixPoint', $home);
-        $this->assertContains('Популярные услуги', $home);
+        $this->assertContains('Доска почёта', $home);
+        $this->assertContains('href="/masters"', $home);
+        $this->assertNotContains('Популярные услуги', $home);
     }
 
     public function testMotionHasNoJavascriptAndReducedMotionFallbacks(): void
