@@ -14,6 +14,7 @@ use FixPoint\Security\Auth;
 use FixPoint\Security\Csrf;
 use FixPoint\Services\AttachmentService;
 use FixPoint\Services\ChatService;
+use FixPoint\Services\RepairGuideService;
 use FixPoint\Services\RequestService;
 
 /**
@@ -31,7 +32,8 @@ final class RequestController extends Controller
         Session $session,
         private readonly RequestService $requestService,
         private readonly ChatService $chatService,
-        private readonly AttachmentService $attachmentService
+        private readonly AttachmentService $attachmentService,
+        private readonly RepairGuideService $repairGuideService
     ) {
         parent::__construct($config, $view, $auth, $csrf, $session);
     }
@@ -56,11 +58,15 @@ final class RequestController extends Controller
     public function create(Request $request, array $params = []): Response
     {
         $this->requireUser();
+        $rawGuideSlug = $request->query('guide', '');
+        $guideSlug = is_string($rawGuideSlug) ? trim($rawGuideSlug) : '';
+        $guideContext = $guideSlug !== '' ? $this->repairGuideService->requestContext($guideSlug) : null;
 
         return $this->renderPage('pages/customer/requests/create', [
             'pageTitle' => 'Новая заявка — ' . $this->config->get('app.name'),
             'activeNav' => 'requests',
             'services' => $this->requestService->servicesForSelect(),
+            'guideContext' => $guideContext,
         ]);
     }
 
@@ -72,6 +78,7 @@ final class RequestController extends Controller
             'device_brand' => $this->stringPost($request, 'device_brand'),
             'device_model' => $this->stringPost($request, 'device_model'),
             'service_id' => $this->stringPost($request, 'service_id'),
+            'guide_slug' => $this->stringPost($request, 'guide_slug'),
             'problem_description' => $this->stringPost($request, 'problem_description'),
             'customer_contact' => $this->stringPost($request, 'customer_contact'),
         ];
@@ -82,7 +89,11 @@ final class RequestController extends Controller
             $this->session->flashErrors($exception->errors());
             $this->session->flashOld($input);
 
-            return Response::redirect('/requests/create');
+            $redirect = '/requests/create';
+            if ($input['guide_slug'] !== '') {
+                $redirect .= '?guide=' . rawurlencode($input['guide_slug']);
+            }
+            return Response::redirect($redirect);
         }
 
         $created = $this->requestService->findVisibleForUser($requestId, $user);
