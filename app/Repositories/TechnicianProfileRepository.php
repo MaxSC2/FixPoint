@@ -15,6 +15,7 @@ final class TechnicianProfileRepository
             u.full_name,
             p.headline,
             p.bio,
+            p.avatar_storage_key,
             COALESCE(p.is_public, 1) AS is_public,
             COALESCE(p.admin_is_visible, 1) AS admin_is_visible,
             COALESCE(completed.completed_count, 0) AS completed_count,
@@ -191,7 +192,7 @@ final class TechnicianProfileRepository
     {
         $statement = $this->database->connection()->prepare(
             'SELECT u.id AS technician_id, u.full_name,
-                    p.headline, p.bio, COALESCE(p.is_public, 1) AS is_public,
+                    p.headline, p.bio, p.avatar_storage_key, COALESCE(p.is_public, 1) AS is_public,
                     GROUP_CONCAT(ps.category_id ORDER BY ps.category_id) AS specialty_ids
              FROM users u
              LEFT JOIN technician_profiles p ON p.technician_id = u.id
@@ -239,21 +240,27 @@ final class TechnicianProfileRepository
         ?string $headline,
         ?string $bio,
         bool $isPublic,
-        array $categoryIds
+        array $categoryIds,
+        ?string $avatarStorageKey = null,
+        bool $replaceAvatar = false
     ): void {
         $pdo = $this->database->connection();
         $pdo->beginTransaction();
         try {
             $pdo->prepare(
-                'INSERT INTO technician_profiles (technician_id, headline, bio, is_public)
-                 VALUES (:technician_id, :headline, :bio, :is_public)
+                'INSERT INTO technician_profiles
+                    (technician_id, headline, bio, is_public, avatar_storage_key)
+                 VALUES (:technician_id, :headline, :bio, :is_public, :avatar_storage_key)
                  ON DUPLICATE KEY UPDATE headline = VALUES(headline), bio = VALUES(bio),
-                                         is_public = VALUES(is_public)'
+                                         is_public = VALUES(is_public),
+                                         avatar_storage_key = IF(:replace_avatar = 1, VALUES(avatar_storage_key), avatar_storage_key)'
             )->execute([
                 'technician_id' => $technicianId,
                 'headline' => $headline,
                 'bio' => $bio,
                 'is_public' => $isPublic ? 1 : 0,
+                'avatar_storage_key' => $avatarStorageKey,
+                'replace_avatar' => $replaceAvatar ? 1 : 0,
             ]);
 
             $pdo->prepare(
