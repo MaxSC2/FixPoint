@@ -23,6 +23,7 @@ declare(strict_types=1);
             <a href="/">Главная</a>
             <a href="/services">Каталог услуг</a>
             <a href="/guides">Частые неисправности</a>
+            <a href="/masters">Мастера</a>
             <a href="/about">О сервисе</a>
             <a href="/contacts">Контакты</a>
         </nav>
@@ -39,11 +40,13 @@ declare(strict_types=1);
             'technician' => [
                 ['label' => 'Рабочая очередь', 'href' => '/technician/requests'],
                 ['label' => 'Каталог услуг', 'href' => '/services'],
+                ['label' => 'Мой публичный профиль', 'href' => '/technician/profile'],
             ],
             'admin' => [
                 ['label' => 'Панель администратора', 'href' => '/admin'],
                 ['label' => 'Реестр заявок', 'href' => '/admin/requests'],
                 ['label' => 'Пользователи', 'href' => '/admin/users'],
+                ['label' => 'Модерация отзывов', 'href' => '/admin/reviews'],
             ],
             default => [
                 ['label' => 'Создать аккаунт', 'href' => '/register'],
