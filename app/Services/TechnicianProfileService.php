@@ -6,11 +6,16 @@ namespace FixPoint\Services;
 
 use FixPoint\Core\HttpException;
 use FixPoint\Core\ValidationException;
+use FixPoint\Core\UploadedFile;
 use FixPoint\Repositories\TechnicianProfileRepository;
+use Throwable;
 
 final class TechnicianProfileService
 {
-    public function __construct(private readonly TechnicianProfileRepository $profiles)
+    public function __construct(
+        private readonly TechnicianProfileRepository $profiles,
+        private readonly TechnicianAvatarService $avatars
+    )
     {
     }
 
@@ -69,7 +74,7 @@ final class TechnicianProfileService
     }
 
     /** @param array<string, mixed> $user @param array<string, mixed> $input */
-    public function update(array $user, array $input): void
+    public function update(array $user, array $input, ?UploadedFile $avatar = null): void
     {
         $this->assertTechnician($user);
         $errors = [];
@@ -112,13 +117,37 @@ final class TechnicianProfileService
             throw new ValidationException($errors);
         }
 
-        $this->profiles->saveProfile(
-            (int) $user['id'],
-            $headline === '' ? null : $headline,
-            $bio === '' ? null : $bio,
-            $isPublic,
-            $validIds
-        );
+        $technicianId = (int) $user['id'];
+        $currentProfile = $this->profiles->findForEditor($technicianId);
+        $oldAvatarKey = is_array($currentProfile) && is_string($currentProfile['avatar_storage_key'] ?? null)
+            ? (string) $currentProfile['avatar_storage_key']
+            : null;
+        $newAvatarKey = null;
+
+        if ($avatar !== null) {
+            $newAvatarKey = $this->avatars->store($technicianId, $avatar);
+        }
+
+        try {
+            $this->profiles->saveProfile(
+                $technicianId,
+                $headline === '' ? null : $headline,
+                $bio === '' ? null : $bio,
+                $isPublic,
+                $validIds,
+                $newAvatarKey,
+                $avatar !== null
+            );
+        } catch (Throwable $exception) {
+            if ($newAvatarKey !== null) {
+                $this->avatars->delete($newAvatarKey);
+            }
+            throw $exception;
+        }
+
+        if ($newAvatarKey !== null && $oldAvatarKey !== null && $oldAvatarKey !== $newAvatarKey) {
+            $this->avatars->delete($oldAvatarKey);
+        }
     }
 
     /** @param array<string, mixed> $user @return list<array<string, mixed>> */
