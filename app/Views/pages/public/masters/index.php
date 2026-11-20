@@ -34,7 +34,7 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
                         <div class="master-card__top"><div class="master-avatar" aria-hidden="true"><?= e(mb_strtoupper($initials !== '' ? $initials : 'FP')) ?></div><span class="master-card__orders"><?= e((string) ($master['completed_count'] ?? 0)) ?> завершённых заявок</span></div>
                         <h2><?= e($name) ?></h2>
                         <p class="master-card__headline"><?= e((string) ($master['headline'] ?? 'Специалист FixPoint')) ?></p>
-                        <p class="master-card__specialties"><?= e((string) ($master['specialties'] ?? 'Специализация не указана')) ?></p>
+                        <p class="master-card__specialties"><?= e(trim((string) ($master['specialties'] ?? '')) !== '' ? (string) $master['specialties'] : 'Специализация не указана') ?></p>
                         <div class="master-card__rating">
                             <?php if ($count > 0): ?><strong>★ <?= e(number_format((float) $master['average_rating'], 1, '.', '')) ?></strong><span><?= e((string) $count) ?> отзывов</span>
                             <?php else: ?><span>Пока без отзывов</span><?php endif; ?>
