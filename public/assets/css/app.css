@@ -2652,3 +2652,7 @@ h1 { font-weight: 760; }
 .guide-source-context p { margin: 0; color: var(--color-muted, #687386); line-height: 1.6; }
 .guide-source-context a, .guide-request-origin a { width: fit-content; font-weight: 700; }
 .guide-request-origin { margin-top: 14px; }
+
+.profile-moderation-form { display: grid; gap: 8px; min-width: 210px; }
+.profile-moderation-form .field { margin: 0; }
+.profile-moderation-form .field__label { font-size: .8rem; }
