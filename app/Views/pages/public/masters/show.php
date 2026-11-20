@@ -16,7 +16,13 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
     <div class="container">
         <nav class="breadcrumbs" aria-label="Хлебные крошки"><a href="/">Главная</a><span aria-hidden="true">/</span><a href="/masters">Мастера</a><span aria-hidden="true">/</span><span aria-current="page"><?= e($name) ?></span></nav>
         <section class="master-profile-hero" data-reveal>
-            <div class="master-avatar master-avatar--large" aria-hidden="true"><?= e(mb_strtoupper($initials !== '' ? $initials : 'FP')) ?></div>
+            <div class="master-avatar master-avatar--large" aria-hidden="true">
+                <?php if (!empty($profile['avatar_storage_key'])): ?>
+                    <img class="master-avatar__image" src="/masters/<?= e((string) $profile['technician_id']) ?>/avatar" alt="">
+                <?php else: ?>
+                    <?= e(mb_strtoupper($initials !== '' ? $initials : 'FP')) ?>
+                <?php endif; ?>
+            </div>
             <div class="master-profile-hero__main">
                 <span class="eyebrow">Публичный профиль специалиста</span>
                 <h1><?= e($name) ?></h1>
