@@ -133,6 +133,8 @@ final class UiTemplateContractTest extends TestCase
         $this->assertContains('name="service_id"', $create);
         $this->assertContains('name="problem_description"', $create);
         $this->assertContains('name="customer_contact"', $create);
+        $this->assertContains('name="guide_slug"', $create);
+        $this->assertContains('$guideContext', $create);
         $this->assertNotContains('name="password"', $create);
     }
 
