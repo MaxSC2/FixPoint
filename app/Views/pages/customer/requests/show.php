@@ -114,6 +114,14 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
                         <div><dt>Контакт</dt><dd><?= e($customerContact !== '' ? $customerContact : 'Не указан') ?></dd></div>
                         <div><dt>Мастер</dt><dd><?= e((string) ($technician['full_name'] ?? 'Пока не назначен')) ?></dd></div>
                     </dl>
+                    <?php if ((int) ($request['technician_id'] ?? 0) > 0): ?>
+                        <div class="request-form__actions">
+                            <a class="button button--ghost" href="/masters/<?= e((string) (int) $request['technician_id']) ?>">Профиль мастера</a>
+                            <?php if ($requestStatus === 'completed'): ?>
+                                <a class="button button--primary" href="/requests/<?= e($requestId) ?>/review">Оценить работу мастера <span aria-hidden="true">★</span></a>
+                            <?php endif; ?>
+                        </div>
+                    <?php endif; ?>
                 </section>
 
                 <section class="request-detail-panel" data-reveal>
