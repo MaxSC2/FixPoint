@@ -16,6 +16,7 @@ final class TechnicianProfileRepository
             p.headline,
             p.bio,
             COALESCE(p.is_public, 1) AS is_public,
+            COALESCE(p.admin_is_visible, 1) AS admin_is_visible,
             COALESCE(completed.completed_count, 0) AS completed_count,
             COALESCE(ratings.review_count, 0) AS review_count,
             ROUND(ratings.average_rating, 2) AS average_rating,
@@ -97,6 +98,7 @@ final class TechnicianProfileRepository
                AND u.role = "technician"
                AND u.is_active = 1
                AND COALESCE(p.is_public, 1) = 1
+               AND COALESCE(p.admin_is_visible, 1) = 1
              LIMIT 1'
         );
         $statement->execute(['technician_id' => $technicianId]);
@@ -112,6 +114,7 @@ final class TechnicianProfileRepository
              WHERE u.role = "technician"
                AND u.is_active = 1
                AND COALESCE(p.is_public, 1) = 1
+               AND COALESCE(p.admin_is_visible, 1) = 1
                AND COALESCE(ratings.review_count, 0) >= 3
              ORDER BY weighted_rating DESC, average_rating DESC, completed_count DESC,
                       last_review_at DESC, u.id ASC
@@ -119,6 +122,68 @@ final class TechnicianProfileRepository
         );
         $statement->execute();
         return $statement->fetchAll();
+    }
+
+    /** @return list<array<string, mixed>> */
+    public function listForAdmin(): array
+    {
+        return $this->database->connection()->query(
+            'SELECT u.id AS technician_id, u.full_name, u.is_active,
+                    COALESCE(p.is_public, 1) AS owner_is_public,
+                    COALESCE(p.admin_is_visible, 1) AS admin_is_visible,
+                    p.admin_moderation_reason,
+                    COALESCE(r.review_count, 0) AS review_count,
+                    ROUND(r.average_rating, 2) AS average_rating,
+                    COALESCE(c.completed_count, 0) AS completed_count
+             FROM users u
+             LEFT JOIN technician_profiles p ON p.technician_id = u.id
+             LEFT JOIN (
+                SELECT technician_id, COUNT(*) AS review_count, AVG(rating) AS average_rating
+                FROM technician_reviews WHERE status = "published" GROUP BY technician_id
+             ) r ON r.technician_id = u.id
+             LEFT JOIN (
+                SELECT technician_id, COUNT(*) AS completed_count
+                FROM repair_requests WHERE status = "completed" GROUP BY technician_id
+             ) c ON c.technician_id = u.id
+             WHERE u.role = "technician"
+             ORDER BY u.is_active DESC, COALESCE(p.admin_is_visible, 1) DESC, u.full_name ASC'
+        )->fetchAll();
+    }
+
+    public function setAdminVisibility(int $technicianId, int $adminId, bool $isVisible, ?string $reason): void
+    {
+        $pdo = $this->database->connection();
+        $pdo->beginTransaction();
+        try {
+            $user = $pdo->prepare(
+                'SELECT id FROM users WHERE id = :technician_id AND role = "technician" FOR UPDATE'
+            );
+            $user->execute(['technician_id' => $technicianId]);
+            if ($user->fetchColumn() === false) {
+                throw new \FixPoint\Core\HttpException(404, 'Technician not found');
+            }
+
+            $pdo->prepare(
+                'INSERT INTO technician_profiles
+                    (technician_id, admin_is_visible, admin_moderation_reason, admin_moderated_by)
+                 VALUES (:technician_id, :is_visible, :reason, :moderator_id)
+                 ON DUPLICATE KEY UPDATE
+                    admin_is_visible = VALUES(admin_is_visible),
+                    admin_moderation_reason = VALUES(admin_moderation_reason),
+                    admin_moderated_by = VALUES(admin_moderated_by)'
+            )->execute([
+                'technician_id' => $technicianId,
+                'is_visible' => $isVisible ? 1 : 0,
+                'reason' => $isVisible ? null : $reason,
+                'moderator_id' => $adminId,
+            ]);
+            $pdo->commit();
+        } catch (\Throwable $exception) {
+            if ($pdo->inTransaction()) {
+                $pdo->rollBack();
+            }
+            throw $exception;
+        }
     }
 
     /** @return array<string, mixed>|null */
@@ -218,6 +283,7 @@ final class TechnicianProfileRepository
             'u.role = "technician"',
             'u.is_active = 1',
             'COALESCE(p.is_public, 1) = 1',
+            'COALESCE(p.admin_is_visible, 1) = 1',
         ];
         $params = [];
         if ($categorySlug !== '') {
