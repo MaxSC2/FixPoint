@@ -6,6 +6,7 @@ namespace FixPoint\Services;
 
 use FixPoint\Core\HttpException;
 use FixPoint\Core\ValidationException;
+use FixPoint\Repositories\RepairGuideRepository;
 use FixPoint\Repositories\RequestRepository;
 use FixPoint\Repositories\ServiceRepository;
 use FixPoint\Repositories\UserRepository;
@@ -30,7 +31,8 @@ final class RequestService
         private readonly ServiceRepository $services,
         private readonly UserRepository $users,
         private readonly RequestStatusService $statuses,
-        private readonly AttachmentService $attachments
+        private readonly AttachmentService $attachments,
+        private readonly RepairGuideRepository $repairGuides
     ) {
     }
 
@@ -244,6 +246,23 @@ final class RequestService
             $errors['customer_contact'] = 'Укажите контакт длиной от 3 до 80 символов.';
         }
 
+        // A browser-supplied slug is only a lookup hint. The guide must still
+        // exist and remain published when the request is submitted.
+        $guideId = null;
+        $guideSlug = $this->scalar($input['guide_slug'] ?? '');
+        if ($guideSlug !== '') {
+            if (preg_match('/^[a-z0-9]+(?:-[a-z0-9]+)*$/', $guideSlug) !== 1 || mb_strlen($guideSlug) > 190) {
+                $errors['guide'] = 'Ссылка на инструкцию некорректна. Откройте инструкцию заново и повторите попытку.';
+            } else {
+                $guide = $this->repairGuides->findPublishedBySlugForRequest($guideSlug);
+                if ($guide === null) {
+                    $errors['guide'] = 'Эта инструкция больше не опубликована. Создайте заявку без ссылки на неё.';
+                } else {
+                    $guideId = (int) $guide['id'];
+                }
+            }
+        }
+
         if ($errors !== []) {
             throw new ValidationException($errors);
         }
@@ -255,6 +274,7 @@ final class RequestService
                 'device_brand' => $brand === '' ? null : $brand,
                 'device_model' => $model === '' ? null : $model,
                 'service_id' => $serviceId,
+                'guide_id' => $guideId,
                 'problem_description' => $problem,
                 'customer_contact' => $contact,
             ], function (PDO $pdo, int $requestId) use ($customerId, $uploads, &$savedKeys): void {
