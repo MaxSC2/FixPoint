@@ -66,6 +66,9 @@ final class TechnicianReviewService
             throw new ValidationException(['status' => 'Выберите допустимый статус модерации.']);
         }
         $reason = is_string($input['reason'] ?? null) ? trim($input['reason']) : '';
+        if ($status === 'hidden' && $reason === '') {
+            throw new ValidationException(['reason' => 'Укажите причину скрытия отзыва.']);
+        }
         if (mb_strlen($reason) > 500) {
             throw new ValidationException(['reason' => 'Причина модерации не должна превышать 500 символов.']);
         }
