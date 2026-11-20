@@ -1,0 +1,27 @@
+-- 015: public troubleshooting knowledge base with admin-managed publishing.
+CREATE TABLE repair_guides (
+    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    title VARCHAR(180) NOT NULL,
+    slug VARCHAR(190) NOT NULL,
+    category_slug VARCHAR(64) NOT NULL,
+    device_type VARCHAR(100) NOT NULL,
+    summary VARCHAR(420) NOT NULL,
+    symptoms TEXT NOT NULL,
+    possible_causes TEXT NOT NULL,
+    steps_json JSON NOT NULL,
+    do_not TEXT NOT NULL,
+    when_to_contact TEXT NOT NULL,
+    status ENUM('draft', 'published', 'archived') NOT NULL DEFAULT 'draft',
+    view_count BIGINT UNSIGNED NOT NULL DEFAULT 0,
+    created_by BIGINT UNSIGNED NULL,
+    updated_by BIGINT UNSIGNED NULL,
+    published_at DATETIME NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    UNIQUE KEY uq_repair_guides_slug (slug),
+    KEY idx_repair_guides_public (status, category_slug, published_at),
+    KEY idx_repair_guides_updated (updated_at),
+    CONSTRAINT fk_repair_guides_created_by FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE SET NULL,
+    CONSTRAINT fk_repair_guides_updated_by FOREIGN KEY (updated_by) REFERENCES users(id) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

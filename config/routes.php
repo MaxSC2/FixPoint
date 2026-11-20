@@ -32,7 +32,7 @@ use FixPoint\Middleware\RoleMiddleware;
 return static function (Router $router, App $app): void {
     $router->get('/', [HomeController::class, 'index']);
     $router->get('/services', [ServicesController::class, 'index']);
-    $router->get('/services/{slug}', [ServicesController::class, 'show']);
+    $router->get('/services/{slug}', [ServicesController::class, 'show']);\n    $router->get('/guides', [RepairGuideController::class, 'index']);\n    $router->get('/guides/{slug}', [RepairGuideController::class, 'show']);
     $router->get('/about', [PageController::class, 'about']);
     $router->get('/contacts', [PageController::class, 'contacts']);
     $router->get('/health', [HealthController::class, 'index']);
@@ -88,7 +88,7 @@ return static function (Router $router, App $app): void {
     $adminOnly = [AuthMiddleware::class, new RoleMiddleware($app->auth(), $app->session(), 'admin')];
     $router->get('/admin', [AdminController::class, 'index'], $adminOnly);
     $router->get('/admin/statistics', [AdminStatisticsController::class, 'index'], $adminOnly);
-    $router->get('/admin/content/about', [AdminContentController::class, 'index'], $adminOnly);
+    $router->get('/admin/guides', [AdminGuideController::class, 'index'], $adminOnly);\n    $router->get('/admin/guides/create', [AdminGuideController::class, 'create'], $adminOnly);\n    $router->post('/admin/guides', [AdminGuideController::class, 'store'], $adminOnly);\n    $router->get('/admin/guides/{id:\\d+}/edit', [AdminGuideController::class, 'edit'], $adminOnly);\n    $router->post('/admin/guides/{id:\\d+}/edit', [AdminGuideController::class, 'update'], $adminOnly);\n    $router->post('/admin/guides/{id:\\d+}/archive', [AdminGuideController::class, 'archive'], $adminOnly);\n    $router->get('/admin/content/about', [AdminContentController::class, 'index'], $adminOnly);
     $router->post('/admin/content/about', [AdminContentController::class, 'update'], $adminOnly);
     $router->get('/admin/requests', [AdminRequestController::class, 'index'], $adminOnly);
     $router->get('/admin/requests/{id:\d+}/assign', [AdminRequestController::class, 'showAssign'], $adminOnly);
