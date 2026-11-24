@@ -122,7 +122,7 @@ php tests/run.php          # DB_DATABASE должен заканчиваться
 ```
 
 Миграция 017 создаёт только `technician_calendar_settings`,
-`technician_weekly_availability`, `technician_calendar_blocks`,
+`technician_calendar_availability`, `technician_calendar_blocks`,
 `technician_appointments` и `technician_appointment_events`. Она не ссылается
 на таблицы из 018–020, поэтому безопасна при любом порядке уже применённых
 миграций 018–023. Повторный запуск `migrate.php` должен вывести
@@ -131,4 +131,4 @@ php tests/run.php          # DB_DATABASE должен заканчиваться
 
 ## Итог интеграции
 
-CAL-01 включён в ветку `feature/module-5-admin-ux-audit-2026-11-20` как часть PR #34. Исходная ветка агента сохранена без изменений. Проверка совместимости выполняется на актуальном merge-commit PR #34, а не только на исходной ветке календаря.
+CAL-01 влит в целевую ветку `feature/module-5-knowledge-base-2026-11-20` через PR #34 (merge commit `90d057361ed2c072262156c38785b964a392d0cc`). Ветка `feature/module-5-admin-ux-audit-2026-11-20` была head-веткой PR и сохранена для истории; исходная ветка агента календаря также сохранена без изменений.
