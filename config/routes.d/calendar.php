@@ -11,10 +11,9 @@ use FixPoint\Middleware\AuthMiddleware;
 use FixPoint\Middleware\RoleMiddleware;
 
 /**
- * CAL-01 route module. It is loaded automatically by App::router() from
- * config/routes.d/ so the shared config/routes.php stays untouched. If the
- * owner prefers explicit registration, require this file from routes.php
- * instead (never both).
+ * CAL-01 route module. It is explicitly registered by config/routes.php.
+ * Keep this as the single registration point; do not add a parallel
+ * config/routes.d auto-discovery loop in App::router().
  */
 return static function (Router $router, App $app): void {
     $customerOnly = [
