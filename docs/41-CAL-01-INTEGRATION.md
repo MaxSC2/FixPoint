@@ -43,6 +43,7 @@
 | GET/POST | `/technician/calendar/blocks` | `TechnicianCalendarController::blocks` / `storeBlock` |
 | POST | `/technician/calendar/blocks/{id}/delete` | `TechnicianCalendarController::deleteBlock` |
 | GET | `/technician/appointments/{id}` | `TechnicianAppointmentController::show` |
+| POST | `/technician/appointments/{id}/cancel` | `TechnicianAppointmentController::cancel` |
 | POST | `/technician/appointments/{id}/confirm` | `TechnicianAppointmentController::confirm` |
 | POST | `/technician/appointments/{id}/decline` | `TechnicianAppointmentController::decline` |
 | POST | `/technician/appointments/{id}/reschedule` | `TechnicianAppointmentController::reschedule` |

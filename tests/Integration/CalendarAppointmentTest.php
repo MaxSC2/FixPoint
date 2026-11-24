@@ -552,8 +552,19 @@ final class CalendarAppointmentTest extends IntegrationTestCase
         $this->assertSame(302, $confirmed->status());
         $this->assertSame('confirmed', $this->appointmentStatus($appointmentId));
 
+        $cancelled = $this->post('/technician/appointments/' . $appointmentId . '/cancel', [
+            'reason' => 'Мастер заболел',
+        ]);
+        $this->assertSame(302, $cancelled->status());
+        $this->assertSame('cancelled', $this->appointmentStatus($appointmentId));
+
         app()->auth()->logout();
         app()->auth()->login($customerId);
+        $customerCannotCancelTechnicianRoute = $this->post(
+            '/technician/appointments/' . $appointmentId . '/cancel',
+            []
+        );
+        $this->assertSame(403, $customerCannotCancelTechnicianRoute->status());
         $customerCannotSeeTechnician = app()->handle(\FixPoint\Core\Request::create(
             'GET',
             '/technician/appointments/' . $appointmentId

@@ -44,6 +44,7 @@ return static function (Router $router, App $app): void {
     $router->post('/technician/calendar/blocks/{id:\d+}/delete', [TechnicianCalendarController::class, 'deleteBlock'], $technicianOnly);
 
     $router->get('/technician/appointments/{id:\d+}', [TechnicianAppointmentController::class, 'show'], $technicianOnly);
+    $router->post('/technician/appointments/{id:\d+}/cancel', [TechnicianAppointmentController::class, 'cancel'], $technicianOnly);
     $router->post('/technician/appointments/{id:\d+}/confirm', [TechnicianAppointmentController::class, 'confirm'], $technicianOnly);
     $router->post('/technician/appointments/{id:\d+}/decline', [TechnicianAppointmentController::class, 'decline'], $technicianOnly);
     $router->post('/technician/appointments/{id:\d+}/reschedule', [TechnicianAppointmentController::class, 'reschedule'], $technicianOnly);
