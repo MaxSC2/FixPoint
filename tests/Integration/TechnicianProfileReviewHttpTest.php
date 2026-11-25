@@ -174,6 +174,21 @@ final class TechnicianProfileReviewHttpTest extends IntegrationTestCase
         file_put_contents($temporary, $png);
         $newAvatarKey = null;
 
+        // The seeded avatar is a real file in the private storage. Uploading a
+        // new one removes the previous file, so the original is backed up and
+        // restored together with the profile row.
+        $originalAvatarKey = (string) ($originalProfile['avatar_storage_key'] ?? '');
+        $originalAvatarBackup = null;
+        if ($originalAvatarKey !== '') {
+            $originalAvatarPath = $this->privateAvatarPath($originalAvatarKey);
+            if (is_file($originalAvatarPath)) {
+                $originalAvatarBackup = tempnam(sys_get_temp_dir(), 'fixpoint-avatar-backup-');
+                if (is_string($originalAvatarBackup)) {
+                    copy($originalAvatarPath, $originalAvatarBackup);
+                }
+            }
+        }
+
         try {
             $this->loginAs(self::TECHNICIAN);
             $response = $this->postWithFiles('/technician/profile', [
@@ -239,7 +254,23 @@ final class TechnicianProfileReviewHttpTest extends IntegrationTestCase
             if (is_string($temporary) && is_file($temporary)) {
                 @unlink($temporary);
             }
+            if (is_string($originalAvatarBackup) && is_file($originalAvatarBackup)) {
+                $restorePath = $this->privateAvatarPath($originalAvatarKey);
+                $restoreDirectory = dirname($restorePath);
+                if (!is_dir($restoreDirectory)) {
+                    @mkdir($restoreDirectory, 0750, true);
+                }
+                copy($originalAvatarBackup, $restorePath);
+                @unlink($originalAvatarBackup);
+            }
         }
+    }
+
+    private function privateAvatarPath(string $storageKey): string
+    {
+        return rtrim((string) app()->config()->get('paths.base'), DIRECTORY_SEPARATOR)
+            . DIRECTORY_SEPARATOR . 'storage' . DIRECTORY_SEPARATOR . 'private'
+            . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, $storageKey);
     }
 
     public function testPrivateTechnicianProfileIsRemovedFromPublicDirectory(): void
