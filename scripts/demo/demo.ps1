@@ -398,9 +398,9 @@ if (-not $reuseApp) {
         }
     }
 
-    # A clone may only know the remote branch, so the remote refs are checked
-    # as well before the launcher gives up on the requested ref.
-    foreach ($candidate in @($Ref, "refs/remotes/github/$Ref", "refs/remotes/origin/$Ref")) {
+    # The freshly fetched remote ref comes first: a local branch of the same
+    # name may still point at an older commit and would serve stale code.
+    foreach ($candidate in @("refs/remotes/github/$Ref", "refs/remotes/origin/$Ref", $Ref)) {
         $resolved = & git -C $RepoRoot rev-parse --verify --quiet "$candidate^{commit}"
         if ($LASTEXITCODE -eq 0 -and -not [string]::IsNullOrWhiteSpace($resolved)) {
             $sha = $resolved
