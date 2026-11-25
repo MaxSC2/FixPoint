@@ -7,6 +7,7 @@ namespace FixPoint\Tests\Integration;
 use FixPoint\Core\Env;
 use FixPoint\Core\Request;
 use FixPoint\Core\Response;
+use FixPoint\Services\RepairGuideService;
 use FixPoint\Tests\IntegrationTestCase;
 
 final class RepairGuideHttpTest extends IntegrationTestCase
@@ -32,6 +33,52 @@ final class RepairGuideHttpTest extends IntegrationTestCase
         $this->assertContains('Не разбирайте корпус', $article->body());
         $this->assertContains('Создать заявку по этой проблеме', $article->body());
         $this->assertContains('/requests/create?guide=laptop-wont-start', $article->body());
+    }
+
+    public function testKnowledgeBasePageSizeFillsTheGridOnEveryBreakpoint(): void
+    {
+        $data = app()->make(RepairGuideService::class)->publicIndex();
+        $perPage = (int) ($data['pagination']['per_page'] ?? 0);
+        $this->assertGreaterThan(0, $perPage);
+
+        $columns = $this->serviceGridColumnCounts();
+        $this->assertGreaterThan(0, count($columns));
+        foreach ($columns as $count) {
+            $this->assertSame(
+                0,
+                $perPage % $count,
+                "Page size {$perPage} must fill a grid of {$count} columns without empty slots."
+            );
+        }
+    }
+
+    public function testPublishedGuidesFitOnOnePageAndNoSecondPageIsOffered(): void
+    {
+        $published = (int) $this->pdo()
+            ->query("SELECT COUNT(*) FROM repair_guides WHERE status = 'published'")
+            ->fetchColumn();
+        $this->assertGreaterThan(0, $published);
+
+        $data = app()->make(RepairGuideService::class)->publicIndex();
+        $perPage = (int) ($data['pagination']['per_page'] ?? 0);
+        $pages = (int) ($data['pagination']['pages'] ?? 0);
+        $this->assertSame(max(1, (int) ceil($published / $perPage)), $pages);
+
+        $response = app()->handle(Request::create('GET', '/guides'));
+        $this->assertSame(200, $response->status());
+        $body = $response->body();
+
+        $this->assertSame(min($published, $perPage), substr_count($body, 'class="guide-card"'));
+        $this->assertContains('материалов', $body);
+
+        if ($published <= $perPage) {
+            $this->assertSame(1, $pages);
+            $this->assertNotContains('Страница 1 из 2', $body);
+
+            $secondPage = app()->handle(Request::create('GET', '/guides?page=2'));
+            $this->assertSame(200, $secondPage->status());
+            $this->assertNotContains('Страница 2 из', $secondPage->body());
+        }
     }
 
     public function testGuestsAndNonAdminsCannotManageGuides(): void
@@ -100,6 +147,36 @@ final class RepairGuideHttpTest extends IntegrationTestCase
         } finally {
             $this->pdo()->prepare('DELETE FROM repair_guides WHERE slug = :slug')->execute(['slug' => $slug]);
         }
+    }
+
+    /**
+     * Column counts used by the shared card grid in the stylesheet.
+     *
+     * @return list<int>
+     */
+    private function serviceGridColumnCounts(): array
+    {
+        $css = (string) file_get_contents(dirname(__DIR__, 2) . '/public/assets/css/app.css');
+        preg_match_all('/([^{}]+)\{([^{}]*)\}/s', $css, $rules, PREG_SET_ORDER);
+
+        $counts = [];
+        foreach ($rules as $rule) {
+            if (!str_contains($rule[1], '.service-grid')) {
+                continue;
+            }
+            if (preg_match('/grid-template-columns:\s*repeat\((\d+)/', $rule[2], $matches) === 1) {
+                $counts[] = (int) $matches[1];
+                continue;
+            }
+            if (preg_match('/grid-template-columns:\s*(\d+)fr/', $rule[2], $matches) === 1) {
+                $counts[] = (int) $matches[1];
+            }
+        }
+
+        $counts = array_values(array_unique($counts));
+        sort($counts);
+
+        return $counts;
     }
 
     /** @return array<string, string> */

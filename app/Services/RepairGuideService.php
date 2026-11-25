@@ -33,7 +33,12 @@ final class RepairGuideService
             $category = '';
         }
 
-        $perPage = 9;
+        // The public knowledge base is rendered inside .service-grid, which
+        // switches between 4, 3, 2 and 1 columns depending on the viewport.
+        // A page size that divides by every column count keeps the last row
+        // full instead of leaving empty slots and pushing the tail to the
+        // next page. 12 is divisible by 4, 3, 2 and 1.
+        $perPage = 12;
         $total = $this->guides->countPublished($query, $category);
         $pages = max(1, (int) ceil($total / $perPage));
         $page = max(1, min($pages, $page));

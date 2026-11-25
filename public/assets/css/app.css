@@ -218,6 +218,10 @@ h3 { font-size: 1.15rem; font-weight: 700; }
 .catalog-results__heading { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-bottom: 19px; }
 .catalog-results__heading h2 { margin: 0; font-size: 1.42rem; }
 .catalog-results__heading span { color: var(--color-muted); font-size: .8rem; }
+/* Shared card grid: 4 columns above 1100px, 3 columns up to 1100px, 2 columns
+   up to 900px and a single column on phones. Page sizes of the lists rendered
+   inside this grid (catalogue, knowledge base) must divide by every column
+   count so the last row stays full. */
 .service-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 17px; }
 .service-card {
     position: relative; display: flex; min-height: 255px; flex-direction: column; padding: 23px;
