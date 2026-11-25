@@ -117,6 +117,8 @@ return static function (Router $router, App $app): void {
     $router->get('/admin/content/about', [AdminContentController::class, 'index'], $adminOnly);
     $router->post('/admin/content/about', [AdminContentController::class, 'update'], $adminOnly);
     $router->get('/admin/requests', [AdminRequestController::class, 'index'], $adminOnly);
+    $router->get('/admin/requests/create', [AdminRequestController::class, 'create'], $adminOnly);
+    $router->post('/admin/requests/create', [AdminRequestController::class, 'store'], $adminOnly);
     $router->get('/admin/requests/{id:\\d+}/assign', [AdminRequestController::class, 'showAssign'], $adminOnly);
     $router->post('/admin/requests/{id:\\d+}/assign', [AdminRequestController::class, 'assign'], $adminOnly);
     $router->get('/admin/users', [AdminUserController::class, 'index'], $adminOnly);

@@ -194,90 +194,11 @@ final class RequestService
      */
     public function create(int $customerId, array $input, array $uploads = []): int
     {
-        $errors = [];
-
-        $deviceType = $this->scalar($input['device_type'] ?? '');
-        if ($deviceType === '') {
-            $errors['device_type'] = 'Укажите тип устройства.';
-        } elseif ($this->hasControlCharacters($deviceType) || mb_strlen($deviceType) > 100) {
-            $errors['device_type'] = 'Тип устройства содержит недопустимые символы или слишком длинный.';
-        }
-
-        $brand = $this->scalar($input['device_brand'] ?? '');
-        if ($brand !== '' && ($this->hasControlCharacters($brand) || mb_strlen($brand) > 100)) {
-            $errors['device_brand'] = 'Производитель содержит недопустимые символы или слишком длинный.';
-        }
-
-        $model = $this->scalar($input['device_model'] ?? '');
-        if ($model !== '' && ($this->hasControlCharacters($model) || mb_strlen($model) > 160)) {
-            $errors['device_model'] = 'Модель содержит недопустимые символы или слишком длинная.';
-        }
-
-        $serviceId = null;
-        $rawServiceId = $this->scalar($input['service_id'] ?? '');
-        if ($rawServiceId !== '') {
-            $validated = filter_var($rawServiceId, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
-            if ($validated === false) {
-                $errors['service_id'] = 'Выбранная услуга недоступна.';
-            } else {
-                $service = $this->services->findActiveById((int) $validated);
-                if ($service === null) {
-                    $errors['service_id'] = 'Выбранная услуга недоступна.';
-                } else {
-                    $serviceId = (int) $validated;
-                }
-            }
-        }
-
-        $problem = $this->scalar($input['problem_description'] ?? '');
-        $problemLength = mb_strlen($problem);
-        if ($problemLength < 10) {
-            $errors['problem_description'] = 'Опишите проблему подробнее — не менее 10 символов.';
-        } elseif ($problemLength > 5000) {
-            $errors['problem_description'] = 'Описание проблемы слишком длинное.';
-        } elseif ($this->hasControlCharacters($problem)) {
-            $errors['problem_description'] = 'Описание содержит недопустимые символы.';
-        }
-
-        $contact = $this->scalar($input['customer_contact'] ?? '');
-        if ($contact === '') {
-            $errors['customer_contact'] = 'Укажите контакт для связи.';
-        } elseif ($this->hasControlCharacters($contact) || mb_strlen($contact) < 3 || mb_strlen($contact) > 80) {
-            $errors['customer_contact'] = 'Укажите контакт длиной от 3 до 80 символов.';
-        }
-
-        // A browser-supplied slug is only a lookup hint. The guide must still
-        // exist and remain published when the request is submitted.
-        $guideId = null;
-        $guideSlug = $this->scalar($input['guide_slug'] ?? '');
-        if ($guideSlug !== '') {
-            if (preg_match('/^[a-z0-9]+(?:-[a-z0-9]+)*$/', $guideSlug) !== 1 || mb_strlen($guideSlug) > 190) {
-                $errors['guide'] = 'Ссылка на инструкцию некорректна. Откройте инструкцию заново и повторите попытку.';
-            } else {
-                $guide = $this->repairGuides->findPublishedBySlugForRequest($guideSlug);
-                if ($guide === null) {
-                    $errors['guide'] = 'Эта инструкция больше не опубликована. Создайте заявку без ссылки на неё.';
-                } else {
-                    $guideId = (int) $guide['id'];
-                }
-            }
-        }
-
-        if ($errors !== []) {
-            throw new ValidationException($errors);
-        }
+        $data = $this->validateCreateInput($input);
 
         $savedKeys = [];
         try {
-            return $this->requests->createForCustomer($customerId, [
-                'device_type' => $deviceType,
-                'device_brand' => $brand === '' ? null : $brand,
-                'device_model' => $model === '' ? null : $model,
-                'service_id' => $serviceId,
-                'guide_id' => $guideId,
-                'problem_description' => $problem,
-                'customer_contact' => $contact,
-            ], function (PDO $pdo, int $requestId) use ($customerId, $uploads, &$savedKeys): void {
+            return $this->requests->createForCustomer($customerId, $data, function (PDO $pdo, int $requestId) use ($customerId, $uploads, &$savedKeys): void {
                 $savedKeys = $this->attachments->storeUploads(
                     $pdo,
                     $requestId,
@@ -290,6 +211,64 @@ final class RequestService
             $this->attachments->cleanup($savedKeys);
             throw $exception;
         }
+    }
+
+    /**
+     * Create a request on behalf of an active customer. The administrator is
+     * recorded in the initial history entry; technician assignment remains the
+     * existing optional workflow step and is not forced here.
+     *
+     * @param array<string, mixed> $adminUser
+     * @param array<string, mixed> $input
+     * @throws ValidationException|HttpException
+     */
+    public function createForAdmin(array $adminUser, mixed $customerInput, array $input): int
+    {
+        if ((string) ($adminUser['role'] ?? '') !== 'admin') {
+            throw new HttpException(403, 'Admin access required');
+        }
+
+        $rawCustomerId = $this->scalar($customerInput);
+        $validated = filter_var($rawCustomerId, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
+        if ($validated === false) {
+            throw new ValidationException(['customer_id' => 'Выберите клиента из списка.']);
+        }
+
+        $customer = $this->users->findById((int) $validated);
+        if ($customer === null
+            || (string) ($customer['role'] ?? '') !== 'customer'
+            || (int) ($customer['is_active'] ?? 0) !== 1
+        ) {
+            throw new ValidationException([
+                'customer_id' => 'Выберите активного клиента из списка.',
+            ]);
+        }
+
+        $data = $this->validateCreateInput($input);
+
+        return $this->requests->createForCustomer(
+            (int) $validated,
+            $data,
+            null,
+            (int) ($adminUser['id'] ?? 0),
+            'Заявка создана администратором.'
+        );
+    }
+
+    /**
+     * Active customers offered to the administrator when creating a request on
+     * someone else's behalf.
+     *
+     * @param array<string, mixed> $user
+     * @return list<array<string, mixed>>
+     */
+    public function customersForAdminSelect(array $user): array
+    {
+        if ((string) ($user['role'] ?? '') !== 'admin') {
+            throw new HttpException(403, 'Admin access required');
+        }
+
+        return $this->users->listByRole('customer', true);
     }
 
     /** @return array<string, mixed>|null */
@@ -785,6 +764,100 @@ final class RequestService
             : null;
 
         return $row;
+    }
+
+    /**
+     * Shared validation and normalization for customer self-service and
+     * administrator creation.
+     *
+     * @param array<string, mixed> $input
+     * @return array{device_type: string, device_brand: ?string, device_model: ?string, service_id: ?int, guide_id: ?int, problem_description: string, customer_contact: string}
+     * @throws ValidationException
+     */
+    private function validateCreateInput(array $input): array
+    {
+        $errors = [];
+
+        $deviceType = $this->scalar($input['device_type'] ?? '');
+        if ($deviceType === '') {
+            $errors['device_type'] = 'Укажите тип устройства.';
+        } elseif ($this->hasControlCharacters($deviceType) || mb_strlen($deviceType) > 100) {
+            $errors['device_type'] = 'Тип устройства содержит недопустимые символы или слишком длинный.';
+        }
+
+        $brand = $this->scalar($input['device_brand'] ?? '');
+        if ($brand !== '' && ($this->hasControlCharacters($brand) || mb_strlen($brand) > 100)) {
+            $errors['device_brand'] = 'Производитель содержит недопустимые символы или слишком длинный.';
+        }
+
+        $model = $this->scalar($input['device_model'] ?? '');
+        if ($model !== '' && ($this->hasControlCharacters($model) || mb_strlen($model) > 160)) {
+            $errors['device_model'] = 'Модель содержит недопустимые символы или слишком длинная.';
+        }
+
+        $serviceId = null;
+        $rawServiceId = $this->scalar($input['service_id'] ?? '');
+        if ($rawServiceId !== '') {
+            $validated = filter_var($rawServiceId, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
+            if ($validated === false) {
+                $errors['service_id'] = 'Выбранная услуга недоступна.';
+            } else {
+                $service = $this->services->findActiveById((int) $validated);
+                if ($service === null) {
+                    $errors['service_id'] = 'Выбранная услуга недоступна.';
+                } else {
+                    $serviceId = (int) $validated;
+                }
+            }
+        }
+
+        $problem = $this->scalar($input['problem_description'] ?? '');
+        $problemLength = mb_strlen($problem);
+        if ($problemLength < 10) {
+            $errors['problem_description'] = 'Опишите проблему подробнее — не менее 10 символов.';
+        } elseif ($problemLength > 5000) {
+            $errors['problem_description'] = 'Описание проблемы слишком длинное.';
+        } elseif ($this->hasControlCharacters($problem)) {
+            $errors['problem_description'] = 'Описание содержит недопустимые символы.';
+        }
+
+        $contact = $this->scalar($input['customer_contact'] ?? '');
+        if ($contact === '') {
+            $errors['customer_contact'] = 'Укажите контакт для связи.';
+        } elseif ($this->hasControlCharacters($contact) || mb_strlen($contact) < 3 || mb_strlen($contact) > 80) {
+            $errors['customer_contact'] = 'Укажите контакт длиной от 3 до 80 символов.';
+        }
+
+        // A browser-supplied slug is only a lookup hint. The guide must still
+        // exist and remain published when the request is submitted.
+        $guideId = null;
+        $guideSlug = $this->scalar($input['guide_slug'] ?? '');
+        if ($guideSlug !== '') {
+            if (preg_match('/^[a-z0-9]+(?:-[a-z0-9]+)*$/', $guideSlug) !== 1 || mb_strlen($guideSlug) > 190) {
+                $errors['guide'] = 'Ссылка на инструкцию некорректна. Откройте инструкцию заново и повторите попытку.';
+            } else {
+                $guide = $this->repairGuides->findPublishedBySlugForRequest($guideSlug);
+                if ($guide === null) {
+                    $errors['guide'] = 'Эта инструкция больше не опубликована. Создайте заявку без ссылки на неё.';
+                } else {
+                    $guideId = (int) $guide['id'];
+                }
+            }
+        }
+
+        if ($errors !== []) {
+            throw new ValidationException($errors);
+        }
+
+        return [
+            'device_type' => $deviceType,
+            'device_brand' => $brand === '' ? null : $brand,
+            'device_model' => $model === '' ? null : $model,
+            'service_id' => $serviceId,
+            'guide_id' => $guideId,
+            'problem_description' => $problem,
+            'customer_contact' => $contact,
+        ];
     }
 
     private function scalar(mixed $value): string

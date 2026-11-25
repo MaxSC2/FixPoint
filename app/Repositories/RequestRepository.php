@@ -128,13 +128,18 @@ final class RequestRepository
      * unique index never exposes a race between concurrent inserts.
      *
      * @param array{device_type: string, device_brand: ?string, device_model: ?string, service_id: ?int, guide_id: ?int, problem_description: string, customer_contact: string} $data
-     */
-    /**
      * @param callable(PDO, int): void|null $afterCreate Runs after the request
      *        id is known but before the transaction commits.
+     * @param int|null $actorId User who initiated the creation; defaults to the customer.
+     * @param string|null $reason Initial history reason; defaults to the customer wording.
      */
-    public function createForCustomer(int $customerId, array $data, ?callable $afterCreate = null): int
-    {
+    public function createForCustomer(
+        int $customerId,
+        array $data,
+        ?callable $afterCreate = null,
+        ?int $actorId = null,
+        ?string $reason = null
+    ): int {
         $pdo = $this->database->connection();
         $pdo->beginTransaction();
 
@@ -175,8 +180,8 @@ final class RequestRepository
                  VALUES (:request_id, NULL, \'new\', :reason, :changed_by)'
             )->execute([
                 'request_id' => $id,
-                'reason' => 'Заявка создана клиентом.',
-                'changed_by' => $customerId,
+                'reason' => $reason ?? 'Заявка создана клиентом.',
+                'changed_by' => $actorId ?? $customerId,
             ]);
 
             $pdo->commit();

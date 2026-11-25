@@ -102,7 +102,7 @@ final class ServiceRepository
     public function listActiveForSelect(): array
     {
         return $this->database->connection()->query(
-            'SELECT s.id, s.name
+            'SELECT s.id, s.name, c.id AS category_id, c.name AS category_name
              FROM services s
              INNER JOIN service_categories c ON c.id = s.category_id
              WHERE s.is_active = 1 AND c.is_active = 1
