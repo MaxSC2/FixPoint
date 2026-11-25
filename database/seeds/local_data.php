@@ -1657,7 +1657,7 @@ return [
             'completed_at' => null
         ],
         [
-            'public_number' => 'FP-2026-000025',
+            'public_number' => 'FP-2026-000029',
             'customer' => 'customer_petrov',
             'technician' => 'tech_ivanov',
             'service' => 'laptop-cleaning',
@@ -1677,7 +1677,7 @@ return [
             'completed_at' => '2026-09-07 15:40:00'
         ],
         [
-            'public_number' => 'FP-2026-000026',
+            'public_number' => 'FP-2026-000030',
             'customer' => 'customer_karimov',
             'technician' => 'tech_ivanov',
             'service' => 'thermal-paste-replacement',
@@ -1697,7 +1697,7 @@ return [
             'completed_at' => '2026-09-12 12:30:00'
         ],
         [
-            'public_number' => 'FP-2026-000027',
+            'public_number' => 'FP-2026-000031',
             'customer' => 'customer_nurpeisova',
             'technician' => 'tech_smirnova',
             'service' => 'smartphone-battery-replacement',
@@ -1717,7 +1717,7 @@ return [
             'completed_at' => '2026-09-17 16:20:00'
         ],
         [
-            'public_number' => 'FP-2026-000028',
+            'public_number' => 'FP-2026-000032',
             'customer' => 'customer_sidorova',
             'technician' => 'tech_volkov',
             'service' => 'charging-port-repair',
@@ -1737,7 +1737,7 @@ return [
             'completed_at' => '2026-09-20 14:10:00'
         ],
         [
-            'public_number' => 'FP-2026-000029',
+            'public_number' => 'FP-2026-000033',
             'customer' => 'customer_ivanova',
             'technician' => 'tech_orlov',
             'service' => 'laptop-diagnostics',
@@ -1757,7 +1757,7 @@ return [
             'completed_at' => '2026-09-23 11:30:00'
         ],
         [
-            'public_number' => 'FP-2026-000030',
+            'public_number' => 'FP-2026-000034',
             'customer' => 'customer_karimov',
             'technician' => 'tech_ivanov',
             'service' => 'laptop-screen-replacement',
@@ -1777,7 +1777,7 @@ return [
             'completed_at' => '2026-10-08 16:40:00'
         ],
         [
-            'public_number' => 'FP-2026-000031',
+            'public_number' => 'FP-2026-000035',
             'customer' => 'customer_petrov',
             'technician' => 'tech_smirnova',
             'service' => 'smartphone-screen-replacement',
@@ -1797,7 +1797,7 @@ return [
             'completed_at' => '2026-10-14 15:30:00'
         ],
         [
-            'public_number' => 'FP-2026-000032',
+            'public_number' => 'FP-2026-000036',
             'customer' => 'customer_ivanova',
             'technician' => 'tech_kim',
             'service' => 'wifi-setup',
@@ -1817,7 +1817,7 @@ return [
             'completed_at' => null
         ],
         [
-            'public_number' => 'FP-2026-000033',
+            'public_number' => 'FP-2026-000037',
             'customer' => 'customer_sidorova',
             'technician' => 'tech_kim',
             'service' => 'wifi-setup',
@@ -1837,7 +1837,7 @@ return [
             'completed_at' => '2026-10-19 16:20:00'
         ],
         [
-            'public_number' => 'FP-2026-000034',
+            'public_number' => 'FP-2026-000038',
             'customer' => 'customer_nurpeisova',
             'technician' => 'tech_orlov',
             'service' => 'desktop-pc-cleaning',
@@ -1857,7 +1857,7 @@ return [
             'completed_at' => null
         ],
         [
-            'public_number' => 'FP-2026-000035',
+            'public_number' => 'FP-2026-000039',
             'customer' => 'customer_kovalev',
             'technician' => 'tech_akimova',
             'service' => 'deleted-file-recovery',
@@ -1879,7 +1879,7 @@ return [
     ],
     'history' => [
         [
-            'request' => 'FP-2026-000030',
+            'request' => 'FP-2026-000034',
             'from' => null,
             'to' => 'new',
             'reason' => 'Заявка создана клиентом.',
@@ -1887,7 +1887,7 @@ return [
             'created_at' => '2026-10-06 09:10:00',
         ],
         [
-            'request' => 'FP-2026-000030',
+            'request' => 'FP-2026-000034',
             'from' => 'new',
             'to' => 'accepted',
             'reason' => 'Заявка принята администратором.',
@@ -1895,7 +1895,7 @@ return [
             'created_at' => '2026-10-06 09:25:00',
         ],
         [
-            'request' => 'FP-2026-000030',
+            'request' => 'FP-2026-000034',
             'from' => 'accepted',
             'to' => 'diagnostics',
             'reason' => 'Передана мастеру Ивану Петрову.',
@@ -1903,7 +1903,7 @@ return [
             'created_at' => '2026-10-06 10:00:00',
         ],
         [
-            'request' => 'FP-2026-000030',
+            'request' => 'FP-2026-000034',
             'from' => 'diagnostics',
             'to' => 'awaiting_customer_approval',
             'reason' => 'Смета отправлена клиенту: замена матрицы — 25 000 ₸.',
@@ -1911,7 +1911,7 @@ return [
             'created_at' => '2026-10-06 11:15:00',
         ],
         [
-            'request' => 'FP-2026-000030',
+            'request' => 'FP-2026-000034',
             'from' => 'awaiting_customer_approval',
             'to' => 'repairing',
             'reason' => 'Смету согласовали, матрица получена.',
@@ -1919,7 +1919,7 @@ return [
             'created_at' => '2026-10-08 10:30:00',
         ],
         [
-            'request' => 'FP-2026-000030',
+            'request' => 'FP-2026-000034',
             'from' => 'repairing',
             'to' => 'ready_for_pickup',
             'reason' => 'Работы завершены.',
@@ -1927,7 +1927,7 @@ return [
             'created_at' => '2026-10-08 16:10:00',
         ],
         [
-            'request' => 'FP-2026-000030',
+            'request' => 'FP-2026-000034',
             'from' => 'ready_for_pickup',
             'to' => 'completed',
             'reason' => 'Устройство выдано клиенту.',
@@ -1935,7 +1935,7 @@ return [
             'created_at' => '2026-10-08 16:40:00',
         ],
         [
-            'request' => 'FP-2026-000031',
+            'request' => 'FP-2026-000035',
             'from' => null,
             'to' => 'new',
             'reason' => 'Заявка создана клиентом.',
@@ -1943,7 +1943,7 @@ return [
             'created_at' => '2026-10-09 11:25:00',
         ],
         [
-            'request' => 'FP-2026-000031',
+            'request' => 'FP-2026-000035',
             'from' => 'new',
             'to' => 'accepted',
             'reason' => 'Заявка принята администратором.',
@@ -1951,7 +1951,7 @@ return [
             'created_at' => '2026-10-09 11:40:00',
         ],
         [
-            'request' => 'FP-2026-000031',
+            'request' => 'FP-2026-000035',
             'from' => 'accepted',
             'to' => 'diagnostics',
             'reason' => 'Передана мастеру Анне Смирновой.',
@@ -1959,7 +1959,7 @@ return [
             'created_at' => '2026-10-09 12:05:00',
         ],
         [
-            'request' => 'FP-2026-000031',
+            'request' => 'FP-2026-000035',
             'from' => 'diagnostics',
             'to' => 'awaiting_parts',
             'reason' => 'Ожидание матрицы с сервиса.',
@@ -1967,7 +1967,7 @@ return [
             'created_at' => '2026-10-09 12:40:00',
         ],
         [
-            'request' => 'FP-2026-000031',
+            'request' => 'FP-2026-000035',
             'from' => 'awaiting_parts',
             'to' => 'repairing',
             'reason' => 'Матрица получена, начата замена.',
@@ -1975,7 +1975,7 @@ return [
             'created_at' => '2026-10-13 09:20:00',
         ],
         [
-            'request' => 'FP-2026-000031',
+            'request' => 'FP-2026-000035',
             'from' => 'repairing',
             'to' => 'ready_for_pickup',
             'reason' => 'Работы завершены.',
@@ -1983,7 +1983,7 @@ return [
             'created_at' => '2026-10-14 15:00:00',
         ],
         [
-            'request' => 'FP-2026-000031',
+            'request' => 'FP-2026-000035',
             'from' => 'ready_for_pickup',
             'to' => 'completed',
             'reason' => 'Устройство выдано клиенту.',
@@ -1991,7 +1991,7 @@ return [
             'created_at' => '2026-10-14 15:30:00',
         ],
         [
-            'request' => 'FP-2026-000032',
+            'request' => 'FP-2026-000036',
             'from' => null,
             'to' => 'new',
             'reason' => 'Заявка создана клиентом.',
@@ -1999,7 +1999,7 @@ return [
             'created_at' => '2026-10-11 13:05:00',
         ],
         [
-            'request' => 'FP-2026-000032',
+            'request' => 'FP-2026-000036',
             'from' => 'new',
             'to' => 'accepted',
             'reason' => 'Заявка принята администратором.',
@@ -2007,7 +2007,7 @@ return [
             'created_at' => '2026-10-11 13:20:00',
         ],
         [
-            'request' => 'FP-2026-000032',
+            'request' => 'FP-2026-000036',
             'from' => 'accepted',
             'to' => 'cancelled',
             'reason' => 'Клиент отказался от работ: решил настроить сеть самостоятельно.',
@@ -2015,7 +2015,7 @@ return [
             'created_at' => '2026-10-11 16:45:00',
         ],
         [
-            'request' => 'FP-2026-000033',
+            'request' => 'FP-2026-000037',
             'from' => null,
             'to' => 'new',
             'reason' => 'Заявка создана клиентом.',
@@ -2023,7 +2023,7 @@ return [
             'created_at' => '2026-10-16 10:40:00',
         ],
         [
-            'request' => 'FP-2026-000033',
+            'request' => 'FP-2026-000037',
             'from' => 'new',
             'to' => 'accepted',
             'reason' => 'Заявка принята администратором.',
@@ -2031,7 +2031,7 @@ return [
             'created_at' => '2026-10-16 11:00:00',
         ],
         [
-            'request' => 'FP-2026-000033',
+            'request' => 'FP-2026-000037',
             'from' => 'accepted',
             'to' => 'diagnostics',
             'reason' => 'Передана мастеру Елене Ким.',
@@ -2039,7 +2039,7 @@ return [
             'created_at' => '2026-10-16 11:30:00',
         ],
         [
-            'request' => 'FP-2026-000033',
+            'request' => 'FP-2026-000037',
             'from' => 'diagnostics',
             'to' => 'repairing',
             'reason' => 'Согласована настройка беспроводной сети.',
@@ -2047,7 +2047,7 @@ return [
             'created_at' => '2026-10-18 14:00:00',
         ],
         [
-            'request' => 'FP-2026-000033',
+            'request' => 'FP-2026-000037',
             'from' => 'repairing',
             'to' => 'ready_for_pickup',
             'reason' => 'Работы завершены.',
@@ -2055,7 +2055,7 @@ return [
             'created_at' => '2026-10-19 15:50:00',
         ],
         [
-            'request' => 'FP-2026-000033',
+            'request' => 'FP-2026-000037',
             'from' => 'ready_for_pickup',
             'to' => 'completed',
             'reason' => 'Устройство выдано клиенту.',
@@ -2063,7 +2063,7 @@ return [
             'created_at' => '2026-10-19 16:20:00',
         ],
         [
-            'request' => 'FP-2026-000034',
+            'request' => 'FP-2026-000038',
             'from' => null,
             'to' => 'new',
             'reason' => 'Заявка создана клиентом.',
@@ -2071,7 +2071,7 @@ return [
             'created_at' => '2026-10-22 09:30:00',
         ],
         [
-            'request' => 'FP-2026-000034',
+            'request' => 'FP-2026-000038',
             'from' => 'new',
             'to' => 'accepted',
             'reason' => 'Заявка принята администратором.',
@@ -2079,7 +2079,7 @@ return [
             'created_at' => '2026-10-22 09:45:00',
         ],
         [
-            'request' => 'FP-2026-000034',
+            'request' => 'FP-2026-000038',
             'from' => 'accepted',
             'to' => 'diagnostics',
             'reason' => 'Передана мастеру Дмитрию Орлову.',
@@ -2087,7 +2087,7 @@ return [
             'created_at' => '2026-10-22 10:10:00',
         ],
         [
-            'request' => 'FP-2026-000034',
+            'request' => 'FP-2026-000038',
             'from' => 'diagnostics',
             'to' => 'repairing',
             'reason' => 'Согласована чистка системного блока.',
@@ -2095,7 +2095,7 @@ return [
             'created_at' => '2026-10-23 11:00:00',
         ],
         [
-            'request' => 'FP-2026-000034',
+            'request' => 'FP-2026-000038',
             'from' => 'repairing',
             'to' => 'ready_for_pickup',
             'reason' => 'Работы завершены, устройство ждёт клиента.',
@@ -2103,7 +2103,7 @@ return [
             'created_at' => '2026-10-24 15:10:00',
         ],
         [
-            'request' => 'FP-2026-000035',
+            'request' => 'FP-2026-000039',
             'from' => null,
             'to' => 'new',
             'reason' => 'Заявка создана клиентом.',
@@ -2111,7 +2111,7 @@ return [
             'created_at' => '2026-10-25 08:20:00',
         ],
         [
-            'request' => 'FP-2026-000035',
+            'request' => 'FP-2026-000039',
             'from' => 'new',
             'to' => 'accepted',
             'reason' => 'Заявка принята администратором.',
@@ -2119,7 +2119,7 @@ return [
             'created_at' => '2026-10-25 08:35:00',
         ],
         [
-            'request' => 'FP-2026-000035',
+            'request' => 'FP-2026-000039',
             'from' => 'accepted',
             'to' => 'diagnostics',
             'reason' => 'Передана мастеру Алие Акимовой.',
@@ -2127,7 +2127,7 @@ return [
             'created_at' => '2026-10-25 09:00:00',
         ],
         [
-            'request' => 'FP-2026-000035',
+            'request' => 'FP-2026-000039',
             'from' => 'diagnostics',
             'to' => 'awaiting_customer_approval',
             'reason' => 'Смета отправлена клиенту: восстановление данных — 22 000 ₸.',
@@ -2135,7 +2135,7 @@ return [
             'created_at' => '2026-10-25 12:45:00',
         ],
         [
-            'request' => 'FP-2026-000025',
+            'request' => 'FP-2026-000029',
             'from' => null,
             'to' => 'new',
             'reason' => 'Заявка создана клиентом.',
@@ -2143,7 +2143,7 @@ return [
             'created_at' => '2026-09-05 09:15:00',
         ],
         [
-            'request' => 'FP-2026-000025',
+            'request' => 'FP-2026-000029',
             'from' => 'new',
             'to' => 'accepted',
             'reason' => 'Заявка принята администратором.',
@@ -2151,7 +2151,7 @@ return [
             'created_at' => '2026-09-05 09:30:00',
         ],
         [
-            'request' => 'FP-2026-000025',
+            'request' => 'FP-2026-000029',
             'from' => 'accepted',
             'to' => 'diagnostics',
             'reason' => 'Передана мастеру Ивану Петрову.',
@@ -2159,7 +2159,7 @@ return [
             'created_at' => '2026-09-05 09:45:00',
         ],
         [
-            'request' => 'FP-2026-000025',
+            'request' => 'FP-2026-000029',
             'from' => 'diagnostics',
             'to' => 'repairing',
             'reason' => 'Согласована чистка системы охлаждения.',
@@ -2167,7 +2167,7 @@ return [
             'created_at' => '2026-09-07 10:00:00',
         ],
         [
-            'request' => 'FP-2026-000025',
+            'request' => 'FP-2026-000029',
             'from' => 'repairing',
             'to' => 'ready_for_pickup',
             'reason' => 'Работы завершены.',
@@ -2175,7 +2175,7 @@ return [
             'created_at' => '2026-09-07 15:00:00',
         ],
         [
-            'request' => 'FP-2026-000025',
+            'request' => 'FP-2026-000029',
             'from' => 'ready_for_pickup',
             'to' => 'completed',
             'reason' => 'Устройство выдано клиенту.',
@@ -2183,7 +2183,7 @@ return [
             'created_at' => '2026-09-07 15:40:00',
         ],
         [
-            'request' => 'FP-2026-000026',
+            'request' => 'FP-2026-000030',
             'from' => null,
             'to' => 'new',
             'reason' => 'Заявка создана клиентом.',
@@ -2191,7 +2191,7 @@ return [
             'created_at' => '2026-09-10 10:40:00',
         ],
         [
-            'request' => 'FP-2026-000026',
+            'request' => 'FP-2026-000030',
             'from' => 'new',
             'to' => 'accepted',
             'reason' => 'Заявка принята администратором.',
@@ -2199,7 +2199,7 @@ return [
             'created_at' => '2026-09-10 11:00:00',
         ],
         [
-            'request' => 'FP-2026-000026',
+            'request' => 'FP-2026-000030',
             'from' => 'accepted',
             'to' => 'diagnostics',
             'reason' => 'Передана мастеру Ивану Петрову.',
@@ -2207,7 +2207,7 @@ return [
             'created_at' => '2026-09-10 11:20:00',
         ],
         [
-            'request' => 'FP-2026-000026',
+            'request' => 'FP-2026-000030',
             'from' => 'diagnostics',
             'to' => 'repairing',
             'reason' => 'Согласована замена термопасты.',
@@ -2215,7 +2215,7 @@ return [
             'created_at' => '2026-09-12 09:00:00',
         ],
         [
-            'request' => 'FP-2026-000026',
+            'request' => 'FP-2026-000030',
             'from' => 'repairing',
             'to' => 'ready_for_pickup',
             'reason' => 'Работы завершены.',
@@ -2223,7 +2223,7 @@ return [
             'created_at' => '2026-09-12 12:00:00',
         ],
         [
-            'request' => 'FP-2026-000026',
+            'request' => 'FP-2026-000030',
             'from' => 'ready_for_pickup',
             'to' => 'completed',
             'reason' => 'Устройство выдано клиенту.',
@@ -2231,7 +2231,7 @@ return [
             'created_at' => '2026-09-12 12:30:00',
         ],
         [
-            'request' => 'FP-2026-000027',
+            'request' => 'FP-2026-000031',
             'from' => null,
             'to' => 'new',
             'reason' => 'Заявка создана клиентом.',
@@ -2239,7 +2239,7 @@ return [
             'created_at' => '2026-09-15 11:20:00',
         ],
         [
-            'request' => 'FP-2026-000027',
+            'request' => 'FP-2026-000031',
             'from' => 'new',
             'to' => 'accepted',
             'reason' => 'Заявка принята администратором.',
@@ -2247,7 +2247,7 @@ return [
             'created_at' => '2026-09-15 11:45:00',
         ],
         [
-            'request' => 'FP-2026-000027',
+            'request' => 'FP-2026-000031',
             'from' => 'accepted',
             'to' => 'diagnostics',
             'reason' => 'Передана мастеру Анне Смирновой.',
@@ -2255,7 +2255,7 @@ return [
             'created_at' => '2026-09-15 12:10:00',
         ],
         [
-            'request' => 'FP-2026-000027',
+            'request' => 'FP-2026-000031',
             'from' => 'diagnostics',
             'to' => 'repairing',
             'reason' => 'Согласована замена аккумулятора.',
@@ -2263,7 +2263,7 @@ return [
             'created_at' => '2026-09-17 10:30:00',
         ],
         [
-            'request' => 'FP-2026-000027',
+            'request' => 'FP-2026-000031',
             'from' => 'repairing',
             'to' => 'ready_for_pickup',
             'reason' => 'Работы завершены.',
@@ -2271,7 +2271,7 @@ return [
             'created_at' => '2026-09-17 16:00:00',
         ],
         [
-            'request' => 'FP-2026-000027',
+            'request' => 'FP-2026-000031',
             'from' => 'ready_for_pickup',
             'to' => 'completed',
             'reason' => 'Устройство выдано клиенту.',
@@ -2279,7 +2279,7 @@ return [
             'created_at' => '2026-09-17 16:20:00',
         ],
         [
-            'request' => 'FP-2026-000028',
+            'request' => 'FP-2026-000032',
             'from' => null,
             'to' => 'new',
             'reason' => 'Заявка создана клиентом.',
@@ -2287,7 +2287,7 @@ return [
             'created_at' => '2026-09-18 12:10:00',
         ],
         [
-            'request' => 'FP-2026-000028',
+            'request' => 'FP-2026-000032',
             'from' => 'new',
             'to' => 'accepted',
             'reason' => 'Заявка принята администратором.',
@@ -2295,7 +2295,7 @@ return [
             'created_at' => '2026-09-18 12:30:00',
         ],
         [
-            'request' => 'FP-2026-000028',
+            'request' => 'FP-2026-000032',
             'from' => 'accepted',
             'to' => 'diagnostics',
             'reason' => 'Передана мастеру Сергею Волкову.',
@@ -2303,7 +2303,7 @@ return [
             'created_at' => '2026-09-18 13:00:00',
         ],
         [
-            'request' => 'FP-2026-000028',
+            'request' => 'FP-2026-000032',
             'from' => 'diagnostics',
             'to' => 'repairing',
             'reason' => 'Согласована пайка разъёма питания.',
@@ -2311,7 +2311,7 @@ return [
             'created_at' => '2026-09-20 09:30:00',
         ],
         [
-            'request' => 'FP-2026-000028',
+            'request' => 'FP-2026-000032',
             'from' => 'repairing',
             'to' => 'ready_for_pickup',
             'reason' => 'Работы завершены.',
@@ -2319,7 +2319,7 @@ return [
             'created_at' => '2026-09-20 13:45:00',
         ],
         [
-            'request' => 'FP-2026-000028',
+            'request' => 'FP-2026-000032',
             'from' => 'ready_for_pickup',
             'to' => 'completed',
             'reason' => 'Устройство выдано клиенту.',
@@ -2327,7 +2327,7 @@ return [
             'created_at' => '2026-09-20 14:10:00',
         ],
         [
-            'request' => 'FP-2026-000029',
+            'request' => 'FP-2026-000033',
             'from' => null,
             'to' => 'new',
             'reason' => 'Заявка создана клиентом.',
@@ -2335,7 +2335,7 @@ return [
             'created_at' => '2026-09-22 08:40:00',
         ],
         [
-            'request' => 'FP-2026-000029',
+            'request' => 'FP-2026-000033',
             'from' => 'new',
             'to' => 'accepted',
             'reason' => 'Заявка принята администратором.',
@@ -2343,7 +2343,7 @@ return [
             'created_at' => '2026-09-22 09:00:00',
         ],
         [
-            'request' => 'FP-2026-000029',
+            'request' => 'FP-2026-000033',
             'from' => 'accepted',
             'to' => 'diagnostics',
             'reason' => 'Передана мастеру Дмитрию Орлову.',
@@ -2351,7 +2351,7 @@ return [
             'created_at' => '2026-09-22 09:25:00',
         ],
         [
-            'request' => 'FP-2026-000029',
+            'request' => 'FP-2026-000033',
             'from' => 'diagnostics',
             'to' => 'repairing',
             'reason' => 'Согласована диагностика системы.',
@@ -2359,7 +2359,7 @@ return [
             'created_at' => '2026-09-23 09:30:00',
         ],
         [
-            'request' => 'FP-2026-000029',
+            'request' => 'FP-2026-000033',
             'from' => 'repairing',
             'to' => 'ready_for_pickup',
             'reason' => 'Работы завершены.',
@@ -2367,7 +2367,7 @@ return [
             'created_at' => '2026-09-23 11:00:00',
         ],
         [
-            'request' => 'FP-2026-000029',
+            'request' => 'FP-2026-000033',
             'from' => 'ready_for_pickup',
             'to' => 'completed',
             'reason' => 'Устройство выдано клиенту.',
@@ -3485,49 +3485,49 @@ return [
             'created_at' => '2026-10-24 13:05:00',
         ],
         [
-            'request' => 'FP-2026-000025',
+            'request' => 'FP-2026-000029',
             'rating' => 5,
             'review_text' => 'После чистки ноутбук перестал греться. Работу и результат показали сразу.',
             'created_at' => '2026-09-08 10:15:00',
         ],
         [
-            'request' => 'FP-2026-000026',
+            'request' => 'FP-2026-000030',
             'rating' => 4,
             'review_text' => 'Температуры пришли в норму. Забрать устройство пришлось в другой день, но мастер предупредил заранее.',
             'created_at' => '2026-09-13 09:45:00',
         ],
         [
-            'request' => 'FP-2026-000027',
+            'request' => 'FP-2026-000031',
             'rating' => 5,
             'review_text' => 'Аккумулятор заменили быстро, телефон держит заряд. Всё по делу и без лишних слов.',
             'created_at' => '2026-09-18 12:00:00',
         ],
         [
-            'request' => 'FP-2026-000028',
+            'request' => 'FP-2026-000032',
             'rating' => 4,
             'review_text' => 'Разъём работает надёжно. Пайка качественная, ожидал недолго.',
             'created_at' => '2026-09-21 10:30:00',
         ],
         [
-            'request' => 'FP-2026-000029',
+            'request' => 'FP-2026-000033',
             'rating' => 5,
             'review_text' => 'Диагностика заняла час, ноутбук снова работает быстро. Спасибо за разбор.',
             'created_at' => '2026-09-24 09:20:00',
         ],
         [
-            'request' => 'FP-2026-000030',
+            'request' => 'FP-2026-000034',
             'rating' => 5,
             'review_text' => 'Матрицу заменили быстро, экран как новый. Смету согласовали по телефону, всё прозрачно.',
             'created_at' => '2026-10-09 09:40:00',
         ],
         [
-            'request' => 'FP-2026-000031',
+            'request' => 'FP-2026-000035',
             'rating' => 4,
             'review_text' => 'Матрицу пришлось ждать несколько дней, но мастер держал в курсе и сразу предупредил о сроке.',
             'created_at' => '2026-10-15 12:10:00',
         ],
         [
-            'request' => 'FP-2026-000033',
+            'request' => 'FP-2026-000037',
             'rating' => 5,
             'review_text' => 'Сеть заработала во всей квартире, скорость проверили вместе. Отдельное спасибо за настройку.',
             'created_at' => '2026-10-20 10:15:00',
