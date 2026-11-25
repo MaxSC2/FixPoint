@@ -817,15 +817,20 @@ final class AppointmentService
         $newStart = $event['new_starts_at_utc'] ?? null;
         $newEnd = $event['new_ends_at_utc'] ?? null;
         $createdAt = (string) ($event['created_at'] ?? '');
+        // technician_appointment_events.created_at is written by MySQL in the
+        // application timezone (the connection sets SET time_zone to the
+        // APP_TIMEZONE offset). It is not a UTC column like *_at_utc.
+        $appTimezone = new DateTimeZone((string) $this->config->get('app.timezone', 'UTC'));
+        $createdLocal = $createdAt === ''
+            ? ''
+            : (new DateTimeImmutable($createdAt, $appTimezone))->setTimezone($timezone)->format('d.m.Y H:i');
 
         $presented = [
             'action' => $action,
             'action_label' => self::EVENT_LABELS[$action] ?? $action,
             'from_status' => $event['from_status'] ?? null,
             'to_status' => $event['to_status'] ?? null,
-            'created_local' => $createdAt === ''
-                ? ''
-                : $this->calendar->utc($createdAt)->setTimezone($timezone)->format('d.m.Y H:i'),
+            'created_local' => $createdLocal,
             'previous_label' => $previousStart !== null
                 ? $this->calendar->utc((string) $previousStart)->setTimezone($timezone)->format('d.m.Y H:i')
                     . '–' . $this->calendar->utc((string) $previousEnd)->setTimezone($timezone)->format('H:i')

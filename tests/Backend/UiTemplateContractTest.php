@@ -96,6 +96,17 @@ final class UiTemplateContractTest extends TestCase
     }
 
 
+    public function testHeaderCollapsesBeforeItCanOverflowTheViewport(): void
+    {
+        $stylesheet = $this->read('public/assets/css/app.css');
+
+        $this->assertContains('@media (max-width: 1300px) {', $stylesheet);
+        $this->assertContains(
+            '.site-header__inner { flex-wrap: wrap; gap: 12px 20px; padding-block: 10px; }',
+            $stylesheet
+        );
+    }
+
     public function testCustomerCreateActionIsNotDuplicatedInWorkspaceNavigation(): void
     {
         $dashboard = $this->read('app/Views/pages/customer/dashboard.php');
