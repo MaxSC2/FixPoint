@@ -48,6 +48,50 @@ final class AdminRequestController extends Controller
         ]);
     }
 
+    public function create(Request $request, array $params = []): Response
+    {
+        $user = $this->requireUser();
+
+        return $this->renderPage('pages/admin/requests/create', [
+            'pageTitle' => 'Новая заявка — ' . $this->config->get('app.name'),
+            'activeNav' => 'admin',
+            'customers' => $this->requestService->customersForAdminSelect($user),
+            'services' => $this->requestService->servicesForSelect(),
+        ]);
+    }
+
+    public function store(Request $request, array $params = []): Response
+    {
+        $user = $this->requireUser();
+        $customerId = $this->stringPost($request, 'customer_id');
+        $input = [
+            'device_type' => $this->stringPost($request, 'device_type'),
+            'device_brand' => $this->stringPost($request, 'device_brand'),
+            'device_model' => $this->stringPost($request, 'device_model'),
+            'service_id' => $this->stringPost($request, 'service_id'),
+            'problem_description' => $this->stringPost($request, 'problem_description'),
+            'customer_contact' => $this->stringPost($request, 'customer_contact'),
+        ];
+
+        try {
+            $requestId = $this->requestService->createForAdmin($user, $customerId, $input);
+        } catch (ValidationException $exception) {
+            $this->flashValidation($exception);
+            $this->session->flashOld($input + ['customer_id' => $customerId]);
+
+            return Response::redirect('/admin/requests/create');
+        }
+
+        $created = $this->requestService->findForAdmin($requestId, $user);
+        $number = is_array($created) ? (string) ($created['public_number'] ?? '') : '';
+        $this->session->flash(
+            'success',
+            $number === '' ? 'Заявка создана.' : 'Заявка ' . $number . ' создана.'
+        );
+
+        return Response::redirect('/admin/requests');
+    }
+
     public function showAssign(Request $request, array $params = []): Response
     {
         $user = $this->requireUser();

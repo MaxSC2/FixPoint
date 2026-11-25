@@ -38,7 +38,7 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
                 <h1>Все заявки</h1>
                 <p>Поиск по обращениям, контроль состояния и переход к назначению мастера.</p>
             </div>
-            <span class="admin-record-count"><strong><?= e((string) $totalRequests) ?></strong><small>записей в выборке</small></span>
+            <a class="button button--primary button--large" href="/admin/requests/create">Создать заявку <span aria-hidden="true">＋</span></a>
         </div>
 
         <?php require dirname(__DIR__, 3) . '/components/admin-nav.php'; ?>
