@@ -73,6 +73,7 @@ final class TechnicianProfileController extends Controller
             'activeNav' => 'masters',
             'profile' => $profile,
             'reviews' => $this->reviews->publicReviews((int) $technicianId, 30),
+            'works' => $this->profiles->completedWorks((int) $technicianId, 6),
         ]);
     }
 

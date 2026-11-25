@@ -17,12 +17,12 @@ final class SeedTest extends IntegrationTestCase
         $this->assertSame(14, $this->count('users'));
         $this->assertSame(7, $this->count('service_categories'));
         $this->assertSame(100, $this->count('services'));
-        $this->assertSame(29, $this->count('repair_requests'));
-        $this->assertSame(125, $this->count('request_status_history'));
+        $this->assertSame(35, $this->count('repair_requests'));
+        $this->assertSame(157, $this->count('request_status_history'));
         $this->assertSame(30, $this->count('request_comments'));
         $this->assertSame(6, $this->count('technician_profiles'));
         $this->assertSame(13, $this->count('technician_profile_specialties'));
-        $this->assertSame(8, $this->count('technician_reviews'));
+        $this->assertSame(11, $this->count('technician_reviews'));
 
         $admin = $pdo->query("SELECT * FROM users WHERE email = 'admin@fixpoint.test'")->fetch();
         $this->assertNotSame(false, $admin);

@@ -125,6 +125,93 @@ final class TechnicianProfileRepository
         return $statement->fetchAll();
     }
 
+    /**
+     * Reputation data of the public team: the published review totals and the
+     * number of completed orders of every visible master.
+     *
+     * @return list<array<string, mixed>>
+     */
+    public function reputationSnapshot(): array
+    {
+        return $this->database->connection()->query(
+            'SELECT u.id AS technician_id, u.full_name,
+                    COALESCE(completed.completed_count, 0) AS completed_count
+             FROM users u
+             LEFT JOIN technician_profiles p ON p.technician_id = u.id
+             LEFT JOIN (
+                SELECT technician_id, COUNT(*) AS completed_count
+                FROM repair_requests WHERE status = "completed" GROUP BY technician_id
+             ) completed ON completed.technician_id = u.id
+             WHERE u.role = "technician" AND u.is_active = 1
+               AND COALESCE(p.is_public, 1) = 1
+               AND COALESCE(p.admin_is_visible, 1) = 1'
+        )->fetchAll();
+    }
+
+    /**
+     * Completed works of a technician with the public status trail.
+     *
+     * Only public-safe fields are selected: no customer names, no contact data
+     * and no internal comments. The trail keeps the stage codes and timestamps
+     * only, so the public page can show how the work went without exposing
+     * who did what.
+     *
+     * @return list<array<string, mixed>>
+     */
+    public function completedWorks(int $technicianId, int $limit = 6): array
+    {
+        $statement = $this->database->connection()->prepare(
+            'SELECT q.id, q.public_number, q.device_type, q.device_brand, q.device_model,
+                    q.completed_at, q.final_cost, s.name AS service_name,
+                    r.rating AS review_rating
+             FROM repair_requests q
+             LEFT JOIN services s ON s.id = q.service_id
+             LEFT JOIN technician_reviews r ON r.request_id = q.id AND r.status = "published"
+             WHERE q.technician_id = :technician_id AND q.status = "completed"
+             ORDER BY q.completed_at DESC, q.id DESC
+             LIMIT ' . max(1, min(12, $limit))
+        );
+        $statement->execute(['technician_id' => $technicianId]);
+        $works = $statement->fetchAll();
+
+        return $this->attachStatusTrail($works);
+    }
+
+    /**
+     * @param list<array<string, mixed>> $works
+     * @return list<array<string, mixed>>
+     */
+    private function attachStatusTrail(array $works): array
+    {
+        if ($works === []) {
+            return [];
+        }
+
+        $ids = array_map('intval', array_column($works, 'id'));
+        $placeholders = implode(', ', array_fill(0, count($ids), '?'));
+        $statement = $this->database->connection()->prepare(
+            'SELECT request_id, to_status, created_at
+             FROM request_status_history
+             WHERE request_id IN (' . $placeholders . ')
+             ORDER BY created_at ASC, id ASC'
+        );
+        $statement->execute($ids);
+
+        $trail = [];
+        foreach ($statement->fetchAll() as $row) {
+            $trail[(int) $row['request_id']][] = [
+                'status' => (string) $row['to_status'],
+                'created_at' => (string) $row['created_at'],
+            ];
+        }
+
+        foreach ($works as $index => $work) {
+            $works[$index]['trail'] = $trail[(int) $work['id']] ?? [];
+        }
+
+        return $works;
+    }
+
     /** @return list<array<string, mixed>> */
     public function listForAdmin(): array
     {

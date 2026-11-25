@@ -233,27 +233,67 @@ final class AuthHttpTest extends IntegrationTestCase
 
     public function testRoleLandingPagesShowOnlyScopedRequests(): void
     {
+        // The demo data grows over time, so the expectations are derived from
+        // the database instead of hardcoded numbers: each role must see its
+        // own requests and never the requests of somebody else.
+        $ownRequests = $this->requestNumbers('customer_id', 'customer.kovalev@fixpoint.test');
+        $otherCustomerRequests = $this->requestNumbers('customer_id', 'customer.ivanova@fixpoint.test');
+        $ownTechnicianRequests = $this->requestNumbers('technician_id', 'master.ivanov@fixpoint.test');
+        $otherTechnicianRequests = $this->requestNumbers('technician_id', 'master.smirnova@fixpoint.test');
+        $this->assertGreaterThan(0, count($ownRequests));
+        $this->assertGreaterThan(0, count($otherCustomerRequests));
+        $this->assertGreaterThan(0, count($ownTechnicianRequests));
+        $this->assertGreaterThan(0, count($otherTechnicianRequests));
+
         $this->loginAs('customer.kovalev@fixpoint.test');
         $customerPage = app()->handle(Request::create('GET', '/account'))->body();
-        $this->assertContains('FP-2026-000001', $customerPage);
-        $this->assertContains('FP-2026-000003', $customerPage);
-        $this->assertNotContains('FP-2026-000002', $customerPage);
-        $this->assertNotContains('FP-2026-000004', $customerPage);
+        $this->assertContains($ownRequests[0], $customerPage);
+        $this->assertNotContains($otherCustomerRequests[0], $customerPage);
         $this->logout();
 
         $this->loginAs('master.ivanov@fixpoint.test');
         $technicianPage = app()->handle(Request::create('GET', '/technician/requests'))->body();
-        $this->assertContains('FP-2026-000001', $technicianPage);
-        $this->assertContains('FP-2026-000004', $technicianPage);
-        $this->assertNotContains('FP-2026-000003', $technicianPage);
+        $this->assertContains($ownTechnicianRequests[0], $technicianPage);
+        $this->assertNotContains($otherTechnicianRequests[0], $technicianPage);
         $this->logout();
 
         $this->loginAs('admin@fixpoint.test');
         $adminPage = app()->handle(Request::create('GET', '/admin'))->body();
-        $this->assertContains('FP-2026-000001', $adminPage);
-        $this->assertContains('FP-2026-000002', $adminPage);
-        $this->assertContains('FP-2026-000003', $adminPage);
-        $this->assertContains('FP-2026-000004', $adminPage);
+        $this->assertContains($this->newestRequestNumber(), $adminPage);
+    }
+
+    /**
+     * Request numbers of the requests where the given user is the customer or
+     * the technician, newest first.
+     *
+     * @return list<string>
+     */
+    private function requestNumbers(string $column, string $email): array
+    {
+        if (!in_array($column, ['customer_id', 'technician_id'], true)) {
+            $this->fail('Unsafe request column name.');
+        }
+
+        $statement = app()->database()->connection()->prepare(
+            'SELECT q.public_number
+             FROM repair_requests q
+             INNER JOIN users u ON u.id = q.' . $column . '
+             WHERE u.email = :email
+             ORDER BY q.created_at DESC, q.id DESC'
+        );
+        $statement->execute(['email' => $email]);
+
+        return array_map('strval', $statement->fetchAll(\PDO::FETCH_COLUMN));
+    }
+
+    private function newestRequestNumber(): string
+    {
+        $statement = app()->database()->connection()->prepare(
+            'SELECT public_number FROM repair_requests ORDER BY created_at DESC, id DESC LIMIT 1'
+        );
+        $statement->execute();
+
+        return (string) $statement->fetchColumn();
     }
 
     public function testRepeatedFailedLoginsLockTheAccount(): void

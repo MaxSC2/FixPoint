@@ -80,6 +80,59 @@ final class TechnicianReviewService
         );
     }
 
+    /**
+     * Correct the rating and the text of a review.
+     *
+     * A changed rating always needs a reason: the correction stays auditable
+     * and the administrator sees what it does to the honour board.
+     *
+     * @param array<string, mixed> $user
+     * @param array<string, mixed> $input
+     * @return array<string, mixed>
+     */
+    public function update(array $user, int $reviewId, array $input): array
+    {
+        $this->assertAdmin($user);
+
+        $review = $this->reviews->findById($reviewId);
+        if ($review === null) {
+            throw new HttpException(404, 'Review not found');
+        }
+
+        $rating = filter_var($input['rating'] ?? null, FILTER_VALIDATE_INT);
+        if ($rating === false || $rating < 1 || $rating > 5) {
+            throw new ValidationException(['rating' => 'Выберите оценку от 1 до 5.']);
+        }
+
+        $reviewText = is_string($input['review_text'] ?? null) ? trim($input['review_text']) : '';
+        $reviewText = (string) preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/u', '', $reviewText);
+        if (mb_strlen($reviewText) > 1500) {
+            throw new ValidationException(['review_text' => 'Отзыв не должен превышать 1500 символов.']);
+        }
+
+        $reason = is_string($input['reason'] ?? null) ? trim($input['reason']) : '';
+        if (mb_strlen($reason) > 500) {
+            throw new ValidationException(['reason' => 'Причина модерации не должна превышать 500 символов.']);
+        }
+        if ((int) $review['rating'] !== $rating && $reason === '') {
+            throw new ValidationException(['reason' => 'Укажите причину изменения оценки.']);
+        }
+
+        $this->reviews->updateContent(
+            $reviewId,
+            $rating,
+            $reviewText === '' ? null : $reviewText,
+            (int) $user['id'],
+            $reason === '' ? null : $reason
+        );
+
+        return [
+            'review_id' => $reviewId,
+            'rating' => $rating,
+            'previous_rating' => (int) $review['rating'],
+        ];
+    }
+
     /** @param array<string, mixed> $user */
     private function assertCustomer(array $user): void
     {

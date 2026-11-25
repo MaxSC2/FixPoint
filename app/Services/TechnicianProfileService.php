@@ -54,6 +54,20 @@ final class TechnicianProfileService
         return $profile;
     }
 
+    /**
+     * Completed works of a technician for the public profile page.
+     *
+     * @return list<array<string, mixed>>
+     */
+    public function completedWorks(int $technicianId, int $limit = 6): array
+    {
+        if ($technicianId < 1) {
+            return [];
+        }
+
+        return $this->profiles->completedWorks($technicianId, $limit);
+    }
+
     /** @return list<array<string, mixed>> */
     public function leaderboard(int $limit = 5): array
     {

@@ -5,6 +5,7 @@ $pageTitle = (string) ($profile['full_name'] ?? 'Профиль мастера')
 $activeNav = 'masters';
 $profile = isset($profile) && is_array($profile) ? $profile : [];
 $reviews = isset($reviews) && is_array($reviews) ? $reviews : [];
+$works = isset($works) && is_array($works) ? $works : [];
 $name = (string) ($profile['full_name'] ?? 'Мастер FixPoint');
 $parts = preg_split('/\s+/u', trim($name)) ?: [];
 $initials = '';
@@ -36,6 +37,67 @@ require dirname(__DIR__, 3) . '/layouts/header.php';
                 <span><?= e((string) ($profile['completed_count'] ?? 0)) ?> завершённых заявок</span>
             </div>
         </section>
+
+        <div class="account-recent__head"><div><span class="eyebrow">Портфолио</span><h2>Выполненные работы</h2></div><span class="guide-card__meta"><?= e((string) count($works)) ?> работ</span></div>
+        <?php if ($works !== []): ?>
+            <div class="master-work-list" data-reveal>
+                <?php foreach ($works as $work): ?>
+                    <?php
+                    $deviceTitle = trim(implode(' ', array_filter([
+                        (string) ($work['device_brand'] ?? ''),
+                        (string) ($work['device_model'] ?? ''),
+                    ])));
+                    if ($deviceTitle === '') {
+                        $deviceTitle = (string) ($work['device_type'] ?? 'Устройство');
+                    }
+                    $serviceName = trim((string) ($work['service_name'] ?? ''));
+                    if ($serviceName === '') {
+                        $serviceName = 'Диагностика и ремонт';
+                    }
+                    $completedAt = (string) ($work['completed_at'] ?? '');
+                    $rating = $work['review_rating'] ?? null;
+                    $cost = $work['final_cost'] ?? null;
+                    ?>
+                    <article class="master-work">
+                        <div class="master-work__head">
+                            <h3><?= e($deviceTitle) ?></h3>
+                            <span class="master-work__number"><?= e((string) ($work['public_number'] ?? '')) ?></span>
+                        </div>
+                        <p class="master-work__service"><?= e($serviceName) ?></p>
+                        <?php if (is_array($work['trail'] ?? null) && $work['trail'] !== []): ?>
+                            <ol class="master-work__trail">
+                                <?php foreach ($work['trail'] as $stage): ?>
+                                    <?php
+                                    $stageStatus = (string) ($stage['status'] ?? '');
+                                    $stageDate = (string) ($stage['created_at'] ?? '');
+                                    ?>
+                                    <li class="master-work__stage">
+                                        <span class="master-work__stage-dot" aria-hidden="true"></span>
+                                        <span class="master-work__stage-label"><?= e(status_label($stageStatus)) ?></span>
+                                        <?php if ($stageDate !== ''): ?>
+                                            <time><?= e((new DateTimeImmutable($stageDate))->format('d.m.Y')) ?></time>
+                                        <?php endif; ?>
+                                    </li>
+                                <?php endforeach; ?>
+                            </ol>
+                        <?php endif; ?>
+                        <div class="master-work__meta">
+                            <?php if ($completedAt !== ''): ?>
+                                <span>Завершено: <?= e((new DateTimeImmutable($completedAt))->format('d.m.Y')) ?></span>
+                            <?php endif; ?>
+                            <?php if ($rating !== null && $rating !== ''): ?>
+                                <span class="master-work__rating">★ <?= e(number_format((float) $rating, 1, '.', '')) ?>/5</span>
+                            <?php endif; ?>
+                            <?php if ($cost !== null && $cost !== ''): ?>
+                                <span><?= e(number_format((float) $cost, 0, '.', ' ')) ?> ₸</span>
+                            <?php endif; ?>
+                        </div>
+                    </article>
+                <?php endforeach; ?>
+            </div>
+        <?php else: ?>
+            <div class="empty-state"><h2>Работы пока не опубликованы</h2><p>Здесь появятся завершённые заказы мастера с историей работ.</p></div>
+        <?php endif; ?>
 
         <div class="account-recent__head"><div><span class="eyebrow">Обратная связь</span><h2>Отзывы клиентов</h2></div></div>
         <?php if ($reviews !== []): ?>

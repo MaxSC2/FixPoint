@@ -574,6 +574,13 @@ final class RequestHttpTest extends IntegrationTestCase
         $customerId = $this->userId(self::CUSTOMER);
         $suffix = bin2hex(random_bytes(3));
 
+        // The demo data grows over time: the expected page count is derived
+        // from the number of requests the customer really owns.
+        $ownNumbers = $this->customerRequestNumbers($customerId);
+        $total = count($ownNumbers) + 9;
+        $expectedPages = (int) ceil($total / 8);
+        $expectedLastPage = $total - 8 * ($expectedPages - 1);
+
         $insert = $this->pdo()->prepare(
             'INSERT INTO repair_requests
                 (public_number, customer_id, status, priority, device_type, device_brand,
@@ -593,24 +600,40 @@ final class RequestHttpTest extends IntegrationTestCase
         }
 
         $first = app()->handle(Request::create('GET', '/requests'))->body();
-        $this->assertContains('Страница 1 из 2', $first);
+        $this->assertContains('Страница 1 из ' . $expectedPages, $first);
         $this->assertSame(8, substr_count($first, '<article class="request-card">'));
-        $this->assertNotContains('FP-2026-000001', $first);
+        $this->assertNotContains($ownNumbers[0], $first);
 
         $second = app()->handle(Request::create('GET', '/requests?page=2'))->body();
-        $this->assertContains('Страница 2 из 2', $second);
-        $this->assertSame(3, substr_count($second, '<article class="request-card">'));
-        $this->assertContains('FP-2026-000001', $second);
-        $this->assertContains('FP-2026-000003', $second);
+        $this->assertContains('Страница 2 из ' . $expectedPages, $second);
+        $this->assertSame($expectedLastPage, substr_count($second, '<article class="request-card">'));
+        $this->assertContains($ownNumbers[0], $second);
 
         $clamped = app()->handle(Request::create('GET', '/requests?page=999'))->body();
-        $this->assertContains('Страница 2 из 2', $clamped);
+        $this->assertContains('Страница 2 из ' . $expectedPages, $clamped);
 
         $invalid = app()->handle(Request::create('GET', '/requests?page=abc'))->body();
-        $this->assertContains('Страница 1 из 2', $invalid);
+        $this->assertContains('Страница 1 из ' . $expectedPages, $invalid);
 
         $zero = app()->handle(Request::create('GET', '/requests?page=0'))->body();
-        $this->assertContains('Страница 1 из 2', $zero);
+        $this->assertContains('Страница 1 из ' . $expectedPages, $zero);
+    }
+
+    /**
+     * Request numbers of the customer, newest first.
+     *
+     * @return list<string>
+     */
+    private function customerRequestNumbers(int $customerId): array
+    {
+        $statement = $this->pdo()->prepare(
+            'SELECT public_number FROM repair_requests
+             WHERE customer_id = :customer_id
+             ORDER BY created_at DESC, id DESC'
+        );
+        $statement->execute(['customer_id' => $customerId]);
+
+        return array_map('strval', $statement->fetchAll(\PDO::FETCH_COLUMN));
     }
 
     public function testNonNumericRequestIdIsNotFound(): void
