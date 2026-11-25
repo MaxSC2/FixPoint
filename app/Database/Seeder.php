@@ -60,6 +60,7 @@ final class Seeder
             $comments = $this->seedComments($data['comments'] ?? [], $requestIds, $userIds);
             $profiles = $this->seedProfiles($data['profiles'] ?? [], $userIds);
             $specialties = $this->seedSpecialties($data['specialties'] ?? [], $userIds, $categoryIds);
+            $avatars = $this->seedAvatars($data['avatars'] ?? [], $userIds);
             $reviews = $this->seedReviews($data['reviews'] ?? [], $requestIds);
             $this->pdo->commit();
         } catch (Throwable $exception) {
@@ -78,6 +79,7 @@ final class Seeder
             'comments' => $comments,
             'profiles' => $profiles,
             'specialties' => $specialties,
+            'avatars' => $avatars,
             'reviews' => $reviews,
         ];
     }
@@ -416,6 +418,92 @@ final class Seeder
         }
 
         return $count;
+    }
+
+    /**
+     * Copy the demo avatar of a technician into the private avatar storage and
+     * remember the storage key in the profile.
+     *
+     * The file name is derived from the image name, so re-running the seed
+     * reuses the same file instead of piling up copies.
+     *
+     * @param list<array<string, mixed>> $rows
+     * @param array<string, int> $userIds
+     */
+    private function seedAvatars(array $rows, array $userIds): int
+    {
+        $statement = $this->pdo->prepare(
+            'UPDATE technician_profiles SET avatar_storage_key = :storage_key WHERE technician_id = :technician_id'
+        );
+
+        $count = 0;
+        foreach ($rows as $row) {
+            $technicianId = $userIds[(string) $row['technician']] ?? null;
+            if ($technicianId === null) {
+                throw new RuntimeException('Unknown seed technician in avatars.');
+            }
+
+            $image = (string) $row['image'];
+            $source = $this->avatarSource($image);
+            if ($source === null) {
+                continue;
+            }
+
+            $extension = strtolower(pathinfo($source, PATHINFO_EXTENSION));
+            if (!in_array($extension, ['jpg', 'png', 'webp'], true)) {
+                throw new RuntimeException('Seed avatar must be a jpg, png or webp image.');
+            }
+
+            $storageKey = 'avatars/' . $technicianId . '/'
+                . substr(hash('sha256', $image), 0, 32) . '.' . $extension;
+            $destination = $this->privateRoot() . DIRECTORY_SEPARATOR
+                . str_replace('/', DIRECTORY_SEPARATOR, $storageKey);
+
+            $directory = dirname($destination);
+            if (!is_dir($directory) && !mkdir($directory, 0750, true) && !is_dir($directory)) {
+                throw new RuntimeException('Unable to create the seed avatar directory.');
+            }
+            @chmod($directory, 0750);
+
+            if (!is_file($destination) || filesize($destination) !== filesize($source)) {
+                if (!copy($source, $destination)) {
+                    throw new RuntimeException('Unable to copy the seed avatar.');
+                }
+                @chmod($destination, 0640);
+            }
+
+            $statement->execute([
+                'storage_key' => $storageKey,
+                'technician_id' => $technicianId,
+            ]);
+            $count++;
+        }
+
+        return $count;
+    }
+
+    private function avatarSource(string $image): ?string
+    {
+        if (preg_match('/\A[a-z0-9-]+\.(jpg|png|webp)\z/', $image) !== 1) {
+            throw new RuntimeException('Unsafe seed avatar name.');
+        }
+
+        $path = rtrim((string) $this->config->get('paths.base'), DIRECTORY_SEPARATOR)
+            . DIRECTORY_SEPARATOR . 'database' . DIRECTORY_SEPARATOR . 'seeds'
+            . DIRECTORY_SEPARATOR . 'avatars' . DIRECTORY_SEPARATOR . $image;
+
+        return is_file($path) ? $path : null;
+    }
+
+    private function privateRoot(): string
+    {
+        $root = rtrim((string) $this->config->get('paths.base'), DIRECTORY_SEPARATOR)
+            . DIRECTORY_SEPARATOR . 'storage' . DIRECTORY_SEPARATOR . 'private';
+        if (!is_dir($root) && !mkdir($root, 0750, true) && !is_dir($root)) {
+            throw new RuntimeException('Unable to create the private storage root.');
+        }
+
+        return $root;
     }
 
     /**

@@ -109,6 +109,7 @@ return static function (Router $router, App $app): void {
     $router->post('/admin/technicians/{id:\\d+}/visibility', [AdminTechnicianProfileController::class, 'updateVisibility'], $adminOnly);
     $router->get('/admin/reviews', [AdminReviewController::class, 'index'], $adminOnly);
     $router->post('/admin/reviews/{id:\\d+}/moderate', [AdminReviewController::class, 'moderate'], $adminOnly);
+    $router->post('/admin/reviews/{id:\\d+}/update', [AdminReviewController::class, 'update'], $adminOnly);
     $router->get('/admin/guides/create', [AdminGuideController::class, 'create'], $adminOnly);
     $router->post('/admin/guides', [AdminGuideController::class, 'store'], $adminOnly);
     $router->get('/admin/guides/{id:\\d+}/edit', [AdminGuideController::class, 'edit'], $adminOnly);

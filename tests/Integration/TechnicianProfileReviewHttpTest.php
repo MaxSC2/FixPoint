@@ -441,6 +441,70 @@ final class TechnicianProfileReviewHttpTest extends IntegrationTestCase
         );
     }
 
+    public function testAdminCanCorrectReviewAndSeeTheImpactOnTheHonourBoard(): void
+    {
+        $customer = $this->user(self::CUSTOMER);
+        $technician = $this->user(self::TECHNICIAN);
+        $requestId = $this->createRequest((int) $customer['id'], (int) $technician['id'], 'completed');
+
+        $this->loginAs(self::CUSTOMER);
+        $this->post('/requests/' . $requestId . '/review', [
+            'rating' => '5',
+            'review_text' => 'M5PROFILE review correction fixture.',
+        ]);
+        $reviewId = $this->reviewId($requestId);
+        $this->assertGreaterThan(0, $reviewId);
+        $this->logout();
+
+        $this->loginAs(self::ADMIN);
+        $workspace = app()->handle(Request::create('GET', '/admin/reviews'));
+        $this->assertSame(200, $workspace->status());
+        $this->assertContains('Сейчас на доске', $workspace->body());
+        $this->assertContains('Если скрыть', $workspace->body());
+        $this->assertContains('M5PROFILE review correction fixture.', $workspace->body());
+
+        // A rating change without a reason is refused and changes nothing.
+        $withoutReason = $this->post('/admin/reviews/' . $reviewId . '/update', [
+            'rating' => '3',
+            'review_text' => 'M5PROFILE review correction fixture.',
+            'reason' => '',
+        ]);
+        $this->assertSame(302, $withoutReason->status());
+        $this->assertSame(5, (int) $this->reviewRow($reviewId)['rating']);
+
+        $update = $this->post('/admin/reviews/' . $reviewId . '/update', [
+            'rating' => '3',
+            'review_text' => 'M5PROFILE review correction fixture.',
+            'reason' => 'Тестовая правка оценки.',
+        ]);
+        $this->assertSame(302, $update->status());
+        $this->assertSame(3, (int) $this->reviewRow($reviewId)['rating']);
+
+        $after = app()->handle(Request::create('GET', '/admin/reviews'))->body();
+        $this->assertContains('Тестовая правка оценки.', $after);
+        $this->logout();
+
+        // Only an administrator may correct a review.
+        $this->loginAs(self::CUSTOMER);
+        $this->assertSame(403, $this->post('/admin/reviews/' . $reviewId . '/update', [
+            'rating' => '1',
+            'review_text' => 'M5PROFILE review correction fixture.',
+            'reason' => 'Попытка правки клиентом.',
+        ])->status());
+    }
+
+    /** @return array<string, mixed> */
+    private function reviewRow(int $reviewId): array
+    {
+        $statement = $this->pdo()->prepare(
+            'SELECT id, rating, review_text, status FROM technician_reviews WHERE id = :id LIMIT 1'
+        );
+        $statement->execute(['id' => $reviewId]);
+        $row = $statement->fetch();
+
+        return $row === false ? [] : $row;
+    }
+
     /** @return array<string, mixed> */
     private function user(string $email): array
     {

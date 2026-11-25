@@ -152,4 +152,59 @@ final class TechnicianReviewRepository
             }
         }
     }
+
+    /**
+     * Correct the rating and the text of a review. The moderator and the
+     * reason are stored next to the change, so the edit stays auditable.
+     */
+    public function updateContent(int $reviewId, int $rating, ?string $text, int $adminId, ?string $reason): void
+    {
+        $statement = $this->database->connection()->prepare(
+            'UPDATE technician_reviews
+             SET rating = :rating, review_text = :review_text, moderated_by = :moderated_by,
+                 moderation_reason = :reason
+             WHERE id = :id'
+        );
+        $statement->execute([
+            'id' => $reviewId,
+            'rating' => $rating,
+            'review_text' => $text,
+            'moderated_by' => $adminId,
+            'reason' => $reason,
+        ]);
+        if ($statement->rowCount() === 0) {
+            $check = $this->database->connection()->prepare(
+                'SELECT id FROM technician_reviews WHERE id = :id'
+            );
+            $check->execute(['id' => $reviewId]);
+            if ($check->fetchColumn() === false) {
+                throw new HttpException(404, 'Review not found');
+            }
+        }
+    }
+
+    /**
+     * Published reviews with the technician they belong to.
+     *
+     * @return list<array<string, mixed>>
+     */
+    public function publishedReviews(): array
+    {
+        return $this->database->connection()->query(
+            'SELECT id, technician_id, rating FROM technician_reviews WHERE status = "published"'
+        )->fetchAll();
+    }
+
+    /** @return array<string, mixed>|null */
+    public function findById(int $reviewId): ?array
+    {
+        $statement = $this->database->connection()->prepare(
+            'SELECT id, request_id, customer_id, technician_id, rating, review_text, status
+             FROM technician_reviews WHERE id = :id LIMIT 1'
+        );
+        $statement->execute(['id' => $reviewId]);
+        $row = $statement->fetch();
+
+        return $row === false ? null : $row;
+    }
 }
