@@ -58,6 +58,9 @@ final class Seeder
             $requestIds = $this->seedRequests($data['requests'] ?? [], $userIds, $serviceIds);
             $history = $this->seedHistory($data['history'] ?? [], $requestIds, $userIds);
             $comments = $this->seedComments($data['comments'] ?? [], $requestIds, $userIds);
+            $profiles = $this->seedProfiles($data['profiles'] ?? [], $userIds);
+            $specialties = $this->seedSpecialties($data['specialties'] ?? [], $userIds, $categoryIds);
+            $reviews = $this->seedReviews($data['reviews'] ?? [], $requestIds);
             $this->pdo->commit();
         } catch (Throwable $exception) {
             if ($this->pdo->inTransaction()) {
@@ -73,6 +76,9 @@ final class Seeder
             'requests' => count($requestIds),
             'history' => $history,
             'comments' => $comments,
+            'profiles' => $profiles,
+            'specialties' => $specialties,
+            'reviews' => $reviews,
         ];
     }
 
@@ -336,6 +342,138 @@ final class Seeder
                 'body' => $body,
                 'is_internal' => (int) ($row['is_internal'] ?? 0),
                 'created_at' => $createdAt,
+            ]);
+            $count++;
+        }
+
+        return $count;
+    }
+
+    /**
+     * Public technician profiles. Existing rows are kept as they are, so a
+     * profile edited in the admin panel is never overwritten by the demo data.
+     *
+     * @param list<array<string, mixed>> $rows
+     * @param array<string, int> $userIds
+     */
+    private function seedProfiles(array $rows, array $userIds): int
+    {
+        $statement = $this->pdo->prepare(
+            'INSERT INTO technician_profiles (technician_id, headline, bio, is_public)
+             VALUES (:technician_id, :headline, :bio, :is_public)
+             ON DUPLICATE KEY UPDATE technician_id = technician_id'
+        );
+
+        $count = 0;
+        foreach ($rows as $row) {
+            $technicianId = $userIds[(string) $row['technician']] ?? null;
+            if ($technicianId === null) {
+                throw new RuntimeException('Unknown seed technician in profiles.');
+            }
+
+            $statement->execute([
+                'technician_id' => $technicianId,
+                'headline' => $row['headline'] ?? null,
+                'bio' => $row['bio'] ?? null,
+                'is_public' => (int) ($row['is_public'] ?? 1),
+            ]);
+            $count++;
+        }
+
+        return $count;
+    }
+
+    /**
+     * Service categories a technician works with.
+     *
+     * @param list<array<string, mixed>> $rows
+     * @param array<string, int> $userIds
+     * @param array<string, int> $categoryIds
+     */
+    private function seedSpecialties(array $rows, array $userIds, array $categoryIds): int
+    {
+        $statement = $this->pdo->prepare(
+            'INSERT IGNORE INTO technician_profile_specialties (technician_id, category_id)
+             VALUES (:technician_id, :category_id)'
+        );
+
+        $count = 0;
+        foreach ($rows as $row) {
+            $technicianId = $userIds[(string) $row['technician']] ?? null;
+            if ($technicianId === null) {
+                throw new RuntimeException('Unknown seed technician in specialties.');
+            }
+            $categoryId = $categoryIds[(string) $row['category']] ?? null;
+            if ($categoryId === null) {
+                throw new RuntimeException('Unknown seed category in specialties.');
+            }
+
+            $statement->execute([
+                'technician_id' => $technicianId,
+                'category_id' => $categoryId,
+            ]);
+            $count++;
+        }
+
+        return $count;
+    }
+
+    /**
+     * Reviews left on completed requests. The customer and the technician are
+     * taken from the request itself, so a review can never be attached to a
+     * pair that did not work together.
+     *
+     * @param list<array<string, mixed>> $rows
+     * @param array<string, int> $requestIds
+     */
+    private function seedReviews(array $rows, array $requestIds): int
+    {
+        $exists = $this->pdo->prepare(
+            'SELECT COUNT(*) FROM technician_reviews WHERE request_id = :request_id'
+        );
+        $source = $this->pdo->prepare(
+            'SELECT customer_id, technician_id, status FROM repair_requests WHERE id = :id LIMIT 1'
+        );
+        $insert = $this->pdo->prepare(
+            'INSERT INTO technician_reviews
+                (request_id, customer_id, technician_id, rating, review_text, status, created_at)
+             VALUES
+                (:request_id, :customer_id, :technician_id, :rating, :review_text, "published", :created_at)'
+        );
+
+        $count = 0;
+        foreach ($rows as $row) {
+            $requestId = $requestIds[(string) $row['request']] ?? null;
+            if ($requestId === null) {
+                throw new RuntimeException('Unknown request in seed reviews.');
+            }
+
+            $exists->execute(['request_id' => $requestId]);
+            if ((int) $exists->fetchColumn() > 0) {
+                continue;
+            }
+
+            $source->execute(['id' => $requestId]);
+            $request = $source->fetch();
+            if ($request === false
+                || (string) $request['status'] !== 'completed'
+                || $request['technician_id'] === null
+            ) {
+                throw new RuntimeException('Seed reviews require a completed request with a technician.');
+            }
+
+            $rating = (int) ($row['rating'] ?? 0);
+            if ($rating < 1 || $rating > 5) {
+                throw new RuntimeException('Seed review rating must be between 1 and 5.');
+            }
+
+            $insert->execute([
+                'request_id' => $requestId,
+                'customer_id' => (int) $request['customer_id'],
+                'technician_id' => (int) $request['technician_id'],
+                'rating' => $rating,
+                'review_text' => $row['review_text'] ?? null,
+                'created_at' => (string) ($row['created_at'] ?? '2026-11-01 12:00:00'),
             ]);
             $count++;
         }

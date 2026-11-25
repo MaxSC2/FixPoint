@@ -8,6 +8,7 @@ use FixPoint\Core\Env;
 use FixPoint\Core\Request;
 use FixPoint\Core\Response;
 use FixPoint\Core\UploadedFile;
+use FixPoint\Services\TechnicianProfileService;
 use FixPoint\Tests\IntegrationTestCase;
 
 final class TechnicianProfileReviewHttpTest extends IntegrationTestCase
@@ -51,7 +52,7 @@ final class TechnicianProfileReviewHttpTest extends IntegrationTestCase
         $profile = app()->handle(Request::create('GET', '/masters/' . (int) $technician['id']));
         $this->assertSame(200, $profile->status());
         $this->assertContains((string) $technician['full_name'], $profile->body());
-        $this->assertContains('Специализация не указана', $profile->body());
+        $this->assertContains('Компьютеры и ноутбуки', $profile->body());
         $this->assertNotContains(self::TECHNICIAN, $profile->body());
         $this->assertNotContains('Пароль', $profile->body());
     }
@@ -111,7 +112,17 @@ final class TechnicianProfileReviewHttpTest extends IntegrationTestCase
                 'reason' => '',
             ]);
             $this->assertSame(302, $missingReason->status());
-            $this->assertNull($this->profileRow($technicianId));
+            $afterRejectedModeration = $this->profileRow($technicianId);
+            if ($originalProfile === null) {
+                $this->assertNull($afterRejectedModeration);
+            } else {
+                // A rejected moderation must leave the profile exactly as it was.
+                $this->assertSame(
+                    (string) $originalProfile['admin_is_visible'],
+                    (string) ($afterRejectedModeration['admin_is_visible'] ?? '1')
+                );
+                $this->assertSame(200, app()->handle(Request::create('GET', '/masters/' . $technicianId))->status());
+            }
 
             $hidden = $this->post('/admin/technicians/' . $technicianId . '/visibility', [
                 'is_visible' => '0',
@@ -362,7 +373,19 @@ final class TechnicianProfileReviewHttpTest extends IntegrationTestCase
         $profile = app()->handle(Request::create('GET', '/masters/' . (int) $technician['id']));
         $this->assertSame(200, $profile->status());
         $this->assertNotContains('M5PROFILE review moderation fixture.', $profile->body());
-        $this->assertContains('Пока без оценок', $profile->body());
+
+        // The hidden review must not count towards the public rating any more.
+        $statement = $this->pdo()->prepare(
+            'SELECT COUNT(*) FROM technician_reviews WHERE technician_id = :technician_id AND status = "published"'
+        );
+        $statement->execute(['technician_id' => (int) $technician['id']]);
+        $published = (int) $statement->fetchColumn();
+
+        if ($published === 0) {
+            $this->assertContains('Пока без оценок', $profile->body());
+        } else {
+            $this->assertNotContains('Пока без оценок', $profile->body());
+        }
     }
 
     public function testGuestsAndWrongRolesCannotUseProfileAndReviewManagementRoutes(): void
@@ -386,6 +409,36 @@ final class TechnicianProfileReviewHttpTest extends IntegrationTestCase
         $this->loginAs(self::TECHNICIAN);
         $this->assertSame(403, app()->handle(Request::create('GET', '/admin/reviews'))->status());
         $this->assertSame(403, app()->handle(Request::create('GET', '/requests/' . $requestId . '/review'))->status());
+    }
+
+    public function testHomeHonourBoardShowsSpecialistsWithTheirRating(): void
+    {
+        $response = app()->handle(Request::create('GET', '/'));
+        $this->assertSame(200, $response->status());
+        $body = $response->body();
+
+        $this->assertGreaterThan(0, substr_count($body, '<article class="honour-card'));
+        $this->assertNotContains('Доска почёта формируется', $body);
+        $this->assertContains('honour-card__score', $body);
+        $this->assertContains('★ ', $body);
+
+        $featured = app()->make(TechnicianProfileService::class)->featured(5);
+        $this->assertGreaterThan(0, count($featured));
+
+        $rated = 0;
+        foreach ($featured as $master) {
+            if ((int) ($master['review_count'] ?? 0) > 0) {
+                $rated++;
+                $this->assertGreaterThan(0, (float) ($master['average_rating'] ?? 0));
+            }
+        }
+        $this->assertGreaterThan(0, $rated);
+
+        $publicMasters = app()->make(TechnicianProfileService::class)->directory();
+        $this->assertSame(
+            min(5, (int) ($publicMasters['pagination']['total'] ?? 0)),
+            count($featured)
+        );
     }
 
     /** @return array<string, mixed> */

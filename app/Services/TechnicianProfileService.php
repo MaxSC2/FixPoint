@@ -60,6 +60,42 @@ final class TechnicianProfileService
         return $this->profiles->leaderboard($limit);
     }
 
+    /**
+     * Specialists shown on the public home page.
+     *
+     * Masters with published ratings come first — they are the ones that
+     * belong to the honour board. The rest of the public team fills the
+     * remaining slots, so the section still shows real specialists with their
+     * rating instead of an empty placeholder while the rating history is
+     * still short.
+     *
+     * @return list<array<string, mixed>>
+     */
+    public function featured(int $limit = 5): array
+    {
+        $limit = max(1, min(5, $limit));
+
+        $featured = $this->profiles->leaderboard($limit);
+        if (count($featured) >= $limit) {
+            return $featured;
+        }
+
+        $taken = array_map('intval', array_column($featured, 'technician_id'));
+        foreach ($this->profiles->listPublic('', '', $limit * 2, 0) as $master) {
+            if (count($featured) >= $limit) {
+                break;
+            }
+            $technicianId = (int) ($master['technician_id'] ?? 0);
+            if (in_array($technicianId, $taken, true)) {
+                continue;
+            }
+            $featured[] = $master;
+            $taken[] = $technicianId;
+        }
+
+        return $featured;
+    }
+
     /** @param array<string, mixed> $user @return array<string, mixed> */
     public function editorData(array $user): array
     {

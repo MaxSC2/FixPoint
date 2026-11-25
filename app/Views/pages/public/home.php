@@ -200,7 +200,7 @@ $leaderboard = isset($leaderboard) && is_array($leaderboard) ? $leaderboard : []
             <div><span class="eyebrow">Сообщество FixPoint / 04</span><h2>Доска почёта</h2></div>
             <a class="text-link" href="/masters">Все мастера <span aria-hidden="true">↗</span></a>
         </div>
-        <p class="honour-board__lead">Специалисты с подтверждёнными отзывами клиентов и завершёнными работами. В рейтинг попадают мастера минимум с тремя опубликованными оценками.</p>
+        <p class="honour-board__lead">Специалисты с подтверждёнными отзывами клиентов и завершёнными работами. Первые места занимают мастера с опубликованными оценками — рейтинг считается по средней оценке и числу завершённых заявок.</p>
         <?php if ($leaderboard !== []): ?>
             <div class="honour-board-grid" data-reveal>
                 <?php foreach (array_slice($leaderboard, 0, 5) as $index => $master): ?>
@@ -209,6 +209,7 @@ $leaderboard = isset($leaderboard) && is_array($leaderboard) ? $leaderboard : []
                     $masterParts = preg_split('/\\s+/u', trim($masterName)) ?: [];
                     $masterInitials = '';
                     foreach (array_slice($masterParts, 0, 2) as $part) { $masterInitials .= mb_substr($part, 0, 1); }
+                    $reviewCount = (int) ($master['review_count'] ?? 0);
                     ?>
                     <article class="honour-card<?= $index === 0 ? ' honour-card--first' : '' ?>">
                         <span class="honour-card__rank">#<?= e((string) ($index + 1)) ?></span>
@@ -221,7 +222,11 @@ $leaderboard = isset($leaderboard) && is_array($leaderboard) ? $leaderboard : []
                         </div>
                         <h3><?= e($masterName) ?></h3>
                         <p class="master-card__specialties"><?= e(trim((string) ($master['specialties'] ?? '')) !== '' ? (string) $master['specialties'] : 'Специализация не указана') ?></p>
-                        <div class="honour-card__score"><strong>★ <?= e(number_format((float) ($master['average_rating'] ?? 0), 1, '.', '')) ?></strong><span><?= e((string) ($master['review_count'] ?? 0)) ?> отзывов</span></div>
+                        <?php if ($reviewCount > 0): ?>
+                            <div class="honour-card__score"><strong>★ <?= e(number_format((float) ($master['average_rating'] ?? 0), 1, '.', '')) ?></strong><span><?= e((string) $reviewCount) ?> отзывов</span></div>
+                        <?php else: ?>
+                            <div class="honour-card__score"><strong>★ —</strong><span>пока без отзывов</span></div>
+                        <?php endif; ?>
                         <p class="honour-card__orders"><?= e((string) ($master['completed_count'] ?? 0)) ?> завершённых заявок</p>
                         <a class="text-link" href="/masters/<?= e((string) (int) $master['technician_id']) ?>">Открыть профиль <span aria-hidden="true">↗</span></a>
                     </article>
@@ -230,7 +235,7 @@ $leaderboard = isset($leaderboard) && is_array($leaderboard) ? $leaderboard : []
         <?php else: ?>
             <div class="honour-board-empty">
                 <span class="honour-board-empty__mark" aria-hidden="true">★</span>
-                <div><h3>Доска почёта формируется</h3><p>Здесь появятся мастера, которые получили не менее трёх отзывов по завершённым заявкам.</p></div>
+                <div><h3>Доска почёта формируется</h3><p>Здесь появятся мастера FixPoint с опубликованными оценками клиентов по завершённым заявкам.</p></div>
                 <a class="button button--secondary" href="/masters">Познакомиться с мастерами</a>
             </div>
         <?php endif; ?>

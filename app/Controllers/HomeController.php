@@ -35,7 +35,7 @@ final class HomeController extends Controller
                 'services_count' => $overview['services_count'],
             ],
             'featuredServices' => $overview['popular_services'],
-            'leaderboard' => ($this->profiles ?? app()->make(TechnicianProfileService::class))->leaderboard(5),
+            'leaderboard' => ($this->profiles ?? app()->make(TechnicianProfileService::class))->featured(5),
             'foundation' => [
                 'environment' => (string) $this->config->get('app.env'),
                 'php_version' => PHP_VERSION,

@@ -17,9 +17,12 @@ final class SeedTest extends IntegrationTestCase
         $this->assertSame(14, $this->count('users'));
         $this->assertSame(7, $this->count('service_categories'));
         $this->assertSame(100, $this->count('services'));
-        $this->assertSame(24, $this->count('repair_requests'));
-        $this->assertSame(95, $this->count('request_status_history'));
+        $this->assertSame(29, $this->count('repair_requests'));
+        $this->assertSame(125, $this->count('request_status_history'));
         $this->assertSame(30, $this->count('request_comments'));
+        $this->assertSame(6, $this->count('technician_profiles'));
+        $this->assertSame(13, $this->count('technician_profile_specialties'));
+        $this->assertSame(8, $this->count('technician_reviews'));
 
         $admin = $pdo->query("SELECT * FROM users WHERE email = 'admin@fixpoint.test'")->fetch();
         $this->assertNotSame(false, $admin);
@@ -39,6 +42,9 @@ final class SeedTest extends IntegrationTestCase
             'requests' => $this->count('repair_requests'),
             'history' => $this->count('request_status_history'),
             'comments' => $this->count('request_comments'),
+            'reviews' => $this->count('technician_reviews'),
+            'profiles' => $this->count('technician_profiles'),
+            'specialties' => $this->count('technician_profile_specialties'),
         ];
 
         $seeder = new Seeder(app()->database()->connection(), new PasswordHasher(), app()->config());
@@ -51,11 +57,15 @@ final class SeedTest extends IntegrationTestCase
             'requests' => $this->count('repair_requests'),
             'history' => $this->count('request_status_history'),
             'comments' => $this->count('request_comments'),
+            'reviews' => $this->count('technician_reviews'),
+            'profiles' => $this->count('technician_profiles'),
+            'specialties' => $this->count('technician_profile_specialties'),
         ];
 
         $this->assertSame($before, $after);
         $this->assertSame(0, $summary['history']);
         $this->assertSame(0, $summary['comments']);
+        $this->assertSame(0, $summary['reviews']);
     }
 
     public function testSeedDoesNotOverwriteEditedRequests(): void
@@ -109,6 +119,7 @@ final class SeedTest extends IntegrationTestCase
         $allowed = [
             'users', 'service_categories', 'services',
             'repair_requests', 'request_status_history', 'request_comments',
+            'technician_reviews', 'technician_profiles', 'technician_profile_specialties',
         ];
         if (!in_array($table, $allowed, true)) {
             $this->fail('Unsafe test table name.');
