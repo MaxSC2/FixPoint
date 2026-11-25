@@ -200,23 +200,40 @@ final class TechnicianHttpTest extends IntegrationTestCase
             ]);
         }
 
+        // The seeded demo orders of the technician are part of the queue, so
+        // the expected page count is derived from the real number of records
+        // instead of a hardcoded fixture size.
+        $total = $this->technicianRequestCount();
+        $expectedPages = (int) ceil($total / 8);
+        $expectedLastPage = $total - 8 * ($expectedPages - 1);
+
         $first = app()->handle(Request::create('GET', '/technician/requests'))->body();
-        $this->assertContains('Страница 1 из 2', $first);
+        $this->assertContains('Страница 1 из ' . $expectedPages, $first);
         $this->assertSame(8, substr_count($first, '<a class="tech-request-card"'));
         $this->assertContains('FP-2026-000001', $first);
         $this->assertContains('FP-2026-000004', $first);
 
         $second = app()->handle(Request::create('GET', '/technician/requests?page=2'))->body();
-        $this->assertContains('Страница 2 из 2', $second);
-        $this->assertSame(3, substr_count($second, '<a class="tech-request-card"'));
+        $this->assertContains('Страница 2 из ' . $expectedPages, $second);
+        $this->assertSame($expectedLastPage, substr_count($second, '<a class="tech-request-card"'));
         $this->assertContains('TASK004-Page-1', $second);
         $this->assertContains('TASK004-Page-3', $second);
 
         $clamped = app()->handle(Request::create('GET', '/technician/requests?page=999'))->body();
-        $this->assertContains('Страница 2 из 2', $clamped);
+        $this->assertContains('Страница 2 из ' . $expectedPages, $clamped);
 
         $invalid = app()->handle(Request::create('GET', '/technician/requests?page=abc'))->body();
-        $this->assertContains('Страница 1 из 2', $invalid);
+        $this->assertContains('Страница 1 из ' . $expectedPages, $invalid);
+    }
+
+    private function technicianRequestCount(): int
+    {
+        $statement = $this->pdo()->prepare(
+            'SELECT COUNT(*) FROM repair_requests WHERE technician_id = :technician_id'
+        );
+        $statement->execute(['technician_id' => $this->userId(self::TECHNICIAN)]);
+
+        return (int) $statement->fetchColumn();
     }
 
     public function testDetailShowsInternalNotesPermissionsAndAllowedTransitions(): void
