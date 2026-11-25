@@ -6,8 +6,11 @@ namespace FixPoint\Tests\Integration;
 
 use DateTimeImmutable;
 use DateTimeZone;
+use FixPoint\Core\Config;
 use FixPoint\Core\HttpException;
 use FixPoint\Core\ValidationException;
+use FixPoint\Repositories\AppointmentRepository;
+use FixPoint\Repositories\CalendarRepository;
 use FixPoint\Services\AppointmentService;
 use FixPoint\Services\CalendarService;
 use FixPoint\Tests\IntegrationTestCase;
@@ -104,6 +107,53 @@ final class CalendarAppointmentTest extends IntegrationTestCase
         $this->assertArrayHasKey('slot_minutes', $invalidSlot->errors());
 
         $this->assertSame(30, $this->calendar()->settings($technicianId)['slot_minutes']);
+    }
+
+    public function testAppointmentEventCreatedTimeIsParsedInApplicationTimezone(): void
+    {
+        $technicianId = $this->createUser('technician');
+        $customerId = $this->createUser('customer');
+        $this->configureTechnician($technicianId);
+        $requestId = $this->createRequest($customerId, $technicianId);
+        $date = $this->futureDate(2);
+        $appointmentId = $this->insertAppointment(
+            $requestId,
+            $customerId,
+            $technicianId,
+            'pending',
+            $date . ' 09:00:00',
+            $date . ' 10:00:00'
+        );
+
+        $statement = $this->pdo()->prepare(
+            'INSERT INTO technician_appointment_events
+                (appointment_id, actor_id, action, from_status, to_status, created_at)
+             VALUES (:appointment_id, :actor_id, "created", NULL, "pending", :created_at)'
+        );
+        $statement->execute([
+            'appointment_id' => $appointmentId,
+            'actor_id' => $customerId,
+            'created_at' => '2026-01-15 10:00:00',
+        ]);
+
+        $service = new AppointmentService(
+            $this->calendar(),
+            app()->make(CalendarRepository::class),
+            app()->make(AppointmentRepository::class),
+            new Config(['app' => ['timezone' => 'Asia/Almaty']])
+        );
+        $detail = $service->detail($this->technician($technicianId), $appointmentId);
+        $created = null;
+        foreach ($detail['events'] as $event) {
+            if (($event['action'] ?? '') === 'created') {
+                $created = $event;
+                break;
+            }
+        }
+
+        $this->assertIsArray($created);
+        // The event timestamp is local Asia/Almaty time; the technician profile is UTC.
+        $this->assertSame('15.01.2026 05:00', $created['created_local']);
     }
 
     public function testSlotsRespectBlocksAppointmentsAndCancellation(): void

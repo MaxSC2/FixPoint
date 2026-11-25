@@ -614,6 +614,24 @@ h1 { font-weight: 760; }
 .nav-toggle[aria-expanded="true"] .nav-toggle__line:nth-of-type(4) { transform: translateY(-6px) rotate(-45deg); }
 .nav-toggle__line { transition: transform .18s ease, opacity .18s ease; }
 
+/*
+ * The signed-in header carries six navigation links plus messages, the
+ * calendar link, the account block and logout. Below 1300px those items no
+ * longer fit on one line, so collapse the navigation into the burger menu
+ * before it starts overflowing the viewport.
+ */
+@media (max-width: 1300px) {
+    .site-header__inner { flex-wrap: wrap; gap: 12px 20px; padding-block: 10px; }
+    .nav-toggle { display: block; order: 3; margin-left: 0; }
+    .site-header__actions { order: 2; margin-left: auto; }
+    .site-nav { display: none; order: 4; width: 100%; flex-direction: column; align-items: stretch; gap: 2px; padding: 8px 0 4px; }
+    .no-js .site-nav { display: flex; }
+    .no-js .nav-toggle { display: none; }
+    .js .site-nav { display: none; }
+    .js .site-nav.is-open { display: flex; }
+    .site-nav__link { padding: 12px 14px; font-size: .88rem; }
+}
+
 .eyebrow { color: var(--color-primary); letter-spacing: .11em; }
 .eyebrow__dot { box-shadow: none; }
 .section { padding: 94px 0; background: var(--color-surface); }
