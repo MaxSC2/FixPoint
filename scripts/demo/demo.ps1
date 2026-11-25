@@ -35,8 +35,10 @@
     Adminer port. Default: 8096.
 
 .PARAMETER Ref
-    Git ref used for the demo application. Default: the verified application
-    commit c8a7f5f (chat inbox + private attachments + 100-service catalogue).
+    Git ref used for the demo application. Default: the integration branch
+    feature/module-5-knowledge-base-2026-11-20, so the deployment always serves
+    the merged work. If the branch cannot be resolved, the launcher falls back
+    to the last verified commit c8a7f5f.
 
 .EXAMPLE
     .\start-demo.cmd
@@ -56,7 +58,7 @@ param(
     [switch]$Reseed,
     [int]$AppPort = 8095,
     [int]$AdminerPort = 8096,
-    [string]$Ref = 'c8a7f5fcaf4aaef5e86f6e0195a2743a4a49cc2f'
+    [string]$Ref = 'feature/module-5-knowledge-base-2026-11-20'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -385,8 +387,33 @@ if ($appIsRunning) {
 
 $sha = $null
 if (-not $reuseApp) {
-    $sha = & git -C $RepoRoot rev-parse --verify --quiet "$Ref^{commit}"
-    if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrWhiteSpace($sha)) {
+    # The demo source follows the integration branch, so the deployment never
+    # lags behind the merged work. A branch ref has to be fetched first: the
+    # clone may still point at an older commit of that branch.
+    foreach ($remote in @('github', 'origin')) {
+        & git -C $RepoRoot remote get-url $remote *> $null
+        if ($LASTEXITCODE -eq 0) {
+            & git -C $RepoRoot fetch --quiet --prune $remote 2>$null | Out-Null
+            break
+        }
+    }
+
+    # A clone may only know the remote branch, so the remote refs are checked
+    # as well before the launcher gives up on the requested ref.
+    foreach ($candidate in @($Ref, "refs/remotes/github/$Ref", "refs/remotes/origin/$Ref")) {
+        $resolved = & git -C $RepoRoot rev-parse --verify --quiet "$candidate^{commit}"
+        if ($LASTEXITCODE -eq 0 -and -not [string]::IsNullOrWhiteSpace($resolved)) {
+            $sha = $resolved
+            break
+        }
+    }
+
+    if ([string]::IsNullOrWhiteSpace($sha)) {
+        Write-Warning "Git ref '$Ref' was not found; using the last verified application commit."
+        $Ref = 'c8a7f5fcaf4aaef5e86f6e0195a2743a4a49cc2f'
+        $sha = & git -C $RepoRoot rev-parse --verify --quiet "$Ref^{commit}"
+    }
+    if ([string]::IsNullOrWhiteSpace($sha)) {
         Write-Warning "Git ref '$Ref' was not found; using the current HEAD."
         $Ref = 'HEAD'
         $sha = & git -C $RepoRoot rev-parse --verify 'HEAD'
